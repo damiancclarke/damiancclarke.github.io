@@ -1,6 +1,6 @@
 # Setup
-title: Poole
-tagline: Microeconometrics
+title: Microeconometrics
+tagline: Methods and Applications
 url: https://damiancclarke.github.io/
 paginate: 1
 baseurl: ""
@@ -33,9 +33,9 @@ sass:
 
 # Specify the author for blog posts
 author:
-  name: Mark Otto
-  url: https://twitter.com/mdo
-  email: markdotto@gmail.com
+  name: Damian Clarke
+  url: damianclarke.net
+  email: dclarke@fen.uchile.cl
 
 # Custom vars
 version: 3.0.0
