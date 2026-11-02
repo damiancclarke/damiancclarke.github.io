@@ -1,0 +1,2995 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>part-time--full-time-employment-final – BEE2041 – Data Science in Economics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-a266b9ffb6a458ebb52ead04b147d33a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      BEE2041 – Data Science in Economics
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../../">BEE2041 – Data Science in Economics</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Slides</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../0_intro/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction: BEE2041</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../1_linux/linux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Linux Command Line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../2_git/git_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">git &amp; GitHub</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../3_python/python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Python for Data Management</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../4_RDBMS/rdbms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Relational Database Management Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../5_workflow/workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Workflow, Modelling &amp; Webscraping: BEE2041</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<div id="cell-0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:18,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236432733,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-execution_count="151">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:261,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433008,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="b65bd25b-3f99-461a-805b-32343f1bce7d" data-execution_count="152">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Since this is excel use pd.read_excel</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df_men_employment <span class="op">=</span> pd.read_excel(<span class="st">'emp01safeb2026.xls'</span>,sheet_name<span class="op">=</span>  <span class="st">'Men'</span>, skiprows<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df_women_employment <span class="op">=</span> pd.read_excel(<span class="st">'emp01safeb2026.xls'</span>,sheet_name<span class="op">=</span>  <span class="st">'Women'</span>, skiprows<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">Skip the first 5 rows as it does not contain data</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">from the sheet name 'Men' on excel, this will create a dataframe with all info for men, same thing for women</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="152">
+<pre><code>"\nSkip the first 5 rows as it does not contain data\nfrom the sheet name 'Men' on excel, this will create a dataframe with all info for men, same thing for women\n"</code></pre>
+</div>
+</div>
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:32,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433027,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="dd5c2ed2-b67b-4a58-ea58-c57841511257" data-execution_count="153">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_men_employment.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="153">
+<div id="df-1c31f508-33b8-4455-84b2-df12358101db" class="colab-df-container">
+    <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Total6</th>
+<th data-quarto-table-cell-role="th">Employees</th>
+<th data-quarto-table-cell-role="th">Self-employed</th>
+<th data-quarto-table-cell-role="th">Unpaid family workers</th>
+<th data-quarto-table-cell-role="th">Government supported training &amp; employment programmes2</th>
+<th data-quarto-table-cell-role="th">Total people working full-time</th>
+<th data-quarto-table-cell-role="th">Total people working part-time</th>
+<th data-quarto-table-cell-role="th">Employees working full-time</th>
+<th data-quarto-table-cell-role="th">Employees working part-time</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">% that could not find permanent job</th>
+<th data-quarto-table-cell-role="th">Did not want permanent job</th>
+<th data-quarto-table-cell-role="th">Had a contract with period of training</th>
+<th data-quarto-table-cell-role="th">Some other reason</th>
+<th data-quarto-table-cell-role="th">Total4</th>
+<th data-quarto-table-cell-role="th">Could not find full-time job</th>
+<th data-quarto-table-cell-role="th">% that could not find full-time job</th>
+<th data-quarto-table-cell-role="th">Did not want full-time job</th>
+<th data-quarto-table-cell-role="th">Ill or disabled</th>
+<th data-quarto-table-cell-role="th">Student or at school</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Dataset identifier code</td>
+<td>NaN</td>
+<td>MGRO</td>
+<td>MGRR</td>
+<td>MGRU</td>
+<td>MGRX</td>
+<td>YCBF</td>
+<td>YCBI</td>
+<td>YCBL</td>
+<td>YCBO</td>
+<td>...</td>
+<td>YCCJ</td>
+<td>YCCM</td>
+<td>YCCP</td>
+<td>YCCS</td>
+<td>YCCV</td>
+<td>YCCY</td>
+<td>YCDB</td>
+<td>YCDE</td>
+<td>YCDH</td>
+<td>YCDK</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Mar-May 1992</td>
+<td>1.413085e+07</td>
+<td>11282892.351724</td>
+<td>2552491.339743</td>
+<td>54343.52213</td>
+<td>241124.914278</td>
+<td>13151133.930834</td>
+<td>979718.19704</td>
+<td>10644448.099693</td>
+<td>638444.252031</td>
+<td>...</td>
+<td>42.551253</td>
+<td>104386.586586</td>
+<td>34800.347097</td>
+<td>174381.414352</td>
+<td>824328.213814</td>
+<td>187362.78927</td>
+<td>22.729149</td>
+<td>347428.545049</td>
+<td>25142.532833</td>
+<td>259867.082653</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Apr-Jun 1992</td>
+<td>1.411808e+07</td>
+<td>11249325.05088</td>
+<td>2577432.128647</td>
+<td>53493.14797</td>
+<td>237833.499254</td>
+<td>13128781.47598</td>
+<td>989302.350771</td>
+<td>10605755.856131</td>
+<td>643569.194749</td>
+<td>...</td>
+<td>43.047691</td>
+<td>105841.692299</td>
+<td>37418.24959</td>
+<td>164727.795576</td>
+<td>839477.407302</td>
+<td>201186.911521</td>
+<td>23.965733</td>
+<td>346412.54434</td>
+<td>25090.094207</td>
+<td>263164.822486</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>May-Jul 1992</td>
+<td>1.408097e+07</td>
+<td>11233632.535135</td>
+<td>2558346.724465</td>
+<td>52910.023146</td>
+<td>236082.850299</td>
+<td>13101336.133907</td>
+<td>979635.999139</td>
+<td>10599804.734926</td>
+<td>633827.80021</td>
+<td>...</td>
+<td>44.650988</td>
+<td>106115.354249</td>
+<td>36256.679562</td>
+<td>157324.601276</td>
+<td>830339.414631</td>
+<td>205586.857366</td>
+<td>24.759376</td>
+<td>337303.007218</td>
+<td>23103.999508</td>
+<td>260757.787297</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Jun-Aug 1992</td>
+<td>1.405775e+07</td>
+<td>11221881.010657</td>
+<td>2545583.400868</td>
+<td>52101.10385</td>
+<td>238186.952381</td>
+<td>13080396.288905</td>
+<td>977356.178851</td>
+<td>10589961.87095</td>
+<td>631919.139707</td>
+<td>...</td>
+<td>45.603729</td>
+<td>97302.745935</td>
+<td>43251.659532</td>
+<td>159828.533519</td>
+<td>829402.682156</td>
+<td>205977.300531</td>
+<td>24.834415</td>
+<td>335198.785955</td>
+<td>23823.340849</td>
+<td>260613.393842</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Jul-Sep 1992</td>
+<td>1.403454e+07</td>
+<td>11213438.362094</td>
+<td>2524141.437971</td>
+<td>52968.767956</td>
+<td>243992.610544</td>
+<td>13053130.70351</td>
+<td>981410.475054</td>
+<td>10582332.369701</td>
+<td>631105.992392</td>
+<td>...</td>
+<td>46.426485</td>
+<td>85329.261276</td>
+<td>38534.546193</td>
+<td>171402.417609</td>
+<td>827726.195029</td>
+<td>213572.065933</td>
+<td>25.80226</td>
+<td>329154.616846</td>
+<td>26058.888086</td>
+<td>254919.260267</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Aug-Oct 1992</td>
+<td>1.399016e+07</td>
+<td>11176260.668156</td>
+<td>2525378.810868</td>
+<td>53725.423187</td>
+<td>234792.221069</td>
+<td>13011607.315579</td>
+<td>978549.807701</td>
+<td>10551201.305985</td>
+<td>625059.362171</td>
+<td>...</td>
+<td>46.466278</td>
+<td>88221.292482</td>
+<td>43489.749326</td>
+<td>171077.354883</td>
+<td>826170.689395</td>
+<td>218989.117999</td>
+<td>26.506522</td>
+<td>325604.935141</td>
+<td>25921.284041</td>
+<td>251693.362244</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Sep-Nov 1992</td>
+<td>1.393175e+07</td>
+<td>11148950.397302</td>
+<td>2498161.8506</td>
+<td>55409.412258</td>
+<td>229223.73655</td>
+<td>12949363.208609</td>
+<td>982382.188101</td>
+<td>10526265.332426</td>
+<td>622685.064876</td>
+<td>...</td>
+<td>44.428618</td>
+<td>105413.42624</td>
+<td>42492.744965</td>
+<td>170455.645994</td>
+<td>830116.657954</td>
+<td>226364.483349</td>
+<td>27.268997</td>
+<td>328732.043266</td>
+<td>27040.13261</td>
+<td>244183.065588</td>
+</tr>
+</tbody>
+</table>
+
+<p>10 rows × 26 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-1c31f508-33b8-4455-84b2-df12358101db')" title="Convert this dataframe to an interactive table." style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-1c31f508-33b8-4455-84b2-df12358101db button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-1c31f508-33b8-4455-84b2-df12358101db');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div>
+</div>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:19,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433047,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-execution_count="154">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rename column to Period to neaten things up</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_men_employment <span class="op">=</span> df_men_employment.rename(columns <span class="op">=</span>{<span class="st">'Unnamed: 0'</span>: <span class="st">'Period'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:26,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433086,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="96046ea8-a4c8-4561-927b-5cf325dce2d5" data-execution_count="155">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#look at the womens dataframe</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df_women_employment.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="155">
+<div id="df-66020ff0-7595-4b0b-b563-6b7459d7407f" class="colab-df-container">
+    <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Total6</th>
+<th data-quarto-table-cell-role="th">Employees</th>
+<th data-quarto-table-cell-role="th">Self-employed</th>
+<th data-quarto-table-cell-role="th">Unpaid family workers</th>
+<th data-quarto-table-cell-role="th">Government supported training &amp; employment programmes2</th>
+<th data-quarto-table-cell-role="th">Total people working full-time</th>
+<th data-quarto-table-cell-role="th">Total people working part-time</th>
+<th data-quarto-table-cell-role="th">Employees working full-time</th>
+<th data-quarto-table-cell-role="th">Employees working part-time</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">% that could not find permanent job</th>
+<th data-quarto-table-cell-role="th">Did not want permanent job</th>
+<th data-quarto-table-cell-role="th">Had a contract with period of training</th>
+<th data-quarto-table-cell-role="th">Some other reason</th>
+<th data-quarto-table-cell-role="th">Total4</th>
+<th data-quarto-table-cell-role="th">Could not find full-time job</th>
+<th data-quarto-table-cell-role="th">% that could not find full-time job</th>
+<th data-quarto-table-cell-role="th">Did not want full-time job</th>
+<th data-quarto-table-cell-role="th">Ill or disabled</th>
+<th data-quarto-table-cell-role="th">Student or at school</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Dataset identifier code</td>
+<td>NaN</td>
+<td>MGRP</td>
+<td>MGRS</td>
+<td>MGRV</td>
+<td>MGRY</td>
+<td>YCBG</td>
+<td>YCBJ</td>
+<td>YCBM</td>
+<td>YCBP</td>
+<td>...</td>
+<td>YCCK</td>
+<td>YCCN</td>
+<td>YCCQ</td>
+<td>YCCT</td>
+<td>YCCW</td>
+<td>YCCZ</td>
+<td>YCDC</td>
+<td>YCDF</td>
+<td>YCDI</td>
+<td>YCDL</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Mar-May 1992</td>
+<td>1.150508e+07</td>
+<td>10350645.542451</td>
+<td>898751.465254</td>
+<td>124826.489893</td>
+<td>130861.414251</td>
+<td>6480757.971099</td>
+<td>5024326.94075</td>
+<td>5902051.837668</td>
+<td>4448593.704784</td>
+<td>...</td>
+<td>30.959972</td>
+<td>258841.120225</td>
+<td>34800.270664</td>
+<td>218536.451813</td>
+<td>4860425.730575</td>
+<td>452471.905792</td>
+<td>9.309306</td>
+<td>3988118.944036</td>
+<td>64561.215487</td>
+<td>351233.77454</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Apr-Jun 1992</td>
+<td>1.148734e+07</td>
+<td>10326241.987914</td>
+<td>909485.157082</td>
+<td>121614.15325</td>
+<td>129995.54068</td>
+<td>6453885.424856</td>
+<td>5033451.414069</td>
+<td>5867356.614394</td>
+<td>4458885.373521</td>
+<td>...</td>
+<td>31.628641</td>
+<td>252588.022434</td>
+<td>36025.187861</td>
+<td>211340.690253</td>
+<td>4875364.375131</td>
+<td>462042.151977</td>
+<td>9.477079</td>
+<td>3994153.613888</td>
+<td>62634.998709</td>
+<td>352114.660459</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>May-Jul 1992</td>
+<td>1.146066e+07</td>
+<td>10301481.254049</td>
+<td>910889.296631</td>
+<td>119001.317463</td>
+<td>129287.022954</td>
+<td>6427541.496177</td>
+<td>5033117.39492</td>
+<td>5837320.22496</td>
+<td>4464161.029089</td>
+<td>...</td>
+<td>32.045718</td>
+<td>249088.136072</td>
+<td>38106.847897</td>
+<td>211507.958451</td>
+<td>4876148.203598</td>
+<td>467698.763907</td>
+<td>9.591562</td>
+<td>3994871.094917</td>
+<td>62758.18848</td>
+<td>348746.416122</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Jun-Aug 1992</td>
+<td>1.146732e+07</td>
+<td>10314223.211243</td>
+<td>898947.472474</td>
+<td>124179.700715</td>
+<td>129966.987333</td>
+<td>6439343.721268</td>
+<td>5027973.650497</td>
+<td>5857827.933343</td>
+<td>4456395.2779</td>
+<td>...</td>
+<td>34.22607</td>
+<td>236481.045653</td>
+<td>36284.238901</td>
+<td>202814.709351</td>
+<td>4866023.158514</td>
+<td>485911.671882</td>
+<td>9.985807</td>
+<td>3969125.01531</td>
+<td>59381.424463</td>
+<td>353003.263862</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Jul-Sep 1992</td>
+<td>1.147446e+07</td>
+<td>10337817.991858</td>
+<td>886527.533643</td>
+<td>124789.989327</td>
+<td>125328.289424</td>
+<td>6439076.689179</td>
+<td>5035387.115073</td>
+<td>5866090.995329</td>
+<td>4471726.996529</td>
+<td>...</td>
+<td>34.567774</td>
+<td>237713.269458</td>
+<td>33038.87028</td>
+<td>203806.76434</td>
+<td>4874536.627832</td>
+<td>495785.077523</td>
+<td>10.170917</td>
+<td>3966168.871238</td>
+<td>58117.068763</td>
+<td>354467.361489</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Aug-Oct 1992</td>
+<td>1.146427e+07</td>
+<td>10328384.369366</td>
+<td>883739.73607</td>
+<td>123354.660106</td>
+<td>128796.227971</td>
+<td>6425721.917179</td>
+<td>5038553.076335</td>
+<td>5851489.345802</td>
+<td>4476895.023564</td>
+<td>...</td>
+<td>35.010908</td>
+<td>240239.250507</td>
+<td>34974.596185</td>
+<td>199023.545666</td>
+<td>4874586.934976</td>
+<td>504407.419157</td>
+<td>10.347696</td>
+<td>3963004.746335</td>
+<td>51676.019479</td>
+<td>352384.997425</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Sep-Nov 1992</td>
+<td>1.147467e+07</td>
+<td>10328847.700999</td>
+<td>892524.402115</td>
+<td>121280.412511</td>
+<td>132021.186248</td>
+<td>6439424.860431</td>
+<td>5035248.841442</td>
+<td>5866798.369276</td>
+<td>4462049.331722</td>
+<td>...</td>
+<td>34.555876</td>
+<td>244152.378113</td>
+<td>33980.349789</td>
+<td>198089.20663</td>
+<td>4868214.528292</td>
+<td>499124.134474</td>
+<td>10.252714</td>
+<td>3953110.732072</td>
+<td>56997.233778</td>
+<td>353550.854866</td>
+</tr>
+</tbody>
+</table>
+
+<p>10 rows × 26 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-66020ff0-7595-4b0b-b563-6b7459d7407f')" title="Convert this dataframe to an interactive table." style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-66020ff0-7595-4b0b-b563-6b7459d7407f button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-66020ff0-7595-4b0b-b563-6b7459d7407f');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div>
+</div>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:15,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433103,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_women_employment <span class="op">=</span> df_women_employment.rename(columns <span class="op">=</span>{<span class="st">'Unnamed: 0'</span>: <span class="st">'Period'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:53,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433158,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="03fce617-8c8d-485d-87cb-d1fbaf2767d8" data-execution_count="157">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check if they have the same amount of rows</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(df_men_employment))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(df_women_employment))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>421
+421</code></pre>
+</div>
+</div>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:22,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433181,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="6a1f50a8-0ef1-4a31-c9c3-8d4cdf30d067" data-execution_count="158">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_women_employment.count())</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'mens actual data count(check for null values)'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_men_employment.count())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Period                                                    416
+Total6                                                    404
+Employees                                                 405
+Self-employed                                             405
+Unpaid family workers                                     405
+Government supported training &amp; employment programmes2    405
+Total people working full-time                            405
+Total people working part-time                            405
+Employees working full-time                               405
+Employees working part-time                               405
+Self-employed people working full-time                    405
+Self-employed people working part-time                    405
+Total workers with second jobs                            405
+Total                                                     405
+Total as % of all employees                               405
+Could not find permanent job                              405
+% that could not find permanent job                       405
+Did not want permanent job                                405
+Had a contract with period of training                    405
+Some other reason                                         405
+Total4                                                    405
+Could not find full-time job                              405
+% that could not find full-time job                       405
+Did not want full-time job                                405
+Ill or disabled                                           405
+Student or at school                                      405
+dtype: int64
+mens actual data count(check for null values)
+Period                                                    416
+Total6                                                    404
+Employees                                                 405
+Self-employed                                             405
+Unpaid family workers                                     405
+Government supported training &amp; employment programmes2    405
+Total people working full-time                            405
+Total people working part-time                            405
+Employees working full-time                               405
+Employees working part-time                               405
+Self-employed people working full-time                    405
+Self-employed people working part-time                    405
+Total workers with second jobs                            405
+Total                                                     405
+Total as % of all employees                               405
+Could not find permanent job                              405
+% that could not find permanent job                       405
+Did not want permanent job                                405
+Had a contract with period of training                    405
+Some other reason                                         405
+Total4                                                    405
+Could not find full-time job                              405
+% that could not find full-time job                       405
+Did not want full-time job                                405
+Ill or disabled                                           405
+Student or at school                                      405
+dtype: int64</code></pre>
+</div>
+</div>
+<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:16,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433192,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="440bf7d8-8aa5-467a-89c7-a2085305de0c" data-execution_count="159">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#we can see a difference in 'Period' total rows and the rest of the data, which suggest there are null values present, so drop the null values</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#this will also drop the dataset identifier code, which we do not want, hence why it drops to 404</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>df_men_employment <span class="op">=</span> df_men_employment.dropna()</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>df_women_employment <span class="op">=</span> df_women_employment.dropna()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#check all the rows - should be all the same</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_women_employment.count())</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'mens actual data count'</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_men_employment.count())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Period                                                    404
+Total6                                                    404
+Employees                                                 404
+Self-employed                                             404
+Unpaid family workers                                     404
+Government supported training &amp; employment programmes2    404
+Total people working full-time                            404
+Total people working part-time                            404
+Employees working full-time                               404
+Employees working part-time                               404
+Self-employed people working full-time                    404
+Self-employed people working part-time                    404
+Total workers with second jobs                            404
+Total                                                     404
+Total as % of all employees                               404
+Could not find permanent job                              404
+% that could not find permanent job                       404
+Did not want permanent job                                404
+Had a contract with period of training                    404
+Some other reason                                         404
+Total4                                                    404
+Could not find full-time job                              404
+% that could not find full-time job                       404
+Did not want full-time job                                404
+Ill or disabled                                           404
+Student or at school                                      404
+dtype: int64
+mens actual data count
+Period                                                    404
+Total6                                                    404
+Employees                                                 404
+Self-employed                                             404
+Unpaid family workers                                     404
+Government supported training &amp; employment programmes2    404
+Total people working full-time                            404
+Total people working part-time                            404
+Employees working full-time                               404
+Employees working part-time                               404
+Self-employed people working full-time                    404
+Self-employed people working part-time                    404
+Total workers with second jobs                            404
+Total                                                     404
+Total as % of all employees                               404
+Could not find permanent job                              404
+% that could not find permanent job                       404
+Did not want permanent job                                404
+Had a contract with period of training                    404
+Some other reason                                         404
+Total4                                                    404
+Could not find full-time job                              404
+% that could not find full-time job                       404
+Did not want full-time job                                404
+Ill or disabled                                           404
+Student or at school                                      404
+dtype: int64</code></pre>
+</div>
+</div>
+<p>Since all the data have the same amount of rows, we can look to merge on period as the data is same</p>
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:71,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433264,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="c1f9ef9c-ffbf-4cca-d464-d0fa189268b2" data-execution_count="160">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span> pd.merge(df_men_employment, df_women_employment, on <span class="op">=</span><span class="st">'Period'</span> )</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#perform an inner merge on period</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df_merged.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="160">
+<div id="df-b0e3d12d-848f-4528-acc4-69c1ca9b43fd" class="colab-df-container">
+    <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Period</th>
+<th data-quarto-table-cell-role="th">Total6_x</th>
+<th data-quarto-table-cell-role="th">Employees_x</th>
+<th data-quarto-table-cell-role="th">Self-employed_x</th>
+<th data-quarto-table-cell-role="th">Unpaid family workers_x</th>
+<th data-quarto-table-cell-role="th">Government supported training &amp; employment programmes2_x</th>
+<th data-quarto-table-cell-role="th">Total people working full-time_x</th>
+<th data-quarto-table-cell-role="th">Total people working part-time_x</th>
+<th data-quarto-table-cell-role="th">Employees working full-time_x</th>
+<th data-quarto-table-cell-role="th">Employees working part-time_x</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">% that could not find permanent job_y</th>
+<th data-quarto-table-cell-role="th">Did not want permanent job_y</th>
+<th data-quarto-table-cell-role="th">Had a contract with period of training_y</th>
+<th data-quarto-table-cell-role="th">Some other reason_y</th>
+<th data-quarto-table-cell-role="th">Total4_y</th>
+<th data-quarto-table-cell-role="th">Could not find full-time job_y</th>
+<th data-quarto-table-cell-role="th">% that could not find full-time job_y</th>
+<th data-quarto-table-cell-role="th">Did not want full-time job_y</th>
+<th data-quarto-table-cell-role="th">Ill or disabled_y</th>
+<th data-quarto-table-cell-role="th">Student or at school_y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Mar-May 1992</td>
+<td>1.413085e+07</td>
+<td>11282892.351724</td>
+<td>2552491.339743</td>
+<td>54343.52213</td>
+<td>241124.914278</td>
+<td>13151133.930834</td>
+<td>979718.19704</td>
+<td>10644448.099693</td>
+<td>638444.252031</td>
+<td>...</td>
+<td>30.959972</td>
+<td>258841.120225</td>
+<td>34800.270664</td>
+<td>218536.451813</td>
+<td>4860425.730575</td>
+<td>452471.905792</td>
+<td>9.309306</td>
+<td>3988118.944036</td>
+<td>64561.215487</td>
+<td>351233.77454</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Apr-Jun 1992</td>
+<td>1.411808e+07</td>
+<td>11249325.05088</td>
+<td>2577432.128647</td>
+<td>53493.14797</td>
+<td>237833.499254</td>
+<td>13128781.47598</td>
+<td>989302.350771</td>
+<td>10605755.856131</td>
+<td>643569.194749</td>
+<td>...</td>
+<td>31.628641</td>
+<td>252588.022434</td>
+<td>36025.187861</td>
+<td>211340.690253</td>
+<td>4875364.375131</td>
+<td>462042.151977</td>
+<td>9.477079</td>
+<td>3994153.613888</td>
+<td>62634.998709</td>
+<td>352114.660459</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>May-Jul 1992</td>
+<td>1.408097e+07</td>
+<td>11233632.535135</td>
+<td>2558346.724465</td>
+<td>52910.023146</td>
+<td>236082.850299</td>
+<td>13101336.133907</td>
+<td>979635.999139</td>
+<td>10599804.734926</td>
+<td>633827.80021</td>
+<td>...</td>
+<td>32.045718</td>
+<td>249088.136072</td>
+<td>38106.847897</td>
+<td>211507.958451</td>
+<td>4876148.203598</td>
+<td>467698.763907</td>
+<td>9.591562</td>
+<td>3994871.094917</td>
+<td>62758.18848</td>
+<td>348746.416122</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Jun-Aug 1992</td>
+<td>1.405775e+07</td>
+<td>11221881.010657</td>
+<td>2545583.400868</td>
+<td>52101.10385</td>
+<td>238186.952381</td>
+<td>13080396.288905</td>
+<td>977356.178851</td>
+<td>10589961.87095</td>
+<td>631919.139707</td>
+<td>...</td>
+<td>34.22607</td>
+<td>236481.045653</td>
+<td>36284.238901</td>
+<td>202814.709351</td>
+<td>4866023.158514</td>
+<td>485911.671882</td>
+<td>9.985807</td>
+<td>3969125.01531</td>
+<td>59381.424463</td>
+<td>353003.263862</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Jul-Sep 1992</td>
+<td>1.403454e+07</td>
+<td>11213438.362094</td>
+<td>2524141.437971</td>
+<td>52968.767956</td>
+<td>243992.610544</td>
+<td>13053130.70351</td>
+<td>981410.475054</td>
+<td>10582332.369701</td>
+<td>631105.992392</td>
+<td>...</td>
+<td>34.567774</td>
+<td>237713.269458</td>
+<td>33038.87028</td>
+<td>203806.76434</td>
+<td>4874536.627832</td>
+<td>495785.077523</td>
+<td>10.170917</td>
+<td>3966168.871238</td>
+<td>58117.068763</td>
+<td>354467.361489</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Aug-Oct 1992</td>
+<td>1.399016e+07</td>
+<td>11176260.668156</td>
+<td>2525378.810868</td>
+<td>53725.423187</td>
+<td>234792.221069</td>
+<td>13011607.315579</td>
+<td>978549.807701</td>
+<td>10551201.305985</td>
+<td>625059.362171</td>
+<td>...</td>
+<td>35.010908</td>
+<td>240239.250507</td>
+<td>34974.596185</td>
+<td>199023.545666</td>
+<td>4874586.934976</td>
+<td>504407.419157</td>
+<td>10.347696</td>
+<td>3963004.746335</td>
+<td>51676.019479</td>
+<td>352384.997425</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Sep-Nov 1992</td>
+<td>1.393175e+07</td>
+<td>11148950.397302</td>
+<td>2498161.8506</td>
+<td>55409.412258</td>
+<td>229223.73655</td>
+<td>12949363.208609</td>
+<td>982382.188101</td>
+<td>10526265.332426</td>
+<td>622685.064876</td>
+<td>...</td>
+<td>34.555876</td>
+<td>244152.378113</td>
+<td>33980.349789</td>
+<td>198089.20663</td>
+<td>4868214.528292</td>
+<td>499124.134474</td>
+<td>10.252714</td>
+<td>3953110.732072</td>
+<td>56997.233778</td>
+<td>353550.854866</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Oct-Dec 1992</td>
+<td>1.387736e+07</td>
+<td>11108853.854726</td>
+<td>2498376.417601</td>
+<td>52826.530548</td>
+<td>217307.783309</td>
+<td>12899116.582712</td>
+<td>978248.003471</td>
+<td>10481033.594221</td>
+<td>627820.260505</td>
+<td>...</td>
+<td>33.730936</td>
+<td>248416.677062</td>
+<td>34311.617625</td>
+<td>201433.507087</td>
+<td>4864210.94856</td>
+<td>502171.27716</td>
+<td>10.323797</td>
+<td>3948417.362437</td>
+<td>60366.286853</td>
+<td>345497.320943</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Nov-Jan 1993</td>
+<td>1.386051e+07</td>
+<td>11095316.681258</td>
+<td>2493555.994329</td>
+<td>51279.069565</td>
+<td>220361.863145</td>
+<td>12867014.732731</td>
+<td>993498.875565</td>
+<td>10455720.219583</td>
+<td>639596.461676</td>
+<td>...</td>
+<td>33.824359</td>
+<td>249597.858792</td>
+<td>36161.763638</td>
+<td>205690.15769</td>
+<td>4837530.025188</td>
+<td>501800.298137</td>
+<td>10.373068</td>
+<td>3923693.499437</td>
+<td>61714.60042</td>
+<td>343911.650062</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Dec-Feb 1993</td>
+<td>1.384489e+07</td>
+<td>11062958.985928</td>
+<td>2514775.851462</td>
+<td>51048.441976</td>
+<td>216107.613015</td>
+<td>12846301.926472</td>
+<td>998588.965909</td>
+<td>10424920.716442</td>
+<td>638038.269486</td>
+<td>...</td>
+<td>34.105437</td>
+<td>256935.456824</td>
+<td>39099.754125</td>
+<td>191919.630044</td>
+<td>4857909.631474</td>
+<td>514163.805434</td>
+<td>10.584055</td>
+<td>3931924.231406</td>
+<td>61898.02023</td>
+<td>343059.553459</td>
+</tr>
+</tbody>
+</table>
+
+<p>10 rows × 51 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-b0e3d12d-848f-4528-acc4-69c1ca9b43fd')" title="Convert this dataframe to an interactive table." style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-b0e3d12d-848f-4528-acc4-69c1ca9b43fd button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-b0e3d12d-848f-4528-acc4-69c1ca9b43fd');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div>
+</div>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:9,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433270,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="7e295c9e-9b67-4e49-9676-f17137f68ba5" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check the data</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#tell you the type the data is stored as</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>df_merged.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 404 entries, 0 to 403
+Data columns (total 51 columns):
+ #   Column                                                    Non-Null Count  Dtype  
+---  ------                                                    --------------  -----  
+ 0   Period                                                    404 non-null    object 
+ 1   Total6_x                                                  404 non-null    float64
+ 2   Employees_x                                               404 non-null    object 
+ 3   Self-employed_x                                           404 non-null    object 
+ 4   Unpaid family workers_x                                   404 non-null    object 
+ 5   Government supported training &amp; employment programmes2_x  404 non-null    object 
+ 6   Total people working full-time_x                          404 non-null    object 
+ 7   Total people working part-time_x                          404 non-null    object 
+ 8   Employees working full-time_x                             404 non-null    object 
+ 9   Employees working part-time_x                             404 non-null    object 
+ 10  Self-employed people working full-time_x                  404 non-null    object 
+ 11  Self-employed people working part-time_x                  404 non-null    object 
+ 12  Total workers with second jobs_x                          404 non-null    object 
+ 13  Total_x                                                   404 non-null    object 
+ 14  Total as % of all employees_x                             404 non-null    object 
+ 15  Could not find permanent job_x                            404 non-null    object 
+ 16  % that could not find permanent job_x                     404 non-null    object 
+ 17  Did not want permanent job_x                              404 non-null    object 
+ 18  Had a contract with period of training_x                  404 non-null    object 
+ 19  Some other reason_x                                       404 non-null    object 
+ 20  Total4_x                                                  404 non-null    object 
+ 21  Could not find full-time job_x                            404 non-null    object 
+ 22  % that could not find full-time job_x                     404 non-null    object 
+ 23  Did not want full-time job_x                              404 non-null    object 
+ 24  Ill or disabled_x                                         404 non-null    object 
+ 25  Student or at school_x                                    404 non-null    object 
+ 26  Total6_y                                                  404 non-null    float64
+ 27  Employees_y                                               404 non-null    object 
+ 28  Self-employed_y                                           404 non-null    object 
+ 29  Unpaid family workers_y                                   404 non-null    object 
+ 30  Government supported training &amp; employment programmes2_y  404 non-null    object 
+ 31  Total people working full-time_y                          404 non-null    object 
+ 32  Total people working part-time_y                          404 non-null    object 
+ 33  Employees working full-time_y                             404 non-null    object 
+ 34  Employees working part-time_y                             404 non-null    object 
+ 35  Self-employed people working full-time_y                  404 non-null    object 
+ 36  Self-employed people working part-time_y                  404 non-null    object 
+ 37  Total workers with second jobs_y                          404 non-null    object 
+ 38  Total_y                                                   404 non-null    object 
+ 39  Total as % of all employees_y                             404 non-null    object 
+ 40  Could not find permanent job_y                            404 non-null    object 
+ 41  % that could not find permanent job_y                     404 non-null    object 
+ 42  Did not want permanent job_y                              404 non-null    object 
+ 43  Had a contract with period of training_y                  404 non-null    object 
+ 44  Some other reason_y                                       404 non-null    object 
+ 45  Total4_y                                                  404 non-null    object 
+ 46  Could not find full-time job_y                            404 non-null    object 
+ 47  % that could not find full-time job_y                     404 non-null    object 
+ 48  Did not want full-time job_y                              404 non-null    object 
+ 49  Ill or disabled_y                                         404 non-null    object 
+ 50  Student or at school_y                                    404 non-null    object 
+dtypes: float64(2), object(49)
+memory usage: 161.1+ KB</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:56,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433327,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="0c50aa15-98f2-4826-a098-3479327bccab" data-execution_count="162">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># merge check</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#this is concerning as the data is showing up as object, which means it is being read as text, need to change this to numerical</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#run this, keep period as object,and drop it</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> df_merged.columns.drop(<span class="st">'Period'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>df_merged[num] <span class="op">=</span> df_merged[num].<span class="bu">apply</span>(pd.to_numeric, errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_merged.info())</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#notice the dtype section changes to float64, so it has been changes to number format</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 404 entries, 0 to 403
+Data columns (total 51 columns):
+ #   Column                                                    Non-Null Count  Dtype  
+---  ------                                                    --------------  -----  
+ 0   Period                                                    404 non-null    object 
+ 1   Total6_x                                                  404 non-null    float64
+ 2   Employees_x                                               404 non-null    float64
+ 3   Self-employed_x                                           404 non-null    float64
+ 4   Unpaid family workers_x                                   404 non-null    float64
+ 5   Government supported training &amp; employment programmes2_x  404 non-null    float64
+ 6   Total people working full-time_x                          404 non-null    float64
+ 7   Total people working part-time_x                          404 non-null    float64
+ 8   Employees working full-time_x                             404 non-null    float64
+ 9   Employees working part-time_x                             404 non-null    float64
+ 10  Self-employed people working full-time_x                  404 non-null    float64
+ 11  Self-employed people working part-time_x                  404 non-null    float64
+ 12  Total workers with second jobs_x                          404 non-null    float64
+ 13  Total_x                                                   404 non-null    float64
+ 14  Total as % of all employees_x                             404 non-null    float64
+ 15  Could not find permanent job_x                            404 non-null    float64
+ 16  % that could not find permanent job_x                     404 non-null    float64
+ 17  Did not want permanent job_x                              404 non-null    float64
+ 18  Had a contract with period of training_x                  404 non-null    float64
+ 19  Some other reason_x                                       404 non-null    float64
+ 20  Total4_x                                                  404 non-null    float64
+ 21  Could not find full-time job_x                            404 non-null    float64
+ 22  % that could not find full-time job_x                     404 non-null    float64
+ 23  Did not want full-time job_x                              404 non-null    float64
+ 24  Ill or disabled_x                                         404 non-null    float64
+ 25  Student or at school_x                                    404 non-null    float64
+ 26  Total6_y                                                  404 non-null    float64
+ 27  Employees_y                                               404 non-null    float64
+ 28  Self-employed_y                                           404 non-null    float64
+ 29  Unpaid family workers_y                                   404 non-null    float64
+ 30  Government supported training &amp; employment programmes2_y  404 non-null    float64
+ 31  Total people working full-time_y                          404 non-null    float64
+ 32  Total people working part-time_y                          404 non-null    float64
+ 33  Employees working full-time_y                             404 non-null    float64
+ 34  Employees working part-time_y                             404 non-null    float64
+ 35  Self-employed people working full-time_y                  404 non-null    float64
+ 36  Self-employed people working part-time_y                  404 non-null    float64
+ 37  Total workers with second jobs_y                          404 non-null    float64
+ 38  Total_y                                                   404 non-null    float64
+ 39  Total as % of all employees_y                             404 non-null    float64
+ 40  Could not find permanent job_y                            404 non-null    float64
+ 41  % that could not find permanent job_y                     404 non-null    float64
+ 42  Did not want permanent job_y                              404 non-null    float64
+ 43  Had a contract with period of training_y                  404 non-null    float64
+ 44  Some other reason_y                                       404 non-null    float64
+ 45  Total4_y                                                  404 non-null    float64
+ 46  Could not find full-time job_y                            404 non-null    float64
+ 47  % that could not find full-time job_y                     404 non-null    float64
+ 48  Did not want full-time job_y                              404 non-null    float64
+ 49  Ill or disabled_y                                         404 non-null    float64
+ 50  Student or at school_y                                    404 non-null    float64
+dtypes: float64(50), object(1)
+memory usage: 161.1+ KB
+None</code></pre>
+</div>
+</div>
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:54,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433382,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="9e187cb8-320e-44ea-d09d-25e2b7993ab4" data-execution_count="163">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>merged <span class="op">=</span> pd.merge(df_men_employment, df_women_employment, on<span class="op">=</span><span class="st">'Period'</span>, how<span class="op">=</span><span class="st">'inner'</span>, indicator<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#check the quality of the merge</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#since both = 404 the data frames matched with same number of rows</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Merge statistics:"</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged[<span class="st">'_merge'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Merge statistics:
+_merge
+both          404
+left_only       0
+right_only      0
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:37,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433417,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="120f4da1-15f0-4447-b684-4010584f55d9" data-execution_count="164">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_merged.tail(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="164">
+<div id="df-ebff23a8-fb39-4fc8-a587-66197f839145" class="colab-df-container">
+    <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Period</th>
+<th data-quarto-table-cell-role="th">Total6_x</th>
+<th data-quarto-table-cell-role="th">Employees_x</th>
+<th data-quarto-table-cell-role="th">Self-employed_x</th>
+<th data-quarto-table-cell-role="th">Unpaid family workers_x</th>
+<th data-quarto-table-cell-role="th">Government supported training &amp; employment programmes2_x</th>
+<th data-quarto-table-cell-role="th">Total people working full-time_x</th>
+<th data-quarto-table-cell-role="th">Total people working part-time_x</th>
+<th data-quarto-table-cell-role="th">Employees working full-time_x</th>
+<th data-quarto-table-cell-role="th">Employees working part-time_x</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">% that could not find permanent job_y</th>
+<th data-quarto-table-cell-role="th">Did not want permanent job_y</th>
+<th data-quarto-table-cell-role="th">Had a contract with period of training_y</th>
+<th data-quarto-table-cell-role="th">Some other reason_y</th>
+<th data-quarto-table-cell-role="th">Total4_y</th>
+<th data-quarto-table-cell-role="th">Could not find full-time job_y</th>
+<th data-quarto-table-cell-role="th">% that could not find full-time job_y</th>
+<th data-quarto-table-cell-role="th">Did not want full-time job_y</th>
+<th data-quarto-table-cell-role="th">Ill or disabled_y</th>
+<th data-quarto-table-cell-role="th">Student or at school_y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">394</td>
+<td>Jan-Mar 2025</td>
+<td>1.748450e+07</td>
+<td>1.454526e+07</td>
+<td>2.817866e+06</td>
+<td>79669.741760</td>
+<td>41704.089914</td>
+<td>1.494613e+07</td>
+<td>2.538378e+06</td>
+<td>1.268691e+07</td>
+<td>1.858351e+06</td>
+<td>...</td>
+<td>22.804683</td>
+<td>260818.979946</td>
+<td>64479.279732</td>
+<td>337694.720430</td>
+<td>5.974949e+06</td>
+<td>492040.716043</td>
+<td>8.235061</td>
+<td>4.467125e+06</td>
+<td>292898.549224</td>
+<td>698106.921348</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">395</td>
+<td>Feb-Apr 2025</td>
+<td>1.750600e+07</td>
+<td>1.459605e+07</td>
+<td>2.810938e+06</td>
+<td>65562.331175</td>
+<td>33444.953945</td>
+<td>1.497868e+07</td>
+<td>2.527321e+06</td>
+<td>1.275722e+07</td>
+<td>1.838836e+06</td>
+<td>...</td>
+<td>22.992500</td>
+<td>269167.810400</td>
+<td>63406.775955</td>
+<td>345931.995546</td>
+<td>5.950464e+06</td>
+<td>511949.058400</td>
+<td>8.603515</td>
+<td>4.417424e+06</td>
+<td>298661.654120</td>
+<td>694591.675513</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">396</td>
+<td>Mar-May 2025</td>
+<td>1.757876e+07</td>
+<td>1.466305e+07</td>
+<td>2.817937e+06</td>
+<td>63886.208866</td>
+<td>33882.415752</td>
+<td>1.502800e+07</td>
+<td>2.550756e+06</td>
+<td>1.279967e+07</td>
+<td>1.863380e+06</td>
+<td>...</td>
+<td>21.506985</td>
+<td>270226.650683</td>
+<td>60409.506738</td>
+<td>344807.673412</td>
+<td>5.971613e+06</td>
+<td>521777.460281</td>
+<td>8.737631</td>
+<td>4.449556e+06</td>
+<td>283983.426472</td>
+<td>684283.488812</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">397</td>
+<td>Apr-Jun 2025</td>
+<td>1.762038e+07</td>
+<td>1.471135e+07</td>
+<td>2.825964e+06</td>
+<td>51311.896970</td>
+<td>31752.352328</td>
+<td>1.506588e+07</td>
+<td>2.554499e+06</td>
+<td>1.282713e+07</td>
+<td>1.884225e+06</td>
+<td>...</td>
+<td>21.631684</td>
+<td>271263.924819</td>
+<td>59958.824944</td>
+<td>323469.305642</td>
+<td>5.976320e+06</td>
+<td>526001.252253</td>
+<td>8.801424</td>
+<td>4.410851e+06</td>
+<td>280349.979972</td>
+<td>724051.344508</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">398</td>
+<td>May-Jul 2025</td>
+<td>1.763759e+07</td>
+<td>1.473660e+07</td>
+<td>2.815625e+06</td>
+<td>55838.659677</td>
+<td>29520.681441</td>
+<td>1.507864e+07</td>
+<td>2.558951e+06</td>
+<td>1.283962e+07</td>
+<td>1.896980e+06</td>
+<td>...</td>
+<td>21.718550</td>
+<td>263086.859635</td>
+<td>66968.625725</td>
+<td>310504.978205</td>
+<td>5.995812e+06</td>
+<td>506780.757514</td>
+<td>8.452246</td>
+<td>4.470172e+06</td>
+<td>267316.345545</td>
+<td>717951.851564</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">399</td>
+<td>Jun-Aug 2025</td>
+<td>1.758057e+07</td>
+<td>1.466598e+07</td>
+<td>2.820428e+06</td>
+<td>60289.546400</td>
+<td>33866.545132</td>
+<td>1.506652e+07</td>
+<td>2.514046e+06</td>
+<td>1.282140e+07</td>
+<td>1.844581e+06</td>
+<td>...</td>
+<td>23.066375</td>
+<td>260038.433037</td>
+<td>72385.212345</td>
+<td>304502.050725</td>
+<td>6.088082e+06</td>
+<td>512679.309727</td>
+<td>8.421031</td>
+<td>4.509367e+06</td>
+<td>279725.816014</td>
+<td>751743.700559</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">400</td>
+<td>Jul-Sep 2025</td>
+<td>1.753276e+07</td>
+<td>1.464167e+07</td>
+<td>2.795635e+06</td>
+<td>58227.415047</td>
+<td>37229.164094</td>
+<td>1.505498e+07</td>
+<td>2.477776e+06</td>
+<td>1.281883e+07</td>
+<td>1.822840e+06</td>
+<td>...</td>
+<td>23.334738</td>
+<td>245612.985355</td>
+<td>79802.436047</td>
+<td>333257.847886</td>
+<td>6.101387e+06</td>
+<td>517626.873317</td>
+<td>8.483758</td>
+<td>4.508939e+06</td>
+<td>299782.659388</td>
+<td>737550.089118</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">401</td>
+<td>Aug-Oct 2025</td>
+<td>1.753739e+07</td>
+<td>1.466022e+07</td>
+<td>2.784531e+06</td>
+<td>56250.663981</td>
+<td>36387.253559</td>
+<td>1.505495e+07</td>
+<td>2.482444e+06</td>
+<td>1.282442e+07</td>
+<td>1.835799e+06</td>
+<td>...</td>
+<td>22.636788</td>
+<td>230072.433006</td>
+<td>83511.816865</td>
+<td>337141.280940</td>
+<td>6.104303e+06</td>
+<td>503336.158794</td>
+<td>8.245596</td>
+<td>4.546337e+06</td>
+<td>298903.153079</td>
+<td>720806.405066</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">402</td>
+<td>Sep-Nov 2025</td>
+<td>1.755618e+07</td>
+<td>1.472526e+07</td>
+<td>2.738524e+06</td>
+<td>60238.300537</td>
+<td>32158.771261</td>
+<td>1.502583e+07</td>
+<td>2.530356e+06</td>
+<td>1.284376e+07</td>
+<td>1.881509e+06</td>
+<td>...</td>
+<td>22.427617</td>
+<td>239828.916453</td>
+<td>90541.382816</td>
+<td>348770.238282</td>
+<td>6.180037e+06</td>
+<td>499875.938760</td>
+<td>8.088559</td>
+<td>4.565547e+06</td>
+<td>310832.195081</td>
+<td>764017.638764</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">403</td>
+<td>Oct-Dec 2025</td>
+<td>1.753927e+07</td>
+<td>1.471370e+07</td>
+<td>2.741015e+06</td>
+<td>55865.078504</td>
+<td>28689.840189</td>
+<td>1.501103e+07</td>
+<td>2.528242e+06</td>
+<td>1.283633e+07</td>
+<td>1.877372e+06</td>
+<td>...</td>
+<td>22.736609</td>
+<td>224213.866569</td>
+<td>90972.618444</td>
+<td>359253.549856</td>
+<td>6.152998e+06</td>
+<td>506343.568989</td>
+<td>8.229218</td>
+<td>4.551122e+06</td>
+<td>305137.211547</td>
+<td>753970.914628</td>
+</tr>
+</tbody>
+</table>
+
+<p>10 rows × 51 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-ebff23a8-fb39-4fc8-a587-66197f839145')" title="Convert this dataframe to an interactive table." style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-ebff23a8-fb39-4fc8-a587-66197f839145 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-ebff23a8-fb39-4fc8-a587-66197f839145');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div>
+</div>
+<p>Since the columns had the same name, the columns have automatically been given an x,y name. With mens values having the X and womens columns taking the Y values</p>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:45,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433474,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="5dad11a4-ca7f-4fc5-fbd7-f5b5f2f5df09" data-execution_count="165">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_merged.columns</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#check what the merged data hads been named as</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="165">
+<pre><code>Index(['Period', 'Total6_x', 'Employees_x', 'Self-employed_x',
+       'Unpaid family workers_x',
+       'Government supported training &amp; employment programmes2_x',
+       'Total people working full-time_x', 'Total people working part-time_x',
+       'Employees working full-time_x', 'Employees working part-time_x',
+       'Self-employed people working full-time_x',
+       'Self-employed people working part-time_x',
+       'Total workers with second jobs_x', 'Total_x',
+       'Total as % of all employees_x', 'Could not find permanent job_x',
+       '% that could not find permanent job_x', 'Did not want permanent job_x',
+       'Had a contract with period of training_x', 'Some other reason_x',
+       'Total4_x', 'Could not find full-time job_x',
+       '% that could not find full-time job_x', 'Did not want full-time job_x',
+       'Ill or disabled_x', 'Student or at school_x', 'Total6_y',
+       'Employees_y', 'Self-employed_y', 'Unpaid family workers_y',
+       'Government supported training &amp; employment programmes2_y',
+       'Total people working full-time_y', 'Total people working part-time_y',
+       'Employees working full-time_y', 'Employees working part-time_y',
+       'Self-employed people working full-time_y',
+       'Self-employed people working part-time_y',
+       'Total workers with second jobs_y', 'Total_y',
+       'Total as % of all employees_y', 'Could not find permanent job_y',
+       '% that could not find permanent job_y', 'Did not want permanent job_y',
+       'Had a contract with period of training_y', 'Some other reason_y',
+       'Total4_y', 'Could not find full-time job_y',
+       '% that could not find full-time job_y', 'Did not want full-time job_y',
+       'Ill or disabled_y', 'Student or at school_y'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:19,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433494,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="991972a0-0b4b-46cd-dcd9-5870c4146c0e" data-execution_count="166">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#filter and rename the collumns</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">#we will rename the columns instead of using x and y</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span> df_merged.rename(columns<span class="op">=</span>{</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Total people working full-time_x'</span> : <span class="st">'Full-time(men)'</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Total people working part-time_x'</span> : <span class="st">'Part-time(men)'</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Total people working full-time_y'</span> : <span class="st">'Full-time(women)'</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Total people working part-time_y'</span> : <span class="st">'Part-time(women)'</span> })</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#then we wll filter what columns we actually want to analyse</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span> df_merged[[<span class="st">'Period'</span>,<span class="st">'Full-time(men)'</span>,<span class="st">'Part-time(men)'</span>,<span class="st">'Full-time(women)'</span>,<span class="st">'Part-time(women)'</span>]]</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#check</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>df_merged.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="166">
+<div id="df-181b92ed-bab2-4364-b699-187352f7bda2" class="colab-df-container">
+    <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Period</th>
+<th data-quarto-table-cell-role="th">Full-time(men)</th>
+<th data-quarto-table-cell-role="th">Part-time(men)</th>
+<th data-quarto-table-cell-role="th">Full-time(women)</th>
+<th data-quarto-table-cell-role="th">Part-time(women)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Mar-May 1992</td>
+<td>1.315113e+07</td>
+<td>979718.197040</td>
+<td>6.480758e+06</td>
+<td>5.024327e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Apr-Jun 1992</td>
+<td>1.312878e+07</td>
+<td>989302.350771</td>
+<td>6.453885e+06</td>
+<td>5.033451e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>May-Jul 1992</td>
+<td>1.310134e+07</td>
+<td>979635.999139</td>
+<td>6.427541e+06</td>
+<td>5.033117e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Jun-Aug 1992</td>
+<td>1.308040e+07</td>
+<td>977356.178851</td>
+<td>6.439344e+06</td>
+<td>5.027974e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Jul-Sep 1992</td>
+<td>1.305313e+07</td>
+<td>981410.475054</td>
+<td>6.439077e+06</td>
+<td>5.035387e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Aug-Oct 1992</td>
+<td>1.301161e+07</td>
+<td>978549.807701</td>
+<td>6.425722e+06</td>
+<td>5.038553e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Sep-Nov 1992</td>
+<td>1.294936e+07</td>
+<td>982382.188101</td>
+<td>6.439425e+06</td>
+<td>5.035249e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>Oct-Dec 1992</td>
+<td>1.289912e+07</td>
+<td>978248.003471</td>
+<td>6.428694e+06</td>
+<td>5.029649e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Nov-Jan 1993</td>
+<td>1.286701e+07</td>
+<td>993498.875565</td>
+<td>6.439247e+06</td>
+<td>5.001403e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Dec-Feb 1993</td>
+<td>1.284630e+07</td>
+<td>998588.965909</td>
+<td>6.415527e+06</td>
+<td>5.013868e+06</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-181b92ed-bab2-4364-b699-187352f7bda2')" title="Convert this dataframe to an interactive table." style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-181b92ed-bab2-4364-b699-187352f7bda2 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-181b92ed-bab2-4364-b699-187352f7bda2');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div>
+</div>
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:4,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433526,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="fdecaa05-3333-4da2-871e-a6fac441eeea">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check for missing values</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_merged.isna().<span class="bu">sum</span>())</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#there are no missing values in any of the columns which is good</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#strip any whitespaces in the text columns</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>df_merged[<span class="st">'Period'</span>] <span class="op">=</span> df_merged[<span class="st">'Period'</span>].<span class="bu">str</span>.strip()</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Period              0
+Full-time(men)      0
+Part-time(men)      0
+Full-time(women)    0
+Part-time(women)    0
+dtype: int64</code></pre>
+</div>
+</div>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:66,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433596,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="ad14afef-dbb1-4013-9c5e-45a05cfc13be">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#since the data overlaps, we will omit every other row, so there is no overlap with the dates, use the iloc function</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span> df_merged.iloc[::<span class="dv">2</span>]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>df_merged.head(<span class="dv">10</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#reset the colomn numbers, back to 0</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>df_merged <span class="op">=</span>  df_merged.reset_index(drop <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>df_merged.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="168">
+<div id="df-198dab0d-a829-4b64-8f2d-4184cf9c789c" class="colab-df-container">
+    <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Period</th>
+<th data-quarto-table-cell-role="th">Full-time(men)</th>
+<th data-quarto-table-cell-role="th">Part-time(men)</th>
+<th data-quarto-table-cell-role="th">Full-time(women)</th>
+<th data-quarto-table-cell-role="th">Part-time(women)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Mar-May 1992</td>
+<td>1.315113e+07</td>
+<td>9.797182e+05</td>
+<td>6.480758e+06</td>
+<td>5.024327e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>May-Jul 1992</td>
+<td>1.310134e+07</td>
+<td>9.796360e+05</td>
+<td>6.427541e+06</td>
+<td>5.033117e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Jul-Sep 1992</td>
+<td>1.305313e+07</td>
+<td>9.814105e+05</td>
+<td>6.439077e+06</td>
+<td>5.035387e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Sep-Nov 1992</td>
+<td>1.294936e+07</td>
+<td>9.823822e+05</td>
+<td>6.439425e+06</td>
+<td>5.035249e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Nov-Jan 1993</td>
+<td>1.286701e+07</td>
+<td>9.934989e+05</td>
+<td>6.439247e+06</td>
+<td>5.001403e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Jan-Mar 1993</td>
+<td>1.282646e+07</td>
+<td>1.016574e+06</td>
+<td>6.412108e+06</td>
+<td>5.027150e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Mar-May 1993</td>
+<td>1.280277e+07</td>
+<td>1.002396e+06</td>
+<td>6.410369e+06</td>
+<td>5.070341e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>May-Jul 1993</td>
+<td>1.282205e+07</td>
+<td>9.899844e+05</td>
+<td>6.394349e+06</td>
+<td>5.087022e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>Jul-Sep 1993</td>
+<td>1.278692e+07</td>
+<td>1.021506e+06</td>
+<td>6.401351e+06</td>
+<td>5.105858e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Sep-Nov 1993</td>
+<td>1.277570e+07</td>
+<td>1.050910e+06</td>
+<td>6.368503e+06</td>
+<td>5.124061e+06</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-198dab0d-a829-4b64-8f2d-4184cf9c789c')" title="Convert this dataframe to an interactive table." style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-198dab0d-a829-4b64-8f2d-4184cf9c789c button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-198dab0d-a829-4b64-8f2d-4184cf9c789c');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div>
+</div>
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:30,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433641,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="1dedb845-934c-43ce-b089-2335a3e3ac8a" data-execution_count="169">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#check the data rows</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(df_merged)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#since this is 202, we have successfully omitted every other row</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="169">
+<pre><code>202</code></pre>
+</div>
+</div>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:41,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433683,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="03793a35-36ff-490b-cbca-d499156d2484" data-execution_count="170">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#final check for any duplicate values and null values</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#check rows/columns</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'columns and rows'</span> <span class="op">+</span> <span class="bu">str</span>(df_merged.shape))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#check for duplicated values</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_merged.duplicated())</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#running these check if the data is cleaned, we omitted null values and made sure no duplicates are in the code</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'summ of null values'</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_merged.isnull().<span class="bu">sum</span>())</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co">#describe the data</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'statistics decribed'</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_merged.describe())</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co">#count = rows in data</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co">#unigue = checking any duplicates</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co">#freq = are there values appearing more then once? no</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>columns and rows(202, 5)
+0      False
+1      False
+2      False
+3      False
+4      False
+       ...  
+197    False
+198    False
+199    False
+200    False
+201    False
+Length: 202, dtype: bool
+
+summ of null values
+Period              0
+Full-time(men)      0
+Part-time(men)      0
+Full-time(women)    0
+Part-time(women)    0
+dtype: int64
+
+statistics decribed
+       Full-time(men)  Part-time(men)  Full-time(women)  Part-time(women)
+count    2.020000e+02    2.020000e+02      2.020000e+02      2.020000e+02
+mean     1.394135e+07    1.800777e+06      7.990894e+06      5.787258e+06
+std      6.656361e+05    4.513946e+05      1.209172e+06      3.672987e+05
+min      1.275970e+07    9.796360e+05      6.368503e+06      5.001403e+06
+25%      1.354376e+07    1.372819e+06      6.983141e+06      5.589387e+06
+50%      1.384183e+07    1.840680e+06      7.775495e+06      5.759305e+06
+75%      1.460427e+07    2.205071e+06      8.795874e+06      6.050599e+06
+max      1.507864e+07    2.558951e+06      1.055396e+07      6.506569e+06</code></pre>
+</div>
+</div>
+<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236433686,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-execution_count="171">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#save the file</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df_merged.to_csv(<span class="st">'clean_data_employment.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>ANALYSIS OF DATA</p>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:421,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236434109,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="9f57f705-7d94-4c6b-f092-269504c567cd" data-execution_count="172">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>plt.plot(df_merged[<span class="st">'Period'</span>], df_merged[<span class="st">'Full-time(men)'</span>], label <span class="op">=</span> <span class="st">'Full-time(men)'</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>plt.plot(df_merged[<span class="st">'Period'</span>], df_merged[<span class="st">'Full-time(women)'</span>], label <span class="op">=</span> <span class="st">'Full-time(women)'</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co">#create titles for the x/y axis</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Full-time employment: Men vs Women'</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time'</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'No. of people(10s ofmillions)'</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="co">#change the date intervals</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>plt.xticks(df_merged.index[::<span class="dv">12</span>],rotation <span class="op">=</span> <span class="dv">60</span>)</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="co">#create grid lines</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>plt.grid(axis <span class="op">=</span><span class="st">'y'</span>, alpha <span class="op">=</span> <span class="fl">0.4</span>)</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Part time &amp; Full time employment FINAL_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:250,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1772236434361,&quot;user&quot;:{&quot;displayName&quot;:&quot;S&quot;,&quot;userId&quot;:&quot;00336832483027853467&quot;},&quot;user_tz&quot;:0}}" data-outputid="0cc3eafe-4a53-4433-c921-a67af17de421" data-execution_count="173">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plt.plot(df_merged[<span class="st">'Period'</span>], df_merged[<span class="st">'Part-time(men)'</span>], label <span class="op">=</span> <span class="st">'Part-time(men)'</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>plt.plot(df_merged[<span class="st">'Period'</span>], df_merged[<span class="st">'Part-time(women)'</span>], label <span class="op">=</span> <span class="st">'Part-time(women)'</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create titles for the x/y axis</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Part-time employment: Men vs Women'</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'time'</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'No. of people(10s of millions)'</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="co">#change the date intervals</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.xticks(df_merged.index[::12], df_merged['Period'][::12], rotation=45)</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>plt.xticks(df_merged.index[::<span class="dv">12</span>],rotation <span class="op">=</span> <span class="dv">60</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>plt.grid(axis <span class="op">=</span><span class="st">'y'</span>, alpha <span class="op">=</span> <span class="fl">0.4</span>)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Part time &amp; Full time employment FINAL_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>BEE2041 · University of Exeter</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>© Damian Clarke</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

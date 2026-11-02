@@ -1,0 +1,30 @@
+DETALLES ADICIONALES: TRABAJO 1
+TÓPICOS DE MICRO-ECONOMETRÍA
+MAGÍSTER DE CIENCIAS ECONÓMICAS, USACH
+2019
+
+El trabajo 1 consiste en las preguntas A, B y D del "Empirical Excercise 1"
+de los apuntes del curso.  Se debe entregar el código de análisis (archivo
+.do o comparable), y un archivo .pdf con las respuestas a las preguntas.
+Este archivo debe contener cualquier gráfico generado que es relevante para
+la entrega, además de las respuestas a cada pregunta.
+
+La fecha de entrega es el día jueves 18 de abril, a las 23:59.  La entrega
+debe ser por correo electrónico a damian.clarke@usach.cl, y copiando a
+kathya.tapia@usach.cl.  Si envíen todo en formato comprimido, por favor
+envíen en formato .zip o .7z (7zip).
+
+La nota final del trabajo se calcula de la siguiente forma:
+
+Pregunta A: Max 2 puntos
+Pregunta B: Max 2 puntos
+Pregunta C: Max 2 puntos
+
+Si el codigo entregado no se replica, se puede restar hasta 1 punto del
+total, y la nota final se calcula de acuerdo a:
+
+1 + Pregunta A + Pregunta B + Pregunta C - Cualquier descuento.
+
+La nota mínima es 1.0, y la máxima es 7.0.
+
+Preguntas adicionales a: damian.clarke@usach.cl

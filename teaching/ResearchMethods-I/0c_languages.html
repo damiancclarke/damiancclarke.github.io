@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Background on Computational Languages in Economics – Research Methods 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./0b_preliminaries.html" rel="next">
+<link href="./0a_about.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-42bde1bdd1e1a13def94ba36d6b65ecd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li><li class="breadcrumb-item"><a href="./0c_languages.html"><span class="chapter-title">Background on Computational Languages in Economics</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Research Methods 1</a> 
+        <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Research-Methods-1.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Research-Methods-1.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0a_about.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">About This Course</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0c_languages.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Background on Computational Languages in Economics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0b_preliminaries.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Getting Set Up</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./1_programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programming Languages</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1a_IntroductionR.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1c_IntroductionPython.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to Python</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1b_IntroductionStata.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to Stata</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_datawrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Wrangling and Data Management</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_projects.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Project Management &amp; Replicability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_visualisation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Visualisation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_statistics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_simulations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Simulations as Part of Research Workflow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_other.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Some Details on Webscraping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#computer-languages-in-economics" id="toc-computer-languages-in-economics" class="nav-link active" data-scroll-target="#computer-languages-in-economics">Computer Languages in Economics</a></li>
+  <li><a href="#considerations-in-adopting-a-new-language" id="toc-considerations-in-adopting-a-new-language" class="nav-link" data-scroll-target="#considerations-in-adopting-a-new-language">Considerations in Adopting a New Language</a>
+  <ul class="collapse">
+  <li><a href="#what-type-of-research-will-i-be-doing" id="toc-what-type-of-research-will-i-be-doing" class="nav-link" data-scroll-target="#what-type-of-research-will-i-be-doing">1. What type of research will I be doing?</a></li>
+  <li><a href="#are-there-any-relevant-network-effects" id="toc-are-there-any-relevant-network-effects" class="nav-link" data-scroll-target="#are-there-any-relevant-network-effects">2. Are there any relevant network effects?</a></li>
+  <li><a href="#what-is-my-current-knowledge" id="toc-what-is-my-current-knowledge" class="nav-link" data-scroll-target="#what-is-my-current-knowledge">3. What is my current knowledge?</a></li>
+  <li><a href="#what-type-of-support-do-i-look-for" id="toc-what-type-of-support-do-i-look-for" class="nav-link" data-scroll-target="#what-type-of-support-do-i-look-for">4. What type of support do I look for?</a></li>
+  <li><a href="#do-i-have-any-deeper-preferences-to-satisfy" id="toc-do-i-have-any-deeper-preferences-to-satisfy" class="nav-link" data-scroll-target="#do-i-have-any-deeper-preferences-to-satisfy">5. Do I have any deeper preferences to satisfy?</a></li>
+  </ul></li>
+  <li><a href="#how-should-i-learn-a-new-language" id="toc-how-should-i-learn-a-new-language" class="nav-link" data-scroll-target="#how-should-i-learn-a-new-language">How Should I Learn a New Language?</a>
+  <ul class="collapse">
+  <li><a href="#online-forums" id="toc-online-forums" class="nav-link" data-scroll-target="#online-forums">Online Forums</a></li>
+  <li><a href="#large-language-models" id="toc-large-language-models" class="nav-link" data-scroll-target="#large-language-models">Large Language Models</a></li>
+  </ul></li>
+  <li><a href="#hardware-and-operating-systems" id="toc-hardware-and-operating-systems" class="nav-link" data-scroll-target="#hardware-and-operating-systems">Hardware and Operating Systems</a>
+  <ul class="collapse">
+  <li><a href="#hardware" id="toc-hardware" class="nav-link" data-scroll-target="#hardware">Hardware</a></li>
+  <li><a href="#operating-systems" id="toc-operating-systems" class="nav-link" data-scroll-target="#operating-systems">Operating Systems</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li><li class="breadcrumb-item"><a href="./0c_languages.html"><span class="chapter-title">Background on Computational Languages in Economics</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Background on Computational Languages in Economics</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style>
+.column { padding-right: 1ex }
+.column + .column { padding-left: 1ex }
+</style>
+<section id="computer-languages-in-economics" class="level2">
+<h2 class="anchored" data-anchor-id="computer-languages-in-economics">Computer Languages in Economics</h2>
+<p>A range of computer languages are currently in use in economics, and in your own reasearch career, if you are conducting empirical research, it is likely that you will use a number of languages. What we will spend most of our time working on in this course are languages with scientific programming capacities. These languages will generally be designed to – or have certain aspects designed to – work with data, conduct numerical calculations, and, ideally, have a set of inbuilt statistical routines which we frequently encounter in economics. Ideally, as well as allowing us to conduct our research, the languages we work with will allow us to generate the types of exhibits we would like to communicate our research with our peers: things like tables and figures.</p>
+<p>In modern economic practice, I believe that the most frequently used statistical programming languages (in alphabeticl order) are <a href="https://julialang.org/">Julia</a>, <a href="https://www.mathworks.com/products/matlab.html">Matlab</a>, <a href="https://www.python.org/">Python</a>, <a href="https://www.r-project.org/">R</a> and <a href="https://www.stata.com/">Stata</a>. Among these, Julia is newer and less adopted, but may take off in the years ahead. This is not to say that you will not encounter other languages in your career. Other languages are indeed used. For example, many old structural models are written in Fortran, and certain sub-fields in economics may use other languages such as SAS, OxMetrix, Mathematica, SPSS and other tools.</p>
+<p>One may ask why so many languages exist? Languages are designed with different philosophies, and often new languages are developed to remedy perceived shortcomings of older languages. Originally, computer languages were <strong>low level</strong>. Low level languages are computational languages which require the programmer to think carefully about how the program they write interacts with a computer’s memory, and are generally more complex to write, but faster to run. Currently, all of the languages frequently used in economic research are <strong>high level</strong>. High level languages are written to take care of things like memory and hardware use, garbage collection, assignment of variable types and so forth, and so the programmer can simply focus on the task at hand. High level languages are generally faster to program in, but codes run more slowly. This is an “abstraction penalty” with moving to higher level coding – more is taken care of, but some cost is <em>generally</em> paid in terms of computing time. To see below the example of what the difference can look like between more low level and high level languages, refer to the following two codes to print “Hello World!” on the computer screen. The left-hand side is the code for Python, while the right-hand side is the code for C. Over time this movement from low to high level has implied a number of new languages have been developed.</p>
+<div class="columns">
+<div class="column">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Hello World in a High Level Language</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" data-filename="Hello World in a High Level Language"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello, World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Hello World in a Low Level Language</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" data-filename="Hello World in a Low Level Language"><pre class="sourceCode C code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// printf() displays the</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// string inside quote</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  printf<span class="op">(</span><span class="st">"Hello, World!"</span><span class="op">);</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Another key reason why multiple languages exist is that some languages are written by companies to be sold, while other are written to be <strong>open source</strong> and increase access to scientific tools without payment. Commercial languages are produced with paid developers, and generally offer high quality documentation and warranties on performance. However, large open source languages have many active contributers (working on a voluntary basis), and so are often able to match or exceed the performance of <strong>commercial</strong> languages, especially when it comes to rapidly incorporating new advances into their code base.</p>
+<p>Finally, different languages generally have different focuses. For example, among the languages we will work with in this course, Stata is most focused on rapidly being able to work with data and perform statistical analyses, R has a somewhat similar focus but is open source, Python provides more control over a computer’s entire operating system, and certain other languages such as Matlab are designed specifically for matrix-based calculations (which are extremely frequent in economics). In general, languages will have specific design choices, and when you work with one or another they will have a different feel. A key distinction which we will see throughout the course is in how they deal with repeated calculations or processes. Certain languages are more structured to conduct repeated calculations in sequence, essentially “looping” around and doing one thing after another, while others are more structured to think in terms of matrices, applying a process in block to many cells of a matrix.</p>
+<p>Some of the distinctions between languages which you may encounter are summarised in the Table below. Many of these categorisations are just my perception. For example, all computer languages are “fast” in that they can perform millions of calculations per second, but in my experience some or faster than others, and this may be relevant if you end up working on very computationally intensive projects. If you are interested in some more formal comparisons of languages, you may wish to read the paper by <span class="citation" data-cites="Aruoba2015">(<a href="8_references.html#ref-Aruoba2015" role="doc-biblioref"><strong>Aruoba2015?</strong></a>)</span> .</p>
+<table class="table-striped table-hover table-borderless table-secondary caption-top table">
+<caption>Characteristics of Some Computer Languages</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Language</th>
+<th>High/Low Level</th>
+<th>Matrixy/Loopy</th>
+<th>Active User Base</th>
+<th>Free/Open Source</th>
+<th>Fast?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Julia</td>
+<td>High Level</td>
+<td>Matrixy</td>
+<td>Medium</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>Matlab</td>
+<td>High Level</td>
+<td>Matrixy</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Python</td>
+<td>High Level</td>
+<td>Loopy*</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>R</td>
+<td>High Level</td>
+<td>Matrixy</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>Stata</td>
+<td>High Level</td>
+<td>Loopy*</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Fortran</td>
+<td>Low High Level</td>
+<td>Matrixy</td>
+<td>Not so much now</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>C/C++</td>
+<td>Low Level (C)</td>
+<td>Loopy</td>
+<td>Not so much in econ</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>* Certain elements are optimized for matricial calculations (Numpy)<br>
++ Certain elements are optimized for matricial calculations (Mata)</p>
+</section>
+<section id="considerations-in-adopting-a-new-language" class="level2">
+<h2 class="anchored" data-anchor-id="considerations-in-adopting-a-new-language">Considerations in Adopting a New Language</h2>
+<p>When you are learning a new programming language, many of the things you learn will be general knowledge that will also help you in other languages. For example, certain programming constructs such as the use of formal logic, control flow statements such as loops, the generation of functions and so forth will be something you encounter in nearly any language. However, there is also a non-trivial investment in language specific factors, for example the <em>syntax</em> of the language (the way the language is written and used), as well as the use of particular commands, will not cross over from language to language. For this reason, it is worth thinking about which is the best language for you prior to starting.</p>
+<p>Generically, there is no right answer to this question as it depends on what <em>you</em> do and your own prefernces. There are, however, a number of considerations which I believe can help you decide which programming language is right for you. Among other things, relevant factors to consider include the following:</p>
+<ol type="1">
+<li>What type of research will I be doing?</li>
+<li>Are there any relevant network effects (for example coauthors)?</li>
+<li>What is my current knowledge?</li>
+<li>What type of support do I look for?</li>
+<li>Do I have any deeper preferences to satisfy?</li>
+</ol>
+<p>I will discuss these points briefly below.</p>
+<section id="what-type-of-research-will-i-be-doing" class="level3">
+<h3 class="anchored" data-anchor-id="what-type-of-research-will-i-be-doing">1. What type of research will I be doing?</h3>
+<p>There are certain types of research where specific languags may be especially well suited to what you are doing. For example, if you plan to be largely working with and cleaning data and performing econometric analyses, you could conceivably work with Julia, R, Python or Stata (among others). However, Stata or R might be the most logical choices, because often these are the first place where new econometric routines turn up. Often econometricians or other applied reseachers release new tools in Stata or in R first, and then only later do they appear in other languages.</p>
+<p>If, however, you plan to be working with more modern machine learning (ML) tools, Python or R are probably leaders here. While ML routines are also certainly available in Stata and Julia (among others), at the moment my feeling is that they are most well developed in R and Python, as they are often contributed by non-economists.</p>
+<p>You may have other preferences, for example your research may involve solving formal optimisation problems, for example in structural work. In this case, the optimisation routines in Matlab may be particularly relevant. Julia may catch up to Matlab with optimisation routines, though at the moment my feeling is that Matlab is still the leader here.</p>
+<p>One useful way to have an idea about the types of codes that might be relevant in particular research projects is to look at the replication materials that are available with papers that you read. If you see that they all are using a certain language, this may be a useful insight for you. One thing to note with this is that historically, much of the code base in economics has been written in Stata, so it is likely that this will feature heavily in many fields.</p>
+</section>
+<section id="are-there-any-relevant-network-effects" class="level3">
+<h3 class="anchored" data-anchor-id="are-there-any-relevant-network-effects">2. Are there any relevant network effects?</h3>
+<p>A highly relevant consideration in many cases is the need to interact with coauthors, supervisors, and so forth. Often, our decision about the language we use may be largely driven by the people we work with. For example, if all of my coauthors use one language and want to be involved in programming in a paper, it makes sense for me to also work in that language. Or if part of a paper is already written by another coauthor in a particular language, it may make sense to continue working in this language to ease the work flow involved in the project.</p>
+<p>As mentioned above, historically a lot of work in economics has been conducted in Stata, and the network effects from this have meant that Stata remains highly relevant. It seems to me that more recently there is some broadening of the scope of languages used, and you should of course feel free to <em>not</em> be guided by what others do to make your choice. The relevance of network effects will probably be most relevant if you plan to be frequently involved in collaborative projects.</p>
+</section>
+<section id="what-is-my-current-knowledge" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-my-current-knowledge">3. What is my current knowledge?</h3>
+<p>You may already know a programming language and feel comfortable in it. In this course, I will ask that you all work with a programming language <strong>that you have not worked with before</strong>, and we will discuss a range of languages thoughout the course. The reason for this is that this way it is guaranteed that we will all start at a reasonably similar base (even if people have never programmed before), and at the end of the course you will at least feel comfortable in a new programming language. Often the spillovers from one language to the next will depend a little bit on their structure. For example, if you have worked before with a matrix-oriented language such as Matlab, you may wish to work in R which has something of a similar logic. However, if you have experience in Python and like the idea of looping, Stata may be a more logical choice in terms of a new syntax.</p>
+</section>
+<section id="what-type-of-support-do-i-look-for" class="level3">
+<h3 class="anchored" data-anchor-id="what-type-of-support-do-i-look-for">4. What type of support do I look for?</h3>
+<p>A fourth point to consider is related to the support you want in your work. In the section below we will discuss more fully the types of support available for different languages, and this definitely depends a lot on the language. Certain languages have dedicated and extremely active forums where you can ask questions, and get feedback. Languages also differ in terms of the degree of quality of the manuals, the activity level of people in online forums, and the quality of responses in online forums. Another relevant point in this dimension is how well the languages are supported in large language models like ChatGPT. This will be discussed at more length below.</p>
+<p>At present, my subjective opinion is that if we consider the languages Stata, Python, R and Julia, the ordering of support depends highly upon what type of support one seeks. In terms of quality of manuals, the ordering is probably something like – from best to worst – (1) Stata (2) R (3) Python and Julia. However in terms of support from ChatGPT it is probably (1) Python (2) R (3) Julia (4) Stata. And in terms of forums, specifically for relatively new users, the support available is probably ordered as (1) Stata (2) Python and R (3) Julia.</p>
+</section>
+<section id="do-i-have-any-deeper-preferences-to-satisfy" class="level3">
+<h3 class="anchored" data-anchor-id="do-i-have-any-deeper-preferences-to-satisfy">5. Do I have any deeper preferences to satisfy?</h3>
+<p>Finally, you may have deeper preferences. For example, you may appreciate the value of Open Source software, and prefer to opt for open source tools. A surprising amount of the current technological world is built with or on top of the contributions of open source software (see the comic below!), and you may wish to be part of this. You may also have other preferences which are relevant for you at the moment you decide.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dependency.png" class="img-fluid figure-img"></p>
+<figcaption>Dependencies (from xkcd.com)</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="how-should-i-learn-a-new-language" class="level2">
+<h2 class="anchored" data-anchor-id="how-should-i-learn-a-new-language">How Should I Learn a New Language?</h2>
+<p>There are a number of tools which can help you in learning a new language, but by far, the most useful way to learning a programming language is by programming in it! Right at the beginning, it is useful to understand the minimum basic elements of the language, which is what we will focus on immediately after this section of the course. At all points, my suggestion would be to put in practice what you are learning, working with examples which are interesting to you. Personally, I would not endorse trying to perfect your knowledge of a language in theory before you put it into practice. Once you have a basic understanding of the language, in my opinion, the best thing you can do is to start working in it, and learn the particular things you need in your everyday usage by trying to do particular things of interest, for example generate graphs, examine data, and so forth.</p>
+<p>There is an important caveats here, and this is that I would certainly <em>not</em> endorse using a language for a real paper before you are sure that you understand the key elements. There are certain elements of research projects which are critical, for example cleaning and joining data, and if done incorrectly can mean that your final results are entirely wrong. We will discuss these elements at more length later in the course, but for now it is worth keeping in mind that while learning by doing is an efficient way to figure out how a language works and how it doesn’t work, when you are dealing with real programs, it is important to build in checks throughout your work to ensure that you aren’t making mistakes. We will discuss this a little later in the course.</p>
+<p>Beyond learnign by doing, there are a number of highly useful resources online that will help you get up to speed. We discuss these below.</p>
+<section id="online-forums" class="level3">
+<h3 class="anchored" data-anchor-id="online-forums">Online Forums</h3>
+<p>A hugely useful source of information are online forums which let you ask questions, and suggest answers to questions if you know about a particular language. The most common forum is <a href="https://stackoverflow.com/">Stack Overflow</a> where you can generate an account and ask questions about any language. These questions are often answered within minutes, and multiple responses can be provided, with individuals voting to highlight best answers. As well as a place to answer your own qustions, Stack Overflow is a hugely relevant resource to search for previous responses. Frequently, questions you may have are already answered on Stack Overflow, and can be found by searching Stack overflow or by using a search engine.</p>
+<p>For certain languages, alternative forums exist. For example, the <a href="https://www.statalist.org/">Statalist</a> in the case of Stata has a much richer set of questions and answers than Stack overflow. This would be my first port of call for Stata-related queries, with the many questions already answered in the archives of the list. This can also be searched quite simply prior to asking a new question, and a well-established etiquette exists <a href="https://www.statalist.org/forums/help">see here, for example</a>.</p>
+</section>
+<section id="large-language-models" class="level3">
+<h3 class="anchored" data-anchor-id="large-language-models">Large Language Models</h3>
+<p>More and more, large language models (LLMs) like chatGPT and other Artificial Intelligence (AI) tools can help us with our programming tasks. Certain platforms also have AIs which can help you in developing your code, such as <a href="https://github.com/features/copilot">github’s copilot</a>. If you are unsure of certain language constructs, using an LLM can be very helpful, though it is also important to generate your own understanding of the language alongside inputs from LLMs. It is also relevant to note that the quality of responses from LLMs will depend slightly upon the amount of data they have to learn from, though in general for most languages we encounter LLMs are do a good job.</p>
+<p>My personal view is that you should avoid using these LLMs as a crutch. For the large majority of types of programming we will be doing in economic research, we will not want to be relying on <a href="https://en.wikipedia.org/wiki/Vibe_coding">vibe coding</a>, nor outsourcing the thinking to LLMs. Of course, LLMs can help increase productivity and offer suggestions for ways to optimise code. Things like line completion in VS code and other constructs can be very helpful to speed up programming, but we must be vigilant in ensuring that we’re getting what we actually want. Actually learning how to programme the old fashioned way and knowing syntax off by heart offers considerable benefits in terms of understanding code, as well as more generally getting a feel for different programming constructs. It’s also useful for when you want to programme when you’re on the road with less access to wifi, or in settings without access to internet, such as data rooms maintained by governmental data providers.</p>
+</section>
+</section>
+<section id="hardware-and-operating-systems" class="level2">
+<h2 class="anchored" data-anchor-id="hardware-and-operating-systems">Hardware and Operating Systems</h2>
+<p>While this course is focused on learning a scientific computing languages for research in economics, it is useful for you to have some understanding of the hardware you use, as well as make an informed choice about operating systems. While generally, current laptops have remarkable processing capacity, for certain types of projects you may run into bottlenecks either in terms of memory or processing power.</p>
+<section id="hardware" class="level3">
+<h3 class="anchored" data-anchor-id="hardware">Hardware</h3>
+<p>Broadly speaking, and at a very high level of abstraction, there will be three particularly relevant elements for us when thinking about the hardware we use. The first is the processing capacity of the computer, which depends upon the Central Processing Unit, or CPU. The second is the virtual memory capacity the computer has to manipulate specific data bases, which depends upon the Random Access Memory, or RAM. And the last is the hard disk space and the type of hard disk used to store all of the data and programmes installed on the computer.</p>
+<p>We will not discuss this in great depth, but it is useful to note that particular types of projects will imply demands on particular types of resources, and if you are deciding on what type of computer you need, this will be driven by the type of research you are doing. For example, if you are doing research which is particularly demanding in terms of numerical processing or in terms of calculations, the most important thing that you will want to consider will be the type and number of CPUs that you have. More recent generations of CPUs have greater processing capacities<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> In extremely demanding projects where processing capacity is a limiting constraint, processing can even be done on the Graphical Processing Unit, or GPU, of your computer, though this is likely not relevant for the majority of projects in economics, so we won’t dig into it here. If, however, your research requires working with large databases, for example running regressions with many millions of operations, it is more likely that your bottleneck will be in terms of RAM. Given that you need enough RAM to hold databases in working memory, if you plan to work with databases of &gt;16GB for example, you will require a machine with more than 16GB of RAM. Finally, though potentially less limiting, is the relevance of the hard disk. If you plan to store massive amounts of data on your computer (of the order of terrabytes), you may find that you run out of hard disk space. In general this is relatively easy to remedy by purchasing an external hard drive, but is also a choice which can be made when deciding on a computer to use.</p>
+</section>
+<section id="operating-systems" class="level3">
+<h3 class="anchored" data-anchor-id="operating-systems">Operating Systems</h3>
+<p>The operating system is the over-arching environment where we interact with all our programs, data management, and so forth. It is extremely likely that you will work with some flavour of Windows, OS, or Unix-based operating systems. Often, operating systems are bundled with hardware, and when you purchase your computer this choice will be made.</p>
+<p>The simplicity with which you are able to program <em>does</em> vary by the operating system you choose. In my opinion, Unix based operating systems are by far the most flexible and most well-suited to scientific computing. However, there is a learning curve involved in getting up to speed with a new OS, and you may not wish to do this. Regardless of the choice of OS you make, all the tools we examine in the course will be available, and more generally, nearly all the computational tools you will require in economics can be somehow made to work on each type of OS.</p>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>CPU capacity is measured in FLOPS, or floating point operations per second. The capacity of computers has grown more or less constantly over time, with an ever growing increase in the capacity in the number of FLOPS. This has been characterised as <a href="https://ourworldindata.org/moores-law">Moore’s Law</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./0a_about.html" class="pagination-link" aria-label="About This Course">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">About This Course</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./0b_preliminaries.html" class="pagination-link" aria-label="Getting Set Up">
+        <span class="nav-page-text"><span class="chapter-title">Getting Set Up</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

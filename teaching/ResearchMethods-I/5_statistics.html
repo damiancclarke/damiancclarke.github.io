@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Tools – Research Methods 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./6_simulations.html" rel="next">
+<link href="./4_visualisation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-42bde1bdd1e1a13def94ba36d6b65ecd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5_statistics.html"><span class="chapter-title">Statistical Tools</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Research Methods 1</a> 
+        <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Research-Methods-1.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Research-Methods-1.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0a_about.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">About This Course</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0c_languages.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Background on Computational Languages in Economics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0b_preliminaries.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Getting Set Up</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./1_programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programming Languages</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1a_IntroductionR.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1c_IntroductionPython.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to Python</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1b_IntroductionStata.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to Stata</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_datawrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Wrangling and Data Management</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_projects.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Project Management &amp; Replicability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_visualisation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Visualisation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_statistics.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Statistical Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_simulations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Simulations as Part of Research Workflow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_other.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Some Details on Webscraping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#statistical-analysis" id="toc-statistical-analysis" class="nav-link active" data-scroll-target="#statistical-analysis">Statistical Analysis</a>
+  <ul class="collapse">
+  <li><a href="#this-class" id="toc-this-class" class="nav-link" data-scroll-target="#this-class">This Class</a></li>
+  </ul></li>
+  <li><a href="#weighting" id="toc-weighting" class="nav-link" data-scroll-target="#weighting">Weighting</a></li>
+  <li><a href="#exporting-models" id="toc-exporting-models" class="nav-link" data-scroll-target="#exporting-models">Exporting Models</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a>
+  <ul class="collapse">
+  <li><a href="#summary-statistics" id="toc-summary-statistics" class="nav-link" data-scroll-target="#summary-statistics">Summary Statistics</a></li>
+  <li><a href="#linear-regression-models" id="toc-linear-regression-models" class="nav-link" data-scroll-target="#linear-regression-models">Linear regression models</a></li>
+  <li><a href="#non-linear-regression-models" id="toc-non-linear-regression-models" class="nav-link" data-scroll-target="#non-linear-regression-models">Non-linear regression models</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Statistical Tools</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="statistical-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-analysis">Statistical Analysis</h2>
+<p>Given the importance of statistical analysis in our work, it is important to be comfortable and familiar with standard routines and procedures in whichever language you use. Here, we will discuss some basic details of conducting statistical analysis with data. We will <em>not</em> discuss assumptions underlying models, as you will see this all formally in econometrics classes, but we will discuss important details related to the computational implementation of regression models. We will also discuss the ways to automate work-flow in statistical analysis. This section of the course should be considered as a complement to your formal econometric training, as we will not delve into the many technical details which you require prior to doing any formal statistical work. Rather, we will focus on a few key elements related to computational procedures you may wish to use.</p>
+<section id="this-class" class="level3">
+<h3 class="anchored" data-anchor-id="this-class">This Class</h3>
+<p>In this class we will work with Stata, though many of the points we raise will be relevant for any other language. We will also work with data from a household survey. The survey we will use is the UK Labour Force Survey. This is a survey which has been conducted continually since 1973, and is currently conducted in a quarterly fashion. Some background information on the survey can be found at <a href="https://beta.ukdataservice.ac.uk/datacatalogue/series/series?id=2000026#!/faqs">this link</a>. The data which we will use is the July-September quarter from 2022, and the data covers 53,287 individuals from 24,200 households.</p>
+<p>The survey data is available from the UK Data Service. This data is available as part of a teaching agreement, and the UK Data Service states:</p>
+<p><em>Students or members of staff at a UK institution of higher or further education (UK HE/FE) can register using the username and password issued by their institution. Information about registration is available at <a href="https://ukdataservice.ac.uk/help/registration/how-to-register-if-you-are-a-uk-academic-user/">How to register if you are a UK academic user</a>.</em></p>
+<p>Please register to ensure correct use of this data at the following link: <a href="https://beta.ukdataservice.ac.uk" class="uri">https://beta.ukdataservice.ac.uk</a></p>
+<p>Below we will use the principal survey data. Whenever we use survey data it is extremely important that we read the survey documentation. All resources required for this class are provided below:</p>
+<ul>
+<li><a href="https://damianclarke.net/teaching/ResearchMethods-I/data/lfsp_aj23_eul_pwt22.zip">Survey data</a> (zipped, Stata format)</li>
+<li><a href="https://damianclarke.net/teaching/ResearchMethods-I/data/lfs_user_guide_vol1_background_2022.zip">LFS User Guide Volume 1 - Background</a> (zipped, pdf)</li>
+<li><a href="https://damianclarke.net/teaching/ResearchMethods-I/data/lfs_user_guide_vol2_questionnaire_2022jscombined.zip">LFS User Guide Volume 2 - Questionnaire 2022</a> (zipped, pdf)</li>
+<li><a href="https://damianclarke.net/teaching/ResearchMethods-I/data/lfs_user_guide_vol3_variabledetails2022js.zip">LFS User Guide Volume 3 - Variable Details 2022</a> (zipped, pdf)</li>
+</ul>
+</section>
+</section>
+<section id="weighting" class="level2">
+<h2 class="anchored" data-anchor-id="weighting">Weighting</h2>
+<p>Prior to discussing data analysis, a first key element we must consider is survey weighting. Household survey designs are based on probabilistic sampling. Each individual has a given probability of being selected, and every individual who is eventually selected will represent some particular number of observations (for example, individuals of the same age and sex) in the entire population. Of course, this does not mean that a chosen person is <em>identical</em> to all other similar people in the population, but rather, this person provides us with information on a given member of a group. It is thus of considerable importance that we consider uncertainty inherent in sampling, and also account for weights should we wish to conduct inference appropriately for the true population of interest.</p>
+<p>In general, information on weighting and survey design will be discussed at length in survey documentation. For example, in the case of the UK LFS, this is discussed in Section 10 of Volume 1 of the documentation included above. To see why this is important, consider the weighted and unweighted ages of respondents:</p>
+<div id="5fe695ac" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> lfsp_aj23_eul_pwt22</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span>  AGE [<span class="fu">w</span>=PWT22]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">hist</span> AGE [<span class="fu">w</span>=PWT22], <span class="kw">d</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+         AGE |  51,612    66952258    40.38739   23.59585          0         99
+(frequency weights assumed)
+(start=0, width=1)</code></pre>
+<div id="6cd5106c" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span>  AGE</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">hist</span> AGE, <span class="kw">d</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+         AGE |     53,287    44.64676    23.29989          0         99
+(start=0, width=1)</code></pre>
+<div id="fig-lfs-age" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lfs-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="agehist.png" class="img-fluid figure-img" alt="Histogram of age using survey weights."></p>
+<figcaption>Weighted age distribution</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="agehistNoWt.png" class="img-fluid figure-img" alt="Histogram of age without survey weights."></p>
+<figcaption>Unweighted age distribution</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lfs-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Age distributions with and without survey weights.
+</figcaption>
+</figure>
+</div>
+<p>By examining the historams in <a href="#fig-lfs-age" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>, we can observe that older individuals are over-represented in surveys, and failing to weight will result in the analysis of a population which is quite different to the UK population in general (panel (b) instead of panel (a)). We can also see that when we weight, the “Weight” column returns to us a value of 66,952,258, which is the quantity of individuals the survey represents: essentially the population of the UK in 2023.</p>
+<p>In the first code block above we have been somewhat laissez-faire about the way we have written weights. In particular, we have written <code>[w=PWT22]</code>. Stata has a number of weighting schemes (frequency weights, analytic weights, and probability weights) which we should use in different settings. In the case of means, these weighting commands provide identical results given that they each weight each observation by the weight provided in PWT22. For this reason, if we are simply interested in a weighted mean, we can simplify things and simply indicate [w]. However, in the case of probabilistic sampling, we <em>should</em> use probability weights. Indeed, below when we are estimating regression models we will see that using the wrong type of weighting could lead to <strong>huge mistakes</strong> and so probability weighting will be key. However, in the case of summary statistics via the <code>sum</code> command, standard probability weights are not supported for the reasons discussed <a href="https://www.stata.com/support/faqs/statistics/weights-and-summary-statistics/">here</a>. We will return to explore the importance of weighting; and highlight why we <strong>always must use probability weights when working with a survey based on probabilistic sampling</strong> below when exploring regression models.</p>
+</section>
+<section id="exporting-models" class="level2">
+<h2 class="anchored" data-anchor-id="exporting-models">Exporting Models</h2>
+<p>Generally, when we are conducting analysis we will want to present output in our papers. Ideally, this should be done in a way which is completely manual, and avoids any use of copy and paste, or formatting by hand. This is the case for at least two reasons:</p>
+<ol type="1">
+<li>Manually incorporating results is prone to error</li>
+<li>If some prior process is changed, we do not wish to have to make changes by hand</li>
+</ol>
+<p>For this reason, we will see a tool which allows us to automate the exportation of summary statistic and regression results. There are many such tools in Stata and in other languages, and we will see one example here as an illustration of the types of procedures which should be followed. Specifically, we will explore the <a href="https://repec.sowi.unibe.ch/stata/estout/">estout</a> commands written by Ben Jann. There are also many ways which one could build a work flow, but again, here we will focus on one which is particularly flexible: which is to typeset documents with LaTeX. Please note that the below procedures could be implemented in a largely identical way to export tables in excel format, and include them into word documents.</p>
+<p>LaTeX is a type-setting system in which documents are written first in a markup language, and then compiled to generate a pdf. Details of LaTeX can be found in a number of places, including:</p>
+<ul>
+<li>The LaTeX website: https://www.latex-project.org/</li>
+<li>A LaTeX wikibook: https://en.wikibooks.org/wiki/LaTeX</li>
+</ul>
+<p>To compile LaTeX, we need to install a LaTeX compiler on our computers, or otherwise have access to a compiler. There are also many ways that this could be done, but two potential options are:</p>
+<ul>
+<li>Install a compiler locally on your machine, such as <a href="https://miktex.org/">MiKTeX</a></li>
+<li>Use an online compiler, such as <a href="https://www.overleaf.com/">overleaf</a></li>
+</ul>
+<p>We will spend some time discussing this in class, but to see how we can use LaTeX and estout to automate regression tables, note that a minimum LaTeX document can be written as below. The first part of this code (up to “maketitle”) defines the format of the document, and then below we define a table, simply consisting of 6 columns containing column numbers.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">\documentclass</span>[11pt]{<span class="ex">article</span>}</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>[margin=1in]{<span class="ex">geometry</span>}</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">booktabs</span>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">\title</span>{My Title}</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">\author</span>{My Name}</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">\date</span>{<span class="fu">\today</span>}</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">document</span>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">\maketitle</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[ht]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>{My Regression Output}</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\begin</span>{<span class="ex">tabular</span>}{lcccccc}</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\toprule</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (1) <span class="op">&amp;</span> (2) <span class="op">&amp;</span> (3) <span class="op">&amp;</span> (4) <span class="op">&amp;</span> (5) <span class="op">&amp;</span> (6) <span class="fu">\\</span> <span class="fu">\midrule</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\end</span>{<span class="ex">tabular</span>}</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">document</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="latex.png" class="img-fluid figure-img"></p>
+<figcaption>A very simple LaTeX document</figcaption>
+</figure>
+</div>
+</section>
+<section id="examples" class="level2">
+<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<p>To see how we can incorporate data analysis directly into our work flow, consider the generation of some simple summary statistics from the UK LFS data. We will first open the data below and generate a number of binary measures for educational levels. We will then summarise these variables, along with respondent’s ages and gross weekly salary. Finally, we will use the <code>estout</code> group of commands to build a summary table.</p>
+<section id="summary-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="summary-statistics">Summary Statistics</h3>
+<div id="fb0ddd23" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> lfsp_aj23_eul_pwt22, <span class="kw">clear</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> higherDegree = HIQUAL22==1</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> firstDegree  = HIQUAL22==8</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> ALevel       = HIQUAL22==35</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> OLevel       = HIQUAL22==53</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> AGE higherD firstD ALevel OLevel GRSSWK [<span class="fu">w</span>=PWT22] <span class="kw">if</span> AGE&gt;=18&amp;AGE&lt;=64</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>estpost <span class="kw">summarize</span> AGE higherD firstD ALevel OLevel GRSSWK [<span class="fu">w</span>=PWT22] <span class="co">///</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>   <span class="kw">if</span> AGE&gt;=18&amp;AGE&lt;=64, listwise</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>esttab, cells(<span class="st">"count mean sd min max"</span>) nomtitle nonumber <span class="kw">noobs</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> ALevel       <span class="st">"A Levels Completed"</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> OLevel       <span class="st">"O Levels Completed"</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> higherDegree <span class="st">"Completed a Higher Degree"</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> firstDegree  <span class="st">"Completed a Degree"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> GRSSWK       <span class="st">"Gross Weekly Pay"</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> AGE          <span class="st">"Respondent's Age"</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>esttab <span class="kw">using</span> sumStats.tex, <span class="kw">replace</span> cells(<span class="st">"count mean sd min max"</span>) <span class="co">///</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  nomtitle nonumber <span class="kw">noobs</span> <span class="kw">label</span> fragment plain collabels(<span class="st">""</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<style>div.jp-Notebook .datagrid-container {min-height: 448px; }</style>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Variable |     Obs      Weight        Mean   Std. dev.       Min        Max
+-------------+-----------------------------------------------------------------
+         AGE |  29,913    40156493    41.23436   13.33035         18         64
+higherDegree |  29,913    40156493    .1418944   .3489476          0          1
+ firstDegree |  29,913    40156493    .2348255   .4238968          0          1
+      ALevel |  29,913    40156493    .0827169   .2754584          0          1
+      OLevel |  29,913    40156493     .138363   .3452863          0          1
+-------------+-----------------------------------------------------------------
+      GRSSWK |  29,913    40156493    136.2767   466.9111         -9      64000
+(analytic weights assumed)
+
+             |  e(count)   e(sum_w)    e(mean)     e(Var)      e(sd) 
+-------------+-------------------------------------------------------
+         AGE |     29913   4.02e+07   41.23436   177.6982   13.33035 
+higherDegree |     29913   4.02e+07   .1418944   .1217644   .3489476 
+ firstDegree |     29913   4.02e+07   .2348255   .1796885   .4238968 
+      ALevel |     29913   4.02e+07   .0827169   .0758773   .2754584 
+      OLevel |     29913   4.02e+07    .138363   .1192226   .3452863 
+      GRSSWK |     29913   4.02e+07   136.2767   218005.9   466.9111 
+
+             |    e(min)     e(max)     e(sum) 
+-------------+---------------------------------
+         AGE |        18         64   1.66e+09 
+higherDegree |         0          1    5697980 
+ firstDegree |         0          1    9429769 
+      ALevel |         0          1    3321619 
+      OLevel |         0          1    5556171 
+      GRSSWK |        -9      64000   5.47e+09 
+
+-----------------------------------------------------------------------------
+                    count         mean           sd          min          max
+-----------------------------------------------------------------------------
+AGE                 29913     41.23436     13.33035           18           64
+higherDegree        29913     .1418944     .3489476            0            1
+firstDegree         29913     .2348255     .4238968            0            1
+ALevel              29913     .0827169     .2754584            0            1
+OLevel              29913      .138363     .3452863            0            1
+GRSSWK              29913     136.2767     466.9111           -9        64000
+-----------------------------------------------------------------------------
+(output written to sumStats.tex)</code></pre>
+</div>
+</div>
+<p>Above we can see generated summary statistics table as Stata output, but it has also been written as a LaTeX table in the document sumStats.tex. Here, this has been done simply as a “fragment” allowing us to incorporate it directly into a table outline that we build in LaTeX. This is done below, where you may note that we are calling the output from Stata by using LaTeX’s “input” command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">\documentclass</span>[11pt]{<span class="ex">article</span>}</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>[margin=1in]{<span class="ex">geometry</span>}</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">booktabs</span>}</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">fontspec</span>}</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">\setmainfont</span>{Times New Roman}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">\title</span>{My Title}</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">\author</span>{My Name}</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">\date</span>{<span class="fu">\today</span>}</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">document</span>}</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">\maketitle</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[ht]</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>{My Regression Output}</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\begin</span>{<span class="ex">tabular</span>}{lccccc}</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\toprule</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> Obs.<span class="op">&amp;</span> Mean <span class="op">&amp;</span> Std.<span class="fu">\ </span>Dev. <span class="op">&amp;</span> Min. <span class="op">&amp;</span> Max <span class="fu">\\</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\midrule</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\input</span>{./sumStats} <span class="fu">\\</span> <span class="fu">\bottomrule</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\end</span>{<span class="ex">tabular</span>}</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">document</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="latex2.png" class="img-fluid figure-img"></p>
+<figcaption>LaTeX Document with Summary Statistics</figcaption>
+</figure>
+</div>
+<p>This looks reasonable, though if we wish we can further optimise the table, for example by adding formatted table notes (which we do in LaTeX), and a more appropriate use of decimals and numerical formatting, which we do within <code>esttab</code>. We will discuss the nature of these commands at more length in class. The nice thing with this setup is that now if we wish to make changes to the data, or include further variables, this can be done entirely from within our Stata code, and then we will simply need to re-compile the LaTeX file, as “sumStats2.tex” will be updated everytime we re-run our Stata code, and LaTeX will simply compile with whatever version our code produces.</p>
+<div id="0c12cd72" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> AGE          <span class="st">"Respondent's Age"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>esttab <span class="kw">using</span> sumStats2.tex, <span class="kw">replace</span> <span class="co">///</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  cells(<span class="st">"count(fmt(%9.0gc)) mean(fmt(%03.2f)) sd(fmt(%03.2f)) min max"</span>) <span class="co">///</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(output written to sumStats2.tex)</code></pre>
+</div>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">\documentclass</span>[11pt]{<span class="ex">article</span>}</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>[margin=1in]{<span class="ex">geometry</span>}</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">booktabs</span>}</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">fontspec</span>}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">\setmainfont</span>{Times New Roman}</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">\title</span>{My Title}</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">\author</span>{My Name}</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">\date</span>{<span class="fu">\today</span>}</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">document</span>}</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">\maketitle</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[ht]</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>{My Regression Output}</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\begin</span>{<span class="ex">tabular</span>}{lccccc}</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\toprule</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> Obs.<span class="op">&amp;</span> Mean <span class="op">&amp;</span> Std.<span class="fu">\ </span>Dev. <span class="op">&amp;</span> Min. <span class="op">&amp;</span> Max <span class="fu">\\</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\midrule</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\input</span>{./sumStats} <span class="fu">\\</span> <span class="fu">\bottomrule</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\multicolumn</span>{6}{p{12cm}}{<span class="fu">\footnotesize</span> <span class="fu">\textbf</span>{Notes:} Sample consists of all 18--64</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    year-olds survered in the July-September Quarterly UK Labour Force Survey. Gross</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    weekly pay is measured in pounds.  Educational levels are mutually exclusive, but do</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    not cover all possible educational levels.}</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">tabular</span>}</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">document</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="latex2.png" class="img-fluid figure-img"></p>
+<figcaption>LaTeX Document with Summary Statistics, version 2</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Alternative Implementations
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Search online and explore the help files of esttab or related estout (or other) modules. How can you replicate the table above, but entirely within estout, or other modules?</p>
+</div>
+</div>
+</section>
+<section id="linear-regression-models" class="level3">
+<h3 class="anchored" data-anchor-id="linear-regression-models">Linear regression models</h3>
+<p>It is relatively straightforward to use <code>estout</code> (or similar procedures) to report regression results and related statistics. To see this, we will estimate a simplar regression consider how reported gross weekly wage (<code>GRSSWK</code>) relates to a number of qualifications, as well as a quadratic term in age. The quadractic term will allow us to capture decreasing returns to age which are generally present in labour market trajectories, where wages grow with experience, but this growth slows over time. Below we open the UK LFS data, and generate a number of binary variables capturing whether an individuals highest qualification is a higher degree, a first degree, A levels, or O levels. In practice, we would wish to generate an exhaustive list of qualifications such that it was clear that the omitted category was a relatively homogeneous group, but this example will suffice for our application here.</p>
+<div id="56af780a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> lfsp_aj23_eul_pwt22, <span class="kw">clear</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> higherDegree = HIQUAL22==1</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> firstDegree  = HIQUAL22==8</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> ALevel       = HIQUAL22==35</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> OLevel       = HIQUAL22==53</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> AGEsq = AGE^2</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> ALevel       <span class="st">"A Levels Completed"</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> OLevel       <span class="st">"O Levels Completed"</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> higherDegree <span class="st">"Completed a Higher Degree"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> firstDegree  <span class="st">"Completed a Degree"</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> GRSSWK       <span class="st">"Gross Weekly Pay"</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> AGE          <span class="st">"Respondent's Age"</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>lab <span class="kw">var</span> AGEsq        <span class="st">"Respondent's Age Squared"</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> GRSSWK AGE AGEsq higherD firstD ALevel OLevel [pw=PWT22] <span class="kw">if</span> GRSSWK&gt;0, <span class="kw">robust</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(sum of wgt is 8,314,366)
+
+Linear regression                               Number of obs     =      6,178
+                                                F(6, 6171)        =     119.65
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.0705
+                                                Root MSE          =     779.68
+
+------------------------------------------------------------------------------
+             |               Robust
+      GRSSWK | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   53.73591   3.452162    15.57   0.000     46.96847    60.50335
+       AGEsq |  -.5608337   .0401278   -13.98   0.000    -.6394982   -.4821692
+higherDegree |    383.781   40.02245     9.59   0.000     305.3231     462.239
+ firstDegree |   289.4239   24.89375    11.63   0.000     240.6235    338.2244
+      ALevel |   108.7399   24.77144     4.39   0.000     60.17924    157.3005
+      OLevel |  -6.640538   21.49649    -0.31   0.757    -48.78116    35.50008
+       _cons |  -608.5883    67.1384    -9.06   0.000     -740.203   -476.9737
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>After generating the relevant variables, in the final line we estimate a linear regression model weighting by <code>PWT22</code> and conditioning on individuals who participated in the labour market in the prior week. Standard errors are robust to heteroscedasticity in line with standard patterns where wage distributions are more dispersed at higher wages and higher educational levels. Note in this case that had we used frequency weights, standard errors would have (incorrectly) been at least an order of magnitude smaller given that the sample would be considered to be N=8,314,366 instead of N=6,178.</p>
+<p>If we wish to export regression results using the <code>estout</code> functions, we simply pre-pend <code>eststo</code> before our regression command, which results in estimation results being stored as <code>est1</code>, <code>est2</code> and so forth (in the order which regressions are estimated), and then further processing can be used to report regression estimates. For example, below we simply report the default table on screen using <code>esttab</code>:</p>
+<div id="765afd47" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>eststo: <span class="kw">reg</span> GRSSWK AGE AGEsq                              [pw=PWT22] <span class="kw">if</span> GRSSWK&gt;0, <span class="kw">robust</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>eststo: <span class="kw">reg</span> GRSSWK AGE AGEsq higherD firstD ALevel OLevel [pw=PWT22] <span class="kw">if</span> GRSSWK&gt;0, <span class="kw">robust</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>esttab est1 est2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(sum of wgt is 8,314,366)
+
+Linear regression                               Number of obs     =      6,178
+                                                F(2, 6175)        =     178.44
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.0326
+                                                Root MSE          =     795.18
+
+------------------------------------------------------------------------------
+             |               Robust
+      GRSSWK | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   64.26921   3.439623    18.68   0.000     57.52636    71.01207
+       AGEsq |  -.7021534   .0397316   -17.67   0.000    -.7800412   -.6242657
+       _cons |  -624.7521   68.92666    -9.06   0.000    -759.8724   -489.6319
+------------------------------------------------------------------------------
+(est1 stored)
+(sum of wgt is 8,314,366)
+
+Linear regression                               Number of obs     =      6,178
+                                                F(6, 6171)        =     119.65
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.0705
+                                                Root MSE          =     779.68
+
+------------------------------------------------------------------------------
+             |               Robust
+      GRSSWK | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   53.73591   3.452162    15.57   0.000     46.96847    60.50335
+       AGEsq |  -.5608337   .0401278   -13.98   0.000    -.6394982   -.4821692
+higherDegree |    383.781   40.02245     9.59   0.000     305.3231     462.239
+ firstDegree |   289.4239   24.89375    11.63   0.000     240.6235    338.2244
+      ALevel |   108.7399   24.77144     4.39   0.000     60.17924    157.3005
+      OLevel |  -6.640538   21.49649    -0.31   0.757    -48.78116    35.50008
+       _cons |  -608.5883    67.1384    -9.06   0.000     -740.203   -476.9737
+------------------------------------------------------------------------------
+(est2 stored)
+
+--------------------------------------------
+                      (1)             (2)   
+                   GRSSWK          GRSSWK   
+--------------------------------------------
+AGE                 64.27***        53.74***
+                  (18.68)         (15.57)   
+
+AGEsq              -0.702***       -0.561***
+                 (-17.67)        (-13.98)   
+
+higherDegree                        383.8***
+                                   (9.59)   
+
+firstDegree                         289.4***
+                                  (11.63)   
+
+ALevel                              108.7***
+                                   (4.39)   
+
+OLevel                             -6.641   
+                                  (-0.31)   
+
+_cons              -624.8***       -608.6***
+                  (-9.06)         (-9.06)   
+--------------------------------------------
+N                    6178            6178   
+--------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+</div>
+</div>
+<p>However, further processing can occur and more highly specialised output tables can be produced, for example tables including specific types of summary statistics, alternative cells, and so forth. Many further types of additional edits can be made as documented at length in the help file and online resources. Below we can see a simple extension addomg labels, editing the types of statistics reported and their format, and reporting standard errors instead of t-statistics. In the following section we will consider a more extensive table: and see how we can incorporate this into LaTeX, combining both linear and non-linear models.</p>
+<div id="0d28c309" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>esttab est1 est2, <span class="kw">label</span> se <span class="co">///</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">stats</span>(<span class="kw">N</span> r2, labels(<span class="st">"Observations"</span> <span class="st">"R-squared"</span>) fmt(%12.0gc %03.2f)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+----------------------------------------------------
+                              (1)             (2)   
+                     Gross Week~y    Gross Week~y   
+----------------------------------------------------
+Respondent's Age            64.27***        53.74***
+                          (3.440)         (3.452)   
+
+Respondent's Age S~d       -0.702***       -0.561***
+                         (0.0397)        (0.0401)   
+
+Completed a Higher~e                        383.8***
+                                          (40.02)   
+
+Completed a Degree                          289.4***
+                                          (24.89)   
+
+A Levels Completed                          108.7***
+                                          (24.77)   
+
+O Levels Completed                         -6.641   
+                                          (21.50)   
+
+Constant                   -624.8***       -608.6***
+                          (68.93)         (67.14)   
+----------------------------------------------------
+Observations                6,178           6,178   
+R-squared                    0.03            0.07   
+----------------------------------------------------
+Standard errors in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+</div>
+</div>
+</section>
+<section id="non-linear-regression-models" class="level3">
+<h3 class="anchored" data-anchor-id="non-linear-regression-models">Non-linear regression models</h3>
+<p>Procedures to export coefficients do not vary – at least in terms of principal syntax, with alternative regression models. However note that estimation procedures may vary depending on models required. Consider, for example, the case of non-linear regression models such as probit or logit. For example, imagine if we wish to estimate similar models to those above, however now modelling the probability an individual works, which we will define as <span class="math inline">\(Works_i=1\)</span>. A probit model assumes a functional form of the following type:</p>
+<p><span class="math display">\[
+\Pr(Works_i=1) = \Phi\left(\beta_0+\beta_1Educ_i + \beta_2Age_i+\beta_3Age_i^2\right)
+\]</span></p>
+<p>Here, <span class="math inline">\(\Phi(\cdot)\)</span> is the normal cumulative density function. In this case, and unlike the case with the standard linear regression model, given that the functional form is not linear in parameters, estimated marginal effects depend on the values of the independent variables at which they are evaluated. For example, if we wish to consider the marginal effect of a change in <span class="math inline">\(Educ_i\)</span>, this is written as:</p>
+<p><span class="math display">\[
+\frac{\partial \Pr(Works_i=1)}{\partial Educ_i} = \beta_1\cdot\phi(\beta_0+\beta_1Educ_i + \beta_2Age_i+\beta_3Age_i^2)
+\]</span></p>
+<p>where it is clear that this marginal effect will depend on the value of <span class="math inline">\(Educ_i\)</span> (as well as <span class="math inline">\(Age_i\)</span>) at which it is evaluated. What’s more, consider the marginal effects on the variable <span class="math inline">\(Age_i\)</span>, which itself is expressed as a quadratic term. Now the marginal effect is written as follows:</p>
+<p><span class="math display">\[
+\frac{\partial \Pr(Works_i=1)}{\partial Age_i} = (\beta_2+2\beta_3Age_i)\cdot\phi(\beta_0+\beta_1Educ_i + \beta_2Age_i+\beta_3Age_i^2)
+\]</span></p>
+<p>Fortunately, the reporting of marginal effects from regression models is <em>relatively</em> straightforward using <code>Stata</code>’s <code>margins</code> command. In this case, we simply must indicate at which particular values margins should be reported. Commonly, marginal effects are reported at the means (which consists of inserting sample means in the marginal effects calculations previously), or average marginal effects are reported, which consists of evaluating the marginal effect for each unit at its particular values of the dependent variables, and then averaging over the sample. We can see how this can requested below:</p>
+<div id="6bdaffe5" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> works = WRKING==1 <span class="kw">if</span> WRKING!=-9</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">probit</span> works AGE AGEsq higherD firstD ALevel OLevel [pw=PWT22] <span class="kw">if</span> AGE&gt;=18&amp;AGE&lt;=64</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>margins , <span class="kw">dydx</span>(*) atmeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(9,262 missing values generated)
+
+Iteration 0:  Log pseudolikelihood =  -23541159  
+Iteration 1:  Log pseudolikelihood =  -22057446  
+Iteration 2:  Log pseudolikelihood =  -22052566  
+Iteration 3:  Log pseudolikelihood =  -22052566  
+
+Probit regression                                      Number of obs =  29,824
+                                                       Wald chi2(6)  = 1464.99
+                                                       Prob &gt; chi2   =  0.0000
+Log pseudolikelihood = -22052566                       Pseudo R2     =  0.0632
+
+------------------------------------------------------------------------------
+             |               Robust
+       works | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   .1488948   .0052405    28.41   0.000     .1386236     .159166
+       AGEsq |  -.0018368   .0000612   -30.03   0.000    -.0019567    -.001717
+higherDegree |   .3391908   .0328549    10.32   0.000     .2747964    .4035852
+ firstDegree |   .3331613   .0280152    11.89   0.000     .2782525      .38807
+      ALevel |   .0146185   .0370836     0.39   0.693     -.058064     .087301
+      OLevel |  -.0270734   .0295603    -0.92   0.360    -.0850106    .0308637
+       _cons |  -2.179278   .1039104   -20.97   0.000    -2.382939   -1.975617
+------------------------------------------------------------------------------
+
+Conditional marginal effects                            Number of obs = 29,824
+Model VCE: Robust
+
+Expression: Pr(works), predict()
+dy/dx wrt:  AGE AGEsq higherDegree firstDegree ALevel OLevel
+At: AGE          = 41.25188 (mean)
+    AGEsq        = 1879.201 (mean)
+    higherDegree = .1421379 (mean)
+    firstDegree  = .2351449 (mean)
+    ALevel       = .0829041 (mean)
+    OLevel       = .1380267 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   .0485503   .0017105    28.38   0.000     .0451977    .0519029
+       AGEsq |  -.0005989   .0000198   -30.20   0.000    -.0006378   -.0005601
+higherDegree |   .1106004    .010692    10.34   0.000     .0896444    .1315564
+ firstDegree |   .1086343   .0090989    11.94   0.000     .0908008    .1264679
+      ALevel |   .0047667   .0120931     0.39   0.693    -.0189353    .0284686
+      OLevel |  -.0088279   .0096389    -0.92   0.360    -.0277198    .0100641
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>Here we have followed the same procedures as in the linear regression model, and requested marginal effects at the means based on the margins command. <em>However</em>, there is a problem here! In this case, Stata has no way to know that the variable <code>AGEsq</code> is related to <code>AGE</code>. Indeed, if we examine the output of margins, we see that the mean of AGE is reported as 41.25188, which would imply that the corresponding value of mean squared should be <span class="math inline">\(41.25188^2=1701.718\)</span>. For this reason, we need to be careful when requesting marginal effects when variables themselves enter non-linearly in our specification. This can be resolved easily as below, where this time we use <em>the same varible</em>, and Stata’s inbuilt interaction command to estimate our probit:</p>
+<div id="1e06485c" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">probit</span> works AGE c.AGE#c.AGE higherD firstD ALevel OLevel [pw=PWT22] <span class="kw">if</span> AGE&gt;=18&amp;AGE&lt;=64</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>margins , <span class="kw">dydx</span>(*) atmeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Iteration 0:  Log pseudolikelihood =  -23541159  
+Iteration 1:  Log pseudolikelihood =  -22057446  
+Iteration 2:  Log pseudolikelihood =  -22052566  
+Iteration 3:  Log pseudolikelihood =  -22052566  
+
+Probit regression                                      Number of obs =  29,824
+                                                       Wald chi2(6)  = 1464.99
+                                                       Prob &gt; chi2   =  0.0000
+Log pseudolikelihood = -22052566                       Pseudo R2     =  0.0632
+
+------------------------------------------------------------------------------
+             |               Robust
+       works | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   .1488948   .0052405    28.41   0.000     .1386236     .159166
+             |
+ c.AGE#c.AGE |  -.0018368   .0000612   -30.03   0.000    -.0019567    -.001717
+             |
+higherDegree |   .3391908   .0328549    10.32   0.000     .2747964    .4035852
+ firstDegree |   .3331613   .0280152    11.89   0.000     .2782525      .38807
+      ALevel |   .0146185   .0370836     0.39   0.693     -.058064     .087301
+      OLevel |  -.0270734   .0295603    -0.92   0.360    -.0850106    .0308637
+       _cons |  -2.179278   .1039104   -20.97   0.000    -2.382939   -1.975617
+------------------------------------------------------------------------------
+
+Conditional marginal effects                            Number of obs = 29,824
+Model VCE: Robust
+
+Expression: Pr(works), predict()
+dy/dx wrt:  AGE higherDegree firstDegree ALevel OLevel
+At: AGE          = 41.25188 (mean)
+    higherDegree = .1421379 (mean)
+    firstDegree  = .2351449 (mean)
+    ALevel       = .0829041 (mean)
+    OLevel       = .1380267 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |  -.0006666   .0001808    -3.69   0.000     -.001021   -.0003122
+higherDegree |   .0852614   .0083984    10.15   0.000      .068801    .1017219
+ firstDegree |   .0837458   .0071711    11.68   0.000     .0696908    .0978008
+      ALevel |   .0036746   .0093199     0.39   0.693     -.014592    .0219413
+      OLevel |  -.0068054   .0074363    -0.92   0.360    -.0213803    .0077696
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>We now see that margins (correctly) returns us a single marginal effect for the variable <code>AGE</code>, and this has implications for marginal effects on other variables too. Once we have properly accounted for the use of the margins command, we can finally bring this all together. Let’s imagine that along with the estimates we previously generated for the linear regression model varying controls we wished to present similar marginal effects at the mean for probit models examining the likelihood that an individual works: effectively examining extensive and intensive margin returns to characteristics on the labour market. Let’s add these models to our stored estimates below, and export a table containing <em>just</em> coefficients, standard errors, and some basic statistics:</p>
+<div id="47b67b0b" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> eststo: <span class="kw">reg</span> GRSSWK AGE c.AGE#c.AGE                              [pw=PWT22] <span class="kw">if</span> GRSSWK&gt;0, <span class="kw">robust</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> eststo: <span class="kw">reg</span> GRSSWK AGE c.AGE#c.AGE higherD firstD ALevel OLevel [pw=PWT22] <span class="kw">if</span> GRSSWK&gt;0, <span class="kw">robust</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">probit</span> works AGE c.AGE#c.AGE                             [pw=PWT22] <span class="kw">if</span> AGE&gt;=18&amp;AGE&lt;=64</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>eststo: margins , <span class="kw">dydx</span>(*) atmeans</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="kw">probit</span> works AGE c.AGE#c.AGE higherD firstD ALevel OLeve [pw=PWT22] <span class="kw">if</span> AGE&gt;=18&amp;AGE&lt;=64</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>eststo: margins , <span class="kw">dydx</span>(*) atmeans</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>esttab est1 est2 est3 est4 <span class="kw">using</span> labourMarketCorrelates.tex, <span class="kw">replace</span> <span class="co">///</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">label</span> se <span class="kw">stats</span>(<span class="kw">N</span>, labels(<span class="st">"</span><span class="ch">\\</span><span class="st"> Observations"</span>) fmt(%12.0gc)) fragment <span class="co">///</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  nomtitles nonumbers booktabs eqlabels(<span class="st">" "</span>) nolines nogaps</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">clear</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Iteration 0:  Log pseudolikelihood =  -23541159  
+Iteration 1:  Log pseudolikelihood =  -22315860  
+Iteration 2:  Log pseudolikelihood =  -22314249  
+Iteration 3:  Log pseudolikelihood =  -22314249  
+
+Probit regression                                      Number of obs =  29,824
+                                                       Wald chi2(2)  = 1288.17
+                                                       Prob &gt; chi2   =  0.0000
+Log pseudolikelihood = -22314249                       Pseudo R2     =  0.0521
+
+------------------------------------------------------------------------------
+             |               Robust
+       works | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   .1651731   .0051269    32.22   0.000     .1551245    .1752217
+             |
+ c.AGE#c.AGE |  -.0020401   .0000599   -34.05   0.000    -.0021575   -.0019227
+             |
+       _cons |  -2.354015   .1008697   -23.34   0.000    -2.551716   -2.156314
+------------------------------------------------------------------------------
+
+Conditional marginal effects                            Number of obs = 29,824
+Model VCE: Robust
+
+Expression: Pr(works), predict()
+dy/dx wrt:  AGE
+At: AGE = 41.25188 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   -.000769   .0001725    -4.46   0.000    -.0011071   -.0004308
+------------------------------------------------------------------------------
+(est5 stored)
+
+Iteration 0:  Log pseudolikelihood =  -23541159  
+Iteration 1:  Log pseudolikelihood =  -22057446  
+Iteration 2:  Log pseudolikelihood =  -22052566  
+Iteration 3:  Log pseudolikelihood =  -22052566  
+
+Probit regression                                      Number of obs =  29,824
+                                                       Wald chi2(6)  = 1464.99
+                                                       Prob &gt; chi2   =  0.0000
+Log pseudolikelihood = -22052566                       Pseudo R2     =  0.0632
+
+------------------------------------------------------------------------------
+             |               Robust
+       works | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |   .1488948   .0052405    28.41   0.000     .1386236     .159166
+             |
+ c.AGE#c.AGE |  -.0018368   .0000612   -30.03   0.000    -.0019567    -.001717
+             |
+higherDegree |   .3391908   .0328549    10.32   0.000     .2747964    .4035852
+ firstDegree |   .3331613   .0280152    11.89   0.000     .2782525      .38807
+      ALevel |   .0146185   .0370836     0.39   0.693     -.058064     .087301
+      OLevel |  -.0270734   .0295603    -0.92   0.360    -.0850106    .0308637
+       _cons |  -2.179278   .1039104   -20.97   0.000    -2.382939   -1.975617
+------------------------------------------------------------------------------
+
+Conditional marginal effects                            Number of obs = 29,824
+Model VCE: Robust
+
+Expression: Pr(works), predict()
+dy/dx wrt:  AGE higherDegree firstDegree ALevel OLevel
+At: AGE          = 41.25188 (mean)
+    higherDegree = .1421379 (mean)
+    firstDegree  = .2351449 (mean)
+    ALevel       = .0829041 (mean)
+    OLevel       = .1380267 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         AGE |  -.0006666   .0001808    -3.69   0.000     -.001021   -.0003122
+higherDegree |   .0852614   .0083984    10.15   0.000      .068801    .1017219
+ firstDegree |   .0837458   .0071711    11.68   0.000     .0696908    .0978008
+      ALevel |   .0036746   .0093199     0.39   0.693     -.014592    .0219413
+      OLevel |  -.0068054   .0074363    -0.92   0.360    -.0213803    .0077696
+------------------------------------------------------------------------------
+(est6 stored)
+(output written to labourMarketCorrelates.tex)</code></pre>
+</div>
+</div>
+<p>We will talk through this syntax more in class, but if we examine that output, we will find that we have essentially just exported the “innards” of a table, and so can build the “structure” of the table that we would like in LaTeX. If we want, we <em>could</em> do this entirely in <code>esttab</code> (this is left as an exercise), but below we can see how it could finally be brought together in a simple LaTeX document:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">\documentclass</span>[11pt]{<span class="ex">article</span>}</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>[margin=1in]{<span class="ex">geometry</span>}</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">booktabs</span>}</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">fontspec</span>}</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">\setmainfont</span>{Times New Roman}</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">\title</span>{My Title}</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">\author</span>{My Name}</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">\date</span>{<span class="fu">\today</span>}</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">document</span>}</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="fu">\maketitle</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[ht]</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>{My Regression Output}</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\begin</span>{<span class="ex">tabular</span>}{lcccc}</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\toprule</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> <span class="fu">\multicolumn</span>{2}{c}{Linear Model} <span class="op">&amp;</span> <span class="fu">\multicolumn</span>{2}{c}{Non-linear Models}  <span class="fu">\midrule</span>(r){2-3}<span class="fu">\midrule</span>(r){4-5} <span class="fu">\\</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> Wage <span class="op">&amp;</span> Wage <span class="op">&amp;</span> Works <span class="op">&amp;</span> Works <span class="fu">\\</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (1)  <span class="op">&amp;</span> (2)  <span class="op">&amp;</span> (3) <span class="op">&amp;</span> (4) <span class="fu">\\</span> <span class="fu">\midrule</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\input</span>{labourMarketCorrelates.tex}</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\\</span> <span class="fu">\bottomrule</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\multicolumn</span>{5}{p{15.6cm}}{<span class="fu">\footnotesize</span> <span class="fu">\textbf</span>{Notes:} Each column presents marginal</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    effects from regressions of weekly wages (columns 1-2) or having worked (columns 3-4)</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    on individual characteristics.  Sample consists of all 18--64 year-olds survered in the</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    July-September Quarterly UK Labour Force Survey. Gross weekly pay is measured in pounds.</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>    Educational levels are mutually exclusive, but do not cover all possible educational levels.</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>    Non-linear models are estimated using a probit, with marginal effects reported at the mean.</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    <span class="ss">$^{***}$</span>: p&lt;0.001; <span class="ss">$^{**}$</span>: p&lt;0.01; <span class="ss">$^{*}$</span>: p&lt;0.05.}      </span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">tabular</span>}</span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">document</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Compilation gives a reasonable-looking document with regression output (refer to image below). This could be further refined in a number of ways if desired.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="myRegs.png" class="img-fluid figure-img"></p>
+<figcaption>LaTeX Document with Regression Output</figcaption>
+</figure>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./4_visualisation.html" class="pagination-link" aria-label="Data Visualisation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Data Visualisation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./6_simulations.html" class="pagination-link" aria-label="Simulations as Part of Research Workflow">
+        <span class="nav-page-text"><span class="chapter-title">Simulations as Part of Research Workflow</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

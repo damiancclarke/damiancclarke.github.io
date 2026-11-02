@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 5 – Applied Microeconometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-808c031e01507d627300357d88007fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Applied Microeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./about.html">
+ <span class="dropdown-text">About this book</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data.html">
+ <span class="dropdown-text">Downloading the Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-python" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Python</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-python">    
+        <li>
+    <a class="dropdown-item" href="./Python.html">
+ <span class="dropdown-text">Following Along with Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionPython.html">
+ <span class="dropdown-text">An Introduction to Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2Python.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Python.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4Python.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5Python.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6Python.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7Python.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8Python.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Python.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">Following Along with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionR.html">
+ <span class="dropdown-text">An Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2R.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3R.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4R.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5R.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6R.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7R.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8R.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9R.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-stata" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Stata</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-stata">    
+        <li>
+    <a class="dropdown-item" href="./Stata.html">
+ <span class="dropdown-text">Following Along with Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./introStata.html">
+ <span class="dropdown-text">An Introduction to Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2Stata.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Stata.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4Stata.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5Stata.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6Stata.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7Stata.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8Stata.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Stata.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5R.html">Chapter 5</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Following Along with R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IntroductionR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">An Introduction to R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5R.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 9</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#code-call-out-5.1-treatment-assignment-with-imperfect-compliance" id="toc-code-call-out-5.1-treatment-assignment-with-imperfect-compliance" class="nav-link active" data-scroll-target="#code-call-out-5.1-treatment-assignment-with-imperfect-compliance">Code Call-out 5.1: Treatment Assignment with Imperfect Compliance</a>
+  <ul class="collapse">
+  <li><a href="#manually-estimating-2sls-right-estimates-wrong-standard-errors" id="toc-manually-estimating-2sls-right-estimates-wrong-standard-errors" class="nav-link" data-scroll-target="#manually-estimating-2sls-right-estimates-wrong-standard-errors">Manually Estimating 2SLS: Right Estimates, Wrong Standard Errors</a></li>
+  <li><a href="#sls-as-the-reduced-form-divided-by-the-first-stage-indirect-least-squares" id="toc-sls-as-the-reduced-form-divided-by-the-first-stage-indirect-least-squares" class="nav-link" data-scroll-target="#sls-as-the-reduced-form-divided-by-the-first-stage-indirect-least-squares">2SLS as the Reduced Form Divided by the First Stage: Indirect Least Squares</a></li>
+  <li><a href="#sls-iv-and-the-wald-estimator-equivalent-in-setting-with-a-binary-iv-and-no-covariates" id="toc-sls-iv-and-the-wald-estimator-equivalent-in-setting-with-a-binary-iv-and-no-covariates" class="nav-link" data-scroll-target="#sls-iv-and-the-wald-estimator-equivalent-in-setting-with-a-binary-iv-and-no-covariates">2SLS, IV and the Wald Estimator: Equivalent in Setting with a Binary IV and no Covariates</a></li>
+  </ul></li>
+  <li><a href="#code-call-out-5.2-characterising-compliers" id="toc-code-call-out-5.2-characterising-compliers" class="nav-link" data-scroll-target="#code-call-out-5.2-characterising-compliers">Code Call-out 5.2: Characterising Compliers</a>
+  <ul class="collapse">
+  <li><a href="#covariate-means" id="toc-covariate-means" class="nav-link" data-scroll-target="#covariate-means">Covariate Means</a></li>
+  <li><a href="#computing-abadies-kappa" id="toc-computing-abadies-kappa" class="nav-link" data-scroll-target="#computing-abadies-kappa">Computing Abadie’s Kappa</a></li>
+  <li><a href="#covariate-means-among-compliers" id="toc-covariate-means-among-compliers" class="nav-link" data-scroll-target="#covariate-means-among-compliers">Covariate Means among compliers</a></li>
+  </ul></li>
+  <li><a href="#code-call-out-5.3-average-causal-response-functions" id="toc-code-call-out-5.3-average-causal-response-functions" class="nav-link" data-scroll-target="#code-call-out-5.3-average-causal-response-functions">Code Call-out 5.3: Average Causal Response Functions</a></li>
+  <li><a href="#code-call-out-5.4-fully-saturating-a-model-with-controls" id="toc-code-call-out-5.4-fully-saturating-a-model-with-controls" class="nav-link" data-scroll-target="#code-call-out-5.4-fully-saturating-a-model-with-controls">Code Call-out 5.4: Fully Saturating a Model with Controls</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 5</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="code-call-out-5.1-treatment-assignment-with-imperfect-compliance" class="level1">
+<h1>Code Call-out 5.1: Treatment Assignment with Imperfect Compliance</h1>
+<p>In this code call-out we use data of <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>, which analyses the impact of public insurance coverage on a range of health outcomes and measures of well-being. <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span> analyze the Oregon Health Insurance Experiment, which randomly selected by lottery a group of households who could then submit the paperwork to be able to enroll in Medicaid, a public health insurance program which covers individuals’ medical expenses. Medicaid is offered to low income households, and in general individuals covered by Medicaid are different in a range of ways to individuals not covered by Medicaid. But because the Oregon Health Insurance Experiment randomly assigned individuals to a treatment group, which was invited to apply for Medicaid, and a control group, which was not invited to apply for Medicaid, this random assignment can be used as an instrument for Medicaid coverage.</p>
+<p>In this code call out we use data from <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span> to estimate the local average treatment effect of Medicaid on health outcomes. In particular, we focus on understanding the range of ways which we can mechanically arrive to this estimand, showing the equivalance between, 2SLS, the Wald estimator, and indirect least squares as laid out in Section 5.2.4 of the book. This should also make clear to us the relationship between the intention to treat effect, the 2SLS first stage and the LATE.</p>
+<p>In the file <code>Finkelstein_et_al_2012.csv</code> you can find a minimalist sample of the data used by <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span> in order to replicate some of the paper’s tables 3 and 5 results. This minimalist sample consists of respondents to a survey that was sent out by mail in seven waves between July and August 2009.</p>
+<p>In this example we will focus on a binary outcome <code>er_any_12m</code> which takes a value of 1 if individual has any ER visits in last six months and 0 otherwise. The endogenous treatment indicator variable <span class="math inline">\(D\)</span> is a binary variable <code>ohp_all_ever_survey</code> which takes 1 if the individual was ever on Medicaid during the study period and our instrument <span class="math inline">\(Z\)</span> is a binary variable <code>treatment</code> which takes 1 if the individual’s household was selected by the lottery. Below, we load these data, rename the outcome, endogenous variable and instrument as <code>Y</code>, <code>D</code> and <code>Z</code> respectively, and make one minor edit to convert our outcome variable to a numeric format. Note that here we are dropping a small number of individuals for whom we do not have information on the outcome of interest:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"data/Finkelstein_et_al_2012.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename variables</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">Y =</span> er_any_12m,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">D =</span> ohp_all_ever_survey,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">Z =</span> treatment) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will begin by estimating Intention to Treat Effect (ITT) of lottery receipt, to see that we can replicate the parameters reported by <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>. To estimate the ITT, we simply estimate: <span class="math display">\[Y_i = \beta_0 + \beta_1 Z_i + X^\prime_i\Gamma  + \varepsilon_i\]</span> Where <span class="math inline">\(X_i\)</span> is a vector of covariates which includes indicator variables for the number of individuals in the household listed on the lottery sign-up form, indicator variables for survey wave and the interaction between these two sets of indicator variables. As laid out in <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>, we will cluster standard errors at the household level</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>itt_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> data, <span class="at">weights =</span> weight_12m,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">formula =</span> Y <span class="sc">~</span> Z <span class="sc">+</span> ddddraw_sur_2 <span class="sc">+</span> ddddraw_sur_3 <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  ddddraw_sur_4 <span class="sc">+</span> ddddraw_sur_5 <span class="sc">+</span> ddddraw_sur_6 <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                  ddddraw_sur_7 <span class="sc">+</span> dddnumhh_li_2 <span class="sc">+</span> dddnumhh_li_3 <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                  ddddraXnum_2_2 <span class="sc">+</span> ddddraXnum_2_3 <span class="sc">+</span> ddddraXnum_3_2 <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                  ddddraXnum_3_3 <span class="sc">+</span> ddddraXnum_4_2 <span class="sc">+</span> ddddraXnum_5_2 <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                  ddddraXnum_6_2 <span class="sc">+</span> ddddraXnum_7_2) <span class="co"># 0.0064751</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(<span class="at">x =</span> itt_model, <span class="at">vcov. =</span> vcovCL, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">cluster =</span> <span class="sc">~</span> household_id)[<span class="st">'Z'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Estimate  Std. Error     t value    Pr(&gt;|t|) 
+0.006475139 0.006720284 0.963521587 0.335295752 </code></pre>
+</div>
+</div>
+<p>As we see above, this ITT results in an estimate of 0.0065 with a corresponding standard error of 0.0067. This replicates the result of <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span> column 2 of table 5, suggesting that individuals who were randomly assigned to the option to apply to Medicaid – whether or not they ultimately gain access to Medicaid – had slightly higher rates of ER usage, however we cannot rule out that this effect is 0 with at standard levels of confidence.</p>
+<section id="manually-estimating-2sls-right-estimates-wrong-standard-errors" class="level2">
+<h2 class="anchored" data-anchor-id="manually-estimating-2sls-right-estimates-wrong-standard-errors">Manually Estimating 2SLS: Right Estimates, Wrong Standard Errors</h2>
+<p>If we wish to estimate the LATE itself, there are a number of ways which we can proceed. In practice, we will essentially always want to make use of statistical routines for IV or 2SLS estimation, which will guarantee the correct implementation of standard errors. However, it is perhaps illustrative to see that we can “manually” estimate 2SLS, and—the point estimates at least—will agree entirely with those from 2SLS estimation routines. If we wish to estimate 2SLS, we can (logically) proceed in two stages. Below we begin by estimating the first stage, regressing endogenous treatment receipt on the randomly assigned lottery:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>first <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> data, <span class="at">weights =</span> weight_12m,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">formula =</span> D <span class="sc">~</span> Z <span class="sc">+</span> ddddraw_sur_2 <span class="sc">+</span> ddddraw_sur_3 <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>              ddddraw_sur_4 <span class="sc">+</span> ddddraw_sur_5 <span class="sc">+</span> ddddraw_sur_6 <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              ddddraw_sur_7 <span class="sc">+</span> dddnumhh_li_2 <span class="sc">+</span> dddnumhh_li_3 <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_2_2 <span class="sc">+</span> ddddraXnum_2_3 <span class="sc">+</span> ddddraXnum_3_2 <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_3_3 <span class="sc">+</span> ddddraXnum_4_2 <span class="sc">+</span> ddddraXnum_5_2 <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_6_2 <span class="sc">+</span> ddddraXnum_7_2)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(<span class="at">x =</span> first, <span class="at">vcov. =</span> vcovCL, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">cluster =</span> <span class="sc">~</span> household_id)[<span class="st">'Z'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Estimate   Std. Error      t value     Pr(&gt;|t|) 
+ 0.289931394  0.006678454 43.412951785  0.000000000 </code></pre>
+</div>
+</div>
+<p>Here we include the same set of controls and weights. We have also clustered standard errors by household, but for this manual implementation of 2SLS, this actually does not matter, as we will be simply working with predicted values <span class="math inline">\(\widehat{D}_i\)</span> in the second stage, which do not depend on the first stage standard errors (indeed, for this reason, our standard errors in this manual implementation will be wrong!). As we see above, the first stage coefficient for lottery assignment is 0.290, which suggests that being selected by the lottery actually increases the likelihood of being covered by Medicaid by 29.0%. This replicates the results laid out Table 3, column 6. This value is not 1 because various households which were selected did not end up applying for Medicaid, and other households did apply, but ended up not meeting maximum income thresholds. With this first stage estimation in hand, now all we need to do to estimate our 2SLS (LATE) parameter is generate the predicted value <span class="math inline">\(\widehat{D}_i\)</span>, and regress <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\widehat{D}_i\)</span>, conditional on the same controls and weights. We do this below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>seconddf <span class="ot">&lt;-</span> data</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>seconddf<span class="sc">$</span>D_hat <span class="ot">&lt;-</span> first<span class="sc">$</span>fitted.values</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>second <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> seconddf, <span class="at">weights =</span> weight_12m,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">formula =</span> Y <span class="sc">~</span> D_hat <span class="sc">+</span> ddddraw_sur_2 <span class="sc">+</span> ddddraw_sur_3 <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>               ddddraw_sur_4 <span class="sc">+</span> ddddraw_sur_5 <span class="sc">+</span> ddddraw_sur_6 <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>               ddddraw_sur_7 <span class="sc">+</span> dddnumhh_li_2 <span class="sc">+</span> dddnumhh_li_3 <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>               ddddraXnum_2_2 <span class="sc">+</span> ddddraXnum_2_3 <span class="sc">+</span> ddddraXnum_3_2 <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>               ddddraXnum_3_3 <span class="sc">+</span> ddddraXnum_4_2 <span class="sc">+</span> ddddraXnum_5_2 <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>               ddddraXnum_6_2 <span class="sc">+</span> ddddraXnum_7_2)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(<span class="at">x =</span> second, <span class="at">vcov. =</span> vcovCL, </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">cluster =</span> <span class="sc">~</span> household_id)[<span class="st">'D_hat'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Estimate Std. Error    t value   Pr(&gt;|t|) 
+0.02233335 0.02317888 0.96352159 0.33529575 </code></pre>
+</div>
+</div>
+<p>This results in an estimated LATE of 0.022, and a standard error of 0.023 (see <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>, Table 5, column 3). This suggests that Medicaid receipt results in a small increases in access to the ER, though again we cannot rule out that this estimate is 0 at standard levels of confidence. What we are interested in showing here, however, is that this “manual” 2SLS procedure is precisely what is estimated (thought with the correct standard errors now) if we use formal routines, such as R’s user-written function <code>ivreg</code> from <code>AER</code> package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>res_2sls <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(<span class="at">data =</span> data, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">formula =</span> Y <span class="sc">~</span> D <span class="sc">+</span> ddddraw_sur_2 <span class="sc">+</span> ddddraw_sur_3 <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>              ddddraw_sur_4 <span class="sc">+</span> ddddraw_sur_5 <span class="sc">+</span> ddddraw_sur_6 <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>              ddddraw_sur_7 <span class="sc">+</span> dddnumhh_li_2 <span class="sc">+</span> dddnumhh_li_3 <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_2_2 <span class="sc">+</span> ddddraXnum_2_3 <span class="sc">+</span> ddddraXnum_3_2 <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_3_3 <span class="sc">+</span> ddddraXnum_4_2 <span class="sc">+</span> ddddraXnum_5_2 <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_6_2 <span class="sc">+</span> ddddraXnum_7_2 <span class="sc">|</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                Z <span class="sc">+</span> ddddraw_sur_2 <span class="sc">+</span> ddddraw_sur_3 <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>              ddddraw_sur_4 <span class="sc">+</span> ddddraw_sur_5 <span class="sc">+</span> ddddraw_sur_6 <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>              ddddraw_sur_7 <span class="sc">+</span> dddnumhh_li_2 <span class="sc">+</span> dddnumhh_li_3 <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_2_2 <span class="sc">+</span> ddddraXnum_2_3 <span class="sc">+</span> ddddraXnum_3_2 <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_3_3 <span class="sc">+</span> ddddraXnum_4_2 <span class="sc">+</span> ddddraXnum_5_2 <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>              ddddraXnum_6_2 <span class="sc">+</span> ddddraXnum_7_2,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">weights =</span> weight_12m)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(<span class="at">x =</span> res_2sls, <span class="at">vcov. =</span> vcovCL,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">cluster =</span> <span class="sc">~</span> household_id)[<span class="st">'D'</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Estimate Std. Error    t value   Pr(&gt;|t|) 
+0.02233335 0.02312631 0.96571173 0.33419839 </code></pre>
+</div>
+</div>
+<p>Above we see that with this procedure we perfectly recovered the same point estimate as above (0.022), but that standard errors is slightly higher. The fact that standard errors are higher makes sense, and indeed such a result will always occur, given that we are now accounting for the fact that the first stage prediction is estimated, and not a known regressor.</p>
+</section>
+<section id="sls-as-the-reduced-form-divided-by-the-first-stage-indirect-least-squares" class="level2">
+<h2 class="anchored" data-anchor-id="sls-as-the-reduced-form-divided-by-the-first-stage-indirect-least-squares">2SLS as the Reduced Form Divided by the First Stage: Indirect Least Squares</h2>
+<p>To understand more deeply what 2SLS is doing, it is also useful to see that we can build this up in a number of alternative ways. One of these is to note that our LATE estimate is simply the ratio of the reduced form (ie the ITT) to the first stage. Because the reduced form captures the effect of random assignment on the outcome of interest, and because the first stage is not actually equal to one, to estimate the effect of Medicaid receipt itself we must “scale up” the reduced form to correct for the fact that only some proportion of individuals assigned to treatment actually received treatment. Below we see this, where we are simply re-estimating two of the quantities we already estimated above (the ITT and the first stage), before finally taking their ratio:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>itt_model<span class="sc">$</span>coefficients[<span class="st">'Z'</span>] <span class="sc">/</span> first<span class="sc">$</span>coefficients[<span class="st">'Z'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Z 
+0.02233335 </code></pre>
+</div>
+</div>
+<p>As we can see, the value estimated by this “indirect least squares” root is precisely the same as that estimated by 2SLS previously.</p>
+</section>
+<section id="sls-iv-and-the-wald-estimator-equivalent-in-setting-with-a-binary-iv-and-no-covariates" class="level2">
+<h2 class="anchored" data-anchor-id="sls-iv-and-the-wald-estimator-equivalent-in-setting-with-a-binary-iv-and-no-covariates">2SLS, IV and the Wald Estimator: Equivalent in Setting with a Binary IV and no Covariates</h2>
+<p>Finally, note that in cases where we are working with a binary instruments (as in this case), and if there are no controls, we can arrive to our LATE in a number of other ways including by implementing the Wald Estimator: <span class="math display">\[\widehat\tau^{Wald}_{LATE}=\frac{E[Y_i|Z_i=1]-E[Y_i|Z_i=0]}{E[D_i|Z_i=1]-E[D_i|Z_i=0]},\]</span> or by estimating IV: <span class="math display">\[\widehat\tau^{IV}_{LATE}=\frac{Cov(Y_i,Z_i)}{Cov(D_i,Z_i)}.\]</span> While these are just equivalent ways of estimating the same thing, it is useful to see, and we will illustrate this below, first estimating 2SLS without any controls or weights:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res_2sls <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(<span class="at">data =</span> data, </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">formula =</span> Y <span class="sc">~</span> D <span class="sc">|</span> Z)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#print(paste0("The 2sls estimate is: ", res_2sls$coefficients["D"])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and then comparing this to the Wald estimate:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>YZ1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>Y[data<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>YZ0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>Y[data<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>DZ1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>D[data<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>DZ0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>D[data<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"The Wald estimate is: "</span>, (YZ1<span class="sc">-</span>YZ0)<span class="sc">/</span>(DZ1<span class="sc">-</span>DZ0)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "The Wald estimate is: -0.00676168609713425"</code></pre>
+</div>
+</div>
+<p>and the IV estimate:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>CovYZ <span class="ot">=</span> <span class="fu">cov</span>(data<span class="sc">$</span>Y, data<span class="sc">$</span>Z)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>CovDZ <span class="ot">=</span> <span class="fu">cov</span>(data<span class="sc">$</span>D, data<span class="sc">$</span>Z)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"The IV estimate is:"</span>, (CovYZ)<span class="sc">/</span>(CovDZ)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "The IV estimate is:-0.00676168609713435"</code></pre>
+</div>
+</div>
+<p>These are, as we see above, all exactly equivalent. One could also extend this to a setting with weights if appropriately weighting the statistics in the Wald estimate, though we will leave this as an exercise for you to explore.</p>
+</section>
+</section>
+<section id="code-call-out-5.2-characterising-compliers" class="level1">
+<h1>Code Call-out 5.2: Characterising Compliers</h1>
+<p>To understand how Abadie’s Kappa is estimated and how this allows to understand the characteristics of compliers, we use data and setting from <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span> who study the Hajj pilgrimage to Mecca. We open these data, called <code>Clingingsmith_et_al_2009.csv</code>, below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>clingingsmith <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/Clingingsmith_et_al_2009.csv"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">","</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(clingingsmith)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  persid hhid s3q1a s3q1b s3q1c s3q1d s3q1e s3q1f s5_2q1a s5_2q2a s5_2q3a
+1    747    1     4     4     4     4     4     4       0      15       0
+2    827    1     0     1     1     2     2     3       2       3       3
+3    597    1     4     4     4     4     4     4       0       0       0
+4     26    1     4     4     3     4     4     4       3       2       5
+5    331    1     2     2     3     4     3     4       0       0       0
+6    195    1     4     4     4     4     4     4       0       0       0
+  s5_2q1b s5_2q2b s5_2q3b pod cat success hajj2006 clusterid   district
+1       0      20       0   2   1       0        0         1     GUJRAT
+2       2       3       3   2   1       0        0         2     GUJRAT
+3       0       0       0   2   1       1        1         3 RAWALPINDI
+4       2       0       2   2   1       1        1         4 RAWALPINDI
+5       0       0       0   2   1       0        0         5  ISLAMABAD
+6       0       0       0   2   1       0        1         6  ISLAMABAD
+  subsample x_s1_3q3 x_s1_3q4 x_s1_3q5r4 x_s2q1 x_s2q2 x_s3q2a x_s3q2b x_s3q2c
+1         1        1        1          0      4      1       1       4       3
+2         1        1        1          1      2      0       3       3       2
+3         1        0       NA          0      4      1       4       4       4
+4         1        0       NA          0      4      1       3       3       3
+5         1        1        1          0      4      1       3       4       4
+6         0        1        1          1      2      1       3       3       3
+  x_s3q3 x_s3q4 x_s3q5 x_s3q6 x_s3q7 x_s5_5q1 x_s5_5q2 x_s5_5q3 x_s5_5q4
+1      3      7      2      6      4        5        4        2        1
+2      2      7      3      7      2        6        6        3        2
+3      4     10      3     10      3        5        5        1        1
+4      3      9      1     10      4        4        4        1        1
+5      4      8      1     10      3        6        6        1        1
+6      4      9      2     10      3        1        1        1        1
+  x_s5_4q1a x_s5_4q2a x_s5_4q3a x_s5_4q4a x_s5_4q5a x_s7q1 x_s7q2 x_s7q7 x_s7q9
+1         1         0         0         0         0      0      0      1      0
+2         0         0         0         1         1      1      1      1      1
+3         0         0         0         0         0      0      0      1      0
+4         0         1         0         0         1      1      1      1      1
+5         0         0         0         0         0      1      0      1      0
+6         0         0         0         0         0      1      0      0      1
+  x_s7q10 x_s7q11c x_s7q12a x_s7q12c x_s7q12d x_s7q12f x_s8q2 x_s8q3 x_s8q5
+1       0        1        1        1        0        0      3      0      1
+2       1        1        1        1        1        0      4      0      1
+3       0       NA        1        1        1        0      2      0      1
+4       1        1        1        1        0        0      3      1      0
+5       0        1        1        1        0        1      4      0      0
+6       1        0        1        1        1        1      4      1      0
+  x_s8q6 x_s8q7 x_s8q8 x_s10aq2 x_s10aq3 x_s10aq4 x_s10aq5 x_s10bq4 x_s10bq5
+1      0      0      0        1        1        1       NA       NA       NA
+2      0      0      0        0        1        0       NA        0        0
+3      0      0      0        1        1        1        1       NA       NA
+4      1      1      1        0        0        1        1        1        1
+5      0      0      1        0        1        1        1        0        0
+6      1      0      1        0        1        1        1        0        0
+  x_s10cq3 x_s10cq4 x_s10cq5 x_2_s14cq8_9 x_s10dq1 x_s10dq6 x_s10dq7 x_2_s10dq8
+1       NA       NA       NA            0        0        1        0          0
+2        0        0        1            0        0        1        1          1
+3        0       NA       NA            1        0        0        0          0
+4        0        0        1            0        0        1        1          1
+5        0       NA        1            1        0        0        1          1
+6        0       NA        1            0        0        0       NA          1
+  xd_s10dq8 x_s10dq12 x_s10dq14 x_s10dq15a x_s10dq15b x_s10dq15c x_s10dq15d
+1        NA         0         1          0          1          0          1
+2         0         1         0          0          1          0          1
+3        NA         0        NA          0          0          0          1
+4         0         1         0          0          1          0          0
+5         1         0        NA          0          0          0          0
+6         0         1        NA          0          0          0          1
+  x_s10dq18 xop_s10dq19b xop_s10dq19c xop_s10dq19d xda_s10dq19b xda_s10dq19c
+1         1            0            0            0           NA           NA
+2         1            1            1            1            0            0
+3         0            0            0            0           NA           NA
+4         0            1            1            1            1            0
+5         0            0            0            1           NA           NA
+6         1            1            1            1            1            1
+  xda_s10dq19d x_s10eq2 x_s10eq3 x_s10eq4 x_s10eq5 x_s10eq6 x_s10hq3 x_s10hq6
+1           NA        1        0        1        1        1        1        1
+2            0        1        1        1        0        0        1        1
+3           NA        1        1        0        0        0       NA       NA
+4            0        1        1        1        1        1        1        1
+5            0        1        0        1        1        1        1        0
+6            0        1        1        1        1        1        1        0
+  x_s10hq7 x_s10hq8 x_s10hq11 x_s12q1 x_s12q2 x_s14aq1 x_s14aq3 x_s14aq4
+1        1        1         0       0       0        1        1        1
+2        1        1         0       1       0        1        1        0
+3        0        0         0       1       0        1        0        0
+4        1        1         0       1       0        0        0        0
+5        1        1         0       0       0        1        1        0
+6        1        1         1       0       0        1        1        0
+  x_s14aq5 x_s14aq6 x_s14aq7 x_s14aq8 x_s14aq9 x_s14aq10 x_s14aq12 x_s14aq13
+1        1        0        0        1        1         1         1         0
+2        1        0        0        0        1         0         1         0
+3       NA        0        0        0        1         1         1         0
+4        0        0        1        1        1         1         1         0
+5        1        1        0        1        1         0         1         0
+6       NA        0        0        1        1         1         0         0
+  x_s14aq15d x_s14aq16a x_2_s14aq16a x_s14aq16b x_2_s14aq16b x_s14aq16d
+1          1          1            0          1            0          1
+2          1          1            1          1            1          1
+3         NA          1            1          1            1          1
+4          0          1            0          0            0          0
+5          1          1            1          1            1          1
+6          1          1            1          1            1          1
+  x_2_s14aq16d x_s14aq16e x_s14aq16f x_2_s14aq16f x_pillars x_s14bq2 x_s14bq3
+1            1          0          1            1         1        1        1
+2            1          1          1            1         1        1        1
+3            1          1          1            1         1        0        0
+4            0          0          0            0         1        1        1
+5            1          1          1            1         1        1        0
+6            1          0          1            1         1        1        1
+  x_s14bq4 x_s14bq5 x_s14bq6 x_s14bq7 x_s14cq1 x_s14cq2 x_s14cq3 x_s14cq4
+1        1        1        1        1        1        1        1        0
+2        1        1        1        1        0        1        0        0
+3        0        1        1        0        0        0        0        0
+4        1        1        1        1        1        1        1        1
+5        0        1        0        1        0        0        1        0
+6        1        1        1        1        1        1        1        1
+  x_s14cq6 x_2_s14cq6 x_s14dq1 x_s14dq2 x_s14dq3 x_s14dq4 x_s14dq5 x_s14dq6
+1        1          0        1        1        0        0        0        1
+2        1          0        1        0        0        0        0        0
+3        0          1        0        0        0        0        0        0
+4        1          0        1        1        1        0        1        0
+5        1          0        0        0        0        0        0        1
+6        0          1        0        1        1        0        1        0
+  x_2_s14dq6 x_s14dq7 x_s15b_a6 x_s15b_b6 x_s15b_c6 x_s15cq1 x_s15cq2 x_s15cq3
+1          0        1         1         1         1        0        0        0
+2          1        1         1         1         0        1        1        1
+3          1        1         1         1         0        1        1        1
+4          1        1         1         0         0        1        1        1
+5          0        1         1         1         0        1        1        1
+6          1        1         0         0         0        0        0        0
+  x_s15cq5 x_s15cq6 x_s15cq7 x_s15cq8 x_s15cq9 x_s15cq10 female age literate
+1        0        0        0        0        0         0      0  70        1
+2        1        0        0        0        0         0      0  55        1
+3        0        0        0        0        0         0      0  45        1
+4        2        2        1        1        1        -1      0  32        1
+5        2        1        0        0        0        -2      0  77        0
+6        1        1        0        0        1        -1      0  63        1
+  urban ptygrp smallpty newcluster
+1     0      1        1          1
+2     1      1        1          2
+3     1      1        1          3
+4     1      1        1          4
+5     0      1        1          5
+6     1      1        1          6</code></pre>
+</div>
+</div>
+<p>In their paper, <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span> instrument whether an individual made the <a href="https://en.wikipedia.org/wiki/Hajj">Hajj pilgrimage</a> in 2006 (<code>hajj2006</code>) with the outcome of a random lottery which determines the awarding of limited Hajj visas. The outcome of this random lottery process (<code>success</code>) strongly affects the likelihood an indivudal makes the pilgrimage, but is not deterministic, as unsuccessful applicants can seek places through private operators. Thus, it can be viewed as a case of random assignment with imperfect compliance. <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span> use this visa to study how making this pilgrimage shapes beliefs and views of a sample of around 1600 lottery applicans from Pakistan. Here we consider the composition of compliers in terms of a range of covariates, in particular documenting complier means using Abadie’s Kappa. Below we keep our “treatment” of interest and the IV, as well as a number of covariates we will consider later in this call-out.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>clingingsmith <span class="ot">&lt;-</span> <span class="fu">select</span>(clingingsmith, success, hajj2006, female, age, urban, literate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For ease of notation below, we will redefine <code>D = hajj2006</code> and <code>Z = success</code> as our indicater variables for treatment and instrument respectively.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>clingingsmith <span class="ot">&lt;-</span> <span class="fu">rename</span>(clingingsmith, <span class="at">D =</span> hajj2006, <span class="at">Z =</span> success)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Before turning to consider the characteristics of compliers themselves, let’s briefly examine the first stage:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(D <span class="sc">~</span> Z, <span class="at">data =</span> clingingsmith)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = D ~ Z, data = clingingsmith)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.99181 -0.13733  0.00819  0.00819  0.86267 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 0.137333   0.008926   15.38   &lt;2e-16 ***
+Z           0.854480   0.012230   69.87   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2445 on 1603 degrees of freedom
+Multiple R-squared:  0.7528,    Adjusted R-squared:  0.7526 
+F-statistic:  4881 on 1 and 1603 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Rate of Hajj among individuals who are successful in the visa:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rate of Hajj among individuals who are successful in the visa:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">coef</span>(model)[<span class="st">"(Intercept)"</span>] <span class="sc">+</span> <span class="fu">coef</span>(model)[<span class="st">"Z"</span>], <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.9918129 </code></pre>
+</div>
+</div>
+<p>With this simple bivariate regression we can see the three relevant proportions as the rate of individuals who make the pilgrimage when <em>not</em> successful in the lottery (the constant of 0.14), the increase in the likelihood that an individual makes the pilgrimage when being successful in the lotter (the first stage effect of 0.85), and hence the likelihood of making the pilgrimage when being successful in the lottery as the sum of these two terms (0.99). The fact that the first stage is very strong will have an impact on how compliers compare to the entire sample, given that most individuals here <em>are</em> indeed compliers.</p>
+<section id="covariate-means" class="level2">
+<h2 class="anchored" data-anchor-id="covariate-means">Covariate Means</h2>
+<p>Our main goal in this code call-out is to explore Abadie’s kappa, and how this allows us to “describe” compliers. We will thus be interested in calculating a series of means of covariates among compliers. In particular, we will consider the covariates documeted in Table 2 of <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span>, and for this will create the <code>rural</code> and <code>illiterate</code> variables as the complements of <code>urban</code> and <code>literate</code> respectively.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>clingingsmith <span class="ot">&lt;-</span> clingingsmith <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">illiterate =</span> <span class="dv">1</span> <span class="sc">-</span> literate,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rural      =</span> <span class="dv">1</span> <span class="sc">-</span> urban</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we summarise these variables to ensure that they do indeed coincide with those documented in the paper’s Table 2:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"age"</span>,<span class="st">"female"</span>,<span class="st">"illiterate"</span>,<span class="st">"urban"</span>,<span class="st">"rural"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>full_means <span class="ot">&lt;-</span> clingingsmith <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(vars), <span class="sc">~</span><span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>stat_df <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Full Sample</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(full_means),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Compliers     =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names     =</span> <span class="fu">names</span>(full_means)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>stat_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Full.Sample Compliers
+age         54.5750779        NA
+female       0.4903427        NA
+illiterate   0.4018692        NA
+urban        0.6741433        NA
+rural        0.3258567        NA</code></pre>
+</div>
+</div>
+<p>Above we have saved the mean of each variable in a matrix called <code>stat_df</code>, and below we will populate the remaining cells to examine how our complier means correspond to the means in the full sample which we hav egenerated above.</p>
+</section>
+<section id="computing-abadies-kappa" class="level2">
+<h2 class="anchored" data-anchor-id="computing-abadies-kappa">Computing Abadie’s Kappa</h2>
+<p>In order to calculate mean characteristics of compliers, we start by calculating Abadie’s Kappa using the textbook formula (5.27): <span class="math display">\[
+\kappa_i = 1 - \frac{D_i (1 - Z_i)}{\Pr(Z_i = 0|X_i)} - \frac{(1 - D_i) Z_i}{\Pr(Z_i = 1|X_i)}
+\]</span> We observe each individual’s treatment status <span class="math inline">\(D_i\)</span> and instrument <span class="math inline">\(Z_i\)</span>, but we do not observe the conditional probabilities <span class="math inline">\(\Pr(Z_i = 1|X_i)\)</span> and <span class="math inline">\(\Pr(Z_i = 0|X_i)\)</span>. To estimate them, we fit a probit model of the instrument on covariates:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Z <span class="sc">~</span> female <span class="sc">+</span> age <span class="sc">+</span> urban <span class="sc">+</span> literate,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"probit"</span>),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> clingingsmith)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>clingingsmith<span class="sc">$</span>PrZ1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>clingingsmith<span class="sc">$</span>PrZ0 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> clingingsmith<span class="sc">$</span>PrZ1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then compute Abadie’s kappa using the estimated probabilities:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>clingingsmith <span class="ot">&lt;-</span> clingingsmith <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Kappa =</span> <span class="dv">1</span> <span class="sc">-</span> (D <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> Z)) <span class="sc">/</span> PrZ0 <span class="sc">-</span> ((<span class="dv">1</span> <span class="sc">-</span> D) <span class="sc">*</span> Z) <span class="sc">/</span> PrZ1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s now have a look at what this Kappa looks like in our data, with a simple histogram plot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clingingsmith, <span class="fu">aes</span>(<span class="at">x =</span> Kappa)) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count <span class="sc">/</span> <span class="fu">sum</span>(count))),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bins =</span> <span class="dv">30</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill  =</span> <span class="st">"lightgrey"</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Abadie's Kappa"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">""</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">number_format</span>(<span class="at">accuracy =</span> <span class="fl">0.01</span>)) <span class="sc">+</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Chapter5R_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Abadie’s Kappa Distribution</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>There are perhaps two key features we notice in this histogram. Firstly, we can see a large mass of units (93.15%) whose value for Abadie’s Kappa is concentrated around the value of 1. This is due to the high compliance level of this study as you can note from formula (5.27) that all compliers will have a value of 1 for their Abadie’s Kappa (as will any individuals who comply with their treatment assignment). Secondly, we note a series of negative values. This is also expected given the nature of the second and third terms in the formula for Abadie’s Kappa. You can see that both of these terms must either have 0 or 1 in the numerator. If <span class="math inline">\(Z_i=0\)</span> and <span class="math inline">\(D_i=1\)</span> (always-takers with values of zero for the instrument) the numerator of the first term will be one and of the second term will be 0, whereas if <span class="math inline">\(D_i=0\)</span> and <span class="math inline">\(Z_i=1\)</span> (never-takers assigned 1 for the instrument), the numerator of the second term will be 0 and that of the third term will be 1. Finally, note that as the denominator of each of these terms is strictly between 0 and 1, these terms must be bounded between 1 and <span class="math inline">\(\infty\)</span>, meaning that for non-compliers, Abadie’s Kappa will always be negative. In cases where <span class="math inline">\(\Pr(Z_i=0|X_i)\)</span> and <span class="math inline">\(\Pr(Z_i=1|X_i)\)</span> are approximately 0.5 (as we see below), we would expect that these second and third terms should be around -2, resulting in values of Abadie’s Kappa around -1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(clingingsmith[, <span class="fu">c</span>(<span class="st">"PrZ0"</span>, <span class="st">"PrZ1"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      PrZ0             PrZ1       
+ Min.   :0.3938   Min.   :0.4547  
+ 1st Qu.:0.4491   1st Qu.:0.5177  
+ Median :0.4693   Median :0.5307  
+ Mean   :0.4673   Mean   :0.5327  
+ 3rd Qu.:0.4823   3rd Qu.:0.5509  
+ Max.   :0.5453   Max.   :0.6062  </code></pre>
+</div>
+</div>
+</section>
+<section id="covariate-means-among-compliers" class="level2">
+<h2 class="anchored" data-anchor-id="covariate-means-among-compliers">Covariate Means among compliers</h2>
+<p>Now finally, with our calculated values for Abadie’s Kappa we can estimate the complier means of covariates following the textbook formula (5.28) <span class="math display">\[E[x_1|D_1 &gt; D_0] = \frac{1}{\Pr(D_1 &gt; D_0)}E[\kappa x_1]\]</span> Where <span class="math inline">\(\Pr(D_1 &gt; D_0)\)</span> is the rate of compliance in this sample, which incidentally can be calculated as the expected value of Abadie’s Kappa. We estimate these complier-means below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>PrD1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(clingingsmith<span class="sc">$</span>Kappa, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>stat_df <span class="ot">&lt;-</span> stat_df <span class="sc">%&gt;%</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"covariate"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    clingingsmith <span class="sc">%&gt;%</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(age, female, illiterate, urban, rural), <span class="sc">~</span> . <span class="sc">*</span> Kappa)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(age, female, illiterate, urban, rural),</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>                       <span class="sc">~</span> <span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> PrD1)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"covariate"</span>, <span class="at">values_to =</span> <span class="st">"Compliers"</span>),</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"covariate"</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_to_rownames</span>(<span class="at">var =</span> <span class="st">"covariate"</span>)</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>stat_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Full.Sample Compliers.x Compliers.y
+age         54.5750779          NA  54.8876540
+female       0.4903427          NA   0.4954139
+illiterate   0.4018692          NA   0.4156607
+urban        0.6741433          NA   0.6616482
+rural        0.3258567          NA   0.3383518</code></pre>
+</div>
+</div>
+<p>As you can see the mean of covariates for full sample and compliers are very similar due to the high compliance level of this study, with some minor variations by specific variables.</p>
+</section>
+</section>
+<section id="code-call-out-5.3-average-causal-response-functions" class="level1">
+<h1>Code Call-out 5.3: Average Causal Response Functions</h1>
+<p>To understand how Average Causal Response (ACR) Functions are estimated we use data from <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span>. <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span> is a paper based on the twin instrument, in which the impact of a twin at different birth orders is used to instrument total fertility. This code call-out replicates the baseline scenario in plots (b) and (e) from Panels A and B respectively, in Figure 3 of <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span> and Figure 5.2 of the book. We begin by opening the data which pools surveys from the USA and the developing world. These data are rather large, which is important given the relative infrequency of twins, and necessity of a large sample to estimate parameters precisely with IV.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"data/Bhalotra_Clarke_2020.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In particular here we focus on a binary IV which records whether a mother gives birth to a twin on her third birth, on total fertility, a categorical variable. In order to understand what this IV identifies, we must estimate the ACR, which computes how the instrument shifts fertility from <span class="math inline">\(j-1\)</span> to <span class="math inline">\(j\)</span> children, over the support of <span class="math inline">\(j\)</span>. We thus start by generating indicators for whether an individual gives birth to at least <span class="math inline">\(j\)</span> children: <span class="math inline">\(\mathbf{1}\{fert_i \geq j\}\)</span>, for values of <span class="math inline">\(j\in\{1,\ldots,11\}\)</span>. We start at 4 births given that our instrument is the occurrence of twins (rather than singleton births) at birth order 3, and so <em>all</em> families must have at least 3 births.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>) {</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  data[,<span class="fu">paste0</span>(<span class="st">'fert'</span>, k)] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(data<span class="sc">$</span>fert <span class="sc">&gt;=</span> k)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We first focus on developing countries (DHS), this is Panel A from Figure 3 in <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>dataDHS <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">filter</span>(datasource <span class="sc">==</span> <span class="st">"DHS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To estimate the ACR functions, we estimate the following regressions: <span id="eq-acrR"><span class="math display">\[
+\mathbf{1}\{\text{Fert}_i = k\} = \beta_0 + \beta_1 \mathbf{1}\{\text{TwinBirth}_i = 3\} + \mathbf{X}'\gamma + \varepsilon_i
+\tag{1}\]</span></span></p>
+<p>where <span class="math inline">\(\mathbf{1}\{\text{Twin Birth} = 3\}\)</span> is a dummy variable equal to 1 if family <span class="math inline">\(i\)</span> had a twin birth at the third parity (<code>twin_three_fam</code>), and <span class="math inline">\(\mathbf{X}\)</span> is a vector of control variables. These include: A dummy for male child (<code>malec</code>), Dummies for country of origin (<code>_cou</code>), Mother’s year of birth (<code>year_birth</code>), The child’s age in years (<code>age</code>), Contraceptive use and intentions (<code>contracep_intent</code>), Child’s birth order (<code>bord</code>, omitting <code>bord == 1</code>), Mother’s age at the child’s birth (<code>motherage</code>), Mother’s age at first birth (<code>agefirstbirth</code>). These controls are important given the argument that twins are at best random conditional upon maternal age and health. Given the survey weights in DHS, we estimate the model using weighted least squares, applying sampling weights (<code>sweight</code>), and clustering standard errors at the family level (<code>id</code>). The analysis is restricted to families with at least three births (<code>three_plus</code>). We begin by generating a number of required variables below, and sub-setting to our estimation sample.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Country code</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>dataDHS<span class="sc">$</span>num_cou <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dataDHS<span class="sc">$</span>X_cou)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Contraceptive intent code</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>dataDHS<span class="sc">$</span>num_contracep_intent <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dataDHS<span class="sc">$</span>contracep_intent)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummies for birth order</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">unique</span>(dataDHS<span class="sc">$</span>bord)) {</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  dataDHS[,<span class="fu">paste0</span>(<span class="st">"bord"</span>, i)] <span class="ot">&lt;-</span> <span class="fu">if_else</span>(dataDHS<span class="sc">$</span>bord <span class="sc">==</span> i, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummies for mother's age</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">sort</span>(<span class="fu">unique</span>(dataDHS<span class="sc">$</span>motherage))) {</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  dataDHS[,<span class="fu">paste0</span>(<span class="st">'mage'</span>,i)] <span class="ot">&lt;-</span> <span class="fu">if_else</span>(dataDHS<span class="sc">$</span>motherage <span class="sc">==</span> i, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables as factor</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>dataDHS <span class="ot">&lt;-</span> dataDHS <span class="sc">|&gt;</span> </span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_birth =</span> <span class="fu">as.factor</span>(year_birth),</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">age =</span> <span class="fu">as.factor</span>(age))</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep families with 3+ childs</span></span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>dataDHS <span class="ot">&lt;-</span> dataDHS <span class="sc">|&gt;</span> <span class="fu">filter</span>(three_plus <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The ACR requires estimating <a href="#eq-acrR" class="quarto-xref">Equation&nbsp;1</a> for each fertility indicator, in essence allowing us to map out how the instrument shifts the likelihood that individuals exceed all points of the distribution of the endogenous variable. As we wish to plot each of the coefficients and confidence intervals from this model we will create a dataframe to store these below, and then progressively fill them in as we estimate models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>ACR <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Child =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>, <span class="at">Point =</span> <span class="cn">NA</span>, <span class="at">SE =</span> <span class="cn">NA</span>, <span class="at">UB =</span> <span class="cn">NA</span>, <span class="at">LB =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, with this all in hand, we can loop through the support of the fertility variable, estimating <a href="#eq-acrR" class="quarto-xref">Equation&nbsp;1</a> for <span class="math inline">\(j \in \{4, 5, \ldots, 11\}\)</span> and storing the results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries to clutered standard errors</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>) {</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define formula to estimate</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">"fert"</span>, i, <span class="st">" ~ twin_three_fam + "</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"malec + C(num_cou) + C(year_birth) + "</span>,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"C(age) + C(num_contracep_intent) + bord2 + "</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">paste0</span>(<span class="st">'mage'</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">44</span>, <span class="at">collapse =</span> <span class="st">" + "</span>), </span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">" + agefirstbirth"</span>))</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> dataDHS, <span class="at">formula =</span> fml, <span class="at">weights =</span> sweight)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Store result</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>Point[i<span class="dv">-3</span>] <span class="ot">&lt;-</span> model<span class="sc">$</span>coefficients[<span class="st">"twin_three_fam"</span>]</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get standard error</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>SE[i<span class="dv">-3</span>] <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(<span class="at">x =</span> model, </span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>                          <span class="at">vcov. =</span> <span class="fu">vcovCL</span>(model, <span class="at">cluster =</span> <span class="sc">~</span>id))[<span class="st">"twin_three_fam"</span>, </span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>                                                          <span class="st">"Std. Error"</span>]</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>UB[i<span class="dv">-3</span>] <span class="ot">&lt;-</span> ACR<span class="sc">$</span>Point[i<span class="dv">-3</span>] <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.975</span>) <span class="sc">*</span> ACR<span class="sc">$</span>SE[i<span class="dv">-3</span>]</span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>LB[i<span class="dv">-3</span>] <span class="ot">&lt;-</span> ACR<span class="sc">$</span>Point[i<span class="dv">-3</span>] <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>) <span class="sc">*</span> ACR<span class="sc">$</span>SE[i<span class="dv">-3</span>]</span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This results in a series of 8 estimates (and indeed, we could continue beyond 11 or more births, but there are very few births at such a high parity, and these are unlikely to be substantially affected by twins at birth order 3). It is standard to plot this ACR across the support of the “treatment” variable of interest, and we do this below, first saving the estimates stored in the dataframe <code>ACR</code> into memory, and then generating the plot of interest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ACR) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Child, <span class="at">y =</span> Point)) <span class="sc">+</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Child, <span class="at">y =</span> Point), <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> LB, <span class="at">ymax =</span> UB, <span class="at">x =</span> Child), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">linetype =</span> <span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">3.8</span>,<span class="fl">11.2</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">1</span>),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">seq</span>(<span class="dv">4</span>,<span class="dv">11</span>,<span class="dv">1</span>), <span class="st">"+"</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>)) <span class="sc">+</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Estimate"</span>, <span class="at">x =</span> <span class="st">"Number of Children"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Chapter5R_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>ACR Function for Developing Countries</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We observe here that, perhaps as we may expect, twins at birth order 3 generally shifts fertility low in distribution. Indeed, the largest shift observed occurs among families who in the absence of twins would have had 3 children, but now have four children. We then observe lower shifts at higher birth orders. In this sample, this provides us a clear illustration of how we should understand the LATE in terms of the categorical fertility variable.</p>
+<p>However, such an ACR is of course specific to the sample and the setting of interest. Let’s repeat the process above, however now using the sample of data from the USA. Below, we will essentially follow the identical procedures as those documented above and so do not step this through line-by-line, but do note that given the data used in the USA (the National Health Interview Survey) is different to that used above, the controls are slightly different. Specifically, below we control for the mother’s age at first birth (<code>agefirstbirth</code>), dummies for the mother’s age at date of birth of the child (<code>motherage</code>), dummies for the survey year (<code>Syear</code>), dummies for the age of interview (<code>Bdate</code>), dummies for the region (<code>region</code>), dummies for the mother’s race (<code>mrace</code>) and the child’s sex (<code>childsex</code>). Everything else is identical to the procedures documented above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select USA data</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>dataNHIS <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">filter</span>(datasource <span class="sc">==</span> <span class="st">"NHIS"</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummies for controls</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Mother Age</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(dataNHIS<span class="sc">$</span>motherage))</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(aux)) {</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  dataNHIS[,<span class="fu">paste0</span>(<span class="st">"A_mage"</span>, i)] <span class="ot">&lt;-</span> <span class="fu">if_else</span>(dataNHIS<span class="sc">$</span>motherage <span class="sc">==</span> aux[i], <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Survey year</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(dataNHIS<span class="sc">$</span>surveyyear))</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(aux)) {</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  dataNHIS[,<span class="fu">paste0</span>(<span class="st">"B_syear"</span>, i)] <span class="ot">&lt;-</span> <span class="fu">if_else</span>(dataNHIS<span class="sc">$</span>surveyyear <span class="sc">==</span> aux[i], <span class="dv">1</span>, </span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>                                             <span class="dv">0</span>)</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Age interview</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(dataNHIS<span class="sc">$</span>ageinterview))</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(aux)) {</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>  dataNHIS[,<span class="fu">paste0</span>(<span class="st">"B_Bdate"</span>, i)] <span class="ot">&lt;-</span> <span class="fu">if_else</span>(dataNHIS<span class="sc">$</span>ageinterview <span class="sc">==</span> aux[i], <span class="dv">1</span>, </span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>                                             <span class="dv">0</span>)</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Region</span></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(dataNHIS<span class="sc">$</span>region))</span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(aux)) {</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>  dataNHIS[,<span class="fu">paste0</span>(<span class="st">"B_region"</span>, i)] <span class="ot">&lt;-</span> <span class="fu">if_else</span>(dataNHIS<span class="sc">$</span>region <span class="sc">==</span> aux[i], <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="do">## Mother Race</span></span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(dataNHIS<span class="sc">$</span>motherrace))</span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(aux)) {</span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a>  dataNHIS[,<span class="fu">paste0</span>(<span class="st">"B_mrace"</span>, i)] <span class="ot">&lt;-</span> <span class="fu">if_else</span>(dataNHIS<span class="sc">$</span>motherrace <span class="sc">==</span> aux[i], <span class="dv">1</span>, </span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a>                                             <span class="dv">0</span>)</span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a><span class="do">## Child sex</span></span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a>dataNHIS <span class="ot">&lt;-</span> dataNHIS <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">childsex =</span> <span class="fu">if_else</span>(childsex <span class="sc">==</span> <span class="st">"1 Male"</span>,</span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a>                                                  <span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep if has at least three childs</span></span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a>dataNHIS <span class="ot">&lt;-</span> dataNHIS <span class="sc">|&gt;</span> <span class="fu">filter</span>(three_plus <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep relevant variables</span></span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a>dataNHIS <span class="ot">&lt;-</span> dataNHIS <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"fert"</span>), twin_three_fam, </span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a>                               agefirstbirth, <span class="fu">starts_with</span>(<span class="st">"A_"</span>), </span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">starts_with</span>(<span class="st">"B_"</span>), childsex, sweight, mid)</span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Data frame to store results</span></span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>ACR <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Child =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>, <span class="at">Point =</span> <span class="cn">NA</span>, <span class="at">SE =</span> <span class="cn">NA</span>, <span class="at">UB =</span> <span class="cn">NA</span>, <span class="at">LB =</span> <span class="cn">NA</span>)</span>
+<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate</span></span>
+<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>) {</span>
+<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Data with relevant fert variable</span></span>
+<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a>  aux <span class="ot">&lt;-</span> dataNHIS <span class="co"># Auxiliary data frame</span></span>
+<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a>  dropnames <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"fert"</span>, <span class="fu">setdiff</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">11</span>, i)) <span class="co"># Fert dummies to drop</span></span>
+<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a>  aux <span class="ot">&lt;-</span> aux[, <span class="sc">!</span>(<span class="fu">colnames</span>(aux) <span class="sc">%in%</span> dropnames)] <span class="co"># Drop dummies</span></span>
+<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a>  aux <span class="ot">&lt;-</span> aux[, <span class="sc">-</span><span class="dv">1</span>] <span class="co"># Drop fert column</span></span>
+<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Define formula to estimate</span></span>
+<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a>  fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">"fert"</span>, i, <span class="st">" ~ . - sweight - mid"</span>))</span>
+<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate</span></span>
+<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> aux, <span class="at">formula =</span> fml, <span class="at">weights =</span> sweight)</span>
+<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Store result</span></span>
+<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>Point[i<span class="dv">-3</span>] <span class="ot">&lt;-</span> model<span class="sc">$</span>coefficients[<span class="st">"twin_three_fam"</span>]</span>
+<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get standard error</span></span>
+<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>SE[i<span class="dv">-3</span>] <span class="ot">&lt;-</span> <span class="fu">coeftest</span>(<span class="at">x =</span> model, </span>
+<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a>                          <span class="at">vcov. =</span> <span class="fu">vcovCL</span>(model, <span class="at">cluster =</span> <span class="sc">~</span>mid))[<span class="st">"twin_three_fam"</span>, </span>
+<span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a>                                                          <span class="st">"Std. Error"</span>]</span>
+<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>UB[i<span class="dv">-3</span>] <span class="ot">&lt;-</span> ACR<span class="sc">$</span>Point[i<span class="dv">-3</span>] <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.975</span>) <span class="sc">*</span> ACR<span class="sc">$</span>SE[i<span class="dv">-3</span>]</span>
+<span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a>  ACR<span class="sc">$</span>LB[i<span class="dv">-3</span>] <span class="ot">&lt;-</span>  ACR<span class="sc">$</span>Point[i<span class="dv">-3</span>] <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="at">p =</span> <span class="fl">0.025</span>) <span class="sc">*</span> ACR<span class="sc">$</span>SE[i<span class="dv">-3</span>]</span>
+<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ACR) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Child, <span class="at">y =</span> Point)) <span class="sc">+</span></span>
+<span id="cb44-81"><a href="#cb44-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> Child, <span class="at">y =</span> Point), <span class="at">color =</span> <span class="st">'blue'</span>) <span class="sc">+</span></span>
+<span id="cb44-82"><a href="#cb44-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> LB, <span class="at">ymax =</span> UB, <span class="at">x =</span> Child), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb44-83"><a href="#cb44-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">'red'</span>, <span class="at">linetype =</span> <span class="st">'dashed'</span>) <span class="sc">+</span></span>
+<span id="cb44-84"><a href="#cb44-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">3.8</span>,<span class="fl">11.2</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">1</span>),</span>
+<span id="cb44-85"><a href="#cb44-85" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="fu">seq</span>(<span class="dv">4</span>,<span class="dv">11</span>,<span class="dv">1</span>), <span class="st">"+"</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.01</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb44-87"><a href="#cb44-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Average Causal Response Function for Twin Birth"</span>,</span>
+<span id="cb44-88"><a href="#cb44-88" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"USA"</span>, <span class="at">y =</span> <span class="st">"Estimate"</span>, <span class="at">x =</span> <span class="st">"Number of Children"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Chapter5R_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>ACR Function for USA</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>If we inspect the output in this case, it is immediately apparent that despite being based on the same empirical design and the same instrument, the ACR in the USA is very different to that in the developing country sample. While this makes contextual sense: in general fertility is lower and there is greater access to contraceptive methods, methodlogically perhaps the key point is that it is very important to consider what underlying variations generated by instrumental assignment imply for resulting treatment effects. In the developing country case and the US-case, one explanation of different estimates if the entire IV set-up was estimated is that we are simply exploring very different movements in the treatment variable in both cases.</p>
+</section>
+<section id="code-call-out-5.4-fully-saturating-a-model-with-controls" class="level1">
+<h1>Code Call-out 5.4: Fully Saturating a Model with Controls</h1>
+<p>In this code call out we will explore the concept of ‘fully saturating’ an IV model where covariates are required, as well as seeing that this fully saturated model captures underlying covariate-specific LATEs weighted by the relative explanatory power of the first state in each case. To see this, we will work with data from <span class="citation" data-cites="Dufloetal2024">Duflo, Kiessel, and Lucas (<a href="#ref-Dufloetal2024" role="doc-biblioref">2024</a>)</span>. They study the impact of a number of school-level interventions in Ghana on child test scores. While the interventions themselves were randomly assigned, take-up was imperfect, and hence random assignment can be used to instrument take-up and estimate a LATE. We will focus on one specific outcome which is student scores on “foundational questions” in academic year 2, and we will examine the impact of receiving any intervention. This corresponds to column 3 of table 3 in <span class="citation" data-cites="Dufloetal2024">Duflo, Kiessel, and Lucas (<a href="#ref-Dufloetal2024" role="doc-biblioref">2024</a>)</span>. To begin, we will open the original student-level data from the paper, and keep only students scores in year 2:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/Duflo_et_al_2024.dta"</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>e2_testtaker <span class="sc">==</span> <span class="dv">1</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We start by simply estimating an IV model with controls to replicate the results from column 3 of Table 3. Here, we regress test scores (<code>e2_engmath_ASER_theta</code>) on an indicator of how frequently schools were observed to be correctly implementing interventions (<code>tarl</code>) instrumented by random assignment to treatment (<code>anytreat</code>). We control for an indicator of whether the student is female, as well as full strata fixed effects.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>model_iv <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  e2_engmath_ASER_theta <span class="sc">~</span> female <span class="sc">+</span> <span class="fu">factor</span>(strata) <span class="sc">+</span> tarl <span class="sc">|</span> female <span class="sc">+</span> <span class="fu">factor</span>(strata) <span class="sc">+</span> anytreat,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> schcode</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One thing to note is that the above specification is not actually ‘fully saturated’. For a model to be fully saturated we must both include all possible combinations of controls, and also include a separate interaction of each covariate level with the instrument. To see this in a simple set-up, we can first imagine that we had just a single covariate in our model. Later, we will see how things generalise for a setting with additional controls. We do this below with the binary indicator <code>female</code>. Here, because there are only two possible levels of controls, we need to generate an interaction with each level of the covariate to generate our fully saturated first stage. We do this below generating an interaction between the instrument for females (<code>Z1</code>) and males (<code>Z2</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Z1 <span class="ot">&lt;-</span> df<span class="sc">$</span>anytreat <span class="sc">*</span> df<span class="sc">$</span>female</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Z2 <span class="ot">&lt;-</span> df<span class="sc">$</span>anytreat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> df<span class="sc">$</span>female)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let’s have a look at the “weight and saturate” idea in practice. To begin then, we will estimate the fully-saturated model. Note that here we must include the instrument for each level of <code>female</code> in the first stage which we generated above, and also control for all levels of the variables themselves. Given that female is a binary variable (and that we must omit a baseline reference group), this simply consists of including the covariate <code>female</code> below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>model_iv2 <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  e2_engmath_ASER_theta <span class="sc">~</span> female <span class="sc">+</span> tarl <span class="sc">|</span> female <span class="sc">+</span> Z1 <span class="sc">+</span> Z2,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> schcode</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>IV2SLS <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_iv2)[<span class="st">"tarl"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The specification above is our fully saturated model, and we store the resulting coefficient esimate as <code>IV2SLS</code> to consult below. Now, let’s confirm that this is equivalent to the weighted average of covariate-specific LATEs. To begin, we will calculate each LATE (one for <code>female==1</code>, and one for <code>female==0</code>), and store these as their own quantity:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IV for female == 1</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>model_iv1 <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  e2_engmath_ASER_theta <span class="sc">~</span> tarl <span class="sc">|</span> anytreat,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data    =</span> <span class="fu">subset</span>(df, female <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> schcode</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>IV1 <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_iv1)[<span class="st">"tarl"</span>]</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="co"># IV for female == 0</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>model_iv2 <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>  e2_engmath_ASER_theta <span class="sc">~</span> tarl <span class="sc">|</span> anytreat,</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data    =</span> <span class="fu">subset</span>(df, female <span class="sc">==</span> <span class="dv">0</span>),</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> schcode</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>IV2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_iv2)[<span class="st">"tarl"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we can calculate the weights themselves. Note that to do this we want to calculate the variance of the first stage prediction. So, below we calculate the first stage prediction as <code>Dhat</code>, and then calculate the variance for each first stage, which are also stored as <code>V1</code> and <code>V2</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>model_ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(tarl <span class="sc">~</span> Z1 <span class="sc">+</span> Z2 <span class="sc">+</span> female,</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data       =</span> df,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">na.action  =</span> na.exclude)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get a Dhat for each row of df</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Dhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_ols)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>V1 <span class="ot">&lt;-</span> <span class="fu">var</span>(df<span class="sc">$</span>Dhat[df<span class="sc">$</span>female <span class="sc">==</span> <span class="dv">1</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>V2 <span class="ot">&lt;-</span> <span class="fu">var</span>(df<span class="sc">$</span>Dhat[df<span class="sc">$</span>female <span class="sc">==</span> <span class="dv">0</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="co"># check</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>V1; V2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0110261</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01054975</code></pre>
+</div>
+</div>
+<p>Finally, we can follow equation 5.42 in the book, and generate the weights based on the variances above and the frequency of each covariate group in data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>female, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>P2 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> P1</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>Vtot <span class="ot">&lt;-</span> P1 <span class="sc">*</span> V1 <span class="sc">+</span> P2 <span class="sc">*</span> V2</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>omega1 <span class="ot">&lt;-</span> P1 <span class="sc">*</span> V1 <span class="sc">/</span> Vtot</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>omega2 <span class="ot">&lt;-</span> P2 <span class="sc">*</span> V2 <span class="sc">/</span> Vtot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, finally, let’s just confirm that our weighted group-specific LATE quantity does indeed return approximately the same value as the saturated first stage model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>IVweighted <span class="ot">&lt;-</span> IV1 <span class="sc">*</span> omega1 <span class="sc">+</span> IV2 <span class="sc">*</span> omega2</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Original 2SLS is %9.5f</span><span class="sc">\n</span><span class="st">"</span>, IV2SLS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Original 2SLS is   0.23568</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Weighted IV is %9.5f</span><span class="sc">\n</span><span class="st">"</span>, IVweighted))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Weighted IV is   0.23568</code></pre>
+</div>
+</div>
+<p>We see that here (as expected) our estimates do indeed coincide. Note that because these are asymptotically equivalent, in finite samples we may observe minor variations in the calculated estimates in each case, but as the sample grows, we will see that these quantities converge.</p>
+<p>While this is all relatively clear with a single covariate (with a single level), things get a little bit more complex if there are multiple covariates and multiple levels. Because we need <em>fully saturated</em> covariates, we need a single covariate for each possible combination of <span class="math inline">\(X_i\)</span> in data (<em>ie</em> we need the design matrix). In this particular case where we have 40 strata indicators (which are fortunately mutually exclusive), as well as a binary <code>female</code> indicator, we need up to 80 different instruments in the first stage, as well as a variable for each covariate. We will see that while this is a bit cumbersome in terms of output, we can also do this here.</p>
+<p>We set this up below by looping through all possible combinations of covariate levels that can be observed in data. We do this by generating an indicator for each strata and female or male indicator (as a series of variables <code>X1</code>, <code>X2</code>, …), and then also a series of instruments for each of these as <code>Z1</code>, <code>Z2</code>, … Because there are a number of small strata in the data, we also confirm that the instrument does indeed vary for all covariate combinations, and if it does now, we simply remove these covariates and instruments from our data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[, <span class="sc">!</span>(<span class="fu">names</span>(df) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Z1"</span>, <span class="st">"Z2"</span>, <span class="st">"Dhat"</span>))]</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>stratvals <span class="ot">&lt;-</span> <span class="fu">unique</span>(df<span class="sc">$</span>strata)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> stratvals) {</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (w <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) {</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    Xi <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"X"</span>, i)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    Zi <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Z"</span>, i)</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    df[[Xi]] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(df<span class="sc">$</span>strata <span class="sc">==</span> s <span class="sc">&amp;</span> df<span class="sc">$</span>female <span class="sc">==</span> w)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    df[[Zi]] <span class="ot">&lt;-</span> df[[Xi]] <span class="sc">*</span> df<span class="sc">$</span>anytreat</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>    subset_anytreat <span class="ot">&lt;-</span> df<span class="sc">$</span>anytreat[df[[Xi]] <span class="sc">==</span> <span class="dv">1</span>]</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(subset_anytreat) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">sd</span>(subset_anytreat, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>      df[[Xi]] <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>      df[[Zi]] <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"X33"</span>, <span class="st">"Z33"</span>, <span class="st">"X34"</span>, <span class="st">"Z34"</span>)) {</span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (v <span class="sc">%in%</span> <span class="fu">names</span>(df)) df[[v]] <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, having in essence “fully saturated” our data, we can run our IV model with the many controls and first stage instrument interactions. We do this below, saving our 2SLS estimate to compare to the weighted aggregate below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>X_vars <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^X</span><span class="sc">\\</span><span class="st">d+$"</span>, <span class="fu">names</span>(df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>Z_vars <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^Z</span><span class="sc">\\</span><span class="st">d+$"</span>, <span class="fu">names</span>(df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>controls   <span class="ot">&lt;-</span> <span class="fu">paste</span>(X_vars, <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>instruments <span class="ot">&lt;-</span> <span class="fu">paste</span>(Z_vars, <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"e2_engmath_ASER_theta ~ tarl + "</span>, controls,</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">" | "</span>, controls, <span class="st">" + "</span>, instruments)</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the 2SLS IV regression with clustering by schcode</span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>model_iv_all <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula  =</span> fml,</span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">data     =</span> df,</span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> schcode</span>
+<span id="cb59-18"><a href="#cb59-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-19"><a href="#cb59-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-20"><a href="#cb59-20" aria-hidden="true" tabindex="-1"></a>IV2SLS <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_iv_all)[<span class="st">"tarl"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As in the case with a single control, we can confirm that this is equivalent to the weighted aggregate of covariate-specific LATEs. First, let’s estimate the late <em>for each</em> covariate level in the data. We do this quietly (ie without showing each model) below because this will result in a lot of LATEs!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>X_vars <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^X</span><span class="sc">\\</span><span class="st">d+$"</span>, <span class="fu">names</span>(df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>IV_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (var <span class="cf">in</span> X_vars) {</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  subset_df <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, df[[var]] <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  model_iv <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    e2_engmath_ASER_theta <span class="sc">~</span> tarl <span class="sc">|</span> anytreat,</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data     =</span> subset_df,</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">clusters =</span> schcode</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>  IV_list[[var]] <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_iv)[<span class="st">"tarl"</span>]</span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="fu">names</span>(IV_list)) {</span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"IV"</span>, var), IV_list[[var]])</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let’s calculate the inputs for weights for each covariate-specific estimate. It is worth looking through this code carefully to ensure that these elements will allow us to calculate the weights required, as described in equation 5.42 in the book.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>X_vars <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^X</span><span class="sc">\\</span><span class="st">d+$"</span>, <span class="fu">names</span>(df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>Z_vars <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^Z</span><span class="sc">\\</span><span class="st">d+$"</span>, <span class="fu">names</span>(df), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>fs_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(Z_vars, X_vars)</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>fml_fs <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="st">"tarl ~"</span>, <span class="fu">paste</span>(fs_vars, <span class="at">collapse =</span> <span class="st">" + "</span>)))</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>model_fs <span class="ot">&lt;-</span> <span class="fu">lm</span>(fml_fs, <span class="at">data =</span> df, <span class="at">na.action =</span> na.exclude)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Dhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_fs, <span class="at">newdata =</span> df)</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>Vtot <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(var <span class="cf">in</span> X_vars) {</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"V"</span>, var), <span class="fu">var</span>(df<span class="sc">$</span>Dhat[df[[var]] <span class="sc">==</span> <span class="dv">1</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">"P"</span>, var), <span class="fu">mean</span>(df[[var]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>  Vtot <span class="ot">&lt;-</span> Vtot <span class="sc">+</span> <span class="fu">get</span>(<span class="fu">paste0</span>(<span class="st">"P"</span>, var)) <span class="sc">*</span> <span class="fu">get</span>(<span class="fu">paste0</span>(<span class="st">"V"</span>, var))</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, we can use the inputs above to estimate the weights, as well as the “saturated and weighted” equivalte of the 2SLS estimate we generated previously. Note that because there are many LATEs, we are just doing this in a loop where we sum iteratively across each covariate level. In this way we sum across all LATEs to arrive to our final IV estimate, and also confirm that we are correctly generating weights by ensuring that weights sum to 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>IVweight <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>omega <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (var <span class="cf">in</span> X_vars) {</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  omega_var <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">paste0</span>(<span class="st">"P"</span>, var)) <span class="sc">*</span> <span class="fu">get</span>(<span class="fu">paste0</span>(<span class="st">"V"</span>, var)) <span class="sc">/</span> Vtot</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>  omega <span class="ot">&lt;-</span> omega <span class="sc">+</span> omega_var</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  IVweight <span class="ot">&lt;-</span> IVweight <span class="sc">+</span> <span class="fu">get</span>(<span class="fu">paste0</span>(<span class="st">"IV"</span>, var)) <span class="sc">*</span> omega_var</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Confirming weights: %9.5f</span><span class="sc">\n</span><span class="st">"</span>, omega))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confirming weights:   1.00000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Original 2SLS is %9.5f</span><span class="sc">\n</span><span class="st">"</span>, IV2SLS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Original 2SLS is   0.21842</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Weighted IV is %9.5f</span><span class="sc">\n</span><span class="st">"</span>, IVweight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Weighted IV is   0.21874</code></pre>
+</div>
+</div>
+<p>Above we can see that while these is some minor variation between the original 2SLS estimate and the weighted and saturated IV, this is minor, owing to the fact that certain groups are quite small. Asymptotically, these quantities will converge to the same values.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-BhalotraClarke2019" class="csl-entry" role="listitem">
+Bhalotra, Sonia, and Damian Clarke. 2020. <span>“<span class="nocase">The Twin Instrument: Fertility and Human Capital Investment</span>.”</span> <em>Journal of the European Economic Association</em> 18 (6): 3090–3139. <a href="https://doi.org/10.1093/jeea/jvz058">https://doi.org/10.1093/jeea/jvz058</a>.
+</div>
+<div id="ref-Clingingsmith2009" class="csl-entry" role="listitem">
+Clingingsmith, David, Asim Ijaz Khwaja, and Michael Kremer. 2009. <span>“<span class="nocase">Estimating the impact of the Hajj: Religion and tolerance in Islam’s global gathering</span>.”</span> <em>The Quarterly Journal of Economics</em> 124: 1133–70.
+</div>
+<div id="ref-Dufloetal2024" class="csl-entry" role="listitem">
+Duflo, Annie, Jessica Kiessel, and Adrienne M Lucas. 2024. <span>“Experimental Evidence on Four Policies to Increase Learning at Scale.”</span> <em>The Economic Journal</em> 134 (661): 1985–2008. <a href="https://doi.org/10.1093/ej/ueae003">https://doi.org/10.1093/ej/ueae003</a>.
+</div>
+<div id="ref-Finkelsteinetal2012" class="csl-entry" role="listitem">
+Finkelstein, Amy, Sarah Taubman, Bill Wright, Mira Bernstein, Jonathan Gruber, Joseph P. Newhouse, Heidi Allen, Katherine Baicker, and Oregon Health Study Group. 2012. <span>“<span class="nocase">The Oregon Health Insurance Experiment: Evidence from the First Year</span>.”</span> <em>The Quarterly Journal of Economics</em> 127 (3): 1057–1106. <a href="https://doi.org/10.1093/qje/qjs020">https://doi.org/10.1093/qje/qjs020</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

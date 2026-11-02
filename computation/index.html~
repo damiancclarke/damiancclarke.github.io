@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Damian Clarke - Health Economics, Labour Economics, Microeconometrics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Damian Clarke">
+    <meta name="keywords" content="Damian Clarke, damiancclarke, health economics, applied econometrics, development economics">
+    <meta name="description" content="This is the website of Damian Clarke, health economist, with research and computational resources.">
+  </head>
+
+
+  <body>
+
+
+<center>
+<h1>Damian Clarke</h1>
+<table style="width:60%">
+  <tr>
+    <th><a href="http://www.damianclarke.net/index.html" style="color:#000099">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/research/index.html" style="color:#000099">Research</a>&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/computation/index.html" style="color:#000099">Computation</a></th>
+    <th><a href="http://www.microeconometrics-code.com/" style="color:#000099">Book</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/teaching/index.html" style="color:#000099">Teaching</a>&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/CV_DamianCClarke.pdf" style="color:#000099">CV</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+</table>
+</center>
+<hr noshade="noshade">
+
+
+<h2>1. Stata Programs</h2>
+<h3>rwolf2</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="https://ideas.repec.org/c/boc/bocode/s458970.html"><i>rwolf2</i></a> provides a more flexible syntax to calculate Romano-Wolf stepdown p-values for multiple hypothesis testing.  The program implements the same Romano and Wolf multiple hypothesis correction as in rwolf (see below), but provides a considerably more flexible syntax, allowing for more simple implementations of a range of procedures, such as corrections based on differing underlying models, specifications, weighting schemes and so forth.  A discussion of the difference between rwolf2 and rwolf as well as documentation of their identical outcomes in cases where identical corrections are implemented is avaialable <a href="http://www.damianclarke.net/computation/rwolf2.pdf">here</a>. 
+
+<p style="margin-left:2em;margin-right:2em">
+  Install from the command line in Stata typing <TT>ssc install rwolf2</TT>.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+Slides from a presentation at the Stata Economics Symposium, 2021 touching on topics related to multiple hypothesis testing (and the rwolf routines) are available <a href="http://www.damianclarke.net/computation/multipleHypothesisTesting_Stata.pdf">here</a>.   Related code is available at the following github link: <a href="https://github.com/damiancclarke/multHypStata">https://github.com/damiancclarke/multHypStata</a>.
+</p>
+
+<h3>eventdd</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="https://ideas.repec.org/c/boc/bocode/s458737.html"><i>eventdd</i></a>, written with Kathya Tapia Schythe, is a package for estimating, plotting, and conducting inference using panel event studies designs in Stata.  This package and the panel event study methodology is described in this <a href="http://ftp.iza.org/dp13524.pdf">working paper</a>.  The graphical output from the command is as follows:
+</p>
+
+<center>
+<img src="../_static/img/eventdd.png" width=500>
+</center>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install from the command line in Stata typing <TT>ssc install eventdd</TT>.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  <span style="color: red">NOTE (December 30, 2020):</span> Version 3.0 of the command has an altered syntax meaning that code will need to be slightly altered if you wish to replicate results created with previous versions of the command.  Specifically, the current version of the command uses "<TT>leads(#)</TT>" to refer to pre-event coefficients, and "<TT>lags(#)</TT>", to refer to post-event coefficients.  Previously this was switched in the syntax.  Thus, to ensure backwards compatability, if using the current version of the command and running code written with a previous version of the command, simply change around the values in <TT>leads()</TT> and <TT>lags()</TT>.  This change will only affect your code if using these two options of the command.  If, however, you would prefer to use the previous version of the command to ensure backwards compatability without changing any code, simply download and unzip <a href="http://www.damianclarke.net/computation/eventdd2.0.0.zip">this file</a> and ensure its contents are located in your current working directory or Stata's PLUS directory (located by typing <TT>sysdir</TT> in Stata).
+</p>
+
+<h3>rwolf</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="http://econpapers.repec.org/software/bocbocode/s458276.htm"><i>rwolf</i></a> calculates Romano and Wolf's (<a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1468-0262.2005.00615.x/abstract">Econometrica 2005</a>; <a href="http://www.tandfonline.com/doi/abs/10.1198/016214504000000539">JASA 2005</a>) stepdown adjusted p-values to correct for multiple hypothesis testing. This program follows the algorithm described in Romano and Wolf (<a href="https://www.sciencedirect.com/science/article/pii/S0167715216000389">Statistics and Probability Letters 2016</a>), and provides a p-value corresponding to each of a series of J independent variables when testing multiple hypotheses against a single dependent (or treatment) variable. The rwolf algorithm constructs a null distribution for each of the J hypothesis tests based on Studentized bootstrap replications of a subset of the tested variables. Full details of the procedure are described in Romano and Wolf (2016).
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  An example of this procedure is provided in <a href="https://www.csae.ox.ac.uk/materials/papers/csae-wps-2016-33.pdf">Clarke and Mühlrad (2016)</a>. Please see <a href="http://ftp.iza.org/dp12845.pdf">this paper</a> for a discussion of the command.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install from the command line in Stata typing <TT>ssc install rwolf</TT>.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+ <span style="color: red">NOTE:</span> There has been a bug fix in the current version of the code which affects p-values reported when using clustering with a block bootstrap.  For full details please see <a href="http://www.damianclarke.net/computation/clusterBug.pdf" style="color:#000099">here</a>.
+</p>
+
+<h3>plausexog</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="http://econpapers.repec.org/software/bocbocode/S457832.htm"><i>plausexog</i></a> implements <a href="http://www.mitpressjournals.org/doi/abs/10.1162/REST_a_00139?journalCode=rest#.U20XwNuyfzk">Conley et al.'s (2012)</a> plausibly exogenous bound estimation in Stata.  This allows for statistical inference when a researcher believes that a potential instrumental variable (IV) may be 'close to' but not precisely exogenous.  This package implements a number of methods described by Conley et al., allowing for the relaxation of the traditional exclusion restriction in IV methods.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  This extends the original Conley at el. code (available on <a href="http://faculty.chicagobooth.edu/christian.hansen/research/">Christian Hansen's webpage</a>) to deal with graphing, all distributions, and a wide range of data scenarios in Stata.  I am grateful to Christian Hansen for providing very useful comments.  Additiional documentation and details are available in Clarke and Matta (2018), and a typical output is included below:
+</p>
+
+<center>
+<img src="../_static/img/LTZ.png" width=500>
+</center>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install the most recent version directly from the command line in Stata typing  <TT>ssc install plausexog</TT>.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  <i>**NOTE: Updated June 2017</i> to simplify syntax and add support for simulation-based estimates based on arbitrary (non-normal) violations of the exclusion restriction.  If you wish to use the earlier version which guarantees backwards compatability, this can be installed directly in Stata by typing <TT>net from http://www.damianclarke.net/stata</TT> followed by <TT>net install plausexog</TT>.
+</p>
+
+<h3>imperfectiv</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="https://ideas.repec.org/c/boc/bocode/s458363.html"><i>imperfectiv</i></a> (written with Benjamín Matta) estimates bounds using "Imperfect Instrumental Variables" (IIV) as developed by <a href="http://www.mitpressjournals.org/doi/abs/10.1162/REST_a_00171?journalCode=rest">Nevo and Rosen (2012)</a>. This allows for inference based on instrumental variable estimates, however, with weaker assumptions than instrumental exogeneity. Namely, the exogeneity assumption of typical IV estimates is replaced with an assumption about the sign of the correlation between the instrument and unobservables.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+A description of how to implement these bounds, as well as a discussion of IV bounds more generally, is available in Clarke and Matta (2018).
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install the most recent version directly from the command line in Stata typing <TT>ssc install imperfectiv</TT>.
+</p>
+
+<h3>genspec</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="https://ideas.repec.org/c/boc/bocode/s457892.html"><i>genspec</i></a> is an algorithm for general-to-specific model prediction in Stata.  It is defined to search a large number of explanatory variables, and from these explanatory variables select the 'best' model based upon their relevance and power in explaining the dependent variable of interest.  <i>genspec</i> implements a series of tests and search paths as outlined in the (growing) econometric literature on general-to-specific modeling.  For further details see <a href="https://www.stata-journal.com/article.html?article=st0365">"General to Specific Modeling in Stata"</a> (free to download).
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install the latest version directly from the command line in Stata typing  <TT>ssc install genspec</TT>.
+</p>
+
+<h3>worldstat</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="http://ideas.repec.org/c/boc/bocode/s457540.html"><i>worldstat</i></a> is a module which allows for the current state of world development to be visualised in a computationally simple way. worldstat presents both the geographic and temporal variation in a wide range of statistics which represent the state of national development. While worldstat includes a number of "in-built" statistics such as GDP, maternal mortality and years of schooling, it is extremely flexible, and can (thanks to the World Bank's module <a href="http://data.worldbank.org/developers/apps/wbopendata">wbopendata</a>) easily incorporate over 5,000 other indicators housed in World Bank Open Databases. Program output in Stata:
+</p>
+
+<center>
+<img src="../_static/img/worldstat_example.png" width=500>
+</center>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install directly from the command line in Stata typing <TT>ssc install worldstat</TT>.
+</p>
+
+<h3>arrowplot</h3>
+<p style="margin-left:2em;margin-right:2em">
+<a href="https://ideas.repec.org/c/boc/bocode/s457893.html"><i>arrowplot</i></a> creates graphs showing inter- and intra-group variation by overlaying arrows for intra-group (regression) trends on a scatter plot.  This is similar to the <a href="http://www.explainingprogress.com/wp-content/uploads/2013/05/within-country-and-between-country-estimates-of-the-life-satisfaction-income-gradient-gallup-world-poll-stevenson-wolfers-20080.png">Stevenson-Wolfers happiness graphs</a>.   Program output is below:
+</p>
+
+<center>
+<img src="../_static/img/NLSWork.png" width=500>
+</center>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install directly from the command line in Stata typing <TT>ssc install arrowplot</TT>.
+</p>
+  
+<h3>erate</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="http://econpapers.repec.org/software/bocbocode/S457604.htm"><i>erate</i></a> (written with Pavel Luengas Sierra) is a module which allows exchange rate conversion between any two currency pairs by consulting google's currency conversion tool to give up-to-date (up-to-minute) rate.  Exchange rates are automatically saved as an rlist and are readily accessible for future calculations.  Alternatively, the user can store results as variables for use in data manipulation involving exchange calculations.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install directly from the command line in Stata typing <TT>ssc install erate</TT>.
+</p>
+
+
+<h3>mergemany</h3>
+<p style="margin-left:2em;margin-right:2em">
+mergemany is an extension to the command merge, providing a flexible way for many 'using' datasets to be merged into one final dataset.  Merges can be performed based upon a user-defined list of files, by using the numerical regularity of file names, or by including all datasets of a given type stored in a single directory.  mergemany also allows the user to import and merge and arbirtrary number of .dta or non .dta in a single step.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  Install directly from the command line in Stata typing  <TT>ssc install mergemany</TT>.
+</p>
+
+<h3>ping</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <i>ping</i> is a simple program to determine whether Stata is able to connect to the internet.  It is intended for use in scripts or programs where the user wishes to determine if internet connectivity is available prior to running a command (such as webuse, ssc, and other similar functions).  The user simply needs to type 'ping' at the command line to run, and is returned r(ping)="Yes" in an rlist if connected.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  Download ado <a href="../stata/ping.ado">here</a>.
+</p>
+
+
+<h2>2. Other Computational/Data Routines</h2>
+<h3>Automatic Download and Processing of Demographic and Health Surveys</h3>
+<p style="margin-left:2em;margin-right:2em">
+  My work with Sonia Bhalotra on twin endogeneity and on maternal mortality uses cross-country data provided by the Demographic and Health Surveys.  These are a set of surveys collected in over 80 developing countries over 20+ years.  The cross-country dataset used must be constructed from approximately 1600 individual survey databases which are freely available to download (by application) at <a href="https://dhsprogram.com/data/">https://dhsprogram.com/data/</a>.  Here I provide files which automate this process of downloading, unzipping, appending and merging the DHS country data.  This process requires two programs: a python script <a href="DHS/DHS_Import.py" download>DHS_Import.py</a> and a Stata file <a href="DHS/DHS_Multicountry.do" download>DHS_multicountry.do</a>, along with a text file <a href="DHS/DHS_Countries.txt" download>DHS_Countries.txt</a> which should be saved in the folder where the programs are saved.  These programs are flexible and should run on any operating system provided access to the internet is available and python is <a href="http://www.python.org/getit/">installed</a>.  For full details and instructions see the pdf document attached <a href="DHS/DHSImport_DamianCClarke.pdf" download>here</a>.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  For the latest version (which also downloads GIS data -- see below for coverage), download from <a href="https://bitbucket.org/damiancclarke/dhs-import/src">here</a>.  <i>Update available soon</i>.
+</p>
+
+<center>
+  <img src="../_static/img/DHSGIS.png" width=900>
+</center>
+
+
+<h3>Dictionary Files for United States National Vital Statistics System Fetal Death Files</h3>
+<p style="margin-left:2em;margin-right:2em">
+  The United States National Center for Health Statistics (NCHS) makes available data for all births and fetal deaths occurring in the USA each year.  For births, this data is available from 1968-2012 (early years are a 50% sample), and for fetal deaths from 1982-2012.  This data is stored as fixed width text files (originally electronic tape).  In order to read these files in to Stata, a dictionary file is required, which allows for crude text registers to be converted to Stata's dta format.  The NBER makes available dictionary files for birth data (<a href="http://www.nber.org/data/vital-statistics-natality-data.html">here</a>), however, as far as I know, no similar resource was available for the fetal death files.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  I have written dictionary files to read fetal death data into Stata.  The original fixed width text files of public use microdata can be downloaded from the <a href="http://www.cdc.gov/nchs/data_access/Vitalstatsonline.htm">USA CDC website</a>.  To convert this microdata to a Stata format (which can then be exported to csv for use in other languages), the following files should be downloaded:<br>
+  <a href="NVSS/README.txt" download>README.txt</a><br>
+  <a href="NVSS/fetlNVCS.do" download>fetlNVCS.do</a><br>
+  <a href="NVSS/dictionaryFiles.zip" download>dictionaryFiles.zip</a><br>
+</p>
+
+
+<p style="margin-left:2em;margin-right:2em">
+  The README file contains instructions on how to run these files.  It is reasonably simple, and just requires downloading the microdata, and then changing one local in the fetlNVCS.do file based on the location of the data on the user's machine.  Upon running the do file in Stata, a full set of dta files will be produced (one per year), which contains all variables and observations in the familiar Stata format.  The most updated version of these files are also available on <a href="https://github.com/damiancclarke/nchs-fetaldata">github</a>.
+</p>
+
+<h3>Automatic Download and Processing of National Health Interview Surveys</h3>
+<p style="margin-left:2em;margin-right:2em">
+  The National Health Interview Survey (NHIS) has been run in the USA since 1957 (<a href="http://www.cdc.gov/nchs/nhis.htm">more details here</a>).  Data is made available online at the <a href="http://www.cdc.gov/NCHS/nhis/quest_data_related_1997_forward.htm">CDC website</a> in fixed width text file format.  These can be read in to Stata format using dictionary files, which are made available for certain years online at the CDC website or at NBER.  However, no centralised files are available for all years (since 1997 when the survey changed).  Here I make available (thanks also to the work of Yu-Kuan Chen), full files to download all data automatically, and to read these all into Stata with two or three commands.  All that is required to download and import all data to Stata format is <a href="https://www.python.org/">Python</a> (if you wish to download data automatically), and Stata to read crude .dat files to Stata's dta format.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  Full details are available in the README file in the folder below explaining comprehensively how to run these programs on Windows, Mac, or Unix operating systems.  Apart from this, all that is required is the Python file NHISprocess.py in the zipped folder.  If you just wish to download the dictionary files for Stata (1997-2013), they are available <a href="NHIS/Source.zip" download>here</a>.  Files are also available on my <a href="https://github.com/damiancclarke/nhis">github account</a>, and are distributed for free use and alteration for any reason under the GNU General Public License.
+</p>
+
+<p style="margin-left:2em;margin-right:2em">
+  <a href="HHIS/NHISprocess.zip" download>NHISprocess.zip</a>
+</p>
+
+
+
+
+  </body>
+</html>

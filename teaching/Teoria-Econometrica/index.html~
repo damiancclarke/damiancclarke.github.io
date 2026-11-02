@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Damian Clarke - Health Economics, Labour Economics, Microeconometrics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Damian Clarke">
+    <meta name="keywords" content="Damian Clarke, damiancclarke, health economics, applied econometrics, development economics">
+    <meta name="description" content="This is the website of Damian Clarke, health economist, with research and computational resources.">
+  </head>
+
+
+  <body>
+
+
+<center>
+<h1>Damian Clarke</h1>
+<table style="width:60%">
+  <tr>
+    <th><a href="http://www.damianclarke.net/index.html" style="color:#000099">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/research/index.html" style="color:#000099">Research</a>&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/computation/index.html" style="color:#000099">Computation</a></th>
+    <th><a href="http://www.microeconometrics-code.com/" style="color:#000099">Book</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/teaching/index.html" style="color:#000099">Teaching</a>&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="http://www.damianclarke.net/CV_DamianCClarke.pdf" style="color:#000099">CV</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+</table>
+</center>
+<hr noshade="noshade">
+
+
+
+<p style="margin-left:2em;margin-right:2em">
+<h2>Teaching</h2>
+I currently teach Applied Econometrics (2nd year masters course), and Econometric Theory (1st year masters course).  Notes for these and links to course pages are below.  I also share some short presentations.  One of these is on scraping the web with Python, and why this might be something of interest for economists, and the other is on estimating dynamic models with a MATLAB (from a series of lectures written with Abi Adams and Simon Quinn in Oxford, 2013-2014).  Further details on these MATLAB lectures are available in our <a href="http://www.microeconometrics-code.com/">textbook</a>.
+Thanks to Stijn Dreesen, a series of solutions to the exercises presented in the book have been put together, and these are available here: <a href="https://github.com/StijnDreesen/MMintro">https://github.com/StijnDreesen/MMintro</a>. This is a recommended source of solutions, and is available to download or fork.
+</p>
+
+
+<h3>Empirical Econometrics</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="Econometria-Aplicada/EmpiricalEconometrics_Clarke.pdf">Notes</a> (updated 2018)
+</p>
+
+
+<h3>Econometric Theory</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="Teoria-Econometrica/Econometria_Clarke_Parte-I.pdf">Notes</a> (in Spanish)
+</p>
+
+
+<h3>Scraping the web with Python</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="misc/DevelopmentWebScraping.pdf">Presentation</a>
+</p>
+
+
+<h3>Dynamic Models in MATLAB</h3>
+<p style="margin-left:2em;margin-right:2em">
+  <a href="MATLAB/DynamicFinite.pdf" download>Slides (finite horizon)</a> &nbsp;&nbsp;  <a href="MATLAB/Code.zip">Code</a> <br><br>
+  <a href="MATLAB/DynamicInfinite.pdf" download>Slides (infinite horizon)</a>  <a href="MATLAB/CodeInfinite.zip">Code</a>
+</p>
+
+
+
+  </body>
+</html>

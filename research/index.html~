@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Damian Clarke - Health Economics, Labour Economics, Microeconometrics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Damian Clarke">
+    <meta name="keywords" content="Damian Clarke, damiancclarke, health economics, applied econometrics, development economics">
+    <meta name="description" content="This is the website of Damian Clarke, health economist, with research and computational resources.">
+
+<style>
+  body {
+    font-family: "Arial";
+  }
+</style>
+
+  </head>
+
+
+  
+  <body>
+
+
+<center>
+<h1>Damian Clarke</h1>
+<table style="width:60%">
+  <tr>
+    <th><a href="https://www.damianclarke.net/index.html" style="color:#000099">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="https://www.damianclarke.net/research/index.html" style="color:#000099">Research</a>&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="https://www.damianclarke.net/computation/index.html" style="color:#000099">Computation</a></th>
+    <th><a href="https://www.damianclarke.net/books/index.html" style="color:#000099">Books</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="https://www.damianclarke.net/teaching/index.html" style="color:#000099">Teaching</a>&nbsp;&nbsp;&nbsp;</th>
+    <th><a href="https://www.damianclarke.net/CV_DamianClarke.pdf" style="color:#000099">CV</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+  </tr>
+</table>
+</center>
+<hr noshade="noshade">
+
+<h2>Working Papers</h2>
+ <ul style="list-style-type:none;line-height:1.2">
+   <li>"<a href="https://www.damianclarke.net/research/papers/sulfa.pdf" style="color:#000099">The Long Run Economic Effects of Medical Innovation and the Role of Opportunities</a>", with Sonia Bhalotra and Atheen Venkataramani</li>
+    <ul style="list-style-type:none;line-height:1.2">
+     <li><b> Journal of Political Economy</b> (Conditionally accepted).</li>
+     <li>Data and Replication Materials.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/sulfa_online_appendix.pdf" style="color:black">Online Appendix</a>.</li>  
+   </ul>
+<br>
+<li>"Studying Changes in Intimate Partner Violence in Latin America: A Brief Report from a Panel Survey during COVID-19", with Pilar Larroulet, Francisco Pino, Sonia Bhalotra and Emilia Brito</li>
+    <ul style="list-style-type:none;line-height:1.2">
+     <li><b> Journal of Family Violence</b> (Conditionally accepted).</li>
+     <li><a href="https://doi.org/10.7910/DVN/U8TIXK" style="color:#000099">Link to survey.</a></li>
+   </ul>
+<br>
+<li>"<a href="https://www.damianclarke.net/research/papers/the_daughter_penalty.pdf" style="color:#000099">The Daughter Penalty</a>", with Sonia Bhalotra and Angelina Nazarova</li>
+<br>
+  <li>"<a href="https://documents1.worldbank.org/curated/en/099852205292517348/pdf/IDU-98df7a03-187f-48db-9a63-3449cb5d0884.pdf" style="color:#000099">CACHE: A Generalized Mechanism for Storing and Replaying Any Stata Command</a>", with R. Andrés Castañeda</li>
+  <br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/Cumulative_Estimation.pdf" style="color:#000099">Cumulative Estimation</a>", with Nicolás Paris Torres and Benjamín Villena-Roldán.</li>
+    <ul style="list-style-type:none;line-height:1.2">
+     <li>January, 2025</b>.</li>
+   </ul>
+<br>
+    <li>"<a href="https://www.damianclarke.net/research/papers/ec29.pdf" style="color:#000099">Does Increasing Public Spending in Health Improve Health? Lessons from Constitutional Reform in Brazil</a>" with Rudi Rocha and Michel Szklo</li>
+    <ul style="list-style-type:none;line-height:1.2">
+     <li>October, 2024.</li>
+     <li>Reject & Resubmit <b>American Economic Review</b>.</li>
+   </ul>
+    <br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/voiceMMR.pdf" style="color:#000099">Maternal Mortality and Women's Political Voice: Historical Evidence from the U.S.</a>", with Sonia Bhalotra, Joseph Gomes and Atheen Venkataramani</li>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/SET.pdf" style="color:#000099">Health and Labor Market Impacts of Twin Birth: Evidence from a Swedish IVF Policy</a>", with Sonia Bhalotra, Hanna Mühlrad and Mårten Palme</li>
+<br>
+   <li>"<a href="https://mpra.ub.uni-muenchen.de/81604/1/MPRA_paper_81604.pdf" style="color:#000099">Estimating Difference-in-Differences in the Presence of Spillovers</a>"</li>
+</ul> 
+&nbsp;
+ 
+<h2>Published and Forthcoming Papers</h2>
+<ul style="list-style-type:none;line-height:1.2">
+   <li> "<a href="https://www.damianclarke.net/research/papers/schoolsChildren.pdf" style="color:#000099">Schools as Safety Nets: Break-downs and Recovery in Reporting of Violence Against Children</a>", with Pilar Larroulet, Daniel Pailañir and Daniela Quintana.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Journal of Human Resources</b> (Forthcoming).</li>
+	<li><a href="https://doi.org/10.7910/DVN/ZYJXY4" style="color:black">Data and Replication Materials</a>.</li>
+        <li><a href="https://www.damianclarke.net/research/papers/schoolsChildren_appendix.pdf" style="color:black">Online Appendix</a>.</li>  
+        <li><a href="https://jhr.uwpress.org/content/early/2025/02/28/jhr.0523-12924R1" style="color:black">Journal Link</a>.</li>  
+      </ul>
+<br> 
+   <li>"<a href="https://www.damianclarke.net/research/papers/wildfires.pdf" style="color:#000099">Smoke Signals: Understanding Temporal Dynamics of
+Wildfire Exposure on Health and Education</a>", with Rubí Arrizaga, Pedro Cubillos and J. Cristóbal Ruíz-Tagle</li>
+    <ul style="list-style-type:none;line-height:1.2">
+     <li><b> Journal of Environmental Economics and Management</b> (Accepted, 2026).</li>
+        <li><a href="https://doi.org/10.7910/DVN/EFNHXQ" style="color:black">Data and Replication Materials</a>.</li>
+        <li><a href="https://www.damianclarke.net/research/papers/wildfires_appendix.pdf" style="color:black">Online Appendix</a>.</li>	
+        <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0095069626000422" style="color:black">Journal Link</a>.</li>
+   </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/GGR_MaternalMortality.pdf" style="color:#000099">US Presidential Party Switches Are Mirrored in Global Maternal Mortality</a>", with Sonia Bhalotra, Hanna Mühlrad and Manuel Fernández Sierra</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>BMJ: Global Health</b> (Accepted, 2026).</li>
+        <li><a href="https://github.com/man-fern/Bhalotra-et-al-BMJ-replicationPackage" style="color:black">Data and Replication Materials</a>.</li>
+        <li>Open Access Link.</li>  
+      </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/intergen.pdf" style="color:#000099">Estimating Inter-generational Returns to Medical Care: New Evidence from At-Risk Newborns</a>", with Nicolás Lillo Bustos and Kathya Tapia Schythe.</li>
+    <ul style="list-style-type:none;line-height:1.2">
+     <li><b> Journal of Public Economics</b> 256: 105597 (2026).</li>
+	<li><a href="https://doi.org/10.7910/DVN/KZOMOQ" style="color:black">Data and Replication Materials</a>.</li>
+        <li><a href="https://www.damianclarke.net/research/papers/intergen_appendix.pdf" style="color:black">Online Appendix</a>.</li>  
+     <li><a href="https://www.sciencedirect.com/science/article/pii/S0047272726000332" style="color:black">Open Access Link</a>.</li>     
+   </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/DV_Lockdowns.pdf" style="color:#000099">Dynamic Impacts of Lockdown on Domestic Violence: Evidence from Multiple Policy Shifts in Chile</a>", with Sonia Bhalotra, Emilia Brito, Pilar Larroulet and Francisco Pino.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>The Review of Economics and Statistics</b> 108(2): 344-354 (2026).</li>
+     <li><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/ZLUBEE" style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/rest_a_01412-supp.pdf" style="color:black">Online Appendix</a>.</li>  
+     <li><a href="https://direct.mit.edu/rest/article/doi/10.1162/rest_a_01412/119507/Dynamic-Impacts-of-Lockdown-on-Domestic-Violence" style="color:black">Journal Link</a>.</li>  
+  </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/SDID.pdf" style="color:#000099">On Synthetic Difference-in-Differences and Related Estimation Methods in Stata</a>", with Daniel Pailañir, Susan Athey and Guido Imbens.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Stata Journal</b> 24(4):557-598 (2024).</li>
+     <li><a href=https://www.damianclarke.net/replication/SDID.zip style="color:black">Replication Materials</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/SDID_supplementaryOnline.pdf" style="color:black">Online Appendix</a>.</li>     
+     <li><a href="https://journals.sagepub.com/doi/epdf/10.1177/1536867X241297914" style="color:black">Open Access Link</a>.</li>     
+   </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/jvad012.pdf" style="color:#000099">Maternal Mortality and Women's Political Power</a>", with Sonia Bhalotra, Joseph Gomes and Atheen Venkataramani.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Journal of the European Economic Association</b> 21(5):2172-2208 (2023).</li>
+     <li><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/INLWUH" style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/jeea/PAP/10.1093_jeea_jvad012/2/jvad012_bhalotra_etal_onlineappendix_politicsmmr.pdf?Expires=1697644439&Signature=lX7Qn580Qb1GTIeo32AvkSlFyqeYoyVmlLT4D1J4hmaI6KVn46AVxV6UCWeohryb-EEbQSZR7U7AzneZg0AP-7LNO-GmICtUyuS-xujkfBTX7T7l1hz3jocifad32TJp6NVm9PSAF~21eZ4IlkIcE8ugdN1S2IxA7ZyxO7u8v815zqwIACLcVqGMo2ic8HUgkZYFGqqcaUwDofXkCxSfcf6LJm287NloaM9iMGN3wUHQ~qnQFQNPk~HPthGK1QJNzjFjtLyESegKRY-RIuJ8qiFc8AWLQgzvj8pf-Kp04JGS50-Whws7n4JrVA1TtkYzabvnpPC0hhWoK2ZkEg9o4w__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA" style="color:black">Online Appendix</a>.</li>     
+     <li><a href="https://academic.oup.com/jeea/article/21/5/2172/7060387?utm_source=authortollfreelink&utm_campaign=jeea&utm_medium=email&guestAccessKey=63301c66-5c43-4e3e-9f06-973fff02f99c" style="color:black">Open Access Link</a>.</li>     
+     <li><a href="https://eeassoc.s3.amazonaws.com/s3fs-public/2023-03/Bhalotra_etal_Teaching_Slides.pdf" style="color:black">Teaching Materials</a>.</li>     
+   </ul>
+<br>
+
+   <li>"<a href="https://www.damianclarke.net/research/papers/quantReg_EconHistory_HistoricalMethods_Final.pdf" style="color:#000099">The Use of Quantile Methods in Economic History</a>", with Manuel Llorca Jaña and Daniel Pailañir.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Historical Methods</b> 56(2):115-132 (2023).</li>
+     <li><a href="https://doi.org/10.7910/DVN/E0NT7E". style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/quantReg_supplementaryOnline.pdf" style="color:black">Online Appendix</a>.</li>     
+     <li><a href="https://www.tandfonline.com/doi/epdf/10.1080/01615440.2023.2198272" style="color:black">Open Access Link</a>.</li>     
+   </ul>
+<br>
+
+   <li>"<a href="https://www.damianclarke.net/research/papers/panelEvent.pdf" style="color:#000099">Implementing the Panel Event Study</a>", with Kathya Tapia Schythe.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Stata Journal</b> 21(4):853–884 (2021).</li>
+     <li><a href="https://www.damianclarke.net/replication/replication_panelEvent.zip" style="color:black">Replication Materials</a>.</li>
+   </ul>
+<br>
+
+   <li>"<a href="https://www.damianclarke.net/research/papers/morningAfterPillHealth-ClarkeSalinas.pdf" style="color:#000099">Access to the Emergency Contraceptive Pill and Women's Reproductive Health: Evidence from Public Reform in Chile</a>", with Viviana Salinas.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li> <b>Demography</b> 58(6):2291–2314 (2021).</li>
+     <li><a href="https://doi.org/10.7910/DVN/I1DJXQ" style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/morningAfterPillHealth-onlineAppendix.pdf" style="color:black">Online Appendix</a>.</li>
+     <li><a href="https://www.youtube.com/watch?v=a1F0sYleveo" style="color:black">Short video (in Spanish)</a>.</li>     
+     <li><a href="https://read.dukeupress.edu/demography/article/doi/10.1215/00703370-9544015/251635/Access-to-the-Emergency-Contraceptive-Pill-and" style="color:black">Open Access Link</a>.</li>     
+  </ul>
+<br>
+
+   <li>"<a href="https://www.damianclarke.net/research/papers/AbortionWomensHealth-JHE.pdf" style="color:#000099">Abortion Laws and Women's Health</a>", with Hanna Mühlrad.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Journal of Health Economics</b> 76(C):102413 (2021).</li>
+     <li><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/LQJ3KA" style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/AbortionWomensHealth_ONLINE-APPENDICES.pdf" style="color:black">Online Appendix</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/corrigendum_footnote5.pdf" style="color:black">Corrigendum for footnote 5</a>.</li>
+     <li><a href="https://www.sciencedirect.com/science/article/pii/S0167629620310596/pdf?md5=4a406ff2356eb9a2c7f3696c9fb4926f&pid=1-s2.0-S0167629620310596-main.pdf" style="color:black">Open Access Link</a>.</li>
+  </ul>
+<br>
+
+   <li>"<a href="https://www.damianclarke.net/research/papers/BW-Value_CQDO.pdf" style="color:#000099">On the Value of Birth Weight</a>", with Sonia Oreffice and Climent Quintana-Domeque.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Oxford Bulletin of Economics and Statistics</b> 83(5):1130-1159 (2021).</li>
+     <li><a href="https://doi.org/10.7910/DVN/IWINJN" style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/BW-Value_CQDO_appendix.pdf" style="color:black">Online Appendix</a>.</li>
+     <li><a href="https://onlinelibrary.wiley.com/doi/epdf/10.1111/obes.12429" style="color:black">Open Access Link</a>.</li>
+  </ul>
+<br>
+
+   <li>"<a href="https://www.damianclarke.net/research/papers/BhalotraClarke_TheTwinInstrument_JEEA-preprint.pdf" style="color:#000099">The Twin Instrument: Fertility and Human Capital Investment</a>", with Sonia Bhalotra.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Journal of the European Economic Association</b> 18(6):3090-3139 (2020).</li>
+    <li><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/OJKTD7" style="color:black">Data and Replication Materials</a>.</li>
+    <li><a href="https://www.damianclarke.net/research/papers/BhalotraClarke_TheTwinInstrument_onlineAppendix_JEEA.pdf" style="color:black">Online Appendix</a>.</li>
+    <li><a href="https://academic.oup.com/jeea/advance-article/doi/10.1093/jeea/jvz058/5686856" style="color:black">Open Access Link</a>.</li>
+    </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/multHyp_SJ_ClarkeRomanoWolf.pdf" style="color:#000099">The Romano-Wolf Multiple Hypothesis
+Correction in Stata</a>", with Joseph P. Romano and Michael Wolf.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Stata Journal</b> 13(4):812-843 (2020).</li>
+    <li><a href=https://www.damianclarke.net/replication/replicationRWolf.zip style="color:black">Code and Data</a>.</li>
+  </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/Clarkeetal2020_GrowingTogetherAssessingEquity.pdf" style="color:#000099">Growing Together: Assessing Equity and Efficiency in a Prenatal Health Program</a>", with Gustavo Cortés and Diego Vergara.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Journal of Population Economics</b> 33(3):883-956 (2020).</li>
+     <li><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/KTWVVA" style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://www.damianclarke.net/research/papers/GrowingTogether_JoPE-onlineAppenix.pdf" style="color:black">Online Appendix</a>.</li>
+   </ul>
+<br>
+  <li> "<a href="https://www.mitpressjournals.org/doi/pdfplus/10.1162/rest_a_00789" style="color:#000099">Twin Birth and Maternal Condition</a>", with Sonia Bhalotra. </li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>The Review of Economics and Statistics</b> 101(5):853-864 (2019).</li>
+    <li><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/TNGJ6E" style="color:black">Data and Replication Materials</a>.</li>
+    <li><a href="https://www.damianclarke.net/research/papers/BhalotraClarke_TwinBirth_onlineAppendix.pdf" style="color:black">Online Appendix</a>.</li>
+     <li><a href="https://www.mitpressjournals.org/doi/abs/10.1162/rest_a_00789" style="color:black">Open Access Link</a>.</li>
+  </ul>
+<br>
+   <li> "<a href="https://www.damianclarke.net/research/papers/Clarke_et_al-2019-Journal_of_Applied_Econometrics.pdf" style="color:#000099">The Demand for Season of Birth</a>", with Sonia Oreffice and Climent Quintana-Domeque.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Journal of Applied Econometrics</b> 34(5):707-723 (2019).</li>
+     <li><a href="http://qed.econ.queensu.ca/jae/datasets/clarke001/" style="color:black">Data and Replication Materials</a>.</li>
+     <li><a href="https://onlinelibrary.wiley.com/doi/full/10.1002/jae.2711" style="color:black">Open Access Link</a>.</li>
+   </ul>
+<br>
+  <li> "<a href="https://www.damianclarke.net/research/papers/Clarke_ConvenientOVB_EL.pdf" style="color:#000099">A Convenient Omitted Variable Bias Formula for Treatment Effect Models</a>".</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Economics Letters</b> 174:84-88 (2019).</li>
+    <li><a href="https://www.damianclarke.net/research/papers/Clarke_ConvenientOVB_Supplement.pdf" style="color:black">Online Appendix</a>.</li>
+  </ul>
+<br>
+  <li> <a href="https://www.damianclarke.net/research/papers/practicalIV-CM.pdf" style="color:#000099">Practical Considerations for Questionable IVs</a>", with Benjamín Matta. </li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Stata Journal</b> 18(3):663-691 (2018).</li>
+    <li><a href="https://www.damianclarke.net/replication/practicalIV-replication.zip" style="color:black">Data and Replication Materials</a>.</li>
+  </ul>
+<br>
+   <li> "<a href="https://www.damianclarke.net/research/papers/Clarke_FertilityCausality.pdf" style="color:#000099">Children and Their Parents: A Review of Fertility and Causality</a>".</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Journal of Economic Surveys</b> 32(2): 518-540 (2018).</li>
+    <li><a href="https://www.damianclarke.net/replication/fertilityCausality_Code.zip" style="color:black">Replication Materials</a>.</li>
+  </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/BentancorClarke_MorningAfterPill.pdf" style="color:#000099">Assessing Plan B: The Effect of the Morning After Pill on Children and Women</a>", with Andrea Bentancor.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>The Economic Journal</b> 127(607): 2525-2552 (2017).</li>
+    <li><a href="https://github.com/damiancclarke/morning-after-pill" style="color:black">Data and Replication Materials</a>.</li>
+  </ul>
+<br>
+   <li> "<a href="https://www.damianclarke.net/research/papers/Clarke_GeneralSpecificStata.pdf" style="color:#000099">General to Specific Modelling in Stata</a>".</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Stata Journal</b> 14(4):895-908 (2014). </li>
+    <li><a href="https://www.damianclarke.net/replication/GETS_Stata.zip" style="color:black">Data and Replication Materials</a>.</li>
+  </ul>
+<br>
+   <li> "<a href="http://www.sciencedirect.com/science/article/pii/S0020169309003466" style="color:#000099">1,2-Borotropic shifts and B--N bond cleavage reactions in molybdenum hydrotris(3-isopropylpyrazolyl)borate chemistry: Mixed-valence Mo<sup>VI</sup>Mo<sup>V</sup><sub>2</sub> and pyrazole-rich oxo-Mo<sup>IV</sup> complexes</a>" with J White, V Ng, P Smith, M Taylor and C Young.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Inorganica Chimica Acta</b>, 362(12):4570-4577 (2009).</li>
+  </ul>
+ </ul>
+&nbsp;
+
+<h2>Books</h2>
+<ul style="list-style-type:none;line-height:1.2">
+  <li><a href="https://mitpress.mit.edu/9780262053648/applied-microeconometrics/" style="color:#000099">Applied Microeconometrics</a></li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>MIT Press</b> (Due out, 2026).</li>
+    <li><a href="https://www.damianclarke.net/research/papers/microeconometrics_table_of_contents.pdf" style="color:#000099">Draft Table of Contents</a></li>
+  </ul>
+<br>
+  <li> "<a href="http://ukcatalogue.oup.com/product/academic/ef/economics/econometrics/9780198754503.do" style="color:#000099">Microeconometrics and MATLAB: An Introduction</a>", with Abi Adams and Simon Quinn. </li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Oxford University Press</b> (2016)</li>
+    <li><a href="https://www.damianclarke.net/research/papers/TOC.pdf" style="color:#000099">Table of Contents</a></li>
+  </ul>
+</ul>
+&nbsp;
+
+<h2>Handbook Chapters</h2>
+ <ul style="list-style-type:none;line-height:1.2">
+   <li>"<a href="https://www.damianclarke.net/research/papers/AbortionReformsEconomics_ORE.pdf" style="color:#000099">The Economics of Abortion Policy</a>"</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>The Oxford Research Encyclopedia</b> (2024)</li>
+     <li><a href=https://oxfordre.com/economics/view/10.1093/acrefore/9780190625979.001.0001/acrefore-9780190625979-e-850 style="color:black">Publisher Link</a>.</li>
+    <li><a href=https://www.youtube.com/watch?v=46K20vJMfzA style="color:black">Podcast episode on abortion reform</a>.</li>
+   </ul>
+  <br>
+   <li> "<a href="https://www.damianclarke.net/research/papers/WomensCareersFamilyFormation_handbook.pdf" style="color:#000099">Women's Careers and Family Formation</a>", with Sonia Bhalotra and Selma Walther. </li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Handbook of Labor, Human Resources and Population Economics</b> (2023)</li>
+     <li><a href=https://link.springer.com/referenceworkentry/10.1007/978-3-319-57365-6_150-1 style="color:black">Publisher Link</a>.</li>
+  </ul>
+</ul> 
+ <ul style="list-style-type:none;line-height:1.2">
+   <li> "<a href="https://www.damianclarke.net/research/papers/twins.pdf" style="color:#000099">Analysis of Twins</a>", with Sonia Bhalotra. </li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li><b>Handbook of Labor, Human Resources and Population Economics</b> (2023)</li>
+     <li><a href=https://link.springer.com/referenceworkentry/10.1007/978-3-319-57365-6_288-1 style="color:black">Publisher Link</a>.</li>
+  </ul>
+</ul> 
+<br>
+&nbsp;
+
+
+
+<h2>Papers in Special Issues</h2>
+ <ul style="list-style-type:none;line-height:1.2">
+   <li>"<a href="https://www.damianclarke.net/research/papers/FemEdu_MMRIMR_ADB.pdf" style="color:#000099">Education Expansion as a Policy Tool for Reductions in Infant and Maternal Mortality</a>", with Sonia Bhalotra</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Asian Development Review</b> (2025)</li>
+     <li><a href="https://www.youtube.com/watch?v=bbDzW-g3uNc" style="color:black">Short Video (UNU-WIDER)</a></li>
+   </ul>
+<br>
+   <li>"<a href="https://www.damianclarke.net/research/papers/CSP_abortionReform_acceptedVersion.pdf" style="color:#000099">Understanding the National Implementation of a Legalized Abortion Policy: Evidence from Decriminalization in Chile</a>", with Cecilia Correa-Meneghello, Viviana Salinas and Alejandra Ramm</li>
+  <ul style="list-style-type:none;line-height:1.2">
+     <li><b>Canadian Studies in Population</b> 52(4):1-12 (2025)</li>
+     <li>Special Issue on Demographic Change and Challenges in the Americas</li>
+     <li><a href="https://rdcu.be/eplaT" style="color:black">Open Publisher Link</a></li>
+     <li><a href="https://doi.org/10.7910/DVN/R2GE6C" style="color:black">Data and Replication Materials</a></li>
+   </ul>
+</ul> 
+<br>
+&nbsp;
+
+<h2>Policy Reports</h2>
+<ul style="list-style-type:none;line-height:1.2">
+  <li> "<a href="https://www.damianclarke.net/research/papers/SaludPublicaSaludMental_CERGF_CLOOB.pdf" style="color:#000099">Programas de Salud Pública y Salud Mental de los Jóvenes en Chile: Evidencia de los Espacios Amigables</a>", with Carlos Espinosa de la Rivera and Ignacio García Fernández.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li>Chapter (in Spanish), <b>"Chile, Out of the Box"</b>, IADB & Universidad de Chile (2021)</li>
+    <li><a href="https://www.universitaria.cl/product/pensando_chile_fuera_de_la_caja/" style="color:black">Publisher Link</a></li>
+  </ul>
+  <br>
+  <li> "<a href="http://www.crececontigo.gob.cl/wp-content/uploads/2019/04/Estudio-equidad-y-eficiencia-ChCC.pdf" style="color:#000099">Creciendo Juntos: Evaluando la Equidad y Eficiencia de Chile Crece Contigo.</a>", with Gustavo Cortés Méndez and Diego Vergara Sepúlveda.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li>Support Material (in Spanish), Chile Crece Contigo Program, Ministry of Social Development, Chile, (2019)</li>
+  </ul>
+  <br>
+  <li> "<a href="https://www.damianclarke.net/research/papers/2018_05_webb_Tillganp.pdf" style="color:#000099">The Impact of Abortion Legalization on Fertility and Female Empowerment</a>", with Hanna Mühlrad. 
+    <ul style="list-style-type:none;line-height:1.2">
+      <li>Policy Brief for <a href="https://eba.se/rapporter/the-impact-of-abortion-legalization-on-fertility-and-female-empowerment-new-evidence-from-mexico/7001/"style="color:black">The Expert Group for Aid Studies (EBA)</a>, Sweden, (2018).</li>
+    </ul>          
+  <br>
+  <li> "<a href="http://unesdoc.unesco.org/images/0022/002259/225945E.pdf" style="color:#000099">Education and Maternal Mortality</a>", with Sonia Bhalotra.</li>
+  <ul style="list-style-type:none;line-height:1.2">
+    <li>Background Paper for <a href="http://unesdoc.unesco.org/images/0022/002231/223115E.pdf" style="color:black">EFA Global Monitoring Report</a>, UNESCO (2013/14).</li>
+  </ul>          
+</ul>
+&nbsp;
+
+<h2>Computational Routines</h2>
+ <ul style="list-style-type:none;line-height:1.2">
+   <li> <a href="https://ideas.repec.org/c/boc/bocode/s459434.html" style="color:#000099">CACHE (with R.Andrés Castañeda): Stata module to cache all other Stata commands</a> </li>
+   <li> <a href="https://github.com/Daniel-Pailanir/TSCB-CCV/" style="color:#000099">CCV (with Daniel Pailañir): Stata module to implement the causal cluster variance estimator</a> </li>
+   <li> <a href="https://github.com/Daniel-Pailanir/TSCB-CCV/" style="color:#000099">TSCB (with Daniel Pailañir): Stata module to implement the two-stage cluster bootstrap estimator </a> </li>
+   <li> <a href="https://ideas.repec.org/c/boc/bocode/s459058.html" style="color:#000099">SDID (with Daniel Pailañir): Stata module to perform synthetic difference-in-differences estimation, inference, and visualization</a> </li>
+   <li> <a href="https://econpapers.repec.org/software/bocbocode/S458737.htm" style="color:#000099">EVENTDD (with Kathya Tapia Schythe): Stata module to estimate panel event study models and generate event study plots</a> </li>
+   <li> <a href="https://ideas.repec.org/c/boc/bocode/s458363.html" style="color:#000099">IMPERFECTIV: (with Benjamín Matta) Stata module to estimate bounds with "Imperfect Instrumental Variables" (Nevo and Rosen, 2012)</a> </li>
+   <li> <a href="http://econpapers.repec.org/software/bocbocode/s458276.htm" style="color:#000099">RWOLF: Stata module to calculate Romano-Wolf stepdown p-values for multiple hypothesis testing</a> Bug fix in the current version of the code.  For details please see <a href="https://www.damianclarke.net/computation/clusterBug.pdf" style="color:#000099">here</a> </li> 
+   <li> <a href="http://ideas.repec.org/c/boc/bocode/s457893.html" style="color:#000099">ARROWPLOT: Stata module to produce combined plot for graphing inter-group and intra-group trends</a> </li>
+   <li> <a href="http://econpapers.repec.org/software/bocbocode/S457832.htm" style="color:#000099">PLAUSEXOG: Stata implementation of Conley et al's plausibly exogenous bounds</a> </li>
+   <li> <a href="https://ideas.repec.org/c/boc/bocode/s457892.html" style="color:#000099">GENSPEC: A general-to-specific modelling algorithm for Stata</a> </li>
+   <li> <a href="http://econpapers.repec.org/software/bocbocode/S457604.htm" style="color:#000099">ERATE: (with Pavel Luengas Sierra) Stata module to import up-to-date exchange rates for any currency pairs </a> </li>
+   <li> <a href="http://ideas.repec.org/c/boc/bocode/s457499.html" style="color:#000099">MERGEMANY: Stata module to merge many files</a> </li>
+   <li> <a href="http://ideas.repec.org/c/boc/bocode/s457540.html" style="color:#000099">WORLDSTAT: A visualisation of the state of world development</a> </li>
+ </ul>
+
+
+
+
+
+
+  </body>
+</html>
+
+
+

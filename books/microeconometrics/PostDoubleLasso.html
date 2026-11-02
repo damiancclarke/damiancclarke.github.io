@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 9 – Applied Microeconometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-808c031e01507d627300357d88007fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Applied Microeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./about.html">
+ <span class="dropdown-text">About this book</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data.html">
+ <span class="dropdown-text">How to download the required data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-python" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Python</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-python">    
+        <li>
+    <a class="dropdown-item" href="./Python.html">
+ <span class="dropdown-text">Following Along with Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionPython.html">
+ <span class="dropdown-text">An Introduction to Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Python.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3Python.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Python.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Python.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Python.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Python.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Python.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9Python.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">Following Along with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionR.html">
+ <span class="dropdown-text">An Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2R.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3R.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4R.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5R.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6R.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7R.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8R.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9R.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-stata" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Stata</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-stata">    
+        <li>
+    <a class="dropdown-item" href="./Stata.html">
+ <span class="dropdown-text">Following Along with Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionStata.html">
+ <span class="dropdown-text">An Introduction to Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Stata.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3Stata.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Stata.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Stata.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Stata.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Stata.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Stata.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9Stata.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 9</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<style type="text/css">
+.justify {
+  text-align: justify !important
+}
+</style>
+</div>
+<div class="justify">
+<section id="nota-incluída-dentro-del-texto." class="level2">
+<h2 class="anchored" data-anchor-id="nota-incluída-dentro-del-texto.">Nota incluída dentro del texto.</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Some comments about the Post-Lasso procedure.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The presented procedure is called Post-Lasso. It involves using the Lasso-selected set of regressors for the dependent variable against all covariates to refit the model using least squares. One of the main characteristics of this procedure is that it helps remove the bias imposed by Lasso when shrinking coefficients towards zero. In contexts where the sample size is larger than the effective number of relevant covariates needed to predict the dependent variable (sometimes called the effective dimension), Lasso and Post-Lasso regression come close to the population regression function (<span class="citation" data-cites="Chernozhukovetal2024">Chernozhukov (<a href="#ref-Chernozhukovetal2024" role="doc-biblioref">2024</a>)</span>).</p>
+<p>In the context of high-dimensional data, this property is less likely to hold. Many authors argue that when the number of effective covariates exceeds the number of observations, Post-Lasso can lead to biased estimators and incorrect confidence intervals.</p>
+<p>A different procedure proposed in the literature is called <em>Post-Double Lasso</em>. This procedure consists in three steps:</p>
+<ol type="1">
+<li><p>Regress <code>y</code> against all control variables and select relevant predictors using Lasso (i.e estimate <a href="#eq-lasso" class="quarto-xref">Equation&nbsp;1</a>).</p></li>
+<li><p>Regress <code>treat</code> against all control variables and select relevant predictors using Lasso.</p></li>
+<li><p>Regress <code>y</code> against <code>treat</code> and all control variables selected in the previous two steps.</p></li>
+</ol>
+<p>By performing Post-Double Lasso, we can address part of the omitted-variable bias that might arise using Post-Lasso when not considering relevant variables correlated with the treatment variable, and obtain more accurate confidence intervals.</p>
+</div>
+</div>
+</section>
+<section id="post-double-lasso-en-stata" class="level1">
+<h1>Post-Double LASSO en Stata</h1>
+<p>Recordar que el benchmark con Post-Lasso es<code>treat = 1353.069</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cap import delimited <span class="st">"Datasets/Farrell2015.csv"</span>, <span class="kw">clear</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> covariates v3-v12</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> continuous_interactions v13-v34</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> dummy_interactions v35-v48</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> polynomials v49-v173</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>* Primer Paso:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> lasso linear <span class="fu">y</span> <span class="ot">$covariates</span> <span class="ot">$continuous_interactions</span> <span class="ot">$dummy_interactions</span> <span class="ot">$polynomials</span> <span class="kw">if</span> nsw == 0, selection(cv) rseed(1234)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> lassocoef </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>* Segundo Paso:</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> lasso linear treat <span class="ot">$covariates</span> <span class="ot">$continuous_interactions</span> <span class="ot">$dummy_interactions</span> <span class="ot">$polynomials</span> <span class="kw">if</span> nsw == 0, selection(cv) rseed(1234)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> lassocoef</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>* Tercer Paso:</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">y</span> treat v3 v4 v8 v9 v19 v22 v28 v34 v40 v59 v73 v84 v95 v118 v126 v137 v141 v148 v161 v163 v167 v5 v11 v20 v21 v38 v39 v41 v42 v44 v46 v48 v53 v55 v70 v75 v98 v101 v105 v110 v159 v160 v169 v170 <span class="kw">if</span> nsw == 0, <span class="kw">vce</span>(<span class="kw">robust</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear regression                               Number of obs     =      2,675
+                                                F(45, 2629)       =     126.49
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.6208
+                                                Root MSE          =     9708.4
+
+------------------------------------------------------------------------------
+             |               Robust
+           y | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       treat |    331.025   935.7638     0.35   0.724    -1503.883    2165.933
+          v3 |  -3467.397   989.7223    -3.50   0.000     -5408.11   -1526.683
+          v4 |   4629.242   1887.628     2.45   0.014     927.8551    8330.629
+          v8 |     7914.2   1277.495     6.20   0.000     5409.203     10419.2
+          v9 |   10021.94    1389.23     7.21   0.000     7297.846    12746.03
+         v19 |   85.25061   1804.301     0.05   0.962    -3452.744    3623.245
+         v22 |   599.7737   320.5799     1.87   0.061    -28.84083    1228.388
+         v28 |   141.4776   363.4029     0.39   0.697     -571.107    854.0621
+         v34 |   2243.328   615.7543     3.64   0.000     1035.916     3450.74
+         v40 |  -731.4903   309.6074    -2.36   0.018    -1338.589   -124.3914
+         v59 |   361.9357   404.2028     0.90   0.371    -430.6522    1154.524
+         v73 |   438.6263   259.2379     1.69   0.091    -69.70459    946.9573
+         v84 |  -1694.001   552.3597    -3.07   0.002    -2777.104   -610.8967
+         v95 |   -209.869   915.4721    -0.23   0.819    -2004.988     1585.25
+        v118 |  -637.4934   329.8715    -1.93   0.053    -1284.327     9.34072
+        v126 |   1008.797   1017.579     0.99   0.322      -986.54    3004.133
+        v137 |  -64.51317   596.2324    -0.11   0.914    -1233.645    1104.619
+        v141 |  -631.4913    538.034    -1.17   0.241    -1686.504    423.5216
+        v148 |   495.9034    301.336     1.65   0.100    -94.97638    1086.783
+        v161 |  -53.25378   545.0913    -0.10   0.922    -1122.105    1015.598
+        v163 |  -1089.944   717.0464    -1.52   0.129    -2495.977    316.0881
+        v167 |  -1201.146   1122.561    -1.07   0.285    -3402.338    1000.046
+          v5 |   863.5985   1728.964     0.50   0.617     -2526.67    4253.867
+         v11 |   589.1111   1057.338     0.56   0.577    -1484.188     2662.41
+         v20 |   267.5092   317.9165     0.84   0.400    -355.8826    890.9011
+         v21 |  -6.989577   289.5797    -0.02   0.981    -574.8167    560.8376
+         v38 |  -700.9289   548.1561    -1.28   0.201     -1775.79    373.9322
+         v39 |   452.0685   577.8527     0.78   0.434    -681.0237    1585.161
+         v41 |   -414.801    211.096    -1.96   0.050    -828.7322   -.8698714
+         v42 |  -4.791464   433.4277    -0.01   0.991    -854.6855    845.1026
+         v44 |   574.0301   312.1521     1.84   0.066    -38.05866    1186.119
+         v46 |  -6.800143   186.0552    -0.04   0.971    -371.6296    358.0294
+         v48 |  -259.0123   827.8907    -0.31   0.754    -1882.396    1364.371
+         v53 |   -127.381   186.7194    -0.68   0.495    -493.5129    238.7509
+         v55 |  -412.5254   260.9349    -1.58   0.114     -924.184    99.13324
+         v70 |   1026.568   758.2614     1.35   0.176    -460.2816    2513.417
+         v75 |   2000.122   1078.144     1.86   0.064    -113.9733    4114.218
+         v98 |   443.4804   618.9876     0.72   0.474    -770.2719    1657.233
+        v101 |   703.0311   732.8963     0.96   0.338    -734.0808    2140.143
+        v105 |  -657.1743   864.9762    -0.76   0.447    -2353.277    1038.929
+        v110 |  -1875.224   1131.672    -1.66   0.098    -4094.282    343.8344
+        v159 |   391.2174   731.5229     0.53   0.593    -1043.202    1825.636
+        v160 |   315.1945   1120.883     0.28   0.779    -1882.708    2513.097
+        v169 |   350.9172   622.0023     0.56   0.573    -868.7463    1570.581
+        v170 |  -20.89752   722.9206    -0.03   0.977    -1438.448    1396.653
+       _cons |   3219.049   2078.801     1.55   0.122    -857.2032      7295.3
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section id="post-double-lasso-en-r" class="level1">
+<h1>Post-Double LASSO en R</h1>
+<p>Recordar que el benchmark con Post-Lasso es <code>treat = 930.37</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"readr"</span>)) <span class="fu">install.packages</span>(<span class="st">"readr"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>); <span class="fu">library</span>(readr)           <span class="co"># To read data (.csv file).</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"glmnet"</span>)) <span class="fu">install.packages</span>(<span class="st">"glmnet"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>); <span class="fu">library</span>(glmnet)        <span class="co"># To use lasso, ridge and elastic net.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"dplyr"</span>)) <span class="fu">install.packages</span>(<span class="st">"dplyr"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>); <span class="fu">library</span>(dplyr)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"sandwich"</span>)) <span class="fu">install.packages</span>(<span class="st">"sandwich"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>); <span class="fu">library</span>(sandwich)  <span class="co"># For robust standard errors.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"lmtest"</span>)) <span class="fu">install.packages</span>(<span class="st">"lmtest"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>); <span class="fu">library</span>(lmtest)        <span class="co"># For statistical inference in regressions.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">6</span>) </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>Farrell2015 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Datasets/Farrell2015.csv"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>nsw <span class="ot">&lt;-</span> <span class="fu">filter</span>(Farrell2015, nsw <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>psid <span class="ot">&lt;-</span> <span class="fu">filter</span>(Farrell2015, nsw <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> psid <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="st">"y"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>treat <span class="ot">&lt;-</span> psid <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="st">"treat"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>all_covariates <span class="ot">&lt;-</span> psid <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">num_range</span>(<span class="st">"v"</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">173</span>))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(y)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>treat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(treat)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>all_covariates <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(all_covariates)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer Paso:</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)                         </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>cvfit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(all_covariates, y)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cvfit)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(cvfit, <span class="at">s =</span> <span class="st">"lambda.min"</span>) <span class="co"># Selected: v3 + v4 + v8 + v9 + v19 + v22 + v28 + v34 + v40 + v54 + v69 + v73 + v84 + v118 + v126 + v137 + v148 + v161 + v163 + v167</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Segundo Paso:</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)                         </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>cvfit2 <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(all_covariates, treat)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cvfit2)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(cvfit2, <span class="at">s =</span> <span class="st">"lambda.min"</span>) <span class="co"># Selected: V3 + v4 + v5 + v6 + v7 + v9 + v11 + v21 + v29 + v32 + v34 + v36 + v38 + v39 + v40 + v41 + v42 + v44 + v46 + v48 + v49 + v52 + v53 + v54 + v55 + v64 + v66 + v70 + v73 + v75 + v78 + v84 + v95 + v97 + v98 + v99 + v100 + v101 + v105 + v109 + v110 + v113 + v118 + v139 + v159 + v160 + v163 + v164 + v169 + v170 + v173</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tercer Paso (v3 y v49 omitidos por multicolinealidad):</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Lasso_Cross_Validation <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treat <span class="sc">+</span> v4 <span class="sc">+</span> v8 <span class="sc">+</span> v9 <span class="sc">+</span> v19 <span class="sc">+</span> v22 <span class="sc">+</span> v28 <span class="sc">+</span> v34 <span class="sc">+</span> v40 <span class="sc">+</span> v54 <span class="sc">+</span> v69 <span class="sc">+</span> v73 <span class="sc">+</span> v84 <span class="sc">+</span> v118 <span class="sc">+</span> v126 <span class="sc">+</span> v137 <span class="sc">+</span> v148 <span class="sc">+</span> v161 <span class="sc">+</span> v163 <span class="sc">+</span> v167 <span class="sc">+</span> v9 <span class="sc">+</span> v29 <span class="sc">+</span> v32 <span class="sc">+</span> v36 <span class="sc">+</span> v38 <span class="sc">+</span> v39 <span class="sc">+</span> v41 <span class="sc">+</span> v42 <span class="sc">+</span> v44 <span class="sc">+</span> v46 <span class="sc">+</span> v48 <span class="sc">+</span> v52 <span class="sc">+</span> v53  <span class="sc">+</span> v55 <span class="sc">+</span> v64 <span class="sc">+</span> v66 <span class="sc">+</span> v70  <span class="sc">+</span> v75 <span class="sc">+</span> v78 <span class="sc">+</span> v95 <span class="sc">+</span> v97 <span class="sc">+</span> v98 <span class="sc">+</span> v99 <span class="sc">+</span> v100 <span class="sc">+</span> v101 <span class="sc">+</span> v105 <span class="sc">+</span> v109 <span class="sc">+</span> v110 <span class="sc">+</span> v113 <span class="sc">+</span> v139 <span class="sc">+</span> v159 <span class="sc">+</span> v160 <span class="sc">+</span> v164 <span class="sc">+</span> v169 <span class="sc">+</span> v170 <span class="sc">+</span> v173, <span class="at">data =</span> psid)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(Lasso_Cross_Validation, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(Lasso_Cross_Validation, <span class="at">type=</span><span class="st">"HC1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+t test of coefficients:
+
+             Estimate Std. Error t value  Pr(&gt;|t|)    
+(Intercept)  1522.246   1485.515  1.0247 0.3055872    
+treat         398.376    919.275  0.4334 0.6647901    
+v4           5330.424   1369.433  3.8924 0.0001017 ***
+v8           5889.321   1448.481  4.0659 4.927e-05 ***
+v9          10349.142   1473.665  7.0227 2.762e-12 ***
+v19           623.023    593.395  1.0499 0.2938471    
+v22           528.120    302.653  1.7450 0.0811075 .  
+v28           166.433    347.561  0.4789 0.6320780    
+v34          2464.162    453.675  5.4316 6.100e-08 ***
+v40          -805.668    266.387 -3.0244 0.0025152 ** 
+v73           402.924    250.022  1.6116 0.1071795    
+v84         -3727.637   1044.010 -3.5705 0.0003627 ***
+v118         -580.413    323.548 -1.7939 0.0729446 .  
+v126         3602.822   1095.520  3.2887 0.0010199 ** 
+v137         -200.650    686.701 -0.2922 0.7701614    
+v148          192.284    289.033  0.6653 0.5059385    
+v161          704.392    313.304  2.2483 0.0246418 *  
+v163        -1132.290    668.674 -1.6933 0.0905103 .  
+v167        -2675.678   1071.023 -2.4982 0.0125418 *  
+v29          -371.366    638.499 -0.5816 0.5608699    
+v32          -405.083    367.453 -1.1024 0.2703856    
+v36           637.137    392.412  1.6236 0.1045719    
+v38          -929.289    485.862 -1.9127 0.0559006 .  
+v39           266.298    506.774  0.5255 0.5992966    
+v41          -334.154    197.392 -1.6928 0.0906043 .  
+v42           230.418    424.319  0.5430 0.5871551    
+v44           535.319    331.755  1.6136 0.1067357    
+v46           -22.918    177.822 -0.1289 0.8974595    
+v48          -594.688    536.456 -1.1086 0.2677259    
+v52           297.486    194.307  1.5310 0.1258886    
+v53          -150.921    186.210 -0.8105 0.4177340    
+v55           -44.779    303.821 -0.1474 0.8828373    
+v64           172.536    251.590  0.6858 0.4929106    
+v66           -98.611    261.473 -0.3771 0.7061037    
+v70          1943.530    744.670  2.6099 0.0091078 ** 
+v75          2064.869    983.465  2.0996 0.0358607 *  
+v78          -909.398    728.667 -1.2480 0.2121320    
+v95         -2128.179   1088.411 -1.9553 0.0506530 .  
+v97           262.773    405.332  0.6483 0.5168547    
+v98           787.542    656.172  1.2002 0.2301673    
+v99          1818.011    752.969  2.4145 0.0158267 *  
+v100         1237.737    583.688  2.1205 0.0340536 *  
+v101        -1178.282    926.374 -1.2719 0.2035108    
+v105        -1402.318    849.355 -1.6510 0.0988504 .  
+v109         -874.409    480.587 -1.8195 0.0689555 .  
+v110        -2635.138   1001.988 -2.6299 0.0085907 ** 
+v113          189.944    775.354  0.2450 0.8064933    
+v139         3737.351   1060.173  3.5252 0.0004304 ***
+v159         2929.531    896.109  3.2692 0.0010926 ** 
+v160          882.474   1053.061  0.8380 0.4021023    
+v164          352.220    726.541  0.4848 0.6278658    
+v169         1501.616    757.659  1.9819 0.0475929 *  
+v170         1212.469    755.440  1.6050 0.1086178    
+v173          279.062    475.362  0.5871 0.5572190    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<section id="equation-1" class="level2">
+<h2 class="anchored" data-anchor-id="equation-1">Equation 1:</h2>
+<p><span id="eq-lasso"><span class="math display">\[
+\underset{\beta}{\text{argmin}}\left\{\sum_{i=1}^N(Y_i-X^\prime\beta)^2+\lambda(||\beta||_1)\right\}
+\tag{1}\]</span></span></p>
+
+
+</section>
+</section>
+</div>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Chernozhukovetal2024" class="csl-entry" role="listitem">
+Chernozhukov, C. &amp; Kallus, V. &amp; Hansen. 2024. <em>Applied Causal Inference Powered by ML and AI</em>. <a href="https://CausalML-book.org">CausalML-book.org</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

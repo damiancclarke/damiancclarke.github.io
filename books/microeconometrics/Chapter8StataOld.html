@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Applied Microeconometrics - Chapter 8</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Applied Microeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./about.html" rel="" target="">
+ <span class="dropdown-text">About this book</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data.html" rel="" target="">
+ <span class="dropdown-text">How to download the required data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-python" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Python</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-python">    
+        <li>
+    <a class="dropdown-item" href="./Python.html" rel="" target="">
+ <span class="dropdown-text">Following Along with Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionPython.html" rel="" target="">
+ <span class="dropdown-text">An Introduction to Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9Python.html" rel="" target="">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r">    
+        <li>
+    <a class="dropdown-item" href="./R.html" rel="" target="">
+ <span class="dropdown-text">Following Along with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionR.html" rel="" target="">
+ <span class="dropdown-text">An Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9R.html" rel="" target="">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-stata" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Stata</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-stata">    
+        <li>
+    <a class="dropdown-item" href="./Stata.html" rel="" target="">
+ <span class="dropdown-text">Following Along with Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionStata.html" rel="" target="">
+ <span class="dropdown-text">An Introduction to Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9Stata.html" rel="" target="">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 8</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="code-call-outs" class="level1">
+<h1>Code Call-outs</h1>
+<section id="code-call-out-8.1-quantile-effects-with-an-exogenous-treatment" class="level2">
+<h2 class="anchored" data-anchor-id="code-call-out-8.1-quantile-effects-with-an-exogenous-treatment">Code Call-out 8.1: Quantile Effects with an Exogenous Treatment</h2>
+<p>In this code call-out we will explore some results documented in <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>, which require us to return once again to the <span class="citation" data-cites="Lalonde1986">LaLonde (<a href="#ref-Lalonde1986" role="doc-biblioref">1986</a>)</span> data we have discussed at length in Chapter 2. However, here rather than focussing on average treatment effects on the treated, we will focus on a range of quantile treatment effects (QTEs).</p>
+<section id="estimating-qtes-with-experimental-interventions" class="level3">
+<h3 class="anchored" data-anchor-id="estimating-qtes-with-experimental-interventions">Estimating QTEs with Experimental Interventions</h3>
+<p>We will begin by exploring QTEs when treatment assignment is random, and does not require the incorporation of any controls. In these cases, at least for the estimates themselves, it is sufficient to simply directly calculate quantiles among the treated and control units. Let’s first load these data, and ensure that we know which our outcome and treatment variables are:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>* Load dataset</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"Datasets/jtrain3.dta"</span>, <span class="kw">clear</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>* <span class="kw">data</span> structure</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">describe</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> re78 train</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">tabulate</span> train</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> re78 <span class="kw">if</span> train == 1</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> re78 <span class="kw">if</span> train == 0</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>* Kernel density plot to visualize distribution</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">kdensity</span> re78 <span class="kw">if</span> train == 1, lcolor(<span class="bn">blue</span>)) <span class="co">///</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">kdensity</span> re78 <span class="kw">if</span> train == 0, lcolor(<span class="kw">red</span>)), <span class="co">///</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>       <span class="bn">legend</span>(<span class="kw">label</span>(1 <span class="st">"Treated"</span>) <span class="kw">label</span>(2 <span class="st">"Control"</span>)) <span class="co">///</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>       <span class="bn">title</span>(<span class="st">"Density of re78 by Treatment Status"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>* Grupos <span class="kw">de</span> tratamiento <span class="fu">y</span> control </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> control = (train == 0)  <span class="co">// Grupo de control </span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>* Variables <span class="kw">de</span> interés</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> vars re78 age educ <span class="bn">black</span> hisp married re74 re75 unem74 unem75</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="st">"Summary Statistics - Treatment Group"</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> v <span class="kw">in</span> <span class="ot">`vars'</span> {</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">quietly</span> <span class="kw">summarize</span> <span class="ot">`v'</span> <span class="kw">if</span> train == 1</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">di</span> <span class="st">"`v': Mean = "</span> <span class="fu">r</span>(<span class="kw">mean</span>) <span class="st">", Std Dev = "</span> <span class="fu">r</span>(<span class="fu">sd</span>) <span class="st">", Min = "</span> <span class="fu">r</span>(<span class="fu">min</span>) <span class="st">", Max = "</span> <span class="fu">r</span>(<span class="fu">max</span>) <span class="st">", Sample Size = "</span> <span class="fu">r</span>(<span class="kw">N</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="st">""</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="st">"Summary Statistics - Nonexperimental Control Group"</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> v <span class="kw">in</span> <span class="ot">`vars'</span> {</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">quietly</span> <span class="kw">summarize</span> <span class="ot">`v'</span> <span class="kw">if</span> control == 1</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">di</span> <span class="st">"`v': Mean = "</span> <span class="fu">r</span>(<span class="kw">mean</span>) <span class="st">", Std Dev = "</span> <span class="fu">r</span>(<span class="fu">sd</span>) <span class="st">", Min = "</span> <span class="fu">r</span>(<span class="fu">min</span>) <span class="st">", Max = "</span> <span class="fu">r</span>(<span class="fu">max</span>) <span class="st">", Sample Size = "</span> <span class="fu">r</span>(<span class="kw">N</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Contains data from Datasets/jtrain3.dta
+ Observations:         2,675                  
+    Variables:            20                  17 Sep 2005 07:41
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+train           byte    %9.0g                 =1 if in job training
+age             byte    %9.0g                 in years, 1977
+educ            byte    %9.0g                 years of schooling
+black           byte    %9.0g                 =1 if black
+hisp            byte    %9.0g                 =1 if Hispanic
+married         byte    %9.0g                 =1 if married
+re74            float   %9.0g                 '74 earnings, $1000s '82
+re75            float   %9.0g                 '75 earnings, $1000s '82
+unem75          byte    %9.0g                 =1 if unem. all of '75
+unem74          byte    %9.0g                 =1 if unem. all of '74
+re78            float   %9.0g                 '78 earnings, $1000s '82
+agesq           int     %9.0g                 age^2
+trre74          float   %9.0g                 train*re74
+trre75          float   %9.0g                 train*re75
+trun74          byte    %9.0g                 train*unem74
+trun75          byte    %9.0g                 train*unem75
+avgre           float   %9.0g                 (re74 + re75)/2
+travgre         float   %9.0g                 train*avgre
+unem78          byte    %9.0g                 =1 if unem. all of '78
+em78            byte    %9.0g                 1 - unem78
+-------------------------------------------------------------------------------
+Sorted by: 
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        re78 |      2,675    20.50238    15.63252          0    121.174
+       train |      2,675    .0691589    .2537716          0          1
+
+
+   =1 if in |
+        job |
+   training |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      2,490       93.08       93.08
+          1 |        185        6.92      100.00
+------------+-----------------------------------
+      Total |      2,675      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        re78 |        185    6.349145    7.867405          0    60.3079
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        re78 |      2,490    21.55392    15.55535          0    121.174
+
+
+
+
+Summary Statistics - Treatment Group
+
+  4. }
+re78: Mean = 6.3491454, Std Dev = 7.8674047, Min = 0, Max = 60.307899, Sample S
+&gt; ize = 185
+age: Mean = 25.816216, Std Dev = 7.1550193, Min = 17, Max = 48, Sample Size = 1
+&gt; 85
+educ: Mean = 10.345946, Std Dev = 2.0106503, Min = 4, Max = 16, Sample Size = 1
+&gt; 85
+black: Mean = .84324324, Std Dev = .36455791, Min = 0, Max = 1, Sample Size = 1
+&gt; 85
+hisp: Mean = .05945946, Std Dev = .23712437, Min = 0, Max = 1, Sample Size = 18
+&gt; 5
+married: Mean = .18918919, Std Dev = .39272168, Min = 0, Max = 1, Sample Size =
+&gt;  185
+re74: Mean = 2.095574, Std Dev = 4.8866225, Min = 0, Max = 35.0401, Sample Size
+&gt;  = 185
+re75: Mean = 1.5320556, Std Dev = 3.219251, Min = 0, Max = 25.142199, Sample Si
+&gt; ze = 185
+unem74: Mean = .70810811, Std Dev = .45586658, Min = 0, Max = 1, Sample Size = 
+&gt; 185
+unem75: Mean = .6, Std Dev = .49122739, Min = 0, Max = 1, Sample Size = 185
+
+
+
+Summary Statistics - Nonexperimental Control Group
+
+  4. }
+re78: Mean = 21.553921, Std Dev = 15.555346, Min = 0, Max = 121.174, Sample Siz
+&gt; e = 2490
+age: Mean = 34.850602, Std Dev = 10.440757, Min = 18, Max = 55, Sample Size = 2
+&gt; 490
+educ: Mean = 12.116867, Std Dev = 3.0824346, Min = 0, Max = 17, Sample Size = 2
+&gt; 490
+black: Mean = .25060241, Std Dev = .43344699, Min = 0, Max = 1, Sample Size = 2
+&gt; 490
+hisp: Mean = .03253012, Std Dev = .17743888, Min = 0, Max = 1, Sample Size = 24
+&gt; 90
+married: Mean = .86626506, Std Dev = .34043568, Min = 0, Max = 1, Sample Size =
+&gt;  2490
+re74: Mean = 19.428745, Std Dev = 13.406877, Min = 0, Max = 137.149, Sample Siz
+&gt; e = 2490
+re75: Mean = 19.063337, Std Dev = 13.596954, Min = 0, Max = 156.653, Sample Siz
+&gt; e = 2490
+unem74: Mean = .08634538, Std Dev = .2809298, Min = 0, Max = 1, Sample Size = 2
+&gt; 490
+unem75: Mean = .1, Std Dev = .30006026, Min = 0, Max = 1, Sample Size = 2490</code></pre>
+</div>
+</div>
+<p>Now, with these data, let’s calculate some QTE. In particular, let’s calculate the quantity <span class="math inline">\(\tau_{QTE(0.8)}\)</span>, that is the effect at quantile 80. We can do this just by calculating the quantiles in each group:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>* Compute the 80th percentile <span class="kw">for</span> the treated <span class="fu">group</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">centile</span> re78 <span class="kw">if</span> train == 1, <span class="kw">centile</span>(80)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> q80_treated = <span class="fu">r</span>(c_1)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>* Compute the 80th percentile <span class="kw">for</span> the control <span class="fu">group</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">centile</span> re78 <span class="kw">if</span> train == 0, <span class="kw">centile</span>(80)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> q80_control = <span class="fu">r</span>(c_1)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>* Compute the Quantile Treatment Effect <span class="fu">at</span> the 80th percentile</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"QTE(0.8) = "</span> q80_treated - q80_control</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>variable re78 not found
+r(111);
+
+end of do-file
+r(111);</code></pre>
+</div>
+</div>
+<p>Of course, we are not limited to doing this at the 80th quantile. We can inspect effects across the entire distribution by plotting cdfs for each group, and subtracting the control cdf from the treated cdf:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"SHOW TWO CDFs ON A SINGLE PLOT"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"THEN SHOW PLOT SUBTRACTING CONTROL FROM TREATMENT TO PLOT QTE ACROSS DISTRIBUTION"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>* Groups</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> nonexp_control = (train == 0)  <span class="co">// Control no experimental</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> treated = (train == 1)         <span class="co">// Grupo tratado</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> quantiles 25 50 75</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="fu">q</span> <span class="kw">in</span> <span class="ot">`quantiles'</span> {</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">centile</span> re78 <span class="kw">if</span> treated == 1, <span class="kw">centile</span>(<span class="ot">`q'</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scalar</span> q<span class="ot">`q'</span>_treated = <span class="fu">r</span>(c_1)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">centile</span> re78 <span class="kw">if</span> nonexp_control == 1, <span class="kw">centile</span>(<span class="ot">`q'</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scalar</span> q<span class="ot">`q'</span>_control = <span class="fu">r</span>(c_1)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>* Mean calculation</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> re78 <span class="kw">if</span> treated == 1</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> mean_treated = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> re78 <span class="kw">if</span> nonexp_control == 1</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> mean_control = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>* Generate empirical CDFs <span class="kw">for</span> each <span class="fu">group</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> re78_rank_treat = .</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> re78_rank_control = .</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="kw">sort</span> re78</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> re78_rank_treat = (<span class="dt">_n</span> - 1) / _N <span class="kw">if</span> train == 1</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> re78_rank_control = (<span class="dt">_n</span> - 1) / _N <span class="kw">if</span> train == 0</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>* Plot both CDFs <span class="kw">on</span> the same <span class="kw">graph</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">line</span> re78_rank_treat re78 <span class="kw">if</span> train == 1, lcolor(<span class="bn">blue</span>) lpattern(solid)) <span class="co">///</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">line</span> re78_rank_control re78 <span class="kw">if</span> train == 0, lcolor(<span class="kw">red</span>) lpattern(<span class="kw">dash</span>)), <span class="co">///</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>       <span class="bn">title</span>(<span class="st">"Empirical CDFs of re78 by Treatment Status"</span>) <span class="co">///</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>       <span class="bn">legend</span>(<span class="kw">label</span>(1 <span class="st">"Treated"</span>) <span class="kw">label</span>(2 <span class="st">"Control"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SHOW TWO CDFs ON A SINGLE PLOT
+
+THEN SHOW PLOT SUBTRACTING CONTROL FROM TREATMENT TO PLOT QTE ACROSS DISTRIBUTI
+&gt; ON
+
+train not found
+r(111);
+
+end of do-file
+r(111);</code></pre>
+</div>
+</div>
+<p>However, note that equivalently we can estimate these QTEs, along with their standard error, using quantile regression. Let’s confirm with ourselves that we can replicate the quantity <span class="math inline">\(\tau_{QTE(0.8)}\)</span> by estimating a quantile regression.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"SHOW qreg HERE for quantile 0.8"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">qreg</span> re78 train, <span class="kw">quantile</span>(0.8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SHOW qreg HERE for quantile 0.8
+
+variable re78 not found
+r(111);
+
+end of do-file
+r(111);</code></pre>
+</div>
+</div>
+<p>As above, we can estimate this across a range of quantiles, giving a number of QTEs, and their confidence intervals:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"SHOW qreg HERE across distributions. Perhaps graphically?"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">sqreg</span> re78 train, <span class="kw">quantile</span>(0.25 0.5 0.75 0.9) reps(100)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>* Create a <span class="kw">new</span> frame </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>frame create qte_results</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>frame change qte_results</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 4  <span class="co">// Set number of observations to match quantiles</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">quantile</span> = .</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.25 <span class="kw">in</span> 1</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.50 <span class="kw">in</span> 2</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.75 <span class="kw">in</span> 3</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.90 <span class="kw">in</span> 4</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte = .</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_se = .</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>* Estimate QTEs across quantiles </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>frame change <span class="kw">default</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> i = 1</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="fu">q</span> <span class="kw">in</span> 0.25 0.50 0.75 0.90 {</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">qui</span> <span class="kw">qreg</span> re78 train, <span class="kw">quantile</span>(<span class="ot">`q'</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span> b = <span class="fu">e</span>(b)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span> v = <span class="fu">e</span>(<span class="kw">V</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    * Store results <span class="kw">in</span> qte_results frame</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    frame change qte_results</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">replace</span> qte = b[1,1] <span class="kw">in</span> <span class="ot">`i'</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">replace</span> qte_se = <span class="fu">sqrt</span>(v[1,1]) <span class="kw">in</span> <span class="ot">`i'</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    frame change <span class="kw">default</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> i = <span class="ot">`i'</span> + 1</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>frame change qte_results</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_upper = qte + 2 * qte_se</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_lower = qte - 2 * qte_se</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> <span class="kw">quantile</span> qte qte_se <span class="kw">if</span> !<span class="fu">missing</span>(qte)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">line</span> qte <span class="kw">quantile</span>, lwidth(medium) lcolor(<span class="bn">black</span>)) <span class="co">///</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">line</span> qte_upper <span class="kw">quantile</span>, lpattern(<span class="kw">dash</span>) lcolor(<span class="bn">black</span>)) <span class="co">///</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">line</span> qte_lower <span class="kw">quantile</span>, lpattern(<span class="kw">dash</span>) lcolor(<span class="bn">black</span>)), <span class="co">///</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>       <span class="bn">title</span>(<span class="st">"QUANTILE TREATMENT EFFECTS"</span>) <span class="co">///</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>       <span class="bn">xtitle</span>(<span class="st">"Quantile"</span>) <span class="co">///</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>       <span class="bn">ytitle</span>(<span class="st">"Earnings in 1978 (in thousands)"</span>) <span class="co">///</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>       <span class="bn">legend</span>(<span class="kw">order</span>(1 <span class="st">"QTT"</span> 2 <span class="st">"QTT + 2 s.e."</span> 3 <span class="st">"QTT - 2 s.e."</span>) <span class="bn">ring</span>(0) <span class="bn">position</span>(1)) <span class="co">///</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>       <span class="kw">xlabel</span>(0.25(0.1)1) <span class="kw">ylabel</span>(-15(5)30)</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>frame change <span class="kw">default</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SHOW qreg HERE across distributions. Perhaps graphically?
+
+variable re78 not found
+r(111);
+
+end of do-file
+r(111);</code></pre>
+</div>
+</div>
+</section>
+<section id="estimating-qtes-and-qtts-with-non-experimental-interventions" class="level3">
+<h3 class="anchored" data-anchor-id="estimating-qtes-and-qtts-with-non-experimental-interventions">Estimating QTEs and QTTs with non-Experimental Interventions</h3>
+<p>In cases where we instead believe that conditional unconfoundedness holds, there are two potential ways forward. To look at this, we will use the same <span class="citation" data-cites="Lalonde1986">LaLonde (<a href="#ref-Lalonde1986" role="doc-biblioref">1986</a>)</span> data, but now with the experimental treatment sample, and the non-experimental subsample as potential control units. We will control for the same factors we have discussed in code call-outs in Chapter 2. Let’s being by setting up these data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"Open up Deheija Wahba data and subset to experimental and control sample"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>* Load the <span class="kw">data</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"Datasets/Dehejia_Wahba.dta"</span>, <span class="kw">clear</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>* Variables are </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    *  TREAT 1 <span class="kw">if</span> treated (NSW treated) and 0 <span class="kw">if</span> <span class="kw">not</span> (PSID-1 control)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    *  AGE   <span class="kw">in</span> years</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    *  EDUC  <span class="kw">in</span> years   </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    *  BLACK 1 <span class="kw">if</span> <span class="bn">black</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    *  HISP  1 <span class="kw">if</span> Hispanic</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    *  MARR  1 <span class="kw">if</span> married</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    *  RE74  Real annual earnings <span class="kw">in</span> 1974  (pre-treatment)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    *  RE75  Real annual earnings <span class="kw">in</span> 1974  (pre-treatment)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    *  RE78  Real annual earnings <span class="kw">in</span> 1974  (<span class="kw">post</span>-treatment)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    *  U74   1 <span class="kw">if</span> unemployed <span class="kw">in</span> 1974</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    *  U75   1 <span class="kw">if</span> unemployed <span class="kw">in</span> 1974</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="kw">encode</span> data_id, <span class="kw">gen</span>(id)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> nsw=1 <span class="kw">if</span> id==2</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> nsw=. <span class="kw">if</span> id!=2</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> cps=1 <span class="kw">if</span> id==1</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> cps=1 <span class="kw">if</span> treat==1</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> cps <span class="st">"CPS sample"</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> cps==1|treat==1</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> cps treat</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> nsw treat</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> treat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Open up Deheija Wahba data and subset to experimental and control sample
+
+
+
+
+
+(15,992 missing values generated)
+
+(0 real changes made)
+
+(445 missing values generated)
+
+(185 real changes made)
+
+
+(260 observations deleted)
+
+           |         treat
+CPS sample |         0          1 |     Total
+-----------+----------------------+----------
+         1 |    15,992        185 |    16,177 
+-----------+----------------------+----------
+     Total |    15,992        185 |    16,177 
+
+           |   treat
+       nsw |         1 |     Total
+-----------+-----------+----------
+         1 |       185 |       185 
+-----------+-----------+----------
+     Total |       185 |       185 
+
+      treat |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |     15,992       98.86       98.86
+          1 |        185        1.14      100.00
+------------+-----------------------------------
+      Total |     16,177      100.00</code></pre>
+</div>
+</div>
+<section id="conditional-qtes" class="level4">
+<h4 class="anchored" data-anchor-id="conditional-qtes">Conditional QTEs</h4>
+<p>A first, simpler, case exists if we are happy to report conditional QTEs. Let’s begin by exploring conditional QTEs which can be estimated by quantile regression with covariates:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>* Estimate CQTEs <span class="fu">at</span> selected quantiles (10th, 25th, 50th, 75th, 90th)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sqreg</span> re78 treat age educ <span class="bn">black</span> hisp marr re74 re75, <span class="kw">quantile</span>(0.25 0.5 0.75 0.9) reps(100)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>* Create a <span class="kw">new</span> frame </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>frame create qte_results</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>frame change qte_results</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 4  <span class="co">// Set number of observations to match quantiles</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">quantile</span> = .</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.25 <span class="kw">in</span> 1</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.50 <span class="kw">in</span> 2</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.75 <span class="kw">in</span> 3</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">quantile</span> = 0.90 <span class="kw">in</span> 4</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte = .</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_se = .</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>* Estimate QTEs across quantiles </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>frame change <span class="kw">default</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte = .</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_se = .</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> i = 1</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="fu">q</span> <span class="kw">in</span> 0.25 0.50 0.75 0.90 {</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">qui</span> <span class="kw">qreg</span> re78 treat age educ <span class="bn">black</span> hisp marr re74 re75, <span class="kw">quantile</span>(<span class="ot">`q'</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span> b = <span class="fu">e</span>(b)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span> v = <span class="fu">e</span>(<span class="kw">V</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    frame change qte_results</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">replace</span> qte = b[1,1] <span class="kw">in</span> <span class="ot">`i'</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">replace</span> qte_se = <span class="fu">sqrt</span>(v[1,1]) <span class="kw">in</span> <span class="ot">`i'</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    frame change <span class="kw">default</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> i = <span class="ot">`i'</span> + 1</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>frame change qte_results</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>* Compute confidence intervals</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_upper = qte + 2 * qte_se</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_lower = qte - 2 * qte_se</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>* Check results</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> <span class="kw">quantile</span> qte qte_se qte_upper qte_lower <span class="kw">if</span> !<span class="fu">missing</span>(qte)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>* Plot CQTE results</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">line</span> qte <span class="kw">quantile</span>, lwidth(medium) lcolor(<span class="bn">black</span>)) <span class="co">///</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">line</span> qte_upper <span class="kw">quantile</span>, lpattern(<span class="kw">dash</span>) lcolor(<span class="bn">black</span>)) <span class="co">///</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>       (<span class="kw">line</span> qte_lower <span class="kw">quantile</span>, lpattern(<span class="kw">dash</span>) lcolor(<span class="bn">black</span>)), <span class="co">///</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>       <span class="bn">title</span>(<span class="st">"Conditional Quantile Treatment Effects"</span>) <span class="co">///</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>       <span class="bn">xtitle</span>(<span class="st">"Quantile"</span>) <span class="co">///</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>       <span class="bn">ytitle</span>(<span class="st">"Earnings in 1978 (in thousands)"</span>) <span class="co">///</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>       <span class="bn">legend</span>(<span class="kw">order</span>(1 <span class="st">"QTT"</span> 2 <span class="st">"QTT + 2 s.e."</span> 3 <span class="st">"QTT - 2 s.e."</span>) <span class="bn">ring</span>(0) <span class="bn">position</span>(6)) <span class="co">///</span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>       <span class="kw">xlabel</span>(0(.1)1) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>variable re78 not found
+r(111);
+
+end of do-file
+r(111);</code></pre>
+</div>
+</div>
+<p>This can also be estimated using the user-written <code>ivqte</code> package of <span class="citation" data-cites="FrolichMelly2010">Frölich and Melly (<a href="#ref-FrolichMelly2010" role="doc-biblioref">2010</a>)</span>, which similarly permits for heteroscedastic standard errors, and so forth.</p>
+</section>
+<section id="unconditional-qtes" class="level4">
+<h4 class="anchored" data-anchor-id="unconditional-qtes">Unconditional QTEs</h4>
+<p>Finally, let’s see how we can fully calculate unconditional QTEs and QTTs. Below, we implement <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>’s methods and estimate both QTEs and QTTs. We do this using the <code>ivqte</code> package, which implements these weighting-based estimators, along with their standard errors:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"SHOW QTEs and QTTs using ivqte with controls for unconditional exogenous effects"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>net install ivqte, from(<span class="st">"https://raw.githubusercontent.com/bmelly/Stata/main/"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ssc</span> install moremata</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>* Load the <span class="kw">data</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"Datasets/Dehejia_Wahba.dta"</span>, <span class="kw">clear</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>* Variables are </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    *  TREAT 1 <span class="kw">if</span> treated (NSW treated) and 0 <span class="kw">if</span> <span class="kw">not</span> (PSID-1 control)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    *  AGE   <span class="kw">in</span> years</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    *  EDUC  <span class="kw">in</span> years   </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    *  BLACK 1 <span class="kw">if</span> <span class="bn">black</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    *  HISP  1 <span class="kw">if</span> Hispanic</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    *  MARR  1 <span class="kw">if</span> married</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    *  RE74  Real annual earnings <span class="kw">in</span> 1974  (pre-treatment)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    *  RE75  Real annual earnings <span class="kw">in</span> 1974  (pre-treatment)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    *  RE78  Real annual earnings <span class="kw">in</span> 1974  (<span class="kw">post</span>-treatment)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    *  U74   1 <span class="kw">if</span> unemployed <span class="kw">in</span> 1974</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    *  U75   1 <span class="kw">if</span> unemployed <span class="kw">in</span> 1974</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="kw">encode</span> data_id, <span class="kw">gen</span>(id)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> nsw=1 <span class="kw">if</span> id==2</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> nsw=. <span class="kw">if</span> id!=2</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> cps=1 <span class="kw">if</span> id==1</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> cps=1 <span class="kw">if</span> treat==1</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> cps <span class="st">"CPS sample"</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> cps==1|treat==1</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> cps treat</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> nsw treat</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> treat</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>* Conditional</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>ivqte re78 (treat), quantiles(0.25 0.5 0.75 0.9) continuous(age educ <span class="bn">black</span> hisp marr re74 re75)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>* Unconditional</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>ivqte re78 (treat), quantiles(0.25 0.5 0.75 0.9) dummy(<span class="bn">black</span> hisp marr) continuous(age educ re74 re75)</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>* QTTs</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>ivqte re78 (treat), quantiles(0.25 0.5 0.75 0.9) dummy(<span class="bn">black</span> hisp marr) continuous(age educ re74 re75) <span class="kw">variance</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>* Useful to refer to Firpo (2007) Econometrica paper.  In particular, supplement is important</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>*https:<span class="co">//www.econometricsociety.org/publications/econometrica/2007/01/01/efficient-semiparametric-estimation-quantile-treatment-effects/supp/ECTA5407SUPP_0.pdf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SHOW QTEs and QTTs using ivqte with controls for unconditional exogenous effect
+&gt; s
+
+checking ivqte consistency and verifying not already installedall files already exist and are up to date.
+
+checking moremata consistency and verifying not already installed...
+all files already exist and are up to date.
+
+
+
+(15,992 missing values generated)
+
+(0 real changes made)
+
+(445 missing values generated)
+
+(185 real changes made)
+
+
+(260 observations deleted)
+
+           |         treat
+CPS sample |         0          1 |     Total
+-----------+----------------------+----------
+         1 |    15,992        185 |    16,177 
+-----------+----------------------+----------
+     Total |    15,992        185 |    16,177 
+
+           |   treat
+       nsw |         1 |     Total
+-----------+-----------+----------
+         1 |       185 |       185 
+-----------+-----------+----------
+     Total |       185 |       185 
+
+      treat |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |     15,992       98.86       98.86
+          1 |        185        1.14      100.00
+------------+-----------------------------------
+      Total |     16,177      100.00
+
+10636 observations have been trimmed. 5541 observations are left after trimming
+&gt; .
+
+Unconditional Quantile Treatment Effects under exogeneity
+Estimator suggested in Firpo (2007)
+
+Quantile(s):                 .25 .5 .75 .9
+Dependent variable:          re78
+Treatment variable:          treat
+Control variable(s):         age education black hispanic married re74 re75  
+Number of observations:      16177
+
+Propensity score estimated by local logit regression with h = infinity and lamb
+&gt; da = 1
+
+------------------------------------------------------------------------------
+        re78 | Coefficient
+-------------+----------------------------------------------------------------
+  Quantile_1 |   3786.628
+  Quantile_2 |    1453.87
+  Quantile_3 |  -82.27051
+  Quantile_4 |  -5037.989
+------------------------------------------------------------------------------
+
+10636 observations have been trimmed. 5541 observations are left after trimming
+&gt; .
+
+Unconditional Quantile Treatment Effects under exogeneity
+Estimator suggested in Firpo (2007)
+
+Quantile(s):                 .25 .5 .75 .9
+Dependent variable:          re78
+Treatment variable:          treat
+Control variable(s):         age education re74 re75 black hispanic married 
+Number of observations:      16177
+
+Propensity score estimated by local logit regression with h = infinity and lamb
+&gt; da = 1
+
+------------------------------------------------------------------------------
+        re78 | Coefficient
+-------------+----------------------------------------------------------------
+  Quantile_1 |   3786.628
+  Quantile_2 |    1453.87
+  Quantile_3 |  -82.27051
+  Quantile_4 |  -5037.989
+------------------------------------------------------------------------------
+
+10636 observations have been trimmed. 5541 observations are left after trimming
+&gt; .
+
+Unconditional Quantile Treatment Effects under exogeneity
+Estimator suggested in Firpo (2007)
+
+Quantile(s):                 .25 .5 .75 .9
+Dependent variable:          re78
+Treatment variable:          treat
+Control variable(s):         age education re74 re75 black hispanic married 
+Number of observations:      16177
+
+Propensity score estimated by local logit regression with h = infinity and lamb
+&gt; da = 1
+Variance estimated using local logit regression with h = infinity and lambda = 
+&gt; 1
+
+------------------------------------------------------------------------------
+        re78 | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  Quantile_1 |   3786.628   1382.104     2.74   0.006     1077.753    6495.503
+  Quantile_2 |    1453.87   3147.831     0.46   0.644    -4715.766    7623.506
+  Quantile_3 |  -82.27051   1311.564    -0.06   0.950    -2652.888    2488.347
+  Quantile_4 |  -5037.989     1143.5    -4.41   0.000    -7279.208   -2796.771
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>```</p>
+</section>
+</section>
+</section>
+<section id="code-call-out-8.2-exploring-quantile-treatment-effects-in-a-regression-discontinuity-design" class="level2">
+<h2 class="anchored" data-anchor-id="code-call-out-8.2-exploring-quantile-treatment-effects-in-a-regression-discontinuity-design">Code Call-out 8.2: Exploring Quantile Treatment Effects in a Regression Discontinuity Design</h2>
+</section>
+<section id="code-call-out-8.3-marginal-treatment-effects" class="level2">
+
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Code Call-out 8.3: Marginal Treatment Effects</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Firpo2007" class="csl-entry" role="listitem">
+Firpo, Sergio. 2007. <span>“Efficient Semiparametric Estimation of Quantile Treatment Effects.”</span> <em>Econometrica</em> 75 (1): 259–76.
+</div>
+<div id="ref-FrolichMelly2010" class="csl-entry" role="listitem">
+Frölich, Markus, and Blaise Melly. 2010. <span>“Estimation of Quantile Treatment Effects with Stata.”</span> <em>The Stata Journal</em> 10 (3): 423–57.
+</div>
+<div id="ref-Lalonde1986" class="csl-entry" role="listitem">
+LaLonde, Robert J. 1986. <span>“<span class="nocase">Evaluating the Econometric Evaluations of Training Programs with Experimental Data</span>.”</span> <em>The American Economic Review</em> 76 (4): 604–20.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

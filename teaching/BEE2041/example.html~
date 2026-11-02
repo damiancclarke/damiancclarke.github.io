@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Damian Clarke">
+<meta name="dcterms.date" content="2024-02-12">
+
+<title>SQL Examples</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="example_files/libs/clipboard/clipboard.min.js"></script>
+<script src="example_files/libs/quarto-html/quarto.js"></script>
+<script src="example_files/libs/quarto-html/popper.min.js"></script>
+<script src="example_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="example_files/libs/quarto-html/anchor.min.js"></script>
+<link href="example_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="example_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="example_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="example_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="example_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="example_files/libs/quarto-contrib/interactive-sql-1.0.0/interactive-sql.css" rel="stylesheet">
+<script src="https://unpkg.com/@antonz/sqlite@3.40.0/dist/sqlite3.js"></script>
+<script src="https://unpkg.com/sqlime@0.1.3/dist/sqlime-db.js"></script>
+<script src="https://unpkg.com/sqlime@0.1.3/dist/sqlime-examples.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SQL Examples</h1>
+<p class="subtitle lead">Following Along with BEE2041 Class Examples</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Damian Clarke </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 12, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<hr>
+<section id="getting-up-and-running" class="level2">
+<h2 class="anchored" data-anchor-id="getting-up-and-running">Getting Up and Running…</h2>
+<section id="installation-and-interfaces" class="level3">
+<h3 class="anchored" data-anchor-id="installation-and-interfaces">Installation and Interfaces</h3>
+<p>There are many popular relational database management systems that run SQL queries such as MySQL, PostgreSQL, SQLite, MS SQL, and Oracle. For this class, we will use SQLite since it is free, open source, robust, and easy to install and setup (no server process configuration is needed). Unlike other RDMBS programs which are implemented as a server process in which programs have to interact with a host server, SQLite allows programs to read from and write to a database disk file. This is very useful for our purposes where we quickly want to get up and running with SQL, and get a hang of the most important concepts!</p>
+<p>Most of the queries we write here are standard SQL queries, shared by all programs. However, each program implements their own additional special commands which do not perfectly carry over to other programs. We will note when things are SQLite specific, as this will be relevant if you would prefer to follow along in some other particular implementation of SQL. The main “sqlite” specific statements we will be working with are dot statements. These are commands which are preceded by a <code>.</code> and are specific to sqlite (details are available <a href="https://www.sqlite.org/cli.html">here</a>). While similar command exist in other SQL implementations, you will need to check the correspondence. If you would like to see a full list of sqlite’s help files, which can be found by simply typing <code>.help</code> without any arguments at the sqlite command line interface.</p>
+<p>Please see the “Setup” section on ELE for installation. After you install SQLite (sqlite3), you can try the typing sqlite3 in your bash to see if it is working. If so, you should hopefully see something like the following:</p>
+<div id="fig-erd-hr" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="sqlite3.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: How this may look on your screen</figcaption>
+</figure>
+</div>
+<p>You may actually wish to interact with sqlite in some other way apart than through the shell. There are <a href="https://sqlitebrowser.org/">GUIs</a> which can be used, but in what remains of this document, all commands will be written as typed in sqlite at the command line shown above, with output rendered below. In class we will examine variants of these commands on the screen.</p>
+</section>
+<section id="overview-of-what-we-will-explore" class="level3">
+<h3 class="anchored" data-anchor-id="overview-of-what-we-will-explore">Overview of what we will explore</h3>
+<p>In practice, I want us to explore the most common SQL commands which exist in all implementations. With these commands, you will see that you can do a remarkable amount of data retrieval and processing both within and across files. By the end of a couple of practical classes with SQL, we should have an understanding of the following commands and their usage:</p>
+<table class="table">
+<caption>Key SQL Commands</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 22%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>“Area”</th>
+<th>Brief description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CREATE TABLE</td>
+<td>DDL</td>
+<td>Create a new table in the database.</td>
+</tr>
+<tr class="even">
+<td>DROP TABLE</td>
+<td>DDL</td>
+<td>Delete a table and all of its data from the database.</td>
+</tr>
+<tr class="odd">
+<td>INSERT</td>
+<td>DML</td>
+<td>Insert new rows into a table.</td>
+</tr>
+<tr class="even">
+<td>UPDATE</td>
+<td>DML</td>
+<td>Modify existing rows in a table.</td>
+</tr>
+<tr class="odd">
+<td>DELETE</td>
+<td>DML</td>
+<td>Remove rows from a table.</td>
+</tr>
+<tr class="even">
+<td>SELECT</td>
+<td>DML/DQL</td>
+<td>Retrieve data from one or more tables.</td>
+</tr>
+<tr class="odd">
+<td>FROM</td>
+<td>DQL</td>
+<td>Specify the table(s) from which to retrieve data.</td>
+</tr>
+<tr class="even">
+<td>WHERE</td>
+<td>DQL</td>
+<td>Filter rows based on specified conditions.</td>
+</tr>
+<tr class="odd">
+<td>GROUP BY</td>
+<td>DQL</td>
+<td>Group rows that have the same values into summary rows.</td>
+</tr>
+<tr class="even">
+<td>HAVING</td>
+<td>DQL</td>
+<td>Filter groups of rows returned by a GROUP BY clause.</td>
+</tr>
+<tr class="odd">
+<td>ORDER BY</td>
+<td>DQL</td>
+<td>Sort the result set based on specified columns.</td>
+</tr>
+<tr class="even">
+<td>LIMIT</td>
+<td>DQL</td>
+<td>Limit the number of rows returned by a query.</td>
+</tr>
+<tr class="odd">
+<td>OFFSET</td>
+<td>DQL</td>
+<td>Skip a specified number of rows before beginning to return rows.</td>
+</tr>
+<tr class="even">
+<td>JOIN</td>
+<td>DQL</td>
+<td>Combine rows from two or more tables based on a related column between them.</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="exploits_of_a_mom_2x.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Source: https://xkcd.com/327/</figcaption>
+</figure>
+</div>
+</section>
+<section id="a-first-table" class="level3">
+<h3 class="anchored" data-anchor-id="a-first-table">A First Table</h3>
+<p>Let’s start by creating a table. We will use the <code>CREATE TABLE</code> SQL command. Below, we are generally writing SQL commands in all caps, though <em>command are not sensitive to capitalisation</em>, as you can see if exploring the below commands:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> test1(TestID <span class="dt">int</span> <span class="kw">not</span> <span class="kw">null</span> <span class="kw">primary</span> <span class="kw">key</span>,text <span class="dt">varchar</span>(<span class="dv">50</span>));</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>.<span class="kw">tables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>test1</code></pre>
+<p><code>.tables</code> (or <code>.table</code>) is a sqlite dot command, and shows us that we have effectively generated a table called <code>test1</code>. If we wish to see further information on what is created in memory, we can use <code>.schema</code>:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>.<span class="kw">schema</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>CREATE TABLE test1(TestID int not null primary key,text varchar(50));</code></pre>
+<p>Let’s have a look at our first query command. One of the most common commands is <code>SELECT</code>, below we will select everything from the table that we have just generated:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> test1;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Of course, because the table is empty, nothing is displayed. Let’s remedy this by starting to incorporate some data into our table. While in practice we will generally be working with databases that are already created, it is nevertheless important to know how to build things up piece by piece for times when we may have our own data management challenges…</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb6"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> test1 <span class="kw">values</span>(<span class="dv">1</span>, <span class="ot">"Hello world!"</span>);</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> test1 <span class="kw">values</span>(<span class="dv">2</span>, <span class="ot">"Testing a second row."</span>);</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> test1 <span class="kw">values</span>(<span class="dv">3</span>, <span class="ot">"Now adding a third slightly longer line..."</span>);</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> test1;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>1|Hello world!
+2|Testing a second row.
+3|Now adding a third slightly longer line...</code></pre>
+<p>Now, when we use <code>SELECT</code> we see all the contents of the table. The default mode for printing is to simply list outputs on the screen. We could see this by typing <code>.mode</code> and see what else we can do by typing <code>.help mode</code>. Below we can see a number of variants.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb8"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>.<span class="kw">mode</span> <span class="kw">column</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>.width <span class="dv">10</span> <span class="dv">60</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>.headers <span class="kw">on</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> test1;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>TestID      text
+----------  ------------------------------------------------------------
+1           Hello world!
+2           Testing a second row.
+3           Now adding a third slightly longer line...</code></pre>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>.<span class="kw">mode</span> box</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> test1;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>┌────────┬────────────────────────────────────────────┐
+│ TestID │                    text                    │
+├────────┼────────────────────────────────────────────┤
+│ 1      │ Hello world!                               │
+│ 2      │ Testing a second row.                      │
+│ 3      │ Now adding a third slightly longer line... │
+└────────┴────────────────────────────────────────────┘</code></pre>
+<p>Above we have been generically selecting everything by using <code>*</code>. The <code>SELECT</code> command allows us to select only certain fields, as below:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb12"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> text <span class="kw">FROM</span> test1;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>text
+------------------------------------------
+Hello world!
+Testing a second row.
+Now adding a third slightly longer line...</code></pre>
+<p>And also allows us to print based on particular limits of the domain:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb14"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> test1 <span class="kw">WHERE</span> TestID<span class="op">=</span><span class="dv">3</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>TestID      text
+----------  ------------------------------------------------------------
+3           Now adding a third slightly longer line...</code></pre>
+</section>
+<section id="creating-a-database" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-database">Creating a Database</h3>
+<p>You may have noticed that we jumped instantly into creating tables without specifying a database. Usually, a database contains a group of (inter-related) tables, and tables exist as part of a containing database. The environment that you entered by typing <code>sqlite3</code> allows you to write queries in a temporary database, but they are not saved. If you decide to exit sqlite3 now, you will lose the work that has generated the first table. Alternatively, we can create and save a database that contains the table you created, using <code>.save</code> or <code>.backup</code> (potentially depending on the version of sqlite you are using). You only need one of these to work. We will save this below, and then exit sqlite.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb16"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>.save firstDB.db</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>.exit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, if we wish to enter sqlite loading the work we have done above, we can do this by typing the following at the command line:<br>
+<code>sqlite3 firstDB.db</code></p>
+<p>After this, you will see that we are back in sqlite, with the contents we saved in <code>firstDB.db</code>. Alternatively, we may wish to enter with an empty database, but save our work automatically in a database. This can be done by issuing a new database name when opening sqlite:</p>
+<p><code>sqlite3 MyNewDB.db</code></p>
+<p>Let’s close off what we’ve done so far by exiting (<code>.quit</code> or <code>.exit</code> or Ctrl+D), and open a new empty database that we will call Teaching.db. Let’s generate the following tables, which have a 1:M relation:</p>
+<div id="tbl-panel" class="tbl-parent quarto-layout-panel anchored">
+<div class="panel-caption table-caption">
+<p>Table&nbsp;1: Lecturers and Their Modules</p>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="tbl-panel-1" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-panel" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>(a) Table: Lecturer</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Lec_ID</th>
+<th style="text-align: left;">Lec_Name</th>
+<th style="text-align: left;">Lec_dept</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">L211</td>
+<td style="text-align: left;">Abdul</td>
+<td style="text-align: left;">Computer Science</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">L555</td>
+<td style="text-align: left;">Sarah</td>
+<td style="text-align: left;">Economics</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">L179</td>
+<td style="text-align: left;">Amy</td>
+<td style="text-align: left;">Physics</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">L234</td>
+<td style="text-align: left;">Lou</td>
+<td style="text-align: left;">Psychology</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tbl-panel-2" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-panel" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>(b) Table: Module</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Mod_code</th>
+<th style="text-align: left;">Mod_name</th>
+<th style="text-align: left;">Lec_ID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C01</td>
+<td style="text-align: left;">Intro to CS</td>
+<td style="text-align: left;">L211</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C02</td>
+<td style="text-align: left;">DBMS</td>
+<td style="text-align: left;">L211</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C22</td>
+<td style="text-align: left;">Data Science</td>
+<td style="text-align: left;">L179</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C39</td>
+<td style="text-align: left;">Computer Networks</td>
+<td style="text-align: left;">L179</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E15</td>
+<td style="text-align: left;">Econometrics</td>
+<td style="text-align: left;">L555</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">U01</td>
+<td style="text-align: left;">Dissertation</td>
+<td style="text-align: left;">NULL</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Now let’s start to generate these tables. Below we will generate the schema, which we can then inspect with <code>.schema</code> if we like. It is worth thinking carefully about what is happening in each line here, and exploring a little bit. For example, what would happen if the name <code>Lec_ID</code> wasn’t the same in both tables?</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb17"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">Create</span> <span class="kw">table</span> Lecturer(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Lec_ID <span class="dt">varchar</span>(<span class="dv">20</span>) <span class="kw">not</span> <span class="kw">null</span> <span class="kw">primary</span> <span class="kw">key</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>Lec_name <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Lec_dept <span class="dt">varchar</span>(<span class="dv">20</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">Create</span> <span class="kw">table</span> Module(</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>Mod_code <span class="dt">varchar</span>(<span class="dv">20</span>) <span class="kw">not</span> <span class="kw">null</span> <span class="kw">primary</span> <span class="kw">key</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>Mod_name <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>Lec_ID <span class="dt">varchar</span>(<span class="dv">20</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="kw">Foreign</span> <span class="kw">key</span> (Lec_ID) <span class="kw">references</span> Lecturer (Lec_ID)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="insert-into-a-table" class="level3">
+<h3 class="anchored" data-anchor-id="insert-into-a-table">Insert Into a Table</h3>
+<p>OK, now we have two empty tables. Let’s add some data. Note here that the constraint “Foreign key” which we added at the end has an important role. It won’t allow you to add a new value for Lec_ID in the table Module, unless this value already exists in the column Lec_ID in table Lecturer. This is why we need to insert data in table Lecturer first. Each line below will add one line into the Lecturer table:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb18"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Lecturer <span class="kw">values</span> (<span class="st">'L211'</span>, <span class="st">'Abdul'</span>, <span class="st">'Computer Science'</span>);</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Lecturer <span class="kw">values</span> (<span class="st">'L555'</span>, <span class="st">'Sarah'</span>, <span class="st">'Psychology'</span>);</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Lecturer <span class="kw">values</span> (<span class="st">'L179'</span>, <span class="st">'Amy'</span>, <span class="st">'Physics'</span>);</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Lecturer <span class="kw">values</span> (<span class="st">'L234'</span>, <span class="st">'Lou'</span>, <span class="st">'Economics'</span>);</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Lecturer;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>L211|Abdul|Computer Science
+L555|Sarah|Psychology
+L179|Amy|Physics
+L234|Lou|Economics</code></pre>
+<p>Now that we have done this and confirmed that the output is as we understand, we can generate the second table. Note below when we apply SELECT how the <code>NULL</code> character is displayed:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb20"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Module <span class="kw">values</span> (<span class="st">'C01'</span>, <span class="st">'Intro to CS'</span>, <span class="st">'L211'</span>);</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Module <span class="kw">values</span> (<span class="st">'C02'</span>, <span class="st">'DBMS'</span>, <span class="st">'L211'</span>);</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Module <span class="kw">values</span> (<span class="st">'C22'</span>, <span class="st">'Data Science'</span>, <span class="st">'L179'</span>);</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Module <span class="kw">values</span> (<span class="st">'C39'</span>, <span class="st">'Computer Networks'</span>, <span class="st">'L179'</span>);</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Module <span class="kw">values</span> (<span class="st">'E15'</span>, <span class="st">'Econometrics'</span>, <span class="st">'L234'</span>);</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">Insert</span> <span class="kw">into</span> Module <span class="kw">values</span> (<span class="st">'U01'</span>, <span class="st">'Dissertation'</span>, <span class="kw">NULL</span>);</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Module;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>C01|Intro to CS|L211
+C02|DBMS|L211
+C22|Data Science|L179
+C39|Computer Networks|L179
+E15|Econometrics|L234
+U01|Dissertation|</code></pre>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We noted above that the constraint “Foreign key” which we added when we created tables does not allow you to add a new value for Lec_ID in the table Module, unless this value already exists in the column Lec_ID in table Lecturer. It also does not allow you to remove a row from Lecturer if it is associated with rows from Module. However, sqlite sometimes enables or disables enforcing these restrictions by default. To see whether the foreign key constraint is enabled, use the following command: PRAGMA foreign_keys;</p>
+<p>The command returns an integer value: 1: enable, 0: disabled. If the command returns nothing, it means that your sqlite version doesn’t support foreign key constraints. Please also note that PRAGMA is specific to sqlite, and so will not exist if you are using othe SQL implementations. If the sqlite library is compiled with foreign key constraint support, the application can use the PRAGMA foreign_keys command to enable or disable foreign key constraints at runtime. To disable foreign key constraint: PRAGMA foreign_keys = OFF; To enable foreign key constraint: PRAGMA foreign_keys = ON;</p>
+<p>For more information, see: <a href="https://www.sqlitetutorial.net/sqlite-foreign-key">https://www.sqlitetutorial.net/sqlite-foreign-key</a></p>
+</div>
+</div>
+</section>
+<section id="update-and-delete-data-from-a-table" class="level3">
+<h3 class="anchored" data-anchor-id="update-and-delete-data-from-a-table">Update and Delete data from a Table</h3>
+<p>Once we create a table and insert data to it, we can update some of this data in it and can even delete it. Let’s just add a new row under Lecturer:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb22"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> Lecturer <span class="kw">values</span> (<span class="st">'R101'</span>, <span class="st">'Marco'</span>, <span class="st">'Social Science'</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We could examine the table to be sure that things have worked as we believe. Suppose we now realise that the department of this lecturer is in fact “Sociology” rather than “Social Science”. If we would like to update some piece of information, we can use the SQL UPDATE command:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb23"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> Lecturer <span class="kw">SET</span> Lec_dept <span class="op">=</span> <span class="ot">"Sociology"</span> <span class="kw">WHERE</span> Lec_ID<span class="op">=</span><span class="st">'R101'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note here that we have again taken advantage of the <code>WHERE</code> clause.</p>
+<p>And now finally, if for some reason we want to delete this row, we can use:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb24"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DELECT <span class="kw">FROM</span> Lecturer <span class="kw">WHERE</span> Lec_ID<span class="op">=</span><span class="st">'R101'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Note</strong>: in the above two lines, we used the primary key (Lec_ID) to identify the row we want to change. You can use any column, but you will have to be careful since columns that are not primary key may not be unique, and you may end up updating multiple values at the same time. It’s always safest to try to query the condition under <code>WHERE</code> using <code>SELECT</code> first to make sure that the rows you are updating are the ones you want to update.</p>
+<p>Finally, you may note that all of the above code is now getting somewhat elaborate, and we may actually wish to start storing it in some file which we can execute. Fortunately, if we wish save SQL code and re-run, this is quite simple! On the ELE page, we have saved the above script as a file called createTeachingTables.sql. If you open this in a text editor, you will see that this is just the lines we have laid out above. Because we are running sqlite from the command line, another way to do all of the above is to simply redirect our SQL code into the database that we wish to create as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> Teaching.db <span class="op">&lt;</span> createTeachingTables.sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="select-from-a-table" class="level3">
+<h3 class="anchored" data-anchor-id="select-from-a-table">Select from a Table</h3>
+<p>By now, we have already used “SELECT” several times to print table content to the screen. This is the most basic way of using select: <code>SELECT * FROM table_name</code>. But we can do other things too… Let’s explore in more detail. Sometimes, we want to query only part of the table. This is similar to the review on Pandas we had in Week1, when we moved from printing all the data frames to printing only specific parts of it. You can specify which columns you want by including their heading in the <code>SELECT</code> statement:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb26"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>.<span class="kw">mode</span> box</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Lec_Name, Lec_dept <span class="kw">FROM</span> Lecturer;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>┌──────────┬──────────────────┐
+│ Lec_name │     Lec_dept     │
+├──────────┼──────────────────┤
+│ Abdul    │ Computer Science │
+│ Sarah    │ Psychology       │
+│ Amy      │ Physics          │
+│ Lou      │ Economics        │
+│ Marco    │ Social Science   │
+└──────────┴──────────────────┘</code></pre>
+<p>And you can specify which rows you want to access by including a where statement with a condition at the level of rows (similar to fancy indexing in Pandas):</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb28"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Module <span class="kw">WHERE</span> Lec_ID<span class="op">=</span><span class="ot">"L211"</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>
+┌──────────┬─────────────┬────────┐
+│ Mod_code │  Mod_name   │ Lec_ID │
+├──────────┼─────────────┼────────┤
+│ C01      │ Intro to CS │ L211   │
+│ C02      │ DBMS        │ L211   │
+└──────────┴─────────────┴────────┘</code></pre>
+<p>Sometimes, we may not actually want to match exactly, and for this the <code>LIKE</code> statement can be very handy! INCLUDE OUTPUT</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb30"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Module <span class="kw">WHERE</span> Lec_ID <span class="kw">LIKE</span> <span class="ot">"L2%"</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>┌──────────┬──────────────┬────────┐
+│ Mod_code │   Mod_name   │ Lec_ID │
+├──────────┼──────────────┼────────┤
+│ C01      │ Intro to CS  │ L211   │
+│ C02      │ DBMS         │ L211   │
+│ E15      │ Econometrics │ L234   │
+└──────────┴──────────────┴────────┘</code></pre>
+<p>This returns all rows that have a Lec_ID starting with ‘L2’. The symbol ‘%’ means 0 or many characters of any value.</p>
+</section>
+<section id="select-from-multiple-tables" class="level3">
+<h3 class="anchored" data-anchor-id="select-from-multiple-tables">Select from Multiple Tables</h3>
+<p>The real strength of SQL is when we need to query data from multiple tables at the same time. For example, suppose you want to print the names of modules along with the names of the lecturers teaching these modules next to each other. This data does not exist in the same table. You need to use JOIN to join the two tables. This is where your understanding of relational algebra from last week, and SQL JOIN from this week come handy.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb32"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Mod_name, Lec_name <span class="kw">FROM</span> Module <span class="kw">JOIN</span> Lecturer <span class="kw">ON</span> Module.Lec_ID<span class="op">=</span>Lecturer.Lec_ID;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Intro to CS|Abdul
+DBMS|Abdul
+Data Science|Amy
+Computer Networks|Amy
+Econometrics|Lou</code></pre>
+<p>If we use “aliases”, we may be able to shorten the command above a little.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb34"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Mod_name, Lec_name <span class="kw">FROM</span> Module <span class="kw">AS</span> M <span class="kw">JOIN</span> Lecturer <span class="kw">AS</span> L <span class="kw">ON</span> M.Lec_ID<span class="op">=</span>L.Lec_ID;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Intro to CS|Abdul
+DBMS|Abdul
+Data Science|Amy
+Computer Networks|Amy
+Econometrics|Lou</code></pre>
+<p>Note that when the foreign key has the same name as the primary key it is referring to (which is the case here, but not necessarily always the case), we can use <code>USING(key_name)</code> instead. In other words, when we try to join two tables where the column we are using has the same name in both tables, we can instead use <code>USING</code>.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb36"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Mod_name, Lec_name <span class="kw">FROM</span> Module <span class="kw">JOIN</span> Lecturer <span class="kw">USING</span>(Lec_ID);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose we want to include rows from either or both of the table Lecturer and Module; for those who do not have counterparts in the other table, we can use LEFT/RIGHT/FULL with JOIN as the following:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb37"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Mod_name, Lec_name <span class="kw">FROM</span> Module <span class="kw">LEFT</span> <span class="kw">JOIN</span> Lecturer <span class="kw">USING</span>(Lec_ID);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>DBMS|Abdul
+Data Science|Amy
+Computer Networks|Amy
+Econometrics|Lou
+Dissertation|</code></pre>
+<p>This will give the same rows from JOIN, in addition to all (unmatched) rows from the table Module (which is typed on the left-hand side of the keyword LEFT JOIN.</p>
+<p>Unfortunately, RIGHT and FULL do not seem to work as expected in SQLite.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb39"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Mod_name, Lec_name <span class="kw">FROM</span> Module <span class="kw">RIGHT</span> <span class="kw">JOIN</span> Lecturer <span class="kw">USING</span>(Lec_ID);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Error: in prepare, RIGHT and FULL OUTER JOINs are not currently supported (1)</code></pre>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb41"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Mod_name, Lec_name <span class="kw">FROM</span> Module <span class="kw">FULL</span> <span class="kw">JOIN</span> Lecturer <span class="kw">USING</span>(Lec_ID);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Error: in prepare, RIGHT and FULL OUTER JOINs are not currently supported (1)</code></pre>
+<p>However, with some work we can substitute for those. For example, it is easy to see how we can get the outcome for RIGHT JOIN by using LEFT JOIN and swapping the order of table names!</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb43"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> Mod_name, Lec_name <span class="kw">FROM</span> Lecturer <span class="kw">LEFT</span> <span class="kw">JOIN</span> Module <span class="kw">USING</span>(Lec_ID);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>DBMS|Abdul
+Intro to CS|Abdul
+|Sarah
+Computer Networks|Amy
+Data Science|Amy
+Econometrics|Lou
+|Marco</code></pre>
+<p>This gives the same outcome of JOIN, in addition to all (unmatched) rows from the table Lecturer.</p>
+<p>The FULL JOIN is a little tricker, but it is doable thanks to the UNION keyword (which works as the union in relational algebra): FULL is basically the union of using LEFT and RIGHT. In other words, use LEFT JOIN twice.</p>
+<p><strong>SELECT</strong> Mod_name, Lec_name<br>
+<strong>FROM</strong> Module <strong>LEFT JOIN</strong> Lecturer <strong>USING</strong>(Lec_ID)<br>
+<strong>UNION</strong><br>
+<strong>SELECT</strong> Mod_name, Lec_name<br>
+<strong>FROM</strong> Lecturer <strong>LEFT JOIN</strong> Module <strong>USING</strong>(Lec_ID);</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb45"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>.<span class="kw">mode</span> box</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">Select</span> Mod_name, Lec_name</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">From</span> Module <span class="kw">Left</span> <span class="kw">Join</span> Lecturer <span class="kw">using</span>(Lec_ID)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="kw">Union</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="kw">Select</span> Mod_name, Lec_name</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="kw">From</span> Lecturer <span class="kw">Left</span> <span class="kw">join</span> Module <span class="kw">using</span>(Lec_ID);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>┌───────────────────┬──────────┐
+│     Mod_name      │ Lec_name │
+├───────────────────┼──────────┤
+│                   │ Marco    │
+│                   │ Sarah    │
+│ Computer Networks │ Amy      │
+│ DBMS              │ Abdul    │
+│ Data Science      │ Amy      │
+│ Dissertation      │          │
+│ Econometrics      │ Lou      │
+│ Intro to CS       │ Abdul    │
+└───────────────────┴──────────┘</code></pre>
+</section>
+<section id="alter-and-drop-a-table" class="level3">
+<h3 class="anchored" data-anchor-id="alter-and-drop-a-table">Alter and Drop a Table</h3>
+<p>We talked before about UPDATE TABLE and DELETE TABLE which work at the row level. On the other hand, ALTER TABLE works at the level of columns. You can alter a table for the purpose of adding a new column, dropping an existing column, or altering an existing column. You can use DROP TABLE to remove a table and its data.</p>
+<p>For example, let’s add a new column to the table Module to store the department that is offering the module. Let’s also check the new table data using select, and also check the schema.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb47"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ALTER</span> <span class="kw">TABLE</span> Module <span class="kw">ADD</span> mod_dept <span class="dt">char</span>(<span class="dv">20</span>);</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Module;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>┌──────────┬───────────────────┬────────┬──────────┐
+│ Mod_code │     Mod_name      │ Lec_ID │ mod_dept │
+├──────────┼───────────────────┼────────┼──────────┤
+│ C01      │ Intro to CS       │ L211   │          │
+│ C02      │ DBMS              │ L211   │          │
+│ C22      │ Data Science      │ L179   │          │
+│ C39      │ Computer Networks │ L179   │          │
+│ E15      │ Econometrics      │ L234   │          │
+│ U01      │ Dissertation      │        │          │
+└──────────┴───────────────────┴────────┴──────────┘</code></pre>
+<p>Let’s add some values to this column. If you examine module names, you may see that the department indicator is used a first character in the module code (e.g., ‘C01’ for a CS module). This means that we can use the LIKE command with ‘%’. This makes things easier. Before making any update, let’s check first that it works as expected.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb49"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Module <span class="kw">WHERE</span> mod_code <span class="kw">LIKE</span> <span class="st">'C%'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>C01|Intro to CS|L211|
+C02|DBMS|L211|
+C22|Data Science|L179|
+C39|Computer Networks|L179|</code></pre>
+<p>Great. It only brings rows for modules related to computer science. Let’s do the update on all these rows.</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb51"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> Module <span class="kw">SET</span> mod_dept <span class="op">=</span> <span class="ot">"Computer Science"</span> <span class="kw">WHERE</span> mod_code <span class="kw">LIKE</span> <span class="st">'C%'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use ALTER TABLE to change the data type of any column. We have to be careful because it already contains data. For example, changing a column that contains text to INT will be a problem.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Test your knowledge…
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you would like to test your knowledge of the themes we have explored so far, I would suggest you try the following questions. You may also wish to play around with the commands we have included above, and get a feel for how things work…</p>
+<ol type="1">
+<li>Create a new empty database, my1stDB. Create the following 2 tables, and insert rows as below.</li>
+<li>write an SQL command to print the name of students supervised by Amy.</li>
+<li>write an SQL command to print the name of students along with their supervisors, ordered by supervisor name (alphabetically).</li>
+</ol>
+<div id="tbl-panel" class="tbl-parent quarto-layout-panel anchored">
+<div class="panel-caption table-caption">
+<p>Table&nbsp;2: Two Relations</p>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div id="tbl-panel-3" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-panel" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>(a) Table: Supervisor</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Department</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">111</td>
+<td style="text-align: left;">Abdul</td>
+<td style="text-align: left;">Computer Science</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">123</td>
+<td style="text-align: left;">Sarah</td>
+<td style="text-align: left;">Economics</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">169</td>
+<td style="text-align: left;">Amy</td>
+<td style="text-align: left;">Physics</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">234</td>
+<td style="text-align: left;">Lou</td>
+<td style="text-align: left;">Psychology</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tbl-panel-4" class="quarto-layout-cell quarto-layout-cell-subref anchored" data-ref-parent="tbl-panel" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>(b) Table: Student</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">SupID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C01</td>
+<td style="text-align: left;">Mary</td>
+<td style="text-align: left;">111</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C02</td>
+<td style="text-align: left;">Emily</td>
+<td style="text-align: left;">111</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C22</td>
+<td style="text-align: left;">Mo</td>
+<td style="text-align: left;">169</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C39</td>
+<td style="text-align: left;">Maya</td>
+<td style="text-align: left;">169</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E15</td>
+<td style="text-align: left;">John</td>
+<td style="text-align: left;">234</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="some-more-advanced-details-the-imbd-movie-database" class="level2">
+<h2 class="anchored" data-anchor-id="some-more-advanced-details-the-imbd-movie-database">Some More Advanced Details: The IMBD Movie Database</h2>
+<p>We will work now work with a slightly more elaborate example of a database with multiple related tables with thousands of rows. Before we get into this here, we will discuss the layout of this dataset and how it will be set up in relational format. In particular, we will work with the IMDB dataset file, which you may (?) have come across in your work in the prerequisite for this subject (BEE1038). As we will layout in our discussion of these data, the schema of the database that we are working with will look like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="IMDB.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">The IMDB Schema</figcaption>
+</figure>
+</div>
+<p>In working with this database, we will have a few goals:</p>
+<ul>
+<li>Get a feel for working with slightly larger and more realistic data</li>
+<li>See how we work with sql code in practice to replicate analyses and run commands</li>
+<li>Have a look at some more advanced SQL functions such as GROUP BY</li>
+</ul>
+<p>To start, we will create a new database which consists of the 8 tables above (along with their constraints and relationships), and then add data to them. The data will actually be pre-generated in 8 csv files which were created from the full dataset above, and these csv files, along with a script containing SQL files is contained in a zipped folder called IMDB.zip. Let’s just examine the contents of this unzipped folder on my machine (using the command line):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/BEE2041/topic3/IMDB/</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>actor_df.csv
+createIMDBtables.sql
+director_df.csv
+genre_df.csv
+IMDB_example.zip
+keyword_df.csv
+movie_actor_df.csv
+movie_df.csv
+movie_genre_df.csv
+movie_keyword_df.csv
+orig</code></pre>
+</div>
+</div>
+<p>Here, we can see that there are 8 tables in line with the Schema we have discussed, and what we actually want to do is to now generated our SQL database. Apart from the 8 csv files, the other thing that is contained in this folder is a file called <code>createIMDBtables.sql</code>. Let’s have a look at this (again, for the time being, simply using shell commands):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 20 createIMDBtables.sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.mode column
+.width 40 40
+.header ON
+.separator ','
+
+DROP TABLE IF EXISTS Movie_Actor;
+DROP TABLE IF EXISTS Movie_Genre;
+DROP TABLE IF EXISTS Movie_Keyword;
+DROP TABLE IF EXISTS Movie;
+DROP TABLE IF EXISTS Director;
+DROP TABLE IF EXISTS Actor;
+DROP TABLE IF EXISTS Genre;
+DROP TABLE IF EXISTS Keyword;
+
+CREATE TABLE Director(
+director_ID VARCHAR(20) NOT NULL    PRIMARY KEY,
+director_name   VARCHAR(20),
+director_facebook_likes INT
+);</code></pre>
+</div>
+</div>
+<p>We can see that this contains SQL commands… If we look through this file (and let’s do so!), we will see that the file contains the commands to create all 8 tables and insert all data in them. Let’s open up an sqlite3 session with a database name, for example by typing <code>sqlite3 myIMBD</code> at the command line. From within that, we can directly run code!</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb56"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>.<span class="kw">read</span> createIMDBtables.sql</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>.<span class="kw">tables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Actor          Genre          Movie          Movie_Genre
+Director       Keyword        Movie_Actor    Movie_Keyword</code></pre>
+<p>As you can see this creates the 8 tables in a database that we have named myIMDB. We can also check the schema which is similar to the content of the file createIMDBtables.sql (this is only the first few lines):</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb58"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>.<span class="kw">schema</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>CREATE TABLE Director(
+director_ID  VARCHAR(20)    NOT NULL    PRIMARY KEY,
+director_name           VARCHAR(20),
+director_facebook_likes INT
+);
+CREATE TABLE Actor(
+actor_ID     INT    NOT NULL    PRIMARY KEY,
+actor_name   VARCHAR(20),
+actor_facebook_likes INT
+);
+CREATE TABLE Genre(
+genre_ID     VARCHAR(20)    NOT NULL    PRIMARY KEY,
+genre_label  VARCHAR(20)
+);</code></pre>
+<p>We can now check the content of one of the tables, but let’s make sure we use <code>LIMIT</code> to avoid printing too many rows:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb60"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Actor <span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>actor_ID                                  actor_name                                actor_facebook_likes
+----------------------------------------  ----------------------------------------  --------------------
+A0000                                     Doug Walker                               131
+A0001                                     Sofia Boutella                            998
+A0002                                     Mark Chinnery                             544
+A0003                                     Seychelle Gabriel                         1000
+A0004                                     Elisabeth Harnois                         921
+A0005                                     Essie Davis                               309
+A0006                                     Shelley Conn                              273
+A0007                                     Alain Delon                               936
+A0008                                     Phaldut Sharma                            39
+A0009                                     Jamie Renée Smith                         650
+A0010                                     Stephen Amell                             5000
+A0011                                     Mahadeo Shivraj                           383
+A0012                                     Mathew Buck                               5
+A0013                                     Francesca Capaldi                         144
+A0014                                     Mei Melançon                              191
+A0015                                     Jeff Bennett                              283
+A0016                                     Elizabeth Montgomery                      1000
+A0017                                     Quincy Jones                              340
+A0018                                     Nissim Renard                             23
+A0019                                     Fergie                                    529</code></pre>
+<p>Let’s do the same for the table Movies. You will note that we likely have to do some reoptimisation for this output to look okay on the screen. While the below output can be scrolled in the browser, this is not so simple in the command line interface…</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb62"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Movie <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>movie_ID                                  movie_title                                              title_year  duration  language  country  budget     gross      movie_facebook_likes  imdb_score  num_voted_users  director_ID
+----------------------------------------  -------------------------------------------------------  ----------  --------  --------  -------  ---------  ---------  --------------------  ----------  ---------------  -----------
+M0000                                     Avatar&nbsp;                                                  2009        178       English   USA      237000000  760505847  33000                 7.9         886204           D1229
+M0001                                     Pirates of the Caribbean: At World's End&nbsp;                2007        169       English   USA      300000000  309404152  0                     7.1         471220           D0491
+M0002                                     Spectre&nbsp;                                                 2015        148       English   UK       245000000  200074175  85000                 6.8         275868           D1169
+M0003                                     The Dark Knight Rises&nbsp;                                   2012        164       English   USA      250000000  448130642  164000                8.5         1144337          D1326
+M0004                                     Star Wars: Episode VII - The Force Awakens&nbsp;                                                                             0                     7.1         8                D0000
+M0005                                     John Carter&nbsp;                                             2012        132       English   USA      263700000  73058679   24000                 6.6         212204           D0039
+M0006                                     Spider-Man 3&nbsp;                                            2007        156       English   USA      258000000  336530303  0                     6.2         383056           D2184
+M0007                                     Tangled&nbsp;                                                 2010        100       English   USA      260000000  200807262  29000                 7.8         294810           D0001
+M0008                                     Avengers: Age of Ultron&nbsp;                                 2015        141       English   USA      250000000  458991599  118000                7.5         462669           D0194
+M0009                                     Harry Potter and the Half-Blood Prince&nbsp;                  2009        153       English   UK       250000000  301956980  10000                 7.5         321795           D0012
+</code></pre>
+<p>Let’s now look into a more elaborate question. Let’s imagine that from our data, we wished to produce a ranking of genres by their IMDB scores. It turns out that this can be done in a single line in SQL, but we will build up to it step-by-step.</p>
+<p>To begin, note that IMDB scores are in the table Movie, while genre labels are in the table Genre. These two are connected through the table Movie_Genre. Let’s have a look at some of these relevant pieces of information below:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb64"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> movie_ID, imdb_score <span class="kw">FROM</span> Movie <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>movie_ID                                  imdb_score
+----------------------------------------  ----------------------------------------
+M0000                                     7.9
+M0001                                     7.1
+M0002                                     6.8
+M0003                                     8.5
+M0004                                     7.1
+M0005                                     6.6
+M0006                                     6.2
+M0007                                     7.8
+M0008                                     7.5
+M0009                                     7.5</code></pre>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb66"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Genre <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>genre_ID                                  genre_label
+----------------------------------------  ----------------------------------------
+G00                                       Action
+G01                                       Adventure
+G02                                       Fantasy
+G03                                       Sci-Fi
+G04                                       Thriller
+G05                                       Documentary
+G06                                       Romance
+G07                                       Animation
+G08                                       Comedy
+G09                                       Family</code></pre>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb68"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> Movie_Genre <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>movie_ID                                  genre_ID
+----------------------------------------  ----------------------------------------
+M0000                                     G00
+M0000                                     G01
+M0000                                     G02
+M0000                                     G03
+M0001                                     G00
+M0001                                     G01
+M0001                                     G02
+M0002                                     G00
+M0002                                     G01
+M0002                                     G04</code></pre>
+<p>The fastest way to print genre labels along with an imdb score is using JOIN twice to connect the table Genre to table Movie_Genre, and the table Movie_Genre to the table Movie. We can do all of this in one query:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb70"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> genre_label, genre_ID, movie_ID, imdb_score <span class="kw">FROM</span> Genre <span class="kw">JOIN</span> Movie_Genre <span class="kw">USING</span>(genre_ID) <span class="kw">JOIN</span> Movie <span class="kw">USING</span>(movie_ID) <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>genre_label                               genre_ID                                  movie_ID  imdb_score
+----------------------------------------  ----------------------------------------  --------  ----------
+Action                                    G00                                       M0000     7.9
+Adventure                                 G01                                       M0000     7.9
+Fantasy                                   G02                                       M0000     7.9
+Sci-Fi                                    G03                                       M0000     7.9
+Action                                    G00                                       M0001     7.1
+Adventure                                 G01                                       M0001     7.1
+Fantasy                                   G02                                       M0001     7.1
+Action                                    G00                                       M0002     6.8
+Adventure                                 G01                                       M0002     6.8
+Thriller                                  G04                                       M0002     6.8</code></pre>
+<p>There’s a fair bit going on with this command, so we may want to unpick it a little bit…</p>
+<p>We don’t actually need genre_ID and movie_ID to be printed above (we just print them to clarify things), so let’s just remove them from the SELECT:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb72"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> genre_label, imdb_score <span class="kw">FROM</span> Genre <span class="kw">JOIN</span> Movie_Genre <span class="kw">USING</span>(genre_ID) <span class="kw">JOIN</span> Movie <span class="kw">USING</span>(movie_ID) <span class="kw">LIMIT</span> <span class="dv">10</span>; </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>genre_label                               imdb_score
+----------------------------------------  ----------------------------------------
+Action                                    7.9
+Adventure                                 7.9
+Fantasy                                   7.9
+Sci-Fi                                    7.9
+Action                                    7.1
+Adventure                                 7.1
+Fantasy                                   7.1
+Action                                    6.8
+Adventure                                 6.8
+Thriller                                  6.8</code></pre>
+<p>The above output thus returns a single line for each movie*genre pair with the movie ranking. What we want now is to aggregate across all movies within a genre to provide the average score. We can do this quite simply with a <code>GROUP BY</code> command, and the function <code>AVG</code>:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb74"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> genre_label, <span class="fu">AVG</span>(imdb_score) <span class="kw">FROM</span> Genre <span class="kw">JOIN</span> Movie_Genre <span class="kw">USING</span>(genre_ID) <span class="kw">JOIN</span> Movie <span class="kw">USING</span>(movie_ID) <span class="kw">GROUP</span> <span class="kw">BY</span> genre_label; </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>genre_label                               AVG(imdb_score)
+----------------------------------------  ----------------------------------------
+Action                                    6.23657042869642
+Adventure                                 6.44135667396062
+Animation                                 6.57603305785124
+Biography                                 7.15
+Comedy                                    6.19473401397099
+Crime                                     6.56092865232163
+Documentary                               7.1801652892562
+Drama                                     6.76491637495139
+Family                                    6.24742647058824
+Fantasy                                   6.31109271523179
+Film-Noir                                 7.63333333333333
+Game-Show                                 2.9
+History                                   7.08487804878049
+Horror                                    5.83273381294964
+Music                                     6.4061320754717
+Musical                                   6.50757575757576
+Mystery                                   6.48864097363083
+News                                      7.53333333333333
+Reality-TV                                4.75
+Romance                                   6.4482224247949
+Sci-Fi                                    6.27741407528641
+Short                                     6.38
+Sport                                     6.60276243093922
+Thriller                                  6.31289398280803
+War                                       7.07488151658767
+Western                                   6.7031914893617</code></pre>
+<p>We’re now pretty much there, and all that we need to do to close this off is to order by rating. We can do this with <code>ORDER BY</code>, taking care to denote <code>DESC</code>, as otherwise SQL will sort in ascending order (<code>ASC</code>) as its default behaviour.:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb76"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> genre_label, <span class="fu">AVG</span>(imdb_score) <span class="kw">FROM</span> Genre <span class="kw">JOIN</span> Movie_Genre <span class="kw">USING</span>(genre_ID) <span class="kw">JOIN</span> Movie <span class="kw">USING</span>(movie_ID) <span class="kw">GROUP</span> <span class="kw">BY</span> genre_label <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="fu">AVG</span>(imdb_score) <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Film-Noir                                 7.63333333333333
+News                                      7.53333333333333
+Documentary                               7.1801652892562
+Biography                                 7.15
+History                                   7.08487804878049
+War                                       7.07488151658767
+Drama                                     6.76491637495139
+Western                                   6.7031914893617
+Sport                                     6.60276243093922
+Animation                                 6.57603305785124
+Crime                                     6.56092865232163
+Musical                                   6.50757575757576
+Mystery                                   6.48864097363083
+Romance                                   6.4482224247949
+Adventure                                 6.44135667396062
+Music                                     6.4061320754717
+Short                                     6.38
+Thriller                                  6.31289398280803
+Fantasy                                   6.31109271523179
+Sci-Fi                                    6.27741407528641
+Family                                    6.24742647058824
+Action                                    6.23657042869642
+Comedy                                    6.19473401397099
+Horror                                    5.83273381294964
+Reality-TV                                4.75
+Game-Show                                 2.9             </code></pre>
+<p>We may prefer to assign <code>AVG(imbd_score)</code> an alias, and then simply use this with the ORDER BY, though the result will be the same. This would just consist of editing the above command in the following way:</p>
+<div class="interactive-sql">
+<div class="sourceCode" id="cb78"><pre class="sourceCode sql interactive code-with-copy"><code class="sourceCode sql"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> genre_label, <span class="fu">AVG</span>(imdb_score) <span class="kw">AS</span> av_score <span class="kw">FROM</span> Genre <span class="kw">JOIN</span> Movie_Genre <span class="kw">USING</span>(genre_ID) <span class="kw">JOIN</span> Movie <span class="kw">USING</span>(movie_ID) <span class="kw">GROUP</span> <span class="kw">BY</span> genre_label <span class="kw">ORDER</span> <span class="kw">BY</span> av_score <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Output is omitted as it is the same as above!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Test your knowledge…
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try the following questions to apply the examples explored above. You may also wish to explore the use of other functions such as minimum scores, maximum scores, score variation, medians and so forth.</p>
+<ol type="1">
+<li>Using a similar method, write a query that will return the top 20 plot keywords in terms of average IMDB scores.</li>
+<li>Write an SQL query that returns the top 10 directors in terms of average IMDB scores, ordered by the averages.</li>
+<li>Write an SQL query that returns the title year, the average IMDB score per year, and the median gross of movies during each year, ordered by year.</li>
+</ol>
+</div>
+</div>
+<sqlime-db name="hr" path="https://raw.githubusercontent.com/shafayetShafee/interactive-sql/main/hr.sql"></sqlime-db>
+<sqlime-examples db="hr" selector="div.interactive-sql pre.hr code" editable=""></sqlime-examples>
+<sqlime-db name="hr-not-editable" path="https://raw.githubusercontent.com/shafayetShafee/interactive-sql/main/hr.sql"></sqlime-db>
+<sqlime-examples db="hr-not-editable" selector="div.interactive-sql pre.hr-not-editable code"></sqlime-examples>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="example_files/libs/quarto-contrib/interactive-sql-1.0.0/interactive-sql.js"></script>
+</body></html>

@@ -1,0 +1,44 @@
+/* Reduce spacing between list items */
+.reveal ul li,
+.reveal ol li {
+  margin-bottom: 0.1em;
+}
+
+/* Reduce spacing between nested list items */
+.reveal ul ul li,
+.reveal ol ol li {
+  margin-bottom: 0.1em;
+}
+
+/* Adjust spacing before/after lists */
+.reveal ul,
+.reveal ol {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+/* Style the panel tabs */
+.panel-tabset .nav-link {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.panel-tabset .nav-link.active {
+  background-color: #008080; /* teal */
+  color: white;
+}
+
+/* Alternate row colors in tables */
+.reveal table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.reveal table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Highlight important rows */
+.reveal table tbody tr:has(td:contains("Assignment")) {
+  background-color: #fff3cd;
+  font-weight: bold;
+}

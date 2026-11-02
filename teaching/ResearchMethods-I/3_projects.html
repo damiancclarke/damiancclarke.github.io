@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Project Management &amp; Replicability – Research Methods 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./4_visualisation.html" rel="next">
+<link href="./2_datawrangling.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-42bde1bdd1e1a13def94ba36d6b65ecd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3_projects.html"><span class="chapter-title">Project Management &amp; Replicability</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Research Methods 1</a> 
+        <div class="sidebar-tools-main">
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Research-Methods-1.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Research-Methods-1.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0a_about.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">About This Course</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0c_languages.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Background on Computational Languages in Economics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0b_preliminaries.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Getting Set Up</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./1_programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programming Languages</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1a_IntroductionR.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1c_IntroductionPython.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to Python</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1b_IntroductionStata.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">An Introduction to Stata</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2_datawrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Wrangling and Data Management</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3_projects.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Project Management &amp; Replicability</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4_visualisation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Visualisation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5_statistics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6_simulations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Simulations as Part of Research Workflow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_other.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Some Details on Webscraping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#workflow-project-structure-and-documentation" id="toc-workflow-project-structure-and-documentation" class="nav-link active" data-scroll-target="#workflow-project-structure-and-documentation">Workflow, Project Structure and Documentation</a>
+  <ul class="collapse">
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#project-structure" id="toc-project-structure" class="nav-link" data-scroll-target="#project-structure">Project Structure</a></li>
+  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
+  </ul></li>
+  <li><a href="#version-control" id="toc-version-control" class="nav-link" data-scroll-target="#version-control">Version Control</a></li>
+  <li><a href="#programming-style-and-documentation" id="toc-programming-style-and-documentation" class="nav-link" data-scroll-target="#programming-style-and-documentation">Programming Style and Documentation</a>
+  <ul class="collapse">
+  <li><a href="#programming-style" id="toc-programming-style" class="nav-link" data-scroll-target="#programming-style">Programming Style</a></li>
+  <li><a href="#automation-and-abstraction" id="toc-automation-and-abstraction" class="nav-link" data-scroll-target="#automation-and-abstraction">Automation and Abstraction</a></li>
+  <li><a href="#testing-debugging-and-profiling" id="toc-testing-debugging-and-profiling" class="nav-link" data-scroll-target="#testing-debugging-and-profiling">Testing, Debugging, and Profiling</a></li>
+  <li><a href="#documentation-1" id="toc-documentation-1" class="nav-link" data-scroll-target="#documentation-1">Documentation</a></li>
+  </ul></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
+  <li><a href="#an-example-in-r" id="toc-an-example-in-r" class="nav-link" data-scroll-target="#an-example-in-r">An Example in R</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Project Management &amp; Replicability</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In economic research, it is common for our projects to last a number of years, include a number of quite separate analyses, and potentially include multiple people working on code and writing. For this reason, it is important to us that from the outset we think quite carefully about how we should best organise our work to ensure that we work as efficiently as possible, and to facilitate work and replication of results within teams. A well designed project and work flow will also make it considerably easier for other researchers to replicate and extend our work.</p>
+<p>In this class we will talk about good coding and project management practices in an applied way. Often I will simply provide an overview of key considerations, before exploring together the structure of a project (in <code>R</code>). While these notes will provide an overview of many of the considerations, we could spend considerably more time on this theme, and will return to these issues throughout the rest of this course. There are a range of other resources here which are more complete in their coverages of these themes, and I direct you to them if you would like to read further. These include:</p>
+<ul>
+<li><p><a href="https://aeturrell.github.io/coding-for-economists/code-best-practice.html">Turrell (2023)</a>: <strong>“Coding for Economists”</strong> The sections on coding and workflow are particularly relevant for this class.</p></li>
+<li><p><a href="http://web.stanford.edu/~gentzkow/research/CodeAndData.pdf">Gentzkow and Shapiro (2014)</a>: <strong>“Code and Data for the Social Sciences: A Practitioner’s Guide”</strong> These notes provide a very nice overview of the key elements in empirical projects, particularly in thinking about working within teams.</p></li>
+<li><p><a href="https://ljristovska.com/assets/docs/coding_for_econs_20190221.pdf">Ristovska (2019)</a>: <strong>“Coding for Economists: A Language-Agnostic Guide to Programming for Economists”</strong> These slides focus in particular on coding style and best practices.</p></li>
+</ul>
+<section id="workflow-project-structure-and-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="workflow-project-structure-and-documentation">Workflow, Project Structure and Documentation</h2>
+<section id="workflow" class="level3">
+<h3 class="anchored" data-anchor-id="workflow">Workflow</h3>
+<p>A (stylised) economics research project may consist of the following steps:</p>
+<ol type="1">
+<li><p>Data collection</p></li>
+<li><p>Data cleaning</p></li>
+<li><p>Analysis and generation of results</p></li>
+<li><p>Writing a paper and slides</p></li>
+<li><p>Generation of replication materials</p></li>
+</ol>
+<p>It is unlikely that one could (or would) want to use a single tool to complete all of these tasks. A somewhat complicated project may consist of the following type of tools for each step.</p>
+<ol type="1">
+<li><p>Data collection: Webscraped with Python</p></li>
+<li><p>Data cleaning: Some scripting language, eg Stata, R, Julia, Python, MATLAB</p></li>
+<li><p>Analysis and generation of results: Scripting language, as above</p></li>
+<li><p>Writing a paper and slides: LaTeX and pdflatex compiler</p></li>
+<li><p>Generation of replication materials: All housed in a Makefile, or very clearly documented in your README file.</p></li>
+</ol>
+<p>You may note that the above steps <em>could</em> largely be done in a single language, but this list is used to provide the point that often in practice this is not what turns out to happen. Given this, when we are planning our projects, our solutions should be able to jump across languages if necessary.</p>
+<p>Likely what we would like to do here is:</p>
+<ol type="1">
+<li><p>Automate this process completely or as much as possible</p>
+<ul>
+<li><p>What happens if next month we want to update at step 1, eg grabbing new data?</p></li>
+<li><p>And what if later a referee wants us to use an alternative method of data cleaning at step 2?</p></li>
+</ul></li>
+<li><p>“Remember” what was being done in previous versions of code when changes are made to revert to old results if necessary</p></li>
+</ol>
+<p>The first of these is more about designing an efficient replication process (for example using a Makefile or overview file) which we will discuss here, while the second is more about “version control”, which we will discuss below.</p>
+<p>As much as possible, we should seek to avoid any manual procedures in our workflow. This includes things like manually copying regression outputs to tables (we will discuss how to automate in a few weeks), manually updating figures in documents, and also the need to remember which order to run scripts in to generate final output. It is good practice to have some way to run a single script which does everything we need from start to finish.</p>
+<p>One particular way to do this is by using <strong>Make</strong> a Unix tool which specifies the full path a project follows, implying that rather than having to go through a workflow piece by piece, one can simply run the make file with a single command. The value added of make is that it only runs steps which are necessary If nothing prior to step</p>
+<p>has been altered, make will see this and only run steps <span class="math inline">\(x\)</span>, <span class="math inline">\(x+1\)</span>, <span class="math inline">\(\ldots\)</span> A very complete discussion of Make with examples is provided by <a href="https://www.sas.upenn.edu/~jesusfv/Chapter_HPC_6_Make.pdf">Jesús Fernández-Villaverde</a>. We won’t discuss this extensively here because it is specific to a single operating system, but you may wish to check it out. Similarly, for windows, in their chapter 2 <a href="https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf">Gentzkow and Shapiro</a> have a suggestion for Windows systems of using a shell script to automate workflow. Below in an empirical example we will see a simplified version of this in <code>R</code></p>
+<section id="backing-up-your-work" class="level4">
+<h4 class="anchored" data-anchor-id="backing-up-your-work">Backing up your work</h4>
+<p>At some point during your research it is exceedingly likely that you will lose access to your hard drive and any work saved on it. Whether this be because some component on your computer breaks or because you lose your computer or a hard drive, it is extremely likely that you will lose access to your hard drive at some point (or multiple points) during your research career. For this reason, it is <strong>absolutely fundamental</strong> that you view backing up your work as an integral part of your research workflow. You may have some syncing tool which does this automatically, and if this is the case I would encourage you to check with great frequency that it is indeed backing up as you believe. Alternatively, you may wish to manually back up your discs on external drives. Tools such as <a href="https://rsync.samba.org/">rsync</a> provide efficient ways to do this. You should also consider the importance of having redundant back-ups, so that if one back up does not work as you believe, you still have another back-up in place. At every specific moment in time I would encourage you to be sure that if your computer stopped working at that moment that you would not lose more than a few hours work, and hopefully no work at all.</p>
+</section>
+</section>
+<section id="project-structure" class="level3">
+<h3 class="anchored" data-anchor-id="project-structure">Project Structure</h3>
+<p>In line with the point on workflow above, we should aim to structure our projects in a logical fashion. At a minimum, projects should be located in their own directory, and should separate raw data, source codes, any intermediate data, and results. In the example at the end of this class we will see a structure which does these things adequately.</p>
+</section>
+<section id="documentation" class="level3">
+<h3 class="anchored" data-anchor-id="documentation">Documentation</h3>
+<p>A fundamental part of any research project is (global) documentation. This documentation should provide us, or other users of our project, an immediate idea of the structure of our project, how to get up and running with the project, and how to replicate our work.</p>
+<p>For this reason, we should always accompany our projects with a <strong>README</strong> file, which should be located in the top directory of our projects. README files provide giving global instructions relating to a project, explain elements such as the procedures which should be followed to replicate a project from start to finish, any external libraries needed, directory structure, etc. These should be the first thing you look for when you download a file to understand key elements of a project. If you cannot find a README, this may be evidence that you should doubt the code in a project. In general, while these files are known as README files, they may be named things like README, README.TXT, READ.ME (all likely readable with a text editor), or some other file format, like README.pdf, README.doc, or, in the case of markdown README.md. A template for the type of things which we might expect to be in the README is available <a href="https://social-science-data-editors.github.io/template_README/template-README.html">here</a>.</p>
+</section>
+</section>
+<section id="version-control" class="level2">
+<h2 class="anchored" data-anchor-id="version-control">Version Control</h2>
+<p>When our projects become slightly more complex, we will wish to use some sort of version control software which will allow us to keep track of changes in projects, as well as seamelessly collaborate in teams. Arguably the most common way to do this now is via git, often using the online platform <a href="file:///home/dcc213/trabajo/Teaching/Exeter/ResearchMethods-I/previous_site_from_web/ResearchMethods-I/github.com">github</a>.</p>
+<p>One argument for using git is that it avoids issues like those laid out in the comic below! Using git is great to provide a full track of all the code we have written in all iterations, allowing for us to generate branches to try new things and remove things that we no longer want, while still maintaining a full record of the history of our work. More generally however, git also allows us to collaborate with others, working on code together in a decentralised way, and then bringing things together, for example on places like github. We will explore some of the practical elements of git in our next tutorial together.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/phdcomic.png" class="img-fluid figure-img" alt="git"></p>
+<figcaption>The stereotypical argument for git</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Getting Up and Running with git
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<section id="introduction" class="level4">
+<h4 class="anchored" data-anchor-id="introduction">Introduction</h4>
+<p>To see some ideas about version control we will explore git and github, and go through a number of the steps here.</p>
+<p>Information on installing git can be found <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">here</a>. I would ask that you would follow these instructions to get a working implementation of git on your machine. While there are GUIs available, by far the most flexible way to deal with git is via the command line, which is why we will introduce it this way. You can access the command line directly through VScode if you do not have simple access to the terminal on your machine, or else on Linux and Mac operating systems it is reasonably trivial to access the command line. If you are working on Windows, you may wish to install <a href="https://www.atlassian.com/git/tutorials/git-bash">git bash</a> as a way to do this. The terminal acts as the conduit through which our git commands can be issued, and so provided that you have some way to do this, you should be fine!</p>
+<p>After we have some way to access git, let’s first just confirm that we effectively have git installed, which we can do with the command below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>git version 2.34.1</code></pre>
+</div>
+</div>
+<p>Provided that we get some output printing a version number (which will depend upon when you installed it), this implies that git is installed. If you get some other message such as <code>'git' is not recognized as an internal or external command, operable program or batch file.</code> (or some other message suggesting git is not installed), you will need to return to the resources on git, and ensure that the installation has been completed.</p>
+<p>If this is the first time you are working with git, you may want to complete some first time set-up procedures. While not strictly necessary, they will make interacting with github later on much easier, and so it is potentially worth at least setting up the basics now. In particular, we will want to tell git our username and email address. For the email address, we should use the same email which we will use to generate a github account, which ideally should be an email we plan to keep for an extended period of time. This can be done as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your name"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email youremail@example.com</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>where “Your name” and the email should be filled in appropriately. We can confirm that this has been updated as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>user.email=damian.clarke@protonmail.com
+user.name=damiancclarke
+init.defaultbranch=main
+credential.helper=cache
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true</code></pre>
+</div>
+</div>
+<p>Depending on your installation, you may see slightly different configurations, for example if some particular other settings are configured as default.</p>
+<p>To have a quick look under the hood and where we will be going with git, you may wish to briefly consult the top-level manual which you can do with <code>git --help</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>usage: git [--version] [--help] [-C &lt;path&gt;] [-c &lt;name&gt;=&lt;value&gt;]
+           [--exec-path[=&lt;path&gt;]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=&lt;path&gt;] [--work-tree=&lt;path&gt;] [--namespace=&lt;name&gt;]
+           [--super-prefix=&lt;path&gt;] [--config-env=&lt;name&gt;=&lt;envvar&gt;]
+           &lt;command&gt; [&lt;args&gt;]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help &lt;command&gt;' or 'git help &lt;concept&gt;'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system.</code></pre>
+</div>
+</div>
+<p>We can see from this that git is relatively light in terms of the number of different commands we may need, and indeed, probably much of the time we are interacting with git it will be with just a small sub-set of these commands. We will start to get into this now…</p>
+</section>
+<section id="setting-up-a-project" class="level1">
+<h1>Setting up a Project</h1>
+<p>Let’s imagine that we are starting a big software project, and know that we will need version control. This may involve multiple people, but for the time being, we may only just be working by ourselves on our local machine. To see a very contrived example, let’s generate a new file called <code>myproject</code>, and then within this project begin our first git repository.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> myproject</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> myproject</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Initialized empty Git repository in /home/dcc213/trabajo/Teaching/Exeter/ResearchMethods-I/site/myproject/.git/</code></pre>
+</div>
+</div>
+<p>At times we may wish to begin a git project before we generate any files at all, but it is also not a problem to start a project in a directory which already contains files. We have seen that starting our git respository with <code>git init</code> provides us a message that an empty repository has been generated. This has been initialised in a new directory called <code>.git</code>. You may note that if you are in the directory where the repository is located and type <code>ls</code> we will not actually see anything:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and this is because directories starting with <code>.</code> are hidden, both when typing <code>ls</code> as well as when looking at them in folders. However, if we ask <code>ls</code> to show us everything, we will see that it is there:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+..
+.git</code></pre>
+</div>
+</div>
+<p>We do not need to know precisely what goes on inside the <code>.git</code> folder, just that this will keep track of our project and its changes if instructed. We can see in a broad sense what git is seeing with <code>git log</code> and <code>git status</code>. When we have not yet done anything <code>git log</code> will return an error as below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>fatal: your current branch 'main' does not have any commits yet</code></pre>
+<p>while <code>git status</code> will, as yet, suggest relatively little is happening:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)</code></pre>
+</div>
+</div>
+<p>Because we have not yet added any code, there is not much that git needs to keep track of!</p>
+</section>
+<section id="adding-code-staging-and-committing" class="level1">
+<h1>Adding code, staging, and committing</h1>
+<p>Let’s now add a very simple first code, and see what happens. Below we will just generate a simple plain text file, consisting simply of the words “Hello world!”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello world!"</span> <span class="op">&gt;</span> file1.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We have stored this in a file called <code>file1.txt</code> (using notation we know from our work in BASH). Now, let’s see what the <code>git status</code> tells us:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+    file1.txt
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+</div>
+</div>
+<p>Now we see that git tells us there is a file there, but it’s not being tracked. If this is part of the code of our project, we will want to track it so we can have a history of how it evolves, and roll back to prior versions if necessary. We will now “stage” this file, which means it could be committed to our git repository, and enter the version control history.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file1.txt</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached &lt;file&gt;..." to unstage)
+    new file:   file1.txt</code></pre>
+</div>
+</div>
+<p>The key line above with <code>git add filename</code> which tells git to put file1.txt into the “staging area”. This allows us to do a number of things such as see any differences between staged and unstaged versions of the file, and, fundamentally, commit our files to the git repository. We do this below with <code>git commit</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Adds hello world file"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[main (root-commit) 522eae3] Adds hello world file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file1.txt</code></pre>
+</div>
+</div>
+<p>The syntax of <code>git commit</code> is to first write the command, and then <code>-m</code> followed by a commit message. This provides us a brief snapshot of what we’ve done, and something that will hopefully jog our memory later on. If we type <code>git commit</code> without specifying a message inline with is fine, but our command line will open an editor and we will need to type one. What we have done with <code>git commit</code> is add our code to the version control history of the project. If we now type <code>git status</code> and <code>git log</code> we will see a few changes, with the most important being the change in <code>git log</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+nothing to commit, working tree clean
+commit 522eae36ecc52f3c1ca2e2601edb93701ba16b4c
+Author: damiancclarke &lt;damian.clarke@protonmail.com&gt;
+Date:   Fri Dec 5 10:25:28 2025 +0000
+
+    Adds hello world file</code></pre>
+</div>
+</div>
+<p>We can see at the end that we have a new commit which is indicated by a long string of letters and numbers, as well as information on the author and date of the commit.</p>
+<p>Essentially, we should commit code to our repository every time we have made a concrete change. A very nice discussion of commits, along with commit messages is available <a href="https://gist.github.com/luismts/495d982e8c5b1a0ced4a57cf3d93cf60">here</a>. This commit will be available forever after, and even if we later make many changes, we will always have the option to see the code as it existed at this moment in time, and roll back to it if we wish.</p>
+<p>Let’s imagine that we now need to add another piece of code to our repository, which depends on some new output of our old <code>file1.txt</code>. Below we will add a new line to <code>file1.txt</code>, and then stage the changed version of <code>file1.txt</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Some addition outputting something for file2.txt"</span> <span class="op">&gt;&gt;</span> file1.txt</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file1.txt</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+    modified:   file1.txt</code></pre>
+</div>
+</div>
+<p>We will not commit this yet, because we want to also write <code>file2.txt</code> and then commit the two changes together as a single new function in the code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"A new file taking input from file1.txt"</span> <span class="op">&gt;&gt;</span> file2.txt</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file2.txt</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Adds new function file2 which interacts with file1"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[main a561635] Adds new function file2 which interacts with file1
+ 2 files changed, 2 insertions(+)
+ create mode 100644 file2.txt
+On branch main
+nothing to commit, working tree clean</code></pre>
+</div>
+</div>
+<p>We have now added this new commit to our repository, and if we look at the <code>git log</code> below, we will see that both versions of the files are tracked. However, if we look in our main folder (with <code>ls</code>), we will see that we do not have any bloat or have to worry about anything in particular about prior versions of the files. We can get at them if we want or roll-back to any previous versions, but if we don’t ask for anything, we will just see the most recent versions of all our files.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>commit a561635cba6f3b00db70566652ccb60925779850
+Author: damiancclarke &lt;damian.clarke@protonmail.com&gt;
+Date:   Fri Dec 5 10:25:28 2025 +0000
+
+    Adds new function file2 which interacts with file1
+
+commit 522eae36ecc52f3c1ca2e2601edb93701ba16b4c
+Author: damiancclarke &lt;damian.clarke@protonmail.com&gt;
+Date:   Fri Dec 5 10:25:28 2025 +0000
+
+    Adds hello world file
+file1.txt
+file2.txt</code></pre>
+</div>
+</div>
+</section>
+<section id="working-with-github" class="level1">
+<h1>Working with github</h1>
+<p>While this is all well and good for keeping track of our own work, it does not really show case much of the true power of git, which is for working in a dencentralised way among potentially many different individuals. Let’s now see how git can interact with github. I will assume that you have now generated a free github account based on the email indicated above. We will now talk through a few things:</p>
+<ol type="1">
+<li>Adding our code to a github repository allowing for public access and collaboration</li>
+<li>Contributing to an existing repository on github</li>
+</ol>
+<p>Probably much of our work will be on point 1, especially early on in our usage of git, but as you start to work on more collaborative projects, you may see that gradually you are spending more on point 2 above.</p>
+<section id="publishing-our-repositories-on-github" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-our-repositories-on-github">1. Publishing our repositories on github</h2>
+<p>Let’s now imagine that the project we have created above is something that we want to share publicly, either so that people can see and use the code, or so that we can collaborate with others who may also contribute to the project. We can do this from within github with the + symbol pictured below, and then indicating “New repository”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g1.png" class="img-fluid figure-img"></p>
+<figcaption>Creating a new github repository</figcaption>
+</figure>
+</div>
+<p>This will then provide us with a place to indicate a repository name, as well as whether we wish to have this be public or private, as well as optionally whether we would like to include a License file to start. If we are starting a fresh repository without any code to push from our machine we might want to add a license file, otherwise we will probably prefer to begin with an empty repository to push everything we have locally on our machine into. Once we are satisfied with the details below, we can click “Create repository”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g2.png" class="img-fluid figure-img"></p>
+<figcaption>Details of a github repository</figcaption>
+</figure>
+</div>
+<p>Now we need to go about including the code which we have stored locally on our machine into this repository. If we have a git repository already located on our machine that we wish to incorporate into this github repository, we need to take a few steps. Let’s see this with the repository we have already set up previously. Within this repository on our machine, we will need indicate that we wish to contribute to a remote repository. We do this below, where the remote location will depend on our username and github repository name:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin https://github.com/damiancclarke/BEEM136</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If things work as planned, there should be no message here, but if we want to confirm that something has occured, we can check this as below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>origin  https://github.com/damiancclarke/BEEM136 (fetch)
+origin  https://github.com/damiancclarke/BEEM136 (push)</code></pre>
+</div>
+</div>
+<p>Once we have done this, we are close to ready to “push” our code locally to the place we have indicated as “origin”. To do this, we will first ensure that we have a branch called “main” on our machine. Because we only have one branch, it may be that by default this is called main, but the below code ensures that we know where we are pushing any code from. After we have done this, we will “push” the code that we have locally on “main” to the repository that we have on github which we have called “origin” above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-M</span> main</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Username for 'https://github.com': damiancclarke
+Password for 'https://damiancclarke@github.com':
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (9/9), 882 bytes | 882.00 KiB/s, done.
+Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/damiancclarke/BEEM136
+   28fbef7..23334ef  main -&gt; main
+   Branch 'main' set up to track remote branch 'main' from 'origin'.</code></pre>
+<p>When we do the <code>push</code> above, we need to be able to access our repository on github. As this is of course sensitive (we would not want anybody to be able to push to our repsitories), git will require a password. Some information related to possible alternative routes to do this from github are available <a href="https://docs.github.com/en/get-started/getting-started-with-git/why-is-git-always-asking-for-my-password">here</a>, and note that the password that github requires is not actually the password we use to login, but rather a personal access token which can be generated as discussed <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">here</a>. While it is a bit of hassle to have to do this additional step to push code, it is safer, and once it has been done once, we can use the personal access token for a long period of time, until we set it to expire.</p>
+<p>Once we have done this, and given that we will have this repository available publicly, we may wish to add a README file which will provide some information on this repository to people who look at our repo on github. We can do this by adding a file called README.md. If we write this file using <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">github’s markdown</a>, it will be visualised well online. Let’s imagine we have edited some README.md file, we can then stage and commit it below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Incorporates README to our repo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Username for 'https://github.com': damiancclarke
+Password for 'https://damiancclarke@github.com':
+[main 00d2f26] Incorporates README to our repo
+ 1 file changed, 1 insertion(+)</code></pre>
+<p>Now when we look on github, everything we have done so far will be there! This should look something like the below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g3.png" class="img-fluid figure-img"></p>
+<figcaption>Our first github repo</figcaption>
+</figure>
+</div>
+<p>If we look at individual codes, we can also see the full history, with an easy-to-use interface showing exact changes between any versions. In the below screen shot for example we see exactly what change was made when we moved from our first to second commit at the beginning of this project. In practice, when commits involve more lines of code, this feature can come in very handy.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g4.png" class="img-fluid figure-img"></p>
+<figcaption>Visualising changes across code commits</figcaption>
+</figure>
+</div>
+<p>At this stage our local git repository and github repository are in sync. At the beginning and at the end of any working session, we should always ensure that this is the case. If you are collaborating on a project with others, it is possible that by the time you start a new working session, your collaborators may have made some changes and pushed it to the github repository. In this case, we should always first ensure that we are up to date with all the recent updates from github before we make any other changes ourself. The nice thing about it is that you can use git pull even when in doubt. In this particular case, no change will appear because we are already in sync, and no one else has edited this repository.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Already up to date.</code></pre>
+</section>
+<section id="contributing-to-an-existing-repository" class="level2">
+<h2 class="anchored" data-anchor-id="contributing-to-an-existing-repository">2. Contributing to an existing repository</h2>
+<p>As a final point, let’s see how we could contribute to an existing repository on github. This may occur for a number of reasons. It may be that there is some piece of software that we frequently use and which we haved edited slightly to improve performance, and want to suggest this as a general feature to the code’s maintainer. Or it might be that we are working in a team, and want to incorporate work into the repository of the project the team is working on. Regardless of why, if we wish to do work on the code, the first thing we will do is “fork” the repository on github. In order to give an idea of how this looks on both sides (from the maintainer of the repository, and the person who forks it), below I am working with another github account. This new account has no copy of the repository to begin with. Any screen shots below where github is coloured white are based on this new account which is copying the repository, and which wants to contribute. Any screen shots which are coloured black are showing things from the point of view of my original account (the account which maintains the repository).</p>
+<p>The first thing the “contributor” must do is simply take a fork of the repository. This requires no permission as anyone can work with public code on github, and places a fresh copy of the respository on the contributor’s github repository. At this point, any changes made in that repository will be limited only to the contributor’s repository. Below we see two screen shots showing how one makes a fork:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g5.png" class="img-fluid figure-img"></p>
+<figcaption>Forking Step 1: Click on “Fork”</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g6.png" class="img-fluid figure-img"></p>
+<figcaption>Forking Step 2: Provide any required details</figcaption>
+</figure>
+</div>
+<p>Once we have forked this, we will see that a copy of this repository now exists on our github profile. To actually work with this repository, we probably want to copy it locally to our machine. We actually <em>could</em> develop code directly on github’s site, but in practice we will probably want to have available tools on our operating system, so we will assume we want to develop it locally. To do this, we use <code>git clone</code>. This simply puts a copy of the indicated repository and its git history on our machine. We can see that when we do this, if we type <code>git log</code> we see the entire git history of the repository, including the prior versions which the original author has published.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/dcc213/BEEM136</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Cloning into 'BEEM136'...
+remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 18 (delta 4), reused 16 (delta 2), pack-reused 0
+Receiving objects: 100% (18/18), done.
+Resolving deltas: 100% (4/4), done.</code></pre>
+<p>Now that we have cloned the repository, we can get to work. In the interests of brevity, let’s simply generate some new file. Below we have a look at what is in the repository, and then generate a file called <code>file3.txt</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Adding a third test file"</span> <span class="op">&gt;</span> file3.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>file1.txt  file2.txt  README.md</code></pre>
+<p>Now let’s stage the file and commit the file to our git history. What this is doing is incorporating the file into our git history locally. This is not yet incorporated into (a) our version of the github repository or (b) the original developer’s copy of the github repository…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file3.txt</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Adding a third file"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>[main ab83a99] Adding a third file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file3.txt</code></pre>
+<p>To push the changes to <em>our</em> copy of the project is easy, and we can do it in the same way we discussed above when seeing how we push to our own projects. Indeed, because we have already done a <code>git clone</code>, git knows how our local branch and github branch correspond, so we do not need to tell it anything more than that we wish to push our local changes. We do this below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Username for 'https://github.com': dcc213
+Password for 'https://dcc213@github.com':
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 300 bytes | 300.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/dcc213/BEEM136
+   9001f27..ab83a99  main -&gt; main</code></pre>
+<p>Once we do this, we can see that in the version of the contributor’s repsotitory, the changes are now incorporated:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g7.png" class="img-fluid figure-img"></p>
+<figcaption>Incorporating an edit into our github repository</figcaption>
+</figure>
+</div>
+<p>This change will only affect our code on github. What we <em>haven’t</em> yet done is suggest to the original developer that we wish to incorporate this change into the original code. If our code is incorporated into the original developer’s repository, then anyone else who interacts with the code in the future will also have our commit. To ask the original developer to consider incorporating our code, we open a “pull request” on github. This is us asking the maintainer to “pull” our changes to their code. Below we can see how this looks.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g8.png" class="img-fluid figure-img"></p>
+<figcaption>Opening a pull request Step 1: Click on “Contribute”</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g9.png" class="img-fluid figure-img"></p>
+<figcaption>Opening a pull request Step 2: Create the pull request</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g10.png" class="img-fluid figure-img"></p>
+<figcaption>Opening a pull request Step 3: Adding any more context required</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g11.png" class="img-fluid figure-img"></p>
+<figcaption>Opening a pull request Step 4: Awaiting response</figcaption>
+</figure>
+</div>
+<p>There are multiple stages in this process (hence the four screen shots above), but essentially, provided that there are no conflicts on code edits (ie no other changes to the same area of the code we have edited have been made to the original repository), we can simply click through and create the pull request.</p>
+<p>Then it is up to the maintainer to see if they wish to accept our pull request. Provided they do, they can review the code and click on “Merge pull request”, as below: <img src="figures/g12.png" class="img-fluid" alt="Merging a pull request Step 1: Merging"></p>
+<p>This will then result in changes to the published repository, where you can note that the version of the file which has been edited by us now has our commit message. This will now be available in the original repository, and will be the new version which anyone else works with.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/g13.png" class="img-fluid figure-img"></p>
+<figcaption>Merging a pull request Step 2: The result</figcaption>
+</figure>
+</div>
+<p>With this example, we have seen a brief introduction to git and github, as well as (hopefully) what value it offers us to keep track of our projects and collaborate with others. A nice thing about git is that it is a reasonably small language, and once we have learned these basics, we can actually get quite far. There <em>are</em> other things which can be done such as opening up branches and working on elements of research projects in parallel and things like this. If you would like to read more, you could perhaps explore further resources such as <a href="https://git-scm.com/docs/gittutorial">this website</a>.</p>
+</section>
+</section>
+</div>
+</div>
+</section>
+<section id="programming-style-and-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="programming-style-and-documentation">Programming Style and Documentation</h2>
+<section id="programming-style" class="level3">
+<h3 class="anchored" data-anchor-id="programming-style">Programming Style</h3>
+<p>Within individual codes in projects, we will also wish to maintain a consistent style and clear documentation. There are a number of frequently used stylistic choices in programming, though often these aren’t based on explicit (syntactic) rules. For example, people have an ideal directory structure they like to use for projects. And certain default choices are used for data management (eg commas as delimiters). Spacing in code is often user-specific (though there are languages where rules are in place), and ontelligent variable naming can simplify work considerably. In many cases, even if there are no rules, internal consistency is key as this allows for re-use of standardized code.</p>
+<p>In some languages, spacing is a big thing. For example, Python uses indentations in code to find the end of loops and conditional statements. Another language, Fortran, reserves initial spaces in lines for particular keys or statements, and these cannot be used freely. As we have mentioned before, often, you see codes which do not exceed 80 characters per line (and this is my preference). This has its precedence from days where codes were stored on punchcards and <em>could not</em> exceed 80 characters (see below), but in general even on the screen this is useful, as it avoids confusion of reading across long lines in our text editors.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/Punchcard.jpg" class="img-fluid figure-img"></p>
+<figcaption>A Punchcard: An Institution in Programming Style</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/fortran.jpg" class="img-fluid figure-img"></p>
+<figcaption>An Example in FORTRAN With Implications for the Language</figcaption>
+</figure>
+</div>
+<p>Other things which are easy to control can make an important difference to the way our code is understood. Good variable naming can make things a lot easier, and bad variable naming can be a disaster. For example, consider a binary variable for male/female, and the potential names <code>var1</code>, <code>gender</code>, or <code>female</code>. There are particular standards one can elect to follow, eg snake_case or camelCase, and consistency is good, though this is something which depends entirely on your own desires. Some languages also permit the bundling of additional information with variables (like variable labels), and then even more information can be contained, though it is important to note that you should not rely on such constructs, because when data is stored in csv or other neutral file formats these labels will generally not be considered.</p>
+</section>
+<section id="automation-and-abstraction" class="level3">
+<h3 class="anchored" data-anchor-id="automation-and-abstraction">Automation and Abstraction</h3>
+<p>Wherever possible automation (avoiding human interaction) and abstraction (writing code that is flexible for many circumstances) should be embraced. As an entirely arbitrary example, imagine arriving at an expectation using the law of iterated expectations. The law of iterated expectations is a mathematical formula which states that:</p>
+<p><span class="math display">\[E(Y) = \sum_{x\in\mathcal{X}}E(Y|X=x)\Pr(X=x)\]</span>While the precise details of the law are not what is important for us here, it is enough to note that if we wish to generate an expectation of some variable <span class="math inline">\(Y\)</span>, we could do this by working with the expectation of <span class="math inline">\(Y\)</span> over levels of some other variable <span class="math inline">\(X\)</span>. To note how automation and abstraction come into play, consider three ways we could implement this formula:</p>
+<ol type="1">
+<li><p>We could tabulate X and then calculate the expected value of Y at each level of X by hand.</p></li>
+<li><p>But it would be better to get a list of all values of X and iterate through these to take the expected value of Y at each level automatically (AUTOMATION).</p></li>
+<li><p>Though best of all, we could generate a function to do this for any two variables of interest (ABSTRACTION).</p></li>
+</ol>
+<p>The use of functions, or stand-alone programs, is a clear example of automation and abstraction. If there is some particular process which we find ourselves repeating a lot, we would likely be well-served by writing a function which does this process which we can then use in the future. This allows for us to focus our attention on perfecting this once, and then use optimized code in the future. We will explore this in our end of class example.</p>
+</section>
+<section id="testing-debugging-and-profiling" class="level3">
+<h3 class="anchored" data-anchor-id="testing-debugging-and-profiling">Testing, Debugging, and Profiling</h3>
+<p>In the process of writing our code, we will likely spend a considerable portion of time debugging, and should also seek to be constantly testing and profiling our code. These three concepts are different, and in summarised form refer to the following:</p>
+<ul>
+<li><p>Testing: My code runs, but does it do what it should?</p></li>
+<li><p>Debugging: My code does not run/compile. Why?</p></li>
+<li><p>Profiling: My code runs very slowly. Why?</p></li>
+</ul>
+<p>In terms of testing, this is a constant process which requires vigilance and some creativity to do well. In empirical applications, it is often a good idea to see if a code returns ‘correct’ values in simulated data. We will discuss this towards the end of this course when we discuss using Monte Carlo simulations as part of a work flow. We should view testing as something that should be done modularly, not just at the end of a project. Rather, each script should be tested in a stand-alone way, and similarly, each argument in a function should be tested. Wherever possible, consider whether you can proactively build in tests into code. For example, if an argument of some function is the rate of unemployment, check that it is bounded between 0 and 100, otherwise generate an exception. Similarly, if we expect some variable to only take integer values, confirm that this is the case, and if not go back and check data.</p>
+<p>Unlike testing, debugging refers to finding errors that are causing a script not to run. Most languages and compilers (especially those that we will use) have very good inbuilt debugging tools, which we have already been exploring. You should read error messages and consult user’s manuals as a first option when bugs come up. In the worst case scenario, pasting the exact error message into a search engine may provide relief, and asking chatGPT or some other large language model about why errors occur can be quite illustrative. Note that sometimes programs issue warnings but still allow a script to run. These warnings should be at least looked into to, as often the best case is that they will show inefficiencies. Finally, do not think that just because a script runs it is correct. Always go back to testing.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/bug.jpeg" class="img-fluid figure-img"></p>
+<figcaption>The Famous ‘Computer Bug’ often attributed to Grace Hopper’s notebooks</figcaption>
+</figure>
+</div>
+<p>Finally, the issue of profiling is about finding ‘hot spots’ in a code. If a code is slow to run, it may be that there is a bottleneck that can be optimized. But note, any concerns about efficiency only come after concerns about accuracy. Only begin optimizing when you are <em>sure</em> your code is correct. Many languages (or IDEs) have profilers which allow you to profile very easily (eg <a href="https://support.posit.co/hc/en-us/articles/218221837-Profiling-R-code-with-the-RStudio-IDE">R Studio</a>, <a href="https://docs.spyder-ide.org/current/panes/profiler.html">Spyder</a>). In languages where these aren’t present, you can run time tests portion by portion. While we generally would like our code to run fast, it’s worth keeping in mind that we should not over-optimize our code. There is a trade-off between machine time and programmer’s time, and often we may be happy for our code to run a bit more slowly on the computer if it saves us time and effort, especially if they are codes we do not think we will run many times.</p>
+</section>
+<section id="documentation-1" class="level3">
+<h3 class="anchored" data-anchor-id="documentation-1">Documentation</h3>
+<p>Previously we have discussed documenting our projects “globally” with a README file. However, we should also invest in documenting “locally” by commenting within scripts. All programs we will likeley work with have a way to write comments. These are points implied for human readers, that the machine will ignore (hence syntax of the comment itself can be human language). It is likely in your research career that you will spend more time reading and understanding code than actually writing code, which makes clear the value of documenting your code in an intelligible way. Comments should be used throughout code wherever something is not absolutely clear, but <em>should not</em> be used when a line is self explanatory. If you are ever unsure of whether or not to document something, it is worth erring on the side of over-documenting rather than under-documenting! And in the same way that you maintain your code, you should see it as an important task to maintain comments in code.</p>
+<p>One final thought to note here is that while it is <em>extremely</em> important to carefully document our code, we should not do so prematurely. We should <em>always</em> document our individual files in the way discussed here. However, we likely will <em>not</em> want to put together a comprehensive README file at early stages of a project given that many projects will not reach a stage where we are distributing them publicly, or with coauthors. At early stages, a very basic README will be enough. However, as soon as a project passes an initial exploratory phase, and appears to be something that we will continue with, we should follow complete documentation procedures, and invest in maintaining our documentation.</p>
+</section>
+</section>
+<section id="reproducibility" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility">Reproducibility</h2>
+<p>A final element to note in thinking about project management and code management is the importance of replicability. This will be important to us as producers of research because we will generally write a paper over many months, and when we take up our code one day, we will want to start from exactly where we left off the day before. It will also be extremely important for our readers, and the scientific literature more generally. If another researcher wants to see what we are doing or extend our work, it is fundamental that they can run our code and precisely replicate what we are doing by running our code. For this reason, most journals now have an explicit replication policy and data editors who ensure that these policies are met, for example the <a href="https://www.aeaweb.org/journals/data/data-code-policy">American Economic Review</a>, and <a href="https://www.econometricsociety.org/publications/es-data-editor-website/reproduce-and-replicate">Econometrica</a>.</p>
+<p>Beyond carefully testing and documenting our code, there are a number of other points we should be careful with to ensure that our code replicates without issues. In the case of any procedures based on pseudo random number generators (for example bootstrap variance estimates), we should be careful to ensure that we set the seed so that our “randomness” can be perfectly replicated. For an example of this, see the code below where we note that random draws <em>are not</em> the same across calls, unless the seed is first set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.9219560 -0.1807026  0.7342716 -1.8680641 -0.3426949</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.8138263 -1.5280477 -0.8116031  0.6256428  1.4835027</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1213</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.119929  1.041126 -2.497151 -2.239511  1.134902</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1213</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.119929  1.041126 -2.497151 -2.239511  1.134902</code></pre>
+</div>
+</div>
+<p>Another important thing to keep in mind is that packages at times evolve over time. Ideally all packages should maintain forwards compatability, but if for some reason a package changes, we would want to have a way to replicate our results based on earlier versions of these packages. At a minimum, in our documentation we should note exactly what versions of packages we are working with, which is something that we can easily consult:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] '3.5.2'</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] '1.1.3'</code></pre>
+</div>
+</div>
+<p>A more robust solution is to include the version of the programs that we use alongside our replication materials, potentially in a sub-directory of our source code. There are also a number of more formal options to allow us to do this. For <code>R</code> in particular this include package dependency management programs like <a href="https://rstudio.github.io/packrat/">packrat</a> or <a href="https://cran.r-project.org/web/packages/checkpoint/index.html">checkpoint</a> which allows us to download a version of all <code>R</code> packages as they were currently available at any specific past date. Somewhat similarly, <code>Python</code> allows for an entire environment to be easily mapped and replicated using <a href="https://docs.python.org/3/library/venv.html">virtual environments</a>, which can then be easily replicated across machines. Finally, if you are seeking a more comprehensive solution beyond a single language, you may be interested in exploring Docker, which essentially provides a portable version of every piece of software you need for other individuals to use. We will not discuss this at much length here, but if you would like to explore this, the <a href="https://aeadataeditor.github.io/posts/2021-11-16-docker">AEA Data Editor</a> has a post on the use of Docker in replication materials. These elements may be good things to discuss in tutorial presentations!</p>
+</section>
+<section id="an-example-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="an-example-in-r">An Example in R</h2>
+<p>As a simple example of some of these principles we will set up a structure of a basic research project in <code>R</code>. To do this, we will use the same example the we discussed last class, and as such will not focus so much on the <em>what</em> the code is doing, but rather on <em>how</em> the code is structured.</p>
+<p>To begin, let’s set up a directory for our project consisting of three sub-directories: data, results, and source. Within results we will have a number of sub-directories, and within source we will have a directory where we will save the final version of the <code>R</code> libraries that we used. This project is available <a href="https://www.damianclarke.net/teaching/ResearchMethods-I/data/exampleProject.zip">here</a> as a zip file, but it may be preferable to set things up by hand.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.dirs</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>[1] "."                  "./data"             "./results"         
+[4] "./results/analysis" "./results/macro"    "./results/micro"   
+[7] "./results/sumstats" "./source"           "./source/R" </code></pre>
+<p>In the top level of our project we will include a README, structured along the lines of the below file.</p>
+<pre><code>--------------------------------------------------------------------------------
+README.txt for PROJECT TITLE
+Author 1, Author 2
+email 1, email 2
+--------------------------------------------------------------------------------
+
+This project does...
+
+The project structure is as follows.
+
+|_ source/
+  |_ R
+|_ results/
+   |_ sumstats/
+   |_ analysis/
+|_ data/
+
+To replicate this project you should simply run the code runAll.R located in the
+source sub-directory.  All results will be exported to the results sub-directory
+and you can then compile the paper located in the main directory...
+
+This project was run on R, version 3.6.3.
+
+This project requires the following externally installed libraries:
+- XXXXXX: version X.X.X
+- XXXXXX: version X.X.X
+- XXXXXX: version X.X.X
+- XXXXXX: version X.X.X
+
+For questions related to this code, contact email@address.com.</code></pre>
+<p>Finally, within the source sub-directory we will have the following codes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co">#---|----1----|----2----|----3----|----4----|----5----|----6----|----7----|----8</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co"># runAll.R                       damianclarke              yyyy-mm-dd:2023-10-22</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This script runs required codes for the project SHORT DESCRIPTION HERE. To run</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="co">#the script, simply change directory locations on lines 29-31 to the correspond-</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="co">#ing locations on your machine.  If PREP is set to true data preparation scripts</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="co">#will be run. If SUMSTATS is set to true, descriptive statistics and graphs will </span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="co">#be generated. If ANALYSIS is set to true, data analysis scripts will be run.</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(<span class="st">"readxl"</span>)</span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative 1 line call for multiple libraries:</span></span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="st">"dplyr"</span>, <span class="st">"readxl"</span>, <span class="st">"haven"</span>, <span class="st">"tidyr"</span>)</span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(x, require, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (1) Define switches for running certain areas of code and define locations</span></span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>PREP     <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a>SUMSTATS <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a>ANALYSIS <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a>source  <span class="ot">&lt;-</span> <span class="st">"~/trabajo/Teaching/Exeter/ResearchMethods-I/structure/source"</span></span>
+<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="st">"~/trabajo/Teaching/Exeter/ResearchMethods-I/structure/results"</span></span>
+<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a>data    <span class="ot">&lt;-</span> <span class="st">"~/trabajo/Teaching/Exeter/ResearchMethods-I/structure/data"</span></span>
+<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (2) Run required codes</span></span>
+<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(PREP) {</span>
+<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Running all data preparation code"</span>)</span>
+<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">source</span>(<span class="fu">file.path</span>(source,<span class="st">"dataPrep.R"</span>))</span>
+<span id="cb64-39"><a href="#cb64-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-40"><a href="#cb64-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-41"><a href="#cb64-41" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(SUMSTATS) {</span>
+<span id="cb64-42"><a href="#cb64-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Running all graphs and summary statistics"</span>)</span>
+<span id="cb64-43"><a href="#cb64-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">source</span>(<span class="fu">file.path</span>(source,<span class="st">"descriptives.R"</span>))</span>
+<span id="cb64-44"><a href="#cb64-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-45"><a href="#cb64-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-46"><a href="#cb64-46" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(ANALYSIS) {</span>
+<span id="cb64-47"><a href="#cb64-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Running all analysis code"</span>)</span>
+<span id="cb64-48"><a href="#cb64-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">source</span>(<span class="fu">file.path</span>(source,<span class="st">"analysis.R"</span>))</span>
+<span id="cb64-49"><a href="#cb64-49" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This first code is a single code which we can use to replicate the running of all of the portions of the project that are written in <code>R</code>. You will note that in this script we have indicated all of the directory locations that we will need, and indeed, this will be the <em>only</em> place that we will need to store these locations. They will then be passed along to other scripts run below. The second important element to note is that we are including a number of switches that can be set to TRUE or FALSE if sections of the code should be run. If any of <code>PREP</code>, <code>SUMSTATS</code> or <code>ANALYSIS</code> are not set to TRUE, then these elements of the code will not be run.</p>
+<p>Finally, of note in the above code is that we have our first example where we have used some abstraction to make our code more generalised. Initially in lines 15-16 we are indicating that each of the <code>dplyr</code> and <code>readxl</code> libraries are required. However, this is repetitive, and for each additional library we will need to add another line. Instead, we can do this by first generating a list of all the libraries we require in line 19. Then, in line 20, we can use <code>R</code>’s <code>lapply</code> function to apply a specific function, in this case require(), to a list of arguments (each character set in <code>x</code>). Later, if we realise that we need to add another package, we can simply add this to <code>x</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co">#---|----1----|----2----|----3----|----4----|----5----|----6----|----7----|----8</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="co"># dataPrep.R                       damianclarke            yyyy-mm-dd:2023-10-24</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This script prepares a dataset which contains one line per municipality and y-</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="co">#ear for each of Chile's 346 municipalities over two years (2008-2009). Each li-</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co">#ne contains the municipality's population of adolescent women, the number of t-</span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="co">#een births, and whether the EC pill was available in 2009.</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------   </span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (1a) Generate population file  </span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------   </span></span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">read_xls</span>(<span class="fu">file.path</span>(data,<span class="st">"poblacionINE.xls"</span>))</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>popTeens   <span class="ot">&lt;-</span> <span class="fu">filter</span>(population, </span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>                     edad<span class="sc">&gt;=</span><span class="dv">15</span> <span class="sc">&amp;</span> edad<span class="sc">&lt;=</span><span class="dv">19</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Sexo (1=hombres;2=mujeres)</span><span class="st">`</span><span class="sc">==</span><span class="dv">2</span>)</span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>popTeens <span class="ot">&lt;-</span> <span class="fu">select</span>(popTeens, Comuna, nombre_comuna, edad, a2008, a2009)</span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(popTeens)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Comuna"</span>,<span class="st">"nombre_comuna"</span>,<span class="st">"edad"</span>,<span class="st">"2008"</span>,<span class="st">"2009"</span>)</span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>popTeens <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(popTeens, <span class="at">cols=</span><span class="st">`</span><span class="at">2008</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2009</span><span class="st">`</span>, </span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>                         <span class="at">names_to=</span><span class="st">"ano_nac"</span>, <span class="at">values_to=</span><span class="st">"population"</span>)</span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>popTeens <span class="ot">&lt;-</span> popTeens <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Comuna,nombre_comuna, ano_nac) <span class="sc">%&gt;%</span></span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">population=</span><span class="fu">sum</span>(population), </span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------   </span></span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (1b) A function to do this  </span></span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------   </span></span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>gen_pop <span class="ot">&lt;-</span> <span class="cf">function</span>(data, age1, age2, sex) {</span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>    popTeens <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(edad<span class="sc">&gt;=</span>age1 <span class="sc">&amp;</span> edad<span class="sc">&lt;=</span>age2 <span class="sc">&amp;</span> </span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">`</span><span class="at">Sexo (1=hombres;2=mujeres)</span><span class="st">`</span><span class="sc">==</span>sex) <span class="sc">%&gt;%</span></span>
+<span id="cb65-34"><a href="#cb65-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(Comuna, nombre_comuna, edad, a2008, a2009)</span>
+<span id="cb65-35"><a href="#cb65-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb65-36"><a href="#cb65-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(popTeens)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Comuna"</span>,<span class="st">"nombre_comuna"</span>,<span class="st">"edad"</span>,<span class="st">"2008"</span>,<span class="st">"2009"</span>)</span>
+<span id="cb65-37"><a href="#cb65-37" aria-hidden="true" tabindex="-1"></a>    popTeens <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(popTeens, <span class="at">cols=</span><span class="st">`</span><span class="at">2008</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2009</span><span class="st">`</span>, </span>
+<span id="cb65-38"><a href="#cb65-38" aria-hidden="true" tabindex="-1"></a>                             <span class="at">names_to=</span><span class="st">"ano_nac"</span>, <span class="at">values_to=</span><span class="st">"population"</span>)</span>
+<span id="cb65-39"><a href="#cb65-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-40"><a href="#cb65-40" aria-hidden="true" tabindex="-1"></a>    popTeens <span class="ot">&lt;-</span> popTeens <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Comuna,nombre_comuna, ano_nac) <span class="sc">%&gt;%</span></span>
+<span id="cb65-41"><a href="#cb65-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(</span>
+<span id="cb65-42"><a href="#cb65-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">population=</span><span class="fu">sum</span>(population), </span>
+<span id="cb65-43"><a href="#cb65-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb65-44"><a href="#cb65-44" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb65-45"><a href="#cb65-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(popTeens)</span>
+<span id="cb65-46"><a href="#cb65-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb65-47"><a href="#cb65-47" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">gen_pop</span>(population, <span class="dv">15</span>, <span class="dv">19</span>, <span class="at">sex=</span><span class="dv">2</span>)</span>
+<span id="cb65-48"><a href="#cb65-48" aria-hidden="true" tabindex="-1"></a>population<span class="sc">$</span>ano_nac <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(population<span class="sc">$</span>ano_nac)</span>
+<span id="cb65-49"><a href="#cb65-49" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb65-50"><a href="#cb65-50" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (2) Import births data and collapse to the municipal level </span></span>
+<span id="cb65-51"><a href="#cb65-51" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb65-52"><a href="#cb65-52" aria-hidden="true" tabindex="-1"></a>nacList <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>,<span class="dv">0</span>)</span>
+<span id="cb65-53"><a href="#cb65-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-54"><a href="#cb65-54" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (y <span class="cf">in</span> <span class="dv">2008</span><span class="sc">:</span><span class="dv">2009</span>) {</span>
+<span id="cb65-55"><a href="#cb65-55" aria-hidden="true" tabindex="-1"></a>  filename <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"NAC"</span>,y,<span class="st">".csv"</span>)</span>
+<span id="cb65-56"><a href="#cb65-56" aria-hidden="true" tabindex="-1"></a>  dfname   <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"nac"</span>,y)</span>
+<span id="cb65-57"><a href="#cb65-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-58"><a href="#cb65-58" aria-hidden="true" tabindex="-1"></a>  nac <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(data,filename))</span>
+<span id="cb65-59"><a href="#cb65-59" aria-hidden="true" tabindex="-1"></a>  nac<span class="sc">$</span>teenPreg <span class="ot">&lt;-</span><span class="fu">ifelse</span>(nac<span class="sc">$</span>EDAD_M<span class="sc">&gt;=</span><span class="dv">15</span><span class="sc">&amp;</span>nac<span class="sc">$</span>EDAD_M<span class="sc">&lt;=</span><span class="dv">19</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb65-60"><a href="#cb65-60" aria-hidden="true" tabindex="-1"></a>  nac <span class="ot">&lt;-</span> nac <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(COMUNA,ANO_NAC) <span class="sc">%&gt;%</span> </span>
+<span id="cb65-61"><a href="#cb65-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb65-62"><a href="#cb65-62" aria-hidden="true" tabindex="-1"></a>      <span class="at">teenPreg=</span><span class="fu">sum</span>(teenPreg),</span>
+<span id="cb65-63"><a href="#cb65-63" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb65-64"><a href="#cb65-64" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb65-65"><a href="#cb65-65" aria-hidden="true" tabindex="-1"></a>  nacList[[dfname]] <span class="ot">&lt;-</span> nac</span>
+<span id="cb65-66"><a href="#cb65-66" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb65-67"><a href="#cb65-67" aria-hidden="true" tabindex="-1"></a>teenPregnancies <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, nacList)</span>
+<span id="cb65-68"><a href="#cb65-68" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(teenPregnancies)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Comuna"</span>,<span class="st">"ano_nac"</span>,<span class="st">"teenPreg"</span>)</span>
+<span id="cb65-69"><a href="#cb65-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-70"><a href="#cb65-70" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb65-71"><a href="#cb65-71" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (3) Merge in population data </span></span>
+<span id="cb65-72"><a href="#cb65-72" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb65-73"><a href="#cb65-73" aria-hidden="true" tabindex="-1"></a><span class="co">#teenPregnancies$Comuna[teenPregnancies$Comuna==5106]&lt;-5801</span></span>
+<span id="cb65-74"><a href="#cb65-74" aria-hidden="true" tabindex="-1"></a><span class="co">#teenPregnancies$Comuna[teenPregnancies$Comuna==5108]&lt;-5804</span></span>
+<span id="cb65-75"><a href="#cb65-75" aria-hidden="true" tabindex="-1"></a><span class="co">#teenPregnancies$Comuna[teenPregnancies$Comuna==5505]&lt;-5802</span></span>
+<span id="cb65-76"><a href="#cb65-76" aria-hidden="true" tabindex="-1"></a><span class="co">#teenPregnancies$Comuna[teenPregnancies$Comuna==5507]&lt;-5803</span></span>
+<span id="cb65-77"><a href="#cb65-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-78"><a href="#cb65-78" aria-hidden="true" tabindex="-1"></a>oldCodes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5106</span>,<span class="dv">5108</span>,<span class="dv">5505</span>,<span class="dv">5507</span>)</span>
+<span id="cb65-79"><a href="#cb65-79" aria-hidden="true" tabindex="-1"></a>newCodes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5801</span>,<span class="dv">5804</span>,<span class="dv">5802</span>,<span class="dv">5803</span>)</span>
+<span id="cb65-80"><a href="#cb65-80" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(oldCodes)) {</span>
+<span id="cb65-81"><a href="#cb65-81" aria-hidden="true" tabindex="-1"></a>  teenPregnancies<span class="sc">$</span>Comuna[teenPregnancies<span class="sc">$</span>Comuna<span class="sc">==</span>oldCodes[i]]<span class="ot">&lt;-</span>newCodes[i]</span>
+<span id="cb65-82"><a href="#cb65-82" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb65-83"><a href="#cb65-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-84"><a href="#cb65-84" aria-hidden="true" tabindex="-1"></a>popPreg <span class="ot">&lt;-</span> <span class="fu">full_join</span>(population, teenPregnancies, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Comuna"</span>,<span class="st">"ano_nac"</span>))</span>
+<span id="cb65-85"><a href="#cb65-85" aria-hidden="true" tabindex="-1"></a>popPreg<span class="sc">$</span>teenPreg[<span class="fu">is.na</span>(popPreg<span class="sc">$</span>teenPreg)]<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb65-86"><a href="#cb65-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-87"><a href="#cb65-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-88"><a href="#cb65-88" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb65-89"><a href="#cb65-89" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (4) Merge in information on the EC pill with information on teen pregnancy </span></span>
+<span id="cb65-90"><a href="#cb65-90" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb65-91"><a href="#cb65-91" aria-hidden="true" tabindex="-1"></a>pill <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">file.path</span>(data,<span class="st">"PAE.dta"</span>))</span>
+<span id="cb65-92"><a href="#cb65-92" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pill)[<span class="fu">names</span>(pill) <span class="sc">==</span> <span class="st">"comuna"</span>] <span class="ot">&lt;-</span> <span class="st">"Comuna"</span></span>
+<span id="cb65-93"><a href="#cb65-93" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(oldCodes)) {</span>
+<span id="cb65-94"><a href="#cb65-94" aria-hidden="true" tabindex="-1"></a>  pill<span class="sc">$</span>Comuna[pill<span class="sc">$</span>Comuna<span class="sc">==</span>oldCodes[i]]<span class="ot">&lt;-</span>newCodes[i]</span>
+<span id="cb65-95"><a href="#cb65-95" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb65-96"><a href="#cb65-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-97"><a href="#cb65-97" aria-hidden="true" tabindex="-1"></a>popPregPill <span class="ot">&lt;-</span> <span class="fu">full_join</span>(popPreg, pill, <span class="at">by =</span> <span class="st">"Comuna"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The first code that <code>runAll.R</code> calls is <code>dataPrep.R</code>. This code replicates exactly the procedure we observed last class so we will not talk through each line of code, but there are a number of important elements to highlight here. Firstly, in section 1b we have provided an abstraction of the code that we wrote in section 1a. In section 1a we generated a dataframe containing the population of 15-19 year old women, while in section 1b we have provided a function which accepts as arguments the population data, as well as lower and upper ages, as well as sexes. This function means we can now request the populations of any age and sex groups, as we request in line 47 for the particular group of interest.</p>
+<p>A second element of note is that for the first time here we have used <code>for</code> loops. These <code>for</code> loops are useful to us to automate procedures which repeat a number of times, for example looping over a number of years to import and clean birth data in block 2 of the code. If later we wish to work with a longer year range, it will be very simple to rewrite this <code>for</code> loop as <code>for (y in 2005:2010)</code>, for example, and all elements of the loop simply remain the same.</p>
+<p>Finally, in section 3 of the code we have noted two ways to do the same thing. Lines 73-76 which are commented out would update municipal codes in an ad hoc way. However, instead of doing this we provide an abstraction below where first we list the corresponding old and new codes, and then simply loop through these lists. While in this particular case we have not saved any lines of code, the second option is preferable given that it is easily extendible. What’s more, when we have to conduct a similar process on lines 93-95 of the code we can use the previously generated <code>oldCodes</code> and <code>newCodes</code> lists.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">#---|----1----|----2----|----3----|----4----|----5----|----6----|----7----|----8</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co"># descriptives.R                 damianclarke              yyyy-mm-dd:2023-10-22</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This script conducts descriptive analysis including... FURTHER DETAILS.</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (1) Generate descriptive plots</span></span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(popPregPill<span class="sc">$</span>population,popPregPill<span class="sc">$</span>teenPreg,</span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Population of Teens"</span>, <span class="at">ylab=</span><span class="st">"Number of Teenage Pregnancies"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/unnamed-chunk-6-1.png" class="img-fluid figure-img"></p>
+<figcaption>Output of descriptives.R</figcaption>
+</figure>
+</div>
+<p>Finally, in this project we have two codes which will generate descriptive statistics and run econometric analyses. As our interest here is in illustrating a project structure we are leaving these largely blank, though in practice this may contain an important proportion of the code of our project.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">#---|----1----|----2----|----3----|----4----|----5----|----6----|----7----|----8</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co"># analysis.R                       damianclarke            yyyy-mm-dd:2023-10-24</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This script conducts estimation of principal models... FURTHER DETAILS.</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="co">#--- (1) Regression models and so forth ...</span></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Now running within analysis.R..."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Now running within analysis.R..."</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./2_datawrangling.html" class="pagination-link" aria-label="Data Wrangling and Data Management">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Data Wrangling and Data Management</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./4_visualisation.html" class="pagination-link" aria-label="Data Visualisation">
+        <span class="nav-page-text"><span class="chapter-title">Data Visualisation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

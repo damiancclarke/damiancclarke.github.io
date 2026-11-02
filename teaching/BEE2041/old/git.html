@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Damian Clarke">
+<meta name="dcterms.date" content="2024-03-04">
+
+<title>git &amp; Github</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="git_files/libs/clipboard/clipboard.min.js"></script>
+<script src="git_files/libs/quarto-html/quarto.js"></script>
+<script src="git_files/libs/quarto-html/popper.min.js"></script>
+<script src="git_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="git_files/libs/quarto-html/anchor.min.js"></script>
+<link href="git_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="git_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="git_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="git_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="git_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">git &amp; Github</h1>
+<p class="subtitle lead">Following Along with BEE2041 Class Examples</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Damian Clarke </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 4, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="getting-up-and-running-with-git" class="level1">
+<h1>Getting Up and Running with git</h1>
+<p>As laid out on the class page, prior to starting working with git we will need to install it on our machine. Here, we will work with the command line for using git. While there are GUIs available, by far the most flexible way to deal with git is via the command line, which is why we will introduce it this way. Let’s first just confirm that we effectively have git installed, which we can do with the command below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>git version 2.34.1</code></pre>
+</div>
+</div>
+<p>Provided that we get some output printing a version number (which will depend upon when you installed it), this implies that git is installed. If you get some other message such as <code>'git' is not recognized as an internal or external command, operable program or batch file.</code> (or some other message suggesting git is not installed), you will need to return to the resources on git, and ensure that the installation has been completed.</p>
+<p>If this is the first time you are working with git, you may want to complete some first time set-up procedures. While not strictly necessary, they will make interacting with github later on much easier, and so it is potentially worth at least setting up the basics now. In particular, we will want to tell git our username and email address. For the email address, we should use the same email which we will use to generate a github account, which ideally should be an email we plan to keep for an extended period of time. This can be done as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your name"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email youremail@example.com</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>where “Your name” and the email should be filled in appropriately. We can confirm that this has been updated as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>user.email=damian.clarke@protonmail.com
+user.name=damiancclarke
+init.defaultbranch=main</code></pre>
+</div>
+</div>
+<p>Depending on your installation, you may see slightly different configurations, for example if some particular other settings are configured as default.</p>
+<p>To have a quick look under the hood and where we will be going with git, you may wish to briefly consult the top-level manual which you can do with <code>git --help</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>usage: git [--version] [--help] [-C &lt;path&gt;] [-c &lt;name&gt;=&lt;value&gt;]
+           [--exec-path[=&lt;path&gt;]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=&lt;path&gt;] [--work-tree=&lt;path&gt;] [--namespace=&lt;name&gt;]
+           [--super-prefix=&lt;path&gt;] [--config-env=&lt;name&gt;=&lt;envvar&gt;]
+           &lt;command&gt; [&lt;args&gt;]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone     Clone a repository into a new directory
+   init      Create an empty Git repository or reinitialize an existing one
+
+work on the current change (see also: git help everyday)
+   add       Add file contents to the index
+   mv        Move or rename a file, a directory, or a symlink
+   restore   Restore working tree files
+   rm        Remove files from the working tree and from the index
+
+examine the history and state (see also: git help revisions)
+   bisect    Use binary search to find the commit that introduced a bug
+   diff      Show changes between commits, commit and working tree, etc
+   grep      Print lines matching a pattern
+   log       Show commit logs
+   show      Show various types of objects
+   status    Show the working tree status
+
+grow, mark and tweak your common history
+   branch    List, create, or delete branches
+   commit    Record changes to the repository
+   merge     Join two or more development histories together
+   rebase    Reapply commits on top of another base tip
+   reset     Reset current HEAD to the specified state
+   switch    Switch branches
+   tag       Create, list, delete or verify a tag object signed with GPG
+
+collaborate (see also: git help workflows)
+   fetch     Download objects and refs from another repository
+   pull      Fetch from and integrate with another repository or a local branch
+   push      Update remote refs along with associated objects
+
+'git help -a' and 'git help -g' list available subcommands and some
+concept guides. See 'git help &lt;command&gt;' or 'git help &lt;concept&gt;'
+to read about a specific subcommand or concept.
+See 'git help git' for an overview of the system.</code></pre>
+</div>
+</div>
+<p>We can see from this that git is relatively light in terms of the number of different commands we may need, and indeed, probably much of the time we are interacting with git it will be with just a small sub-set of these commands. We will start to get into this now…</p>
+</section>
+<section id="setting-up-a-project" class="level1">
+<h1>Setting up a Project</h1>
+<p>Let’s imagine that we are starting a big software project, and know that we will need version control. This may involve multiple people, but for the time being, we may only just be working by ourselves on our local machine. To see a very contrived example, let’s generate a new file called <code>myproject</code>, and then within this project begin our first git repository.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> myproject</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> myproject</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Initialized empty Git repository in /home/dcc213/BEE2041/topic4/myproject/.git/</code></pre>
+</div>
+</div>
+<p>At times we may wish to begin a git project before we generate any files at all, but it is also not a problem to start a project in a directory which already contains files. We have seen that starting our git respository with <code>git init</code> provides us a message that an empty repository has been generated. This has been initialised in a new directory called <code>.git</code>. You may note that if you are in the directory where the repository is located and type <code>ls</code> we will not actually see anything:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and this is because directories starting with <code>.</code> are hidden, both when typing <code>ls</code> as well as when looking at them in folders. However, if we ask <code>ls</code> to show us everything, we will see that it is there:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+..
+.git</code></pre>
+</div>
+</div>
+<p>We do not need to know precisely what goes on inside the <code>.git</code> folder, just that this will keep track of our project and its changes if instructed. We can see in a broad sense what git is seeing with <code>git log</code> and <code>git status</code>. When we have not yet done anything <code>git log</code> will return an error as below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>fatal: your current branch 'main' does not have any commits yet</code></pre>
+<p>while <code>git status</code> will, as yet, suggest relatively little is happening:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)</code></pre>
+</div>
+</div>
+<p>Because we have not yet added any code, there is not much that git needs to keep track of!</p>
+</section>
+<section id="adding-code-staging-and-committing" class="level1">
+<h1>Adding code, staging, and committing</h1>
+<p>Let’s now add a very simple first code, and see what happens. Below we will just generate a simple plain text file, consisting simply of the words “Hello world!”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello world!"</span> <span class="op">&gt;</span> file1.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We have stored this in a file called <code>file1.txt</code> (using notation we know from our work in BASH). Now, let’s see what the <code>git status</code> tells us:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+    file1.txt
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+</div>
+</div>
+<p>Now we see that git tells us there is a file there, but it’s not being tracked. If this is part of the code of our project, we will want to track it so we can have a history of how it evolves, and roll back to prior versions if necessary. We will now “stage” this file, which means it could be committed to our git repository, and enter the version control history.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file1.txt</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached &lt;file&gt;..." to unstage)
+    new file:   file1.txt</code></pre>
+</div>
+</div>
+<p>The key line above with <code>git add filename</code> which tells git to put file1.txt into the “staging area”. This allows us to do a number of things such as see any differences between staged and unstaged versions of the file, and, fundamentally, commit our files to the git repository. We do this below with <code>git commit</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Adds hello world file"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[main (root-commit) 70e6989] Adds hello world file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file1.txt</code></pre>
+</div>
+</div>
+<p>The syntax of <code>git commit</code> is to first write the command, and then <code>-m</code> followed by a commit message. This provides us a brief snapshot of what we’ve done, and something that will hopefully jog our memory later on. If we type <code>git commit</code> without specifying a message inline with is fine, but our command line will open an editor and we will need to type one. What we have done with <code>git commit</code> is add our code to the version control history of the project. If we now type <code>git status</code> and <code>git log</code> we will see a few changes, with the most important being the change in <code>git log</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+nothing to commit, working tree clean
+commit 70e6989f417a92e3549eaa2c6d17fd28cbe0b9c5
+Author: damiancclarke &lt;damian.clarke@protonmail.com&gt;
+Date:   Thu Mar 7 10:55:13 2024 +0000
+
+    Adds hello world file</code></pre>
+</div>
+</div>
+<p>We can see at the end that we have a new commit which is indicated by a long string of letters and numbers, as well as information on the author and date of the commit.</p>
+<p>Essentially, we should commit code to our repository every time we have made a concrete change. A very nice discussion of commits, along with commit messages is available <a href="https://gist.github.com/luismts/495d982e8c5b1a0ced4a57cf3d93cf60">here</a>. This commit will be available forever after, and even if we later make many changes, we will always have the option to see the code as it existed at this moment in time, and roll back to it if we wish.</p>
+<p>Let’s imagine that we now need to add another piece of code to our repository, which depends on some new output of our old <code>file1.txt</code>. Below we will add a new line to <code>file1.txt</code>, and then stage the changed version of <code>file1.txt</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Some addition outputting something for file2.txt"</span> <span class="op">&gt;&gt;</span> file1.txt</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file1.txt</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>On branch main
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+    modified:   file1.txt</code></pre>
+</div>
+</div>
+<p>We will not commit this yet, because we want to also write <code>file2.txt</code> and then commit the two changes together as a single new function in the code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"A new file taking input from file1.txt"</span> <span class="op">&gt;&gt;</span> file2.txt</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file2.txt</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Adds new function file2 which interacts with file1"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[main bae4643] Adds new function file2 which interacts with file1
+ 2 files changed, 2 insertions(+)
+ create mode 100644 file2.txt
+On branch main
+nothing to commit, working tree clean</code></pre>
+</div>
+</div>
+<p>We have now added this new commit to our repository, and if we look at the <code>git log</code> below, we will see that both versions of the files are tracked. However, if we look in our main folder (with <code>ls</code>), we will see that we do not have any bloat or have to worry about anything in particular about prior versions of the files. We can get at them if we want or roll-back to any previous versions, but if we don’t ask for anything, we will just see the most recent versions of all our files.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>commit bae4643c14bdf8e0f68b5429eea4913eee82f5c3
+Author: damiancclarke &lt;damian.clarke@protonmail.com&gt;
+Date:   Thu Mar 7 10:55:13 2024 +0000
+
+    Adds new function file2 which interacts with file1
+
+commit 70e6989f417a92e3549eaa2c6d17fd28cbe0b9c5
+Author: damiancclarke &lt;damian.clarke@protonmail.com&gt;
+Date:   Thu Mar 7 10:55:13 2024 +0000
+
+    Adds hello world file
+file1.txt
+file2.txt</code></pre>
+</div>
+</div>
+</section>
+<section id="working-with-github" class="level1">
+<h1>Working with github</h1>
+<p>While this is all well and good for keeping track of our own work, it does not really show case much of the true power of git, which is for working in a dencentralised way among potentially many different individuals. Let’s now see how git can interact with github. I will assume that you have now generated a free github account based on the email indicated above. We will now talk through a few things:</p>
+<ol type="1">
+<li>Adding our code to a github repository allowing for public access and collaboration</li>
+<li>Contributing to an existing repository on github</li>
+</ol>
+<p>Probably much of our work will be on point 1, especially early on in our usage of git, but as you start to work on more collaborative projects, you may see that gradually you are spending more on point 2 above.</p>
+<section id="publishing-our-repositories-on-github" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-our-repositories-on-github">1. Publishing our repositories on github</h2>
+<p>Let’s now imagine that the project we have created above is something that we want to share publicly, either so that people can see and use the code, or so that we can collaborate with others who may also contribute to the project. We can do this from within github with the + symbol pictured below, and then indicating “New repository”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Creating a new github repository</figcaption>
+</figure>
+</div>
+<p>This will then provide us with a place to indicate a repository name, as well as whether we wish to have this be public or private, as well as optionally whether we would like to include a License file to start. If we are starting a fresh repository without any code to push from our machine we might want to add a license file, otherwise we will probably prefer to begin with an empty repository to push everything we have locally on our machine into. Once we are satisfied with the details below, we can click “Create repository”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Details of a github repository</figcaption>
+</figure>
+</div>
+<p>Now we need to go about including the code which we have stored locally on our machine into this repository. If we have a git repository already located on our machine that we wish to incorporate into this github repository, we need to take a few steps. Let’s see this with the repository we have already set up previously. Within this repository on our machine, we will need indicate that we wish to contribute to a remote repository. We do this below, where the remote location will depend on our username and github repository name:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin https://github.com/damiancclarke/BEE2041</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If things work as planned, there should be no message here, but if we want to confirm that something has occured, we can check this as below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>origin  https://github.com/damiancclarke/BEE2041 (fetch)
+origin  https://github.com/damiancclarke/BEE2041 (push)</code></pre>
+</div>
+</div>
+<p>Once we have done this, we are close to ready to “push” our code locally to the place we have indicated as “origin”. To do this, we will first ensure that we have a branch called “main” on our machine. Because we only have one branch, it may be that by default this is called main, but the below code ensures that we know where we are pushing any code from. After we have done this, we will “push” the code that we have locally on “main” to the repository that we have on github which we have called “origin” above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-M</span> main</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Username for 'https://github.com': damiancclarke
+Password for 'https://damiancclarke@github.com':
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (9/9), 882 bytes | 882.00 KiB/s, done.
+Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/damiancclarke/BEE2041
+   28fbef7..23334ef  main -&gt; main
+   Branch 'main' set up to track remote branch 'main' from 'origin'.</code></pre>
+<p>When we do the <code>push</code> above, we need to be able to access our repository on github. As this is of course sensitive (we would not want anybody to be able to push to our repsitories), git will require a password. Some information related to possible alternative routes to do this from github are available <a href="https://docs.github.com/en/get-started/getting-started-with-git/why-is-git-always-asking-for-my-password">here</a>, and note that the password that github requires is not actually the password we use to login, but rather a personal access token which can be generated as discussed <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">here</a>. While it is a bit of hassle to have to do this additional step to push code, it is safer, and once it has been done once, we can use the personal access token for a long period of time, until we set it to expire.</p>
+<p>Once we have done this, and given that we will have this repository available publicly, we may wish to add a README file which will provide some information on this repository to people who look at our repo on github. We can do this by adding a file called README.md. If we write this file using <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax">github’s markdown</a>, it will be visualised well online. Let’s imagine we have edited some README.md file, we can then stage and commit it below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Incorporates README to our repo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Username for 'https://github.com': damiancclarke
+Password for 'https://damiancclarke@github.com':
+[main 00d2f26] Incorporates README to our repo
+ 1 file changed, 1 insertion(+)</code></pre>
+<p>Now when we look on github, everything we have done so far will be there! This should look something like the below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g3.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Our first github repo</figcaption>
+</figure>
+</div>
+<p>If we look at individual codes, we can also see the full history, with an easy-to-use interface showing exact changes between any versions. In the below screen shot for example we see exactly what change was made when we moved from our first to second commit at the beginning of this project. In practice, when commits involve more lines of code, this feature can come in very handy.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g4.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Visualising changes across code commits</figcaption>
+</figure>
+</div>
+<p>At this stage our local git repository and github repository are in sync. At the beginning and at the end of any working session, we should always ensure that this is the case. If you are collaborating on a project with others, it is possible that by the time you start a new working session, your collaborators may have made some changes and pushed it to the github repository. In this case, we should always first ensure that we are up to date with all the recent updates from github before we make any other changes ourself. The nice thing about it is that you can use git pull even when in doubt. In this particular case, no change will appear because we are already in sync, and no one else has edited this repository.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Already up to date.</code></pre>
+</section>
+<section id="contributing-to-an-existing-repository" class="level2">
+<h2 class="anchored" data-anchor-id="contributing-to-an-existing-repository">2. Contributing to an existing repository</h2>
+<p>As a final point, let’s see how we could contribute to an existing repository on github. This may occur for a number of reasons. It may be that there is some piece of software that we frequently use and which we haved edited slightly to improve performance, and want to suggest this as a general feature to the code’s maintainer. Or it might be that we are working in a team, and want to incorporate work into the repository of the project the team is working on. Regardless of why, if we wish to do work on the code, the first thing we will do is “fork” the repository on github. In order to give an idea of how this looks on both sides (from the maintainer of the repository, and the person who forks it), below I am working with another github account. This new account has no copy of the repository to begin with. Any screen shots below where github is coloured white are based on this new account which is copying the repository, and which wants to contribute. Any screen shots which are coloured black are showing things from the point of view of my original account (the account which maintains the repository).</p>
+<p>The first thing the “contributor” must do is simply take a fork of the repository. This requires no permission as anyone can work with public code on github, and places a fresh copy of the respository on the contributor’s github repository. At this point, any changes made in that repository will be limited only to the contributor’s repository. Below we see two screen shots showing how one makes a fork:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g5.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Forking Step 1: Click on “Fork”</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g6.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Forking Step 2: Provide any required details</figcaption>
+</figure>
+</div>
+<p>Once we have forked this, we will see that a copy of this repository now exists on our github profile. To actually work with this repository, we probably want to copy it locally to our machine. We actually <em>could</em> develop code directly on github’s site, but in practice we will probably want to have available tools on our operating system, so we will assume we want to develop it locally. To do this, we use <code>git clone</code>. This simply puts a copy of the indicated repository and its git history on our machine. We can see that when we do this, if we type <code>git log</code> we see the entire git history of the repository, including the prior versions which the original author has published.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/dcc213/BEE2041</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Cloning into 'BEE2041'...
+remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 18 (delta 4), reused 16 (delta 2), pack-reused 0
+Receiving objects: 100% (18/18), done.
+Resolving deltas: 100% (4/4), done.</code></pre>
+<p>Now that we have cloned the repository, we can get to work. In the interests of brevity, let’s simply generate some new file. Below we have a look at what is in the repository, and then generate a file called <code>file3.txt</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Adding a third test file"</span> <span class="op">&gt;</span> file3.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>file1.txt  file2.txt  README.md</code></pre>
+<p>Now let’s stage the file and commit the file to our git history. What this is doing is incorporating the file into our git history locally. This is not yet incorporated into (a) our version of the github repository or (b) the original developer’s copy of the github repository…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file3.txt</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Adding a third file"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>[main ab83a99] Adding a third file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file3.txt</code></pre>
+<p>To push the changes to <em>our</em> copy of the project is easy, and we can do it in the same way we discussed above when seeing how we push to our own projects. Indeed, because we have already done a <code>git clone</code>, git knows how our local branch and github branch correspond, so we do not need to tell it anything more than that we wish to push our local changes. We do this below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Username for 'https://github.com': dcc213
+Password for 'https://dcc213@github.com':
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 300 bytes | 300.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/dcc213/BEE2041
+   9001f27..ab83a99  main -&gt; main</code></pre>
+<p>Once we do this, we can see that in the version of the contributor’s repsotitory, the changes are now incorporated:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g7.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Incorporating an edit into our github repository</figcaption>
+</figure>
+</div>
+<p>This change will only affect our code on github. What we <em>haven’t</em> yet done is suggest to the original developer that we wish to incorporate this change into the original code. If our code is incorporated into the origina developer’s repository, then anyone else who interacts with the code in the future will also have our commit. To ask the original developer to consider incorporating our code, we open a “pull request” on github. This is us asking the maintainer to “pull” our changes to their code. Below we can see how this looks.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g8.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Opening a pull request Step 1: Click on “Contribute”</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g9.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Opening a pull request Step 2: Create the pull request</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g10.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Opening a pull request Step 3: Adding any more context required</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g11.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Opening a pull request Step 4: Awaiting response</figcaption>
+</figure>
+</div>
+<p>There are multiple stages in this process (hence the four screen shots above), but essentially, provided that there are no conflicts on code edits (ie no other changes to the same area of the code we have edited have been made to the original repository), we can simply click through and create the pull request.</p>
+<p>Then it is up to the maintainer to see if they wish to accept our pull request. Provided they do, they can review the code and click on “Merge pull request”, as below: <img src="g12.png" class="img-fluid" alt="Merging a pull request Step 1: Merging"></p>
+<p>This will then result in changes to the published repository, where you can note that the version of the file which has been edited by us now has our commit message. This will now be available in the original repository, and will be the new version which anyone else works with.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g13.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Merging a pull request Step 2: The result</figcaption>
+</figure>
+</div>
+<p>As a final brief note, when the original maintainer incorporates our code into their repository, this generates a change in the git history given their merge. Thus, if we want to <em>keep</em> developing code, we will have to update our version of the repository to match their version. Even though there will be no changes to the code itself, if we look on our version of the github repo, we will see that it now states that our branch is 1 commit behind the main branch (see screen shot below). Thus, if we wish to keep editing all we need to do is click on “Sync fork”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="g14.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Our repository following a pull request</figcaption>
+</figure>
+</div>
+<p>Finally, if we wish to update code locally on our machine we should also do a git pull in our local repository, which will ensure that things on our operating system are now mapped to our respository on github. This may ask us for our username and password, and once we have done this we will be up to date, and can keep working if we wish.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>remote: Enumerating objects: 1, done.
+remote: Counting objects: 100% (1/1), done.
+remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (1/1), 892 bytes | 892.00 KiB/s, done.
+From https://github.com/dcc213/BEE2041
+   ab83a99..0a2ea7f  main       -&gt; origin/main
+   Updating ab83a99..0a2ea7f
+   Fast-forward   </code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exploring some extensions…
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let’s try out a few things to explore git and github, including some extensions we have not yet seen above. Please try and complete the following questions (which we will also discuss in tutorial in week 9).</p>
+<ol type="1">
+<li>Let’s work with the respository that we’ve looked at in class: <a href="https://github.com/damiancclarke/BEE2041">https://github.com/damiancclarke/BEE2041</a>. With this repository, aim to do the following:
+<ol type="a">
+<li>Make your own copy (“fork”) on github of the <a href="https://github.com/damiancclarke/BEE2041">github repository</a> we have been working with above.</li>
+<li>Download this repository to your machine using git, and make a change locally. For example, generate a new file named using your name (or in some unique way which others are unlikely to do). Stage and commit these changes to the repo locally.</li>
+<li>Now push these changes to github. Open a pull request so that I can incorporate your changes into the main repository. NOTE: Please do not alter the other files in the repository, as if many people do this at once it will be a little trickier to bring all files into the main repository.</li>
+</ol></li>
+<li>Make your own repository on github. Include a licence and a README file, and then use git to download this repository on your machine. Add a file, and commit it to github.</li>
+<li>Using the repository above, locally on your machine make a new “branch”. Use this branch to add some new feature (ie add some lines to some file). Work out how to add this branch to your github repository also. Finally, merge the new branch into the main branch, incorporating the changes you have made.</li>
+<li>If you know someone else who is on github, ask them to fork the respository you have made in point 2 and make some minor change. Then ask them to make a pull request. See how this pull request looks to you, and work out how to incorporate it into the repository on github.</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

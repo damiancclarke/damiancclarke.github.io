@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Types of Joins</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #181c27;
+    --border: #2a2f3f;
+    --left-col:  #4f8ef7;
+    --right-col: #f7674f;
+    --both-col:  #a78bfa;
+    --text: #e8eaf0;
+    --muted: #7a8099;
+    --code-bg: #1e2335;
+    --highlight: #f7c94f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5vh 2.5vw;
+    gap: 1.8vh;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .join-type {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    padding: 4px 11px;
+    border-radius: 4px;
+    background: var(--code-bg);
+    color: var(--highlight);
+    border: 1px solid #3a3a1a;
+  }
+
+  .venn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 88px;
+    flex-shrink: 0;
+  }
+
+  .venn svg { overflow: visible; }
+
+  .desc {
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.55;
+    font-weight: 300;
+    flex-shrink: 0;
+  }
+
+  .desc strong { color: var(--text); font-weight: 600; }
+
+  .example {
+    background: var(--code-bg);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.83rem;
+    line-height: 1.9;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .header-row {
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    gap: 4px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    gap: 4px;
+  }
+
+  .null        { color: #555; font-style: italic; }
+  .from-left   { color: var(--left-col); }
+  .from-right  { color: var(--right-col); }
+  .from-both   { color: var(--both-col); }
+
+  .code-strip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: var(--code-bg);
+    border-left: 3px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    flex-shrink: 0;
+  }
+
+  .code-strip span { color: var(--highlight); }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-shrink: 0;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.84rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="grid">
+
+  <!-- INNER JOIN -->
+  <div class="card">
+    <div class="card-header">
+      <div class="join-type">Inner Join</div>
+      <div class="badge">how="inner"</div>
+    </div>
+    <div class="venn">
+      <svg width="140" height="70" viewBox="0 0 140 70">
+        <circle cx="50" cy="35" r="30" fill="#4f8ef7" fill-opacity="0.15" stroke="#4f8ef7" stroke-width="1.5"/>
+        <circle cx="90" cy="35" r="30" fill="#f7674f" fill-opacity="0.15" stroke="#f7674f" stroke-width="1.5"/>
+        <clipPath id="c1"><circle cx="50" cy="35" r="30"/></clipPath>
+        <circle cx="90" cy="35" r="30" fill="#a78bfa" fill-opacity="0.6" clip-path="url(#c1)"/>
+        <text x="30" y="39" font-family="Sora" font-size="11" fill="#4f8ef7" font-weight="600">L</text>
+        <text x="102" y="39" font-family="Sora" font-size="11" fill="#f7674f" font-weight="600">R</text>
+      </svg>
+    </div>
+    <p class="desc">Keeps only rows where the key exists in <strong>both</strong> tables. Rows missing from either side are dropped.</p>
+    <div class="example">
+      <div class="header-row"><span>code</span><span>gdp</span><span>imr</span></div>
+      <div class="row"><span class="from-both">USA</span><span>60k</span><span>5.4</span></div>
+      <div class="row"><span class="from-both">GBR</span><span>46k</span><span>3.9</span></div>
+      <div class="row"><span class="from-both">IND</span><span>7k</span><span>28.3</span></div>
+    </div>
+    <div class="code-strip">pd.merge(gdp, imr, on=<span>"code"</span>, how=<span>"inner"</span>)</div>
+  </div>
+
+  <!-- LEFT JOIN -->
+  <div class="card">
+    <div class="card-header">
+      <div class="join-type">Left Join</div>
+      <div class="badge">how="left"</div>
+    </div>
+    <div class="venn">
+      <svg width="140" height="70" viewBox="0 0 140 70">
+        <circle cx="50" cy="35" r="30" fill="#4f8ef7" fill-opacity="0.15" stroke="#4f8ef7" stroke-width="1.5"/>
+        <circle cx="90" cy="35" r="30" fill="#f7674f" fill-opacity="0.15" stroke="#f7674f" stroke-width="1.5"/>
+        <circle cx="50" cy="35" r="30" fill="#4f8ef7" fill-opacity="0.45"/>
+        <clipPath id="c2"><circle cx="50" cy="35" r="30"/></clipPath>
+        <circle cx="90" cy="35" r="30" fill="#a78bfa" fill-opacity="0.45" clip-path="url(#c2)"/>
+        <text x="30" y="39" font-family="Sora" font-size="11" fill="white" font-weight="600">L</text>
+        <text x="102" y="39" font-family="Sora" font-size="11" fill="#f7674f" font-weight="600">R</text>
+      </svg>
+    </div>
+    <p class="desc">Keeps <strong>all rows from the left</strong> table. Right-side values are <span style="color:#666">NaN</span> where no match exists.</p>
+    <div class="example">
+      <div class="header-row"><span>code</span><span>gdp</span><span>imr</span></div>
+      <div class="row"><span class="from-both">USA</span><span>60k</span><span>5.4</span></div>
+      <div class="row"><span class="from-both">GBR</span><span>46k</span><span>3.9</span></div>
+      <div class="row"><span class="from-left">VEN</span><span>3k</span><span class="null">NaN</span></div>
+    </div>
+    <div class="code-strip">pd.merge(gdp, imr, on=<span>"code"</span>, how=<span>"left"</span>)</div>
+  </div>
+
+  <!-- RIGHT JOIN -->
+  <div class="card">
+    <div class="card-header">
+      <div class="join-type">Right Join</div>
+      <div class="badge">how="right"</div>
+    </div>
+    <div class="venn">
+      <svg width="140" height="70" viewBox="0 0 140 70">
+        <circle cx="50" cy="35" r="30" fill="#4f8ef7" fill-opacity="0.15" stroke="#4f8ef7" stroke-width="1.5"/>
+        <circle cx="90" cy="35" r="30" fill="#f7674f" fill-opacity="0.15" stroke="#f7674f" stroke-width="1.5"/>
+        <circle cx="90" cy="35" r="30" fill="#f7674f" fill-opacity="0.45"/>
+        <clipPath id="c3"><circle cx="90" cy="35" r="30"/></clipPath>
+        <circle cx="50" cy="35" r="30" fill="#a78bfa" fill-opacity="0.45" clip-path="url(#c3)"/>
+        <text x="30" y="39" font-family="Sora" font-size="11" fill="#4f8ef7" font-weight="600">L</text>
+        <text x="102" y="39" font-family="Sora" font-size="11" fill="white" font-weight="600">R</text>
+      </svg>
+    </div>
+    <p class="desc">Keeps <strong>all rows from the right</strong> table. Left-side values are <span style="color:#666">NaN</span> where no match exists.</p>
+    <div class="example">
+      <div class="header-row"><span>code</span><span>gdp</span><span>imr</span></div>
+      <div class="row"><span class="from-both">USA</span><span>60k</span><span>5.4</span></div>
+      <div class="row"><span class="from-both">GBR</span><span>46k</span><span>3.9</span></div>
+      <div class="row"><span class="from-right">SSD</span><span class="null">NaN</span><span>54.1</span></div>
+    </div>
+    <div class="code-strip">pd.merge(gdp, imr, on=<span>"code"</span>, how=<span>"right"</span>)</div>
+  </div>
+
+  <!-- OUTER JOIN -->
+  <div class="card">
+    <div class="card-header">
+      <div class="join-type">Outer Join</div>
+      <div class="badge">how="outer"</div>
+    </div>
+    <div class="venn">
+      <svg width="140" height="70" viewBox="0 0 140 70">
+        <circle cx="50" cy="35" r="30" fill="#4f8ef7" fill-opacity="0.45" stroke="#4f8ef7" stroke-width="1.5"/>
+        <circle cx="90" cy="35" r="30" fill="#f7674f" fill-opacity="0.45" stroke="#f7674f" stroke-width="1.5"/>
+        <clipPath id="c4"><circle cx="50" cy="35" r="30"/></clipPath>
+        <circle cx="90" cy="35" r="30" fill="#a78bfa" fill-opacity="0.65" clip-path="url(#c4)"/>
+        <text x="30" y="39" font-family="Sora" font-size="11" fill="white" font-weight="600">L</text>
+        <text x="102" y="39" font-family="Sora" font-size="11" fill="white" font-weight="600">R</text>
+      </svg>
+    </div>
+    <p class="desc">Keeps <strong>all rows from both</strong> tables. NaN fills wherever a match is missing on either side.</p>
+    <div class="example">
+      <div class="header-row"><span>code</span><span>gdp</span><span>imr</span></div>
+      <div class="row"><span class="from-both">USA</span><span>60k</span><span>5.4</span></div>
+      <div class="row"><span class="from-left">VEN</span><span>3k</span><span class="null">NaN</span></div>
+      <div class="row"><span class="from-right">SSD</span><span class="null">NaN</span><span>54.1</span></div>
+    </div>
+    <div class="code-strip">pd.merge(gdp, imr, on=<span>"code"</span>, how=<span>"outer"</span>)</div>
+  </div>
+
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="dot" style="background:var(--left-col)"></div>Left only</div>
+  <div class="legend-item"><div class="dot" style="background:var(--both-col)"></div>Both tables</div>
+  <div class="legend-item"><div class="dot" style="background:var(--right-col)"></div>Right only</div>
+  <div class="legend-item"><div class="dot" style="background:#555"></div>NaN (no match)</div>
+</div>
+
+</body>
+</html>

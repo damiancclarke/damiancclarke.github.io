@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Downloading the Data – Applied Microeconometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-808c031e01507d627300357d88007fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Applied Microeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./about.html">
+ <span class="dropdown-text">About this book</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data.html">
+ <span class="dropdown-text">Downloading the Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-python" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Python</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-python">    
+        <li>
+    <a class="dropdown-item" href="./Python.html">
+ <span class="dropdown-text">Following Along with Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionPython.html">
+ <span class="dropdown-text">An Introduction to Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2Python.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Python.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4Python.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5Python.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6Python.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7Python.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8Python.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Python.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">Following Along with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionR.html">
+ <span class="dropdown-text">An Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2R.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3R.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4R.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5R.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6R.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7R.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8R.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9R.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-stata" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Stata</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-stata">    
+        <li>
+    <a class="dropdown-item" href="./Stata.html">
+ <span class="dropdown-text">Following Along with Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./introStata.html">
+ <span class="dropdown-text">An Introduction to Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2Stata.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Stata.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4Stata.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5Stata.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6Stata.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7Stata.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8Stata.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Stata.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data.html">Downloading the Data</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Downloading the Data</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#how-to-download-the-required-data" id="toc-how-to-download-the-required-data" class="nav-link active" data-scroll-target="#how-to-download-the-required-data">How to download the required data</a>
+  <ul class="collapse">
+  <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a></li>
+  <li><a href="#stata" id="toc-stata" class="nav-link" data-scroll-target="#stata">Stata</a></li>
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  </ul></li>
+  <li><a href="#direct-links-to-data" id="toc-direct-links-to-data" class="nav-link" data-scroll-target="#direct-links-to-data">Direct links to data</a>
+  <ul class="collapse">
+  <li><a href="#chapter-2" id="toc-chapter-2" class="nav-link" data-scroll-target="#chapter-2">Chapter 2</a></li>
+  <li><a href="#chapter-3" id="toc-chapter-3" class="nav-link" data-scroll-target="#chapter-3">Chapter 3</a></li>
+  <li><a href="#chapter-4" id="toc-chapter-4" class="nav-link" data-scroll-target="#chapter-4">Chapter 4</a></li>
+  <li><a href="#chapter-5" id="toc-chapter-5" class="nav-link" data-scroll-target="#chapter-5">Chapter 5</a></li>
+  <li><a href="#chapter-6" id="toc-chapter-6" class="nav-link" data-scroll-target="#chapter-6">Chapter 6</a></li>
+  <li><a href="#chapter-7" id="toc-chapter-7" class="nav-link" data-scroll-target="#chapter-7">Chapter 7</a></li>
+  <li><a href="#chapter-8" id="toc-chapter-8" class="nav-link" data-scroll-target="#chapter-8">Chapter 8</a></li>
+  <li><a href="#chapter-9" id="toc-chapter-9" class="nav-link" data-scroll-target="#chapter-9">Chapter 9</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Downloading the Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="how-to-download-the-required-data" class="level1">
+<h1>How to download the required data</h1>
+<p>All data required for code call outs and exercises can be found at the following link: <a href="https://damianclarke.net/books/microeconometrics/data/">https://damianclarke.net/books/microeconometrics/data/</a></p>
+<p>All data is available as csv format which can be easily read into R and Python, as well as Stata’s native dta format. Data can be downloaded and accessed locally, or read into programs directly from the link above. Below we provide a brief illustration of how data can be read directly into R, Python and Stata from this site. Here we simply install one of the datasets used in Chapter 2 code call outs, and print the first line in the file:</p>
+<section id="r" class="level2">
+<h2 class="anchored" data-anchor-id="r">R</h2>
+<pre><code>df &lt;- read.csv('http://www.damianclarke.net/books/microeconometrics/data/Banerjee_et_al_2021.csv')
+df[1,]</code></pre>
+</section>
+<section id="stata" class="level2">
+<h2 class="anchored" data-anchor-id="stata">Stata</h2>
+<pre><code>webuse set www.damianclarke.net/books/microeconometrics/data
+webuse Banerjee_et_al_2021
+list in 1</code></pre>
+</section>
+<section id="python" class="level2">
+<h2 class="anchored" data-anchor-id="python">Python</h2>
+<pre><code>#| eval: false
+import pandas as pd
+df = pd.read_csv('http://www.damianclarke.net/books/microeconometrics/data/Banerjee_et_al_2021.csv')
+df[0:1]</code></pre>
+<pre class="text"><code>   treatment  el1  index_ctotal_el1  index_foodsecurity_el1  ind_fin_el1  ind_increv_updated_el1  asset_ind_tot_el1  vil_ham
+   0          0    1          0.044485                0.498666     1.293397               -0.744829          -1.347889     10.0</code></pre>
+</section>
+</section>
+<section id="direct-links-to-data" class="level1">
+<h1>Direct links to data</h1>
+<p>Data is accessible in a point-and-click fashion below. Blue-coloured squares provide data which is used in code call-outs, while green-coloured squares provide data which is used in end of chapter questions.</p>
+<section id="chapter-2" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-2">Chapter 2</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Barietal2024">Bari et al. (<a href="#ref-Barietal2024" role="doc-biblioref">2024</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Microfinance and small business success, Pakistan.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Bari_et_al_2024.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Bari_et_al_2024.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Chongetal2016">Chong et al. (<a href="#ref-Chongetal2016" role="doc-biblioref">2016</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Iron supplementation and schooling, Peru.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Chong_et_al_2016.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Chong_et_al_2016.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Banerjeeetal2021">Banerjee, Duflo, and Sharma (<a href="#ref-Banerjeeetal2021" role="doc-biblioref">2021</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Asset transfers and family outcomes, India.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Banerjee_et_al_2021.csv">csv</a>· <a href="https://www.damianclarke.net/books/microeconometrics/data/Banerjee_et_al_2021.dta">dta</a></p>
+</div>
+</div>
+<section id="baranovetal2020" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="baranovetal2020"><span class="citation" data-cites="Baranovetal2020">Baranov et al. (<a href="#ref-Baranovetal2020" role="doc-biblioref">2020</a>)</span></h4>
+<p>Cognitive behavioural therapy and maternal depression, Pakistan.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Baranov_et_al_2020.csv">csv</a>· <a href="https://www.damianclarke.net/books/microeconometrics/data/Baranov_et_al_2020.dta">dta</a></p>
+</section>
+<section id="miguelkremer2004" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="miguelkremer2004"><span class="citation" data-cites="MiguelKremer2004">Miguel and Kremer (<a href="#ref-MiguelKremer2004" role="doc-biblioref">2004</a>)</span></h4>
+<p>Deworming treatment and school outcomes, Kenya.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Miguel_Kremer_2004.csv">csv</a>· <a href="https://www.damianclarke.net/books/microeconometrics/data/Miguel_Kremer_2004.dta">dta</a></p>
+</section>
+<section id="mackinnonetal2023" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="mackinnonetal2023"><span class="citation" data-cites="MacKinnonetal2023">MacKinnon, Nielsen, and Webb (<a href="#ref-MacKinnonetal2023" role="doc-biblioref">2023</a>)</span></h4>
+<p>Student-teacher ratios and reading, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/MacKinnon_et_al_2023.csv">csv</a>· <a href="https://www.damianclarke.net/books/microeconometrics/data/MacKinnon_et_al_2023.dta">dta</a></p>
+</section>
+<section id="abeletal2020" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="abeletal2020"><span class="citation" data-cites="Abeletal2020">Abel, Burger, and Piraino (<a href="#ref-Abeletal2020" role="doc-biblioref">2020</a>)</span></h4>
+<p>Reference letters and job callbacks, South Africa.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Abel_et_al_2020.csv">csv</a>· <a href="https://www.damianclarke.net/books/microeconometrics/data/Abel_et_al_2020.dta">dta</a></p>
+</section>
+</div>
+</section>
+<section id="chapter-3" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-3">Chapter 3</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Work force training programs and salary, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Deheija_Wahba_2002.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Deheija_Wahba_2002.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Smoking and children’s weight at birth, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Almond_et_al_2005.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Almond_et_al_2005.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="MillimetTchernis2009">Millimet and Tchernis (<a href="#ref-MillimetTchernis2009" role="doc-biblioref">2009</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>WTO entry and pollution, cross-country.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Millimet_Tchernis_2009.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Millimet_Tchernis_2009.dta">dta</a></p>
+</div>
+</div>
+<section id="deheijawahba2002-1" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="deheijawahba2002-1"><span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span></h4>
+<p>Work force training programs and salary, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Deheija_Wahba_2002.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Deheija_Wahba_2002.dta">dta</a></p>
+</section>
+<section id="almondetal2005-1" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="almondetal2005-1"><span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span></h4>
+<p>Smoking and children’s weight at birth, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Almond_et_al_2005.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Almond_et_al_2005.dta">dta</a></p>
+</section>
+<section id="imbensetal2001" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="imbensetal2001"><span class="citation" data-cites="Imbensetal2001">Imbens, Rubin, and Sacerdote (<a href="#ref-Imbensetal2001" role="doc-biblioref">2001</a>)</span></h4>
+<p>Lottery wins and labour supply, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Imbens_et_al_2001.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Imbens_et_al_2001.dta">dta</a></p>
+</section>
+</div>
+</section>
+<section id="chapter-4" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-4">Chapter 4</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Female role models and university major choice, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Porter_Serra_2020.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Porter_Serra_2020.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="StevensonWolfers2006">Stevenson and Wolfers (<a href="#ref-StevensonWolfers2006" role="doc-biblioref">2006</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No fault divorce laws and homicide rates, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Stevenson_Wolfers_2006.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Stevenson_Wolfers_2006.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cigarette excise taxes and sales, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Abadie_et_al_2010.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Abadie_et_al_2010.dta">dta</a></p>
+</div>
+</div>
+<section id="deryugina2017" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="deryugina2017"><span class="citation" data-cites="Deryugina2017">Deryugina (<a href="#ref-Deryugina2017" role="doc-biblioref">2017</a>)</span></h4>
+<p>Hurricanes and government investment, United States</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Deryugina_2017.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Deryugina_2017.dta">dta</a></p>
+</section>
+<section id="muralidharanprakash2013" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="muralidharanprakash2013"><span class="citation" data-cites="MuralidharanPrakash2013">Muralidharan and Prakash (<a href="#ref-MuralidharanPrakash2013" role="doc-biblioref">2013</a>)</span></h4>
+<p>Bicycle provision and educational outcomes, India</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Muralidharan_Prakash_2013.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Muralidharan_Prakash_2013.dta">dta</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Muralidharan_Prakash_2013_extra.csv">csv (extra)</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Muralidharan_Prakash_2013_extra.dta">dta (extra)</a></p>
+</section>
+<section id="abadieetal2015" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="abadieetal2015"><span class="citation" data-cites="Abadieetal2015">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2015" role="doc-biblioref">2015</a>)</span></h4>
+<p>German reunification and economic growth, Europe.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Abadie_et_al_2015.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Abadie_et_al_2015.dta">dta</a></p>
+</section>
+<section id="bhalotraetal2023" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="bhalotraetal2023"><span class="citation" data-cites="Bhalotraetal2023">Bhalotra et al. (<a href="#ref-Bhalotraetal2023" role="doc-biblioref">2023</a>)</span></h4>
+<p>Female representation in parliament and maternal mortality, cross-country.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Bhalotra_et_al_2024.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Bhalotra_et_al_2024.dta">dta</a></p>
+</section>
+</div>
+</section>
+<section id="chapter-5" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-5">Chapter 5</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Health insurance access and health outcomes, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Finkelstein_et_al_2012.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Finkelstein_et_al_2012.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Religious pilgrimage and beliefs, Pakistan.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Clingingsmith_et_al_2009.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Clingingsmith_et_al_2009.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Twin birth, fertility and sibling outcomes, multi-country.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Bhalotra_Clarke_2020.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Bhalotra_Clarke_2020.dta">dta</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Bhalotra_Clarke_10percent_2020.csv">csv (10% sample)</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Bhalotra_Clarke_10percent_2020.dta">dta (10% sample)</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Dufloetal2024">Duflo, Kiessel, and Lucas (<a href="#ref-Dufloetal2024" role="doc-biblioref">2024</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Educational interventions in schools and student test scores, Ghana.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Duflo_et_al_2024.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Duflo_et_al_2024.dta">dta</a></p>
+</div>
+</div>
+<section id="thornton2008" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="thornton2008"><span class="citation" data-cites="Thornton2008">Thornton (<a href="#ref-Thornton2008" role="doc-biblioref">2008</a>)</span></h4>
+<p>Incentives, HIV status and behaviours, Malawi.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Thornton_2008.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Thornton_2008.dta">dta</a></p>
+</section>
+<section id="lochnermoretti2015" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="lochnermoretti2015"><span class="citation" data-cites="LochnerMoretti2015">Lochner and Moretti (<a href="#ref-LochnerMoretti2015" role="doc-biblioref">2015</a>)</span></h4>
+<p>Educational attainment and incarceration, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Lochner_Moretti_2015.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Lochner_Moretti_2015.dta">dta</a></p>
+</section>
+<section id="rianovalencia2024" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="rianovalencia2024"><span class="citation" data-cites="RianoValencia2024">Riaño and Valencia Caicedo (<a href="#ref-RianoValencia2024" role="doc-biblioref">2024</a>)</span></h4>
+<p>Exposure to conflict and economic development, Laos.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Riaño_ValenciaCaicedo_2024.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Riaño_ValenciaCaicedo_2024.dta">dta</a></p>
+</section>
+<section id="card1995" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="card1995"><span class="citation" data-cites="Card1995">Card (<a href="#ref-Card1995" role="doc-biblioref">1995</a>)</span></h4>
+<p>University access and returns to education, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Card_1995.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Card_1995.dta">dta</a></p>
+</section>
+</div>
+</section>
+<section id="chapter-6" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-6">Chapter 6</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Hansen2015">Hansen (<a href="#ref-Hansen2015" role="doc-biblioref">2015</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Drinking and driving and criminal recividism, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Hansen_2015.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Hansen_2015.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="AngristLavy1999">Angrist and Lavy (<a href="#ref-AngristLavy1999" role="doc-biblioref">1999</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Class size and student achievement, Israel.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Angrist_Lavy_1999.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Angrist_Lavy_1999.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Holden2016">Holden (<a href="#ref-Holden2016" role="doc-biblioref">2016</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Textbook purchases and school test performance, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Holden_2016.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Holden_2016.dta">dta</a></p>
+</div>
+</div>
+<section id="meyersson2014" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="meyersson2014"><span class="citation" data-cites="Meyersson2014">Meyersson (<a href="#ref-Meyersson2014" role="doc-biblioref">2014</a>)</span></h4>
+<p>Islamic poltical representation and women’s educational outcomes, Türkiye.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Meyersson_2014.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Meyersson_2014.dta">dta</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Meyersson_2014.txt">notes on variable names</a></p>
+</section>
+<section id="ozier2011" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="ozier2011"><span class="citation" data-cites="Ozier2011">Ozier (<a href="#ref-Ozier2011" role="doc-biblioref">2011</a>)</span></h4>
+<p>High school education, labour markets and fertility outcomes, Kenya.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Ozier_2018.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Ozier_2018.dta">dta</a></p>
+</section>
+<section id="clarkeetal2026" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="clarkeetal2026"><span class="citation" data-cites="Clarkeetal2026">Clarke, Lillo Bustos, and Tapia-Schythe (<a href="#ref-Clarkeetal2026" role="doc-biblioref">2026</a>)</span></h4>
+<p>Early life investments and child survival, Chile.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Clarke_et_al_2026.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Clarke_et_al_2026.dta">dta</a></p>
+</section>
+<section id="landais2015" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="landais2015"><span class="citation" data-cites="Landais2015">Landais (<a href="#ref-Landais2015" role="doc-biblioref">2015</a>)</span></h4>
+<p>Unemployment benefit schedules and labour supply, United States.</p>
+<p>Refer to <a href="http://doi.org/10.3886/E114581V1">DOI</a> for full data (brief registration required).</p>
+</section>
+</div>
+</section>
+<section id="chapter-7" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-7">Chapter 7</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="AlanKubilay2025">Alan and Kubilay (<a href="#ref-AlanKubilay2025" role="doc-biblioref">2025</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Behavioural interventions at schools, Türkiye.</p>
+<p>Refer to <a href="https://www.socialscienceregistry.org/versions/230154/docs/version/document">the Table in Section 5</a> for power and minimum detectable effect size desired.</p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Incentives to exercise and physical activity, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Charness_Gneezy_2009.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Charness_Gneezy_2009.dta">dta</a></p>
+</div>
+</div>
+<section id="gallegoetal2024" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="gallegoetal2024"><span class="citation" data-cites="Gallegoetal2024">Gallego, Philippi, and Repetto (<a href="#ref-Gallegoetal2024" role="doc-biblioref">2024</a>)</span></h4>
+<p>Dental treatment, self-esteem and labour market outcomes, Chile.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Gallego_et_al_2024.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Gallego_et_al_2024.dta">dta</a></p>
+</section>
+<section id="bursztynetal2017" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="bursztynetal2017"><span class="citation" data-cites="Bursztynetal2017">Bursztyn, Fujiwara, and Pallais (<a href="#ref-Bursztynetal2017" role="doc-biblioref">2017</a>)</span></h4>
+<p>Publicly observed ambitious behaviours and partnership opportunities, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Bursztyn_et_al_2017.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Bursztyn_et_al_2017.dta">dta</a></p>
+</section>
+<section id="public-replication-materials" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="public-replication-materials">Public Replication Materials</h4>
+<p>Potential open access repositories to consider include:</p>
+<p><a href="https://www.icpsr.umich.edu/sites/aea/home">AEA (Open ICPSR)</a> · <a href="https://zenodo.org/communities/es-replication-repository/">Econometric Society (Zenodo)</a> · <a href="https://zenodo.org/communities/ej-replication-repository/">Economic Journal (Zenodo)</a> · <a href="https://dataverse.harvard.edu/dataverse/JPE">JPE Journals (Dataverse)</a> · <a href="https://dataverse.harvard.edu/dataverse/restat">Review of Economics and Statistics (Dataverse)</a> · <a href="https://zenodo.org/communities/restud-replication">Review of Economic Studies (Zenodo)</a> · <a href="https://dataverse.harvard.edu/dataverse/qje">QJE Journals (Dataverse)</a></p>
+</section>
+</div>
+</section>
+<section id="chapter-8" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-8">Chapter 8</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span> (from <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Work force training programs and salary, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Deheija_Wahba_2002.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Deheija_Wahba_2002.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="PopElechesUruiola2013">Pop-Eleches and Urquiola (<a href="#ref-PopElechesUruiola2013" role="doc-biblioref">2013</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>School quality and outcomes on standarized tests, Romania.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/PopEleches_Urquiola_2013.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/PopEleches_Urquiola_2013.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Carneiroetal2017">Carneiro, Lokshin, and Umapathi (<a href="#ref-Carneiroetal2017" role="doc-biblioref">2017</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Upper secondary schooling and labor market returns, Indonesia.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Carneiro_et_al_2017.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Carneiro_et_al_2017.dta">dta</a></p>
+</div>
+</div>
+<section id="abadieetal2002" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="abadieetal2002"><span class="citation" data-cites="Abadieetal2002">Abadie, Angrist, and Imbens (<a href="#ref-Abadieetal2002" role="doc-biblioref">2002</a>)</span></h4>
+<p>Jobs-training programs (JTPA) and earnings, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Abadie_et_al_2002.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Abadie_et_al_2002.dta">dta</a></p>
+</section>
+<section id="callawayli2019" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="callawayli2019"><span class="citation" data-cites="CallawayLi2019">Callaway and Li (<a href="#ref-CallawayLi2019" role="doc-biblioref">2019</a>)</span></h4>
+<p>Minimum wage laws and unemployment, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Callaway_Li_2019.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Callaway_Li_2019.dta">dta</a></p>
+</section>
+<section id="frolichmelly2013" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="frolichmelly2013"><span class="citation" data-cites="FrolichMelly2013">Frölich and Melly (<a href="#ref-FrolichMelly2013" role="doc-biblioref">2013</a>)</span></h4>
+<p>Twin births, fertility and family income, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Frolich_Melly_2013.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Frolich_Melly_2013.dta">dta</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Frolich_Melly_2013.txt">Note for question</a></p>
+</section>
+<section id="melguizoetal2016-cattaneoetal2021" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="melguizoetal2016-cattaneoetal2021"><span class="citation" data-cites="Melguizoetal2016">Melguizo, Sanchez, and Velasco (<a href="#ref-Melguizoetal2016" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="Cattaneoetal2021">Cattaneo et al. (<a href="#ref-Cattaneoetal2021" role="doc-biblioref">2021</a>)</span></h4>
+<p>University loans and enrollment, Colombia.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Cattaneo_et_al_2021.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Cattaneo_et_al_2021.dta">dta</a></p>
+</section>
+</div>
+</section>
+<section id="chapter-9" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-9">Chapter 9</h2>
+<div class="dataset-grid">
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Farrell2015">Farrell (<a href="#ref-Farrell2015" role="doc-biblioref">2015</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>National Supported Work participation and earnings (<span class="citation" data-cites="Lalonde1986">LaLonde (<a href="#ref-Lalonde1986" role="doc-biblioref">1986</a>)</span>), USA.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Farrell_2015.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Farrell_2015.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Bellonietal2014">Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Abortion laws and criminal behavior of affected cohorts, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Belloni_et_al_2014.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Belloni_et_al_2014.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="KumarLiang2024">Kumar and Liang (<a href="#ref-KumarLiang2024" role="doc-biblioref">2024</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Access to credit and labor market outcomes, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Kumar_Liang_2024.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Kumar_Liang_2024.dta">dta</a></p>
+</div>
+</div>
+<div class="dataset-card callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Immigrant status and job interview success, Canada.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Oreopoulos_2011.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Oreopoulos_2011.dta">dta</a></p>
+</div>
+</div>
+<section id="fryerlevitt2013" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="fryerlevitt2013"><span class="citation" data-cites="FryerLevitt2013">Fryer and Levitt (<a href="#ref-FryerLevitt2013" role="doc-biblioref">2013</a>)</span></h4>
+<p>Test scores and race by age, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Fryer_Levitt_2013.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Fryer_Levitt_2013.dta">dta</a></p>
+</section>
+<section id="gilchristglassberg2016" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="gilchristglassberg2016"><span class="citation" data-cites="GilchristGlassberg2016">Gilchrist and Sands (<a href="#ref-GilchristGlassberg2016" role="doc-biblioref">2016</a>)</span></h4>
+<p>Movie attendance, weather and social spillovers, United States.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Gilchrist_Glassberg_2016.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Gilchrist_Glassberg_2016.dta">dta</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Gilchrist_Glassberg_2016.txt">Important notes for questions</a></p>
+</section>
+<section id="riley2024" class="level4 dataset-card exercise">
+<h4 class="anchored" data-anchor-id="riley2024"><span class="citation" data-cites="Riley2024">Riley (<a href="#ref-Riley2024" role="doc-biblioref">2024</a>)</span></h4>
+<p>Cash transfers, mode of receipt, and saving and investment behavior, Uganda.</p>
+<p><a href="https://www.damianclarke.net/books/microeconometrics/data/Riley_2024.csv">csv</a> · <a href="https://www.damianclarke.net/books/microeconometrics/data/Riley_2024.dta">dta</a></p>
+</section>
+</div>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Abadieetal2002" class="csl-entry" role="listitem">
+Abadie, Alberto, Joshua Angrist, and Guido W. Imbens. 2002. <span>“Instrumental Variables Estimates of the Effect of Subsidized Training on the Quantiles of Trainee Earnings.”</span> <em>Econometrica</em> 70 (1): 91–117. https://doi.org/<a href="https://doi.org/10.1111/1468-0262.00270">https://doi.org/10.1111/1468-0262.00270</a>.
+</div>
+<div id="ref-Abadieetal2010" class="csl-entry" role="listitem">
+Abadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2010. <span>“<span class="nocase">Synthetic Control Methods for Comparative Case Studies: Estimating the Effect of California’s Tobacco Control Program</span>.”</span> <em>Journal of the American Statistical Association</em> 105 (490): 493–505.
+</div>
+<div id="ref-Abadieetal2015" class="csl-entry" role="listitem">
+———. 2015. <span>“Comparative Politics and the Synthetic Control Method.”</span> <em>American Journal of Political Science</em> 59 (2): 495–510. https://doi.org/<a href="https://doi.org/10.1111/ajps.12116">https://doi.org/10.1111/ajps.12116</a>.
+</div>
+<div id="ref-Abeletal2020" class="csl-entry" role="listitem">
+Abel, Martin, Rulof Burger, and Patrizio Piraino. 2020. <span>“The Value of Reference Letters: Experimental Evidence from South Africa.”</span> <em>American Economic Journal: Applied Economics</em> 12 (3): 40–71. <a href="https://doi.org/10.1257/app.20180666">https://doi.org/10.1257/app.20180666</a>.
+</div>
+<div id="ref-AlanKubilay2025" class="csl-entry" role="listitem">
+Alan, Sule, and Elif Kubilay. 2025. <span>“Empowering Adolescents to Transform Schools: Lessons from a Behavioral Targeting.”</span> <em>American Economic Review</em> 115 (2): 365–407. <a href="https://doi.org/10.1257/aer.20240374">https://doi.org/10.1257/aer.20240374</a>.
+</div>
+<div id="ref-Almondetal2005" class="csl-entry" role="listitem">
+Almond, Douglas, Kenneth Y. Chay, and David S. Lee. 2005. <span>“The Costs of Low Birth Weight.”</span> <em>The Quarterly Journal of Economics</em> 120 (3): 1031–83. <a href="https://EconPapers.repec.org/RePEc:oup:qjecon:v:120:y:2005:i:3:p:1031-1083.">https://EconPapers.repec.org/RePEc:oup:qjecon:v:120:y:2005:i:3:p:1031-1083.</a>
+</div>
+<div id="ref-AngristLavy1999" class="csl-entry" role="listitem">
+Angrist, Joshua D., and Victor Lavy. 1999. <span>“Using Maimonides’ Rule to Estimate the Effect of Class Size on Scholastic Achievement*.”</span> <em>The Quarterly Journal of Economics</em> 114 (2): 533–75. <a href="https://doi.org/10.1162/003355399556061">https://doi.org/10.1162/003355399556061</a>.
+</div>
+<div id="ref-Banerjeeetal2021" class="csl-entry" role="listitem">
+Banerjee, Abhijit, Esther Duflo, and Garima Sharma. 2021. <span>“<span class="nocase">Long-Term Effects of the Targeting the Ultra Poor Program</span>.”</span> <em>American Economic Review: Insights</em> 3 (4): 471–86. <a href="https://doi.org/10.1257/aeri.20200667">https://doi.org/10.1257/aeri.20200667</a>.
+</div>
+<div id="ref-Baranovetal2020" class="csl-entry" role="listitem">
+Baranov, Victoria, Sonia Bhalotra, Pietro Biroli, and Joanna Maselko. 2020. <span>“Maternal Depression, Women’s Empowerment, and Parental Investment: Evidence from a Randomized Controlled Trial.”</span> <em>American Economic Review</em> 110 (3): 824–59. <a href="https://doi.org/10.1257/aer.20180511">https://doi.org/10.1257/aer.20180511</a>.
+</div>
+<div id="ref-Barietal2024" class="csl-entry" role="listitem">
+Bari, Faisal, Kashif Malik, Muhammad Meki, and Simon Quinn. 2024. <span>“Asset-Based Microfinance for Microenterprises: Evidence from Pakistan.”</span> <em>American Economic Review</em> 114 (2): 534–74. <a href="https://doi.org/10.1257/aer.20210169">https://doi.org/10.1257/aer.20210169</a>.
+</div>
+<div id="ref-Bellonietal2014" class="csl-entry" role="listitem">
+Belloni, Alexandre, Victor Chernozhukov, and Christian Hansen. 2014. <span>“High-Dimensional Methods and Inference on Structural and Treatment Effects.”</span> <em>Journal of Economic Perspectives</em> 28 (2): 29–50. <a href="https://doi.org/10.1257/jep.28.2.29">https://doi.org/10.1257/jep.28.2.29</a>.
+</div>
+<div id="ref-BhalotraClarke2019" class="csl-entry" role="listitem">
+Bhalotra, Sonia, and Damian Clarke. 2020. <span>“<span class="nocase">The Twin Instrument: Fertility and Human Capital Investment</span>.”</span> <em>Journal of the European Economic Association</em> 18 (6): 3090–3139. <a href="https://doi.org/10.1093/jeea/jvz058">https://doi.org/10.1093/jeea/jvz058</a>.
+</div>
+<div id="ref-Bhalotraetal2023" class="csl-entry" role="listitem">
+Bhalotra, Sonia, Damian Clarke, Joseph Flavian Gomes, and Atheendar Venkataramani. 2023. <span>“<span class="nocase">Maternal Mortality and Women’s Political Power</span>.”</span> <em>Journal of the European Economic Association</em>, February. <a href="https://doi.org/10.1093/jeea/jvad012">https://doi.org/10.1093/jeea/jvad012</a>.
+</div>
+<div id="ref-Bursztynetal2017" class="csl-entry" role="listitem">
+Bursztyn, Leonardo, Thomas Fujiwara, and Amanda Pallais. 2017. <span>“<span>‘Acting Wife’</span>: Marriage Market Incentives and Labor Market Investments.”</span> <em>American Economic Review</em> 107 (11): 3288–3319. <a href="https://doi.org/10.1257/aer.20170029">https://doi.org/10.1257/aer.20170029</a>.
+</div>
+<div id="ref-CallawayLi2019" class="csl-entry" role="listitem">
+Callaway, Brantly, and Tong Li. 2019. <span>“Quantile Treatment Effects in Difference in Differences Models with Panel Data.”</span> <em>Quantitative Economics</em> 10 (4): 1579–1618. https://doi.org/<a href="https://doi.org/10.3982/QE935">https://doi.org/10.3982/QE935</a>.
+</div>
+<div id="ref-Card1995" class="csl-entry" role="listitem">
+Card, David. 1995. <span>“Using Geographic Variation in College Proximity to Estimate the Return to Schooling.”</span> In <em>Aspects of Labour Market Behavior: Essays in Honour of John Vanderkamp</em>, edited by Linos Christophides, E. K. Grant, and Robert Swidinsky, 201–22. Toronto: University of Toronto Press.
+</div>
+<div id="ref-Carneiroetal2017" class="csl-entry" role="listitem">
+Carneiro, Pedro, Michael Lokshin, and Nithin Umapathi. 2017. <span>“Average and Marginal Returns to Upper Secondary Schooling in Indonesia.”</span> <em>Journal of Applied Econometrics</em> 32 (1): 16–36. https://doi.org/<a href="https://doi.org/10.1002/jae.2523">https://doi.org/10.1002/jae.2523</a>.
+</div>
+<div id="ref-Cattaneoetal2021" class="csl-entry" role="listitem">
+Cattaneo, Matias D., Luke Keele, Rocío Titiunik, and Gonzalo Vazquez-Bare. 2021. <span>“<span class="nocase">Extrapolating Treatment Eﬀects in Multi-Cutoﬀ Regression Discontinuity Designs</span>.”</span> <em>Journal of the American Statistical Association</em> 116 (536): 1941–52.
+</div>
+<div id="ref-CharnessGneezy2009" class="csl-entry" role="listitem">
+Charness, Gary, and Uri Gneezy. 2009. <span>“Incentives to Exercise.”</span> <em>Econometrica</em> 77 (3): 909–31. https://doi.org/<a href="https://doi.org/10.3982/ECTA7416">https://doi.org/10.3982/ECTA7416</a>.
+</div>
+<div id="ref-Chongetal2016" class="csl-entry" role="listitem">
+Chong, Alberto, Isabelle Cohen, Erica Field, Eduardo Nakasone, and Maximo Torero. 2016. <span>“Iron Deficiency and Schooling Attainment in Peru.”</span> <em>American Economic Journal: Applied Economics</em> 8 (4): 222–55. <a href="https://doi.org/10.1257/app.20140494">https://doi.org/10.1257/app.20140494</a>.
+</div>
+<div id="ref-Clarkeetal2026" class="csl-entry" role="listitem">
+Clarke, Damian, Nicolás Lillo Bustos, and Kathya Tapia-Schythe. 2026. <span>“Estimating Intergenerational Returns to Medical Care: New Evidence from at-Risk Newborns.”</span> <em>Journal of Public Economics</em> 256: 105597. https://doi.org/<a href="https://doi.org/10.1016/j.jpubeco.2026.105597">https://doi.org/10.1016/j.jpubeco.2026.105597</a>.
+</div>
+<div id="ref-Clingingsmith2009" class="csl-entry" role="listitem">
+Clingingsmith, David, Asim Ijaz Khwaja, and Michael Kremer. 2009. <span>“<span class="nocase">Estimating the impact of the Hajj: Religion and tolerance in Islam’s global gathering</span>.”</span> <em>The Quarterly Journal of Economics</em> 124: 1133–70.
+</div>
+<div id="ref-DeheijaWahba2002" class="csl-entry" role="listitem">
+Dehejia, Rajeev H., and Sadek Wahba. 2002. <span>“<span>Propensity Score-Matching Methods For Nonexperimental Causal Studies</span>.”</span> <em>The Review of Economics and Statistics</em> 84 (1): 151–61.
+</div>
+<div id="ref-Deryugina2017" class="csl-entry" role="listitem">
+Deryugina, Tatyana. 2017. <span>“The Fiscal Cost of Hurricanes: Disaster Aid Versus Social Insurance.”</span> <em>American Economic Journal: Economic Policy</em> 9 (3): 168–98. <a href="https://doi.org/10.1257/pol.20140296">https://doi.org/10.1257/pol.20140296</a>.
+</div>
+<div id="ref-Dufloetal2024" class="csl-entry" role="listitem">
+Duflo, Annie, Jessica Kiessel, and Adrienne M Lucas. 2024. <span>“Experimental Evidence on Four Policies to Increase Learning at Scale.”</span> <em>The Economic Journal</em> 134 (661): 1985–2008. <a href="https://doi.org/10.1093/ej/ueae003">https://doi.org/10.1093/ej/ueae003</a>.
+</div>
+<div id="ref-Farrell2015" class="csl-entry" role="listitem">
+Farrell, Max H. 2015. <span>“Robust Inference on Average Treatment Effects with Possibly More Covariates Than Observations.”</span> <em>Journal of Econometrics</em> 189 (1): 1–23. https://doi.org/<a href="https://doi.org/10.1016/j.jeconom.2015.06.017">https://doi.org/10.1016/j.jeconom.2015.06.017</a>.
+</div>
+<div id="ref-Finkelsteinetal2012" class="csl-entry" role="listitem">
+Finkelstein, Amy, Sarah Taubman, Bill Wright, Mira Bernstein, Jonathan Gruber, Joseph P. Newhouse, Heidi Allen, Katherine Baicker, and Oregon Health Study Group. 2012. <span>“<span class="nocase">The Oregon Health Insurance Experiment: Evidence from the First Year</span>.”</span> <em>The Quarterly Journal of Economics</em> 127 (3): 1057–1106. <a href="https://doi.org/10.1093/qje/qjs020">https://doi.org/10.1093/qje/qjs020</a>.
+</div>
+<div id="ref-Firpo2007" class="csl-entry" role="listitem">
+Firpo, Sergio. 2007. <span>“Efficient Semiparametric Estimation of Quantile Treatment Effects.”</span> <em>Econometrica</em> 75 (1): 259–76.
+</div>
+<div id="ref-FrolichMelly2013" class="csl-entry" role="listitem">
+Frölich, Markus, and Blaise Melly. 2013. <span>“<span>Unconditional Quantile Treatment Effects Under Endogeneity</span>.”</span> <em>Journal of Business &amp; Economic Statistics</em> 31 (3): 346–57.
+</div>
+<div id="ref-FryerLevitt2013" class="csl-entry" role="listitem">
+Fryer, Jr., Roland G., and Steven D. Levitt. 2013. <span>“Testing for Racial Differences in the Mental Ability of Young Children.”</span> <em>American Economic Review</em> 103 (2): 981–1005. <a href="https://doi.org/10.1257/aer.103.2.981">https://doi.org/10.1257/aer.103.2.981</a>.
+</div>
+<div id="ref-Gallegoetal2024" class="csl-entry" role="listitem">
+Gallego, Francisco A., Cristian Larroulet Philippi, and Andrea Repetto. 2024. <span>“What’s Behind Her Smile? Health, Looks, and Self-Esteem.”</span> <em>American Economic Journal: Applied Economics</em> 16 (2): 359–88. <a href="https://doi.org/10.1257/app.20210248">https://doi.org/10.1257/app.20210248</a>.
+</div>
+<div id="ref-GilchristGlassberg2016" class="csl-entry" role="listitem">
+Gilchrist, Duncan Sheppard, and Emily Glassberg Sands. 2016. <span>“<span class="nocase">Something to Talk About: Social Spillovers in Movie Consumption</span>.”</span> <em>Journal of Political Economy</em> 124 (5): 1339–82. <a href="https://doi.org/10.1086/688177">https://doi.org/10.1086/688177</a>.
+</div>
+<div id="ref-Hansen2015" class="csl-entry" role="listitem">
+Hansen, Benjamin. 2015. <span>“Punishment and Deterrence: Evidence from Drunk Driving.”</span> <em>American Economic Review</em> 105 (4): 1581–1617. <a href="https://doi.org/10.1257/aer.20130189">https://doi.org/10.1257/aer.20130189</a>.
+</div>
+<div id="ref-Holden2016" class="csl-entry" role="listitem">
+Holden, Kristian L. 2016. <span>“Buy the Book? Evidence on the Effect of Textbook Funding on School-Level Achievement.”</span> <em>American Economic Journal: Applied Economics</em> 8 (4): 100–127. <a href="https://doi.org/10.1257/app.20150112">https://doi.org/10.1257/app.20150112</a>.
+</div>
+<div id="ref-Imbensetal2001" class="csl-entry" role="listitem">
+Imbens, Guido W., Donald B. Rubin, and Bruce I. Sacerdote. 2001. <span>“Estimating the Effect of Unearned Income on Labor Earnings, Savings, and Consumption: Evidence from a Survey of Lottery Players.”</span> <em>American Economic Review</em> 91 (4): 778–94. <a href="https://doi.org/10.1257/aer.91.4.778">https://doi.org/10.1257/aer.91.4.778</a>.
+</div>
+<div id="ref-KumarLiang2024" class="csl-entry" role="listitem">
+Kumar, Anil, and Che-Yuan Liang. 2024. <span>“Labor Market Effects of Credit Constraints: Evidence from a Natural Experiment.”</span> <em>American Economic Journal: Economic Policy</em> 16 (3): 1–26. <a href="https://doi.org/10.1257/pol.20200683">https://doi.org/10.1257/pol.20200683</a>.
+</div>
+<div id="ref-Lalonde1986" class="csl-entry" role="listitem">
+LaLonde, Robert J. 1986. <span>“<span class="nocase">Evaluating the Econometric Evaluations of Training Programs with Experimental Data</span>.”</span> <em>The American Economic Review</em> 76 (4): 604–20.
+</div>
+<div id="ref-Landais2015" class="csl-entry" role="listitem">
+Landais, Camille. 2015. <span>“<span class="nocase">Assessing the Welfare Effects of Unemployment Benefits Using the Regression Kink Design</span>.”</span> <em>American Economic Journal: Economic Policy</em> 7 (4): 243–78.
+</div>
+<div id="ref-LochnerMoretti2015" class="csl-entry" role="listitem">
+Lochner, Lance, and Enrico Moretti. 2015. <span>“<span class="nocase">Estimating and Testing Models with Many Treatment Levels and Limited Instruments</span>.”</span> <em>The Review of Economics and Statistics</em> 97 (2): 387–97. <a href="https://ideas.repec.org/a/tpr/restat/v97y2015i2p387-397.html">https://ideas.repec.org/a/tpr/restat/v97y2015i2p387-397.html</a>.
+</div>
+<div id="ref-MacKinnonetal2023" class="csl-entry" role="listitem">
+MacKinnon, James G., Morten Ørregaard Nielsen, and Matthew D. Webb. 2023. <span>“Testing for the Appropriate Level of Clustering in Linear Regression Models.”</span> <em>Journal of Econometrics</em> 235 (2): 2027–56. https://doi.org/<a href="https://doi.org/10.1016/j.jeconom.2023.03.005">https://doi.org/10.1016/j.jeconom.2023.03.005</a>.
+</div>
+<div id="ref-Melguizoetal2016" class="csl-entry" role="listitem">
+Melguizo, Tatiana, Fabio Sanchez, and Tatiana Velasco. 2016. <span>“Credit for Low-Income Students and Access to and Academic Performance in Higher Education in Colombia: A Regression Discontinuity Approach.”</span> <em>World Development</em> 80: 61–77. https://doi.org/<a href="https://doi.org/10.1016/j.worlddev.2015.11.018">https://doi.org/10.1016/j.worlddev.2015.11.018</a>.
+</div>
+<div id="ref-Meyersson2014" class="csl-entry" role="listitem">
+Meyersson, Erik. 2014. <span>“Islamic Rule and the Empowerment of the Poor and Pious.”</span> <em>Econometrica</em> 82 (1): 229–69. https://doi.org/<a href="https://doi.org/10.3982/ECTA9878">https://doi.org/10.3982/ECTA9878</a>.
+</div>
+<div id="ref-MiguelKremer2004" class="csl-entry" role="listitem">
+Miguel, Edward, and Michael Kremer. 2004. <span>“<span class="nocase">Worms: Identifying Impacts on Education and Health in the Presence of Treatment Externalities</span>.”</span> <em>Econometrica</em> 72 (1): 159–217.
+</div>
+<div id="ref-MillimetTchernis2009" class="csl-entry" role="listitem">
+Millimet, Daniel L., and Rusty Tchernis. 2009. <span>“<span class="nocase">On the Specification of Propensity Scores, With Applications to the Analysis of Trade Policies</span>.”</span> <em>Journal of Business &amp; Economic Statistics</em> 27 (3): 397–415. <a href="https://doi.org/10.1198/jbes.2009.06045">https://doi.org/10.1198/jbes.2009.06045</a>.
+</div>
+<div id="ref-MuralidharanPrakash2013" class="csl-entry" role="listitem">
+Muralidharan, Karthik, and Nishith Prakash. 2013. <span>“<span class="nocase">Cycling to School: Increasing Secondary School Enrollment for Girls in India</span>.”</span> NBER Working Papers 19305. National Bureau of Economic Research, Inc. <a href="https://ideas.repec.org/p/nbr/nberwo/19305.html">https://ideas.repec.org/p/nbr/nberwo/19305.html</a>.
+</div>
+<div id="ref-Oreopoulos2011" class="csl-entry" role="listitem">
+Oreopoulos, Philip. 2011. <span>“<span class="nocase">Why Do Skilled Immigrants Struggle in the Labor Market? A Field Experiment with Thirteen Thousand Resumes</span>.”</span> <em>American Economic Journal: Economic Policy</em> 3 (4): 148–71.
+</div>
+<div id="ref-Ozier2011" class="csl-entry" role="listitem">
+Ozier, Owen. 2011. <span>“<span class="nocase">The impact of secondary schooling in Kenya: A regression discontinuity analysis</span>.”</span> Unpublished. University of California at Berkeley.
+</div>
+<div id="ref-PopElechesUruiola2013" class="csl-entry" role="listitem">
+Pop-Eleches, Cristian, and Miguel Urquiola. 2013. <span>“Going to a Better School: Effects and Behavioral Responses.”</span> <em>American Economic Review</em> 103 (4): 1289–1324. <a href="https://doi.org/10.1257/aer.103.4.1289">https://doi.org/10.1257/aer.103.4.1289</a>.
+</div>
+<div id="ref-PorterSerra2020" class="csl-entry" role="listitem">
+Porter, Catherine, and Danila Serra. 2020. <span>“Gender Differences in the Choice of Major: The Importance of Female Role Models.”</span> <em>American Economic Journal: Applied Economics</em> 12 (3): 226–54. <a href="https://doi.org/10.1257/app.20180426">https://doi.org/10.1257/app.20180426</a>.
+</div>
+<div id="ref-RianoValencia2024" class="csl-entry" role="listitem">
+Riaño, Juan Felipe, and Felipe Valencia Caicedo. 2024. <span>“Collateral Damage: The Legacy of the Secret War in Laos.”</span> <em>The Economic Journal</em> 134 (661): 2101–40. <a href="https://doi.org/10.1093/ej/ueae004">https://doi.org/10.1093/ej/ueae004</a>.
+</div>
+<div id="ref-Riley2024" class="csl-entry" role="listitem">
+Riley, Emma. 2024. <span>“<span class="nocase">Resisting Social Pressure in the Household Using Mobile Money: Experimental Evidence on Microenterprise Investment in Uganda</span>.”</span> <em>American Economic Review</em> 114 (5): 1415–47. <a href="https://doi.org/10.1257/aer.20220717">https://doi.org/10.1257/aer.20220717</a>.
+</div>
+<div id="ref-StevensonWolfers2006" class="csl-entry" role="listitem">
+Stevenson, Betsey, and Justin Wolfers. 2006. <span>“Bargaining in the Shadow of the Law: Divorce Laws and Family Distress.”</span> <em>The Quarterly Journal of Economics</em> 121 (1): 267–88. <a href="http://www.jstor.org/stable/25098790">http://www.jstor.org/stable/25098790</a>.
+</div>
+<div id="ref-Thornton2008" class="csl-entry" role="listitem">
+Thornton, Rebecca L. 2008. <span>“The Demand for, and Impact of, Learning HIV Status.”</span> <em>American Economic Review</em> 98 (5): 1829–63. <a href="https://doi.org/10.1257/aer.98.5.1829">https://doi.org/10.1257/aer.98.5.1829</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

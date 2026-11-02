@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 8 – Applied Microeconometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-808c031e01507d627300357d88007fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Applied Microeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./about.html">
+ <span class="dropdown-text">About this book</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data.html">
+ <span class="dropdown-text">Downloading the Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-python" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Python</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-python">    
+        <li>
+    <a class="dropdown-item" href="./Python.html">
+ <span class="dropdown-text">Following Along with Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionPython.html">
+ <span class="dropdown-text">An Introduction to Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Python.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Python.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Python.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Python.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Python.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Python.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Python.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Python.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">Following Along with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionR.html">
+ <span class="dropdown-text">An Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2R.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3R.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4R.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5R.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6R.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7R.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8R.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9R.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-stata" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Stata</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-stata">    
+        <li>
+    <a class="dropdown-item" href="./Stata.html">
+ <span class="dropdown-text">Following Along with Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./introStata.html">
+ <span class="dropdown-text">An Introduction to Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Stata.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Stata.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Stata.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Stata.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Stata.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Stata.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Stata.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Stata.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter8Python.html">Chapter 8</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Following Along with Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IntroductionPython.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">An Introduction to Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter2Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter4Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter5Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter6Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter7Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter8Python.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 9</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#code-call-out-8.1-quantile-effects-with-an-exogenous-treatment" id="toc-code-call-out-8.1-quantile-effects-with-an-exogenous-treatment" class="nav-link active" data-scroll-target="#code-call-out-8.1-quantile-effects-with-an-exogenous-treatment">Code Call-out 8.1: Quantile Effects with an Exogenous Treatment</a>
+  <ul class="collapse">
+  <li><a href="#estimating-qtes-with-experimental-interventions" id="toc-estimating-qtes-with-experimental-interventions" class="nav-link" data-scroll-target="#estimating-qtes-with-experimental-interventions">Estimating QTEs with Experimental Interventions</a></li>
+  <li><a href="#estimating-qtes-and-qtts-with-non-experimental-interventions" id="toc-estimating-qtes-and-qtts-with-non-experimental-interventions" class="nav-link" data-scroll-target="#estimating-qtes-and-qtts-with-non-experimental-interventions">Estimating QTEs and QTTs with non-Experimental Interventions</a>
+  <ul class="collapse">
+  <li><a href="#conditional-qtes" id="toc-conditional-qtes" class="nav-link" data-scroll-target="#conditional-qtes">Conditional QTEs</a></li>
+  <li><a href="#unconditional-qtes" id="toc-unconditional-qtes" class="nav-link" data-scroll-target="#unconditional-qtes">Unconditional QTEs</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#code-call-out-8.2-exploring-quantile-treatment-effects-in-a-regression-discontinuity-design" id="toc-code-call-out-8.2-exploring-quantile-treatment-effects-in-a-regression-discontinuity-design" class="nav-link" data-scroll-target="#code-call-out-8.2-exploring-quantile-treatment-effects-in-a-regression-discontinuity-design">Code Call-out 8.2: Exploring Quantile Treatment Effects in a Regression Discontinuity Design</a></li>
+  <li><a href="#code-call-out-8.3-marginal-treatment-effects" id="toc-code-call-out-8.3-marginal-treatment-effects" class="nav-link" data-scroll-target="#code-call-out-8.3-marginal-treatment-effects">Code Call-out 8.3: Marginal Treatment Effects</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 8</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="code-call-out-8.1-quantile-effects-with-an-exogenous-treatment" class="level1">
+<h1>Code Call-out 8.1: Quantile Effects with an Exogenous Treatment</h1>
+<p><span class="note-under-construction"> This Code Call Out is under construction. </span></p>
+<p>In this code call-out we will explore some results documented in <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>, which require us to return once again to the <span class="citation" data-cites="Lalonde1986">LaLonde (<a href="#ref-Lalonde1986" role="doc-biblioref">1986</a>)</span> data we have discussed at length in Chapter 2. However, here rather than focussing on average treatment effects on the treated, we will focus on a range of quantile treatment effects (QTEs).</p>
+<section id="estimating-qtes-with-experimental-interventions" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-qtes-with-experimental-interventions">Estimating QTEs with Experimental Interventions</h2>
+<p>We will begin by exploring QTEs when treatment assignment is random, and does not require the incorporation of any controls. In these cases, at least for the estimates themselves, it is sufficient to simply directly calculate quantiles among the treated and control units. Let’s first load these data, and ensure that we know which our outcome and treatment variables are:</p>
+<div id="15cb1344" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_stata(<span class="st">"data/Dehejia_Wahba_2002.dta"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'data_id'</span>] <span class="op">==</span> <span class="st">"Dehejia-Wahba Sample"</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.describe())</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'treat'</span>].value_counts())</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>treated <span class="op">=</span> df[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>control <span class="op">=</span> df[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(treated[<span class="st">'re78'</span>], label<span class="op">=</span><span class="st">'Treated'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(control[<span class="st">'re78'</span>], label<span class="op">=</span><span class="st">'Control'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Kernel Density of re78 by Treatment'</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'re78'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"figures/Density_re78.png"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            treat         age   education       black   hispanic     married  \
+count  445.000000  445.000000  445.000000  445.000000  445.00000  445.000000   
+mean     0.415730   25.370787   10.195505    0.833708    0.08764    0.168539   
+std      0.493402    7.100282    1.792119    0.372762    0.28309    0.374766   
+min      0.000000   17.000000    3.000000    0.000000    0.00000    0.000000   
+25%      0.000000   20.000000    9.000000    1.000000    0.00000    0.000000   
+50%      0.000000   24.000000   10.000000    1.000000    0.00000    0.000000   
+75%      1.000000   28.000000   11.000000    1.000000    0.00000    0.000000   
+max      1.000000   55.000000   16.000000    1.000000    1.00000    1.000000   
+
+         nodegree          re74          re75          re78  
+count  445.000000    445.000000    445.000000    445.000000  
+mean     0.782022   2102.265381   1377.138306   5300.764160  
+std      0.413337   5363.582520   3150.960693   6631.491699  
+min      0.000000      0.000000      0.000000      0.000000  
+25%      1.000000      0.000000      0.000000      0.000000  
+50%      1.000000      0.000000      0.000000   3701.812012  
+75%      1.000000    824.388916   1220.836060   8124.714844  
+max      1.000000  39570.679688  25142.240234  60307.929688  
+treat
+0.0    260
+1.0    185
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>Now, with these data, let’s calculate some QTE. In particular, let’s calculate the quantity <span class="math inline">\(\tau_{QTE(0.8)}\)</span>, that is the effect at quantile 80. We can do this just by calculating the quantiles in each group:</p>
+<div id="fc9502ec" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_stata(<span class="st">"data/Dehejia_Wahba_2002.dta"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'data_id'</span>] <span class="op">==</span> <span class="st">"Dehejia-Wahba Sample"</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>q80_treated <span class="op">=</span> df[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>][<span class="st">'re78'</span>].quantile(<span class="fl">0.8</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>q80_control <span class="op">=</span> df[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">0</span>][<span class="st">'re78'</span>].quantile(<span class="fl">0.8</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"QTE(0.8) ="</span>, q80_treated <span class="op">-</span> q80_control)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>QTE(0.8) = 2273.0167968749993</code></pre>
+</div>
+</div>
+<p>Of course, we are not limited to doing this at the 80th quantile. We can inspect effects across the entire distribution by plotting cdfs for each group, and subtracting the control cdf from the treated cdf:</p>
+<div id="a0ef33ea" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> q <span class="kw">in</span> quantiles:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    qt <span class="op">=</span> df[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>][<span class="st">'re78'</span>].quantile(q)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    qc <span class="op">=</span> df[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">0</span>][<span class="st">'re78'</span>].quantile(q)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"QTE at quantile </span><span class="sc">{</span>q<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>qt <span class="op">-</span> qc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># CDF empírica</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>df_sorted <span class="op">=</span> df.sort_values(<span class="st">'re78'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>df_sorted[<span class="st">'cdf_treat'</span>] <span class="op">=</span> df_sorted[df_sorted[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>][<span class="st">'re78'</span>].rank(method<span class="op">=</span><span class="st">'average'</span>, pct<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>df_sorted[<span class="st">'cdf_control'</span>] <span class="op">=</span> df_sorted[df_sorted[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">0</span>][<span class="st">'re78'</span>].rank(method<span class="op">=</span><span class="st">'average'</span>, pct<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.plot(df_sorted[df_sorted[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>][<span class="st">'re78'</span>], df_sorted[df_sorted[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>][<span class="st">'cdf_treat'</span>], label<span class="op">=</span><span class="st">'Treated'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.plot(df_sorted[df_sorted[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">0</span>][<span class="st">'re78'</span>], df_sorted[df_sorted[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">0</span>][<span class="st">'cdf_control'</span>], label<span class="op">=</span><span class="st">'Control'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Empirical CDFs of re78 by Treatment'</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'re78'</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Cumulative Probability'</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"figures/EmpiricalCDFs.png"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>QTE at quantile 0.25 = 485.22979736328125
+QTE at quantile 0.5 = 1093.5135498046875
+QTE at quantile 0.75 = 2354.5789794921875</code></pre>
+</div>
+</div>
+<p>However, note that equivalently we can estimate these QTEs, along with their standard error, using quantile regression. Let’s confirm with ourselves that we can replicate the quantity <span class="math inline">\(\tau_{QTE(0.8)}\)</span> by estimating a quantile regression.</p>
+<div id="8c894681" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_stata(<span class="st">"data/Dehejia_Wahba_2002.dta"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'data_id'</span>] <span class="op">==</span> <span class="st">"Dehejia-Wahba Sample"</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>mod <span class="op">=</span> smf.quantreg(<span class="st">'re78 ~ treat'</span>, df)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> mod.fit(q<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         QuantReg Regression Results                          
+==============================================================================
+Dep. Variable:                   re78   Pseudo R-squared:             0.009015
+Model:                       QuantReg   Bandwidth:                       3014.
+Method:                 Least Squares   Sparsity:                    2.718e+04
+Date:                Thu, 14 May 2026   No. Observations:                  445
+Time:                        01:11:46   Df Residuals:                      443
+                                        Df Model:                            1
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept   8469.4932    674.214     12.562      0.000    7144.437    9794.549
+treat       2278.0559   1045.664      2.179      0.030     222.977    4333.135
+==============================================================================</code></pre>
+</div>
+</div>
+<p>As above, we can estimate this across a range of quantiles, giving a number of QTEs, and their confidence intervals:</p>
+<div id="bcd134dd" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>qte_results <span class="op">=</span> []</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> q <span class="kw">in</span> quantiles:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> smf.quantreg(<span class="st">'re78 ~ treat'</span>, df).fit(q<span class="op">=</span>q)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    coef <span class="op">=</span> res.params[<span class="st">'treat'</span>]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> res.bse[<span class="st">'treat'</span>]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    qte_results.append({</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'quantile'</span>: q,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'qte'</span>: coef,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'se'</span>: se,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'qte_upper'</span>: coef <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>se,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'qte_lower'</span>: coef <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>se</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>qte_df <span class="op">=</span> pd.DataFrame(qte_results)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>plt.plot(qte_df[<span class="st">'quantile'</span>], qte_df[<span class="st">'qte'</span>], label<span class="op">=</span><span class="st">'QTE'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.plot(qte_df[<span class="st">'quantile'</span>], qte_df[<span class="st">'qte_upper'</span>], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">'QTE + 2 s.e.'</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>plt.plot(qte_df[<span class="st">'quantile'</span>], qte_df[<span class="st">'qte_lower'</span>], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">'QTE - 2 s.e.'</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Quantile"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Earnings in 1978 (in thousands)"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"QUANTILE TREATMENT EFFECTS"</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"figures/QTE.png"</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/dcc213/venvs/microecon/lib/python3.10/site-packages/statsmodels/regression/quantile_regression.py:191: IterationLimitWarning:
+
+Maximum number of iterations (1000) reached.
+</code></pre>
+</div>
+</div>
+</section>
+<section id="estimating-qtes-and-qtts-with-non-experimental-interventions" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-qtes-and-qtts-with-non-experimental-interventions">Estimating QTEs and QTTs with non-Experimental Interventions</h2>
+<p>In cases where we instead believe that conditional unconfoundedness holds, there are two potential ways forward. To look at this, we will use the same <span class="citation" data-cites="Lalonde1986">LaLonde (<a href="#ref-Lalonde1986" role="doc-biblioref">1986</a>)</span> data, but now with the experimental treatment sample, and the non-experimental subsample as potential control units. We will control for the same factors we have discussed in code call-outs in Chapter 2. Let’s being by setting up these data:</p>
+<div id="04d3d5e9" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_stata(<span class="st">"data/Dehejia_Wahba_2002.dta"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Codificar data_id</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'id'</span>] <span class="op">=</span> df[<span class="st">'data_id'</span>].astype(<span class="st">'category'</span>).cat.codes</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'nsw'</span>] <span class="op">=</span> df[<span class="st">'id'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">==</span> <span class="dv">2</span> <span class="cf">else</span> np.nan)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'cps'</span>] <span class="op">=</span> df[<span class="st">'id'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="dv">0</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">'cps'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">'cps'</span>] <span class="op">==</span> <span class="dv">1</span>) <span class="op">|</span> (df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>)]</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.crosstab(df[<span class="st">'cps'</span>], df[<span class="st">'treat'</span>]))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.crosstab(df[<span class="st">'nsw'</span>], df[<span class="st">'treat'</span>]))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'treat'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>treat  0.0  1.0
+cps            
+1      260  185
+Empty DataFrame
+Columns: []
+Index: []
+treat
+0.0    260
+1.0    185
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<section id="conditional-qtes" class="level3">
+<h3 class="anchored" data-anchor-id="conditional-qtes">Conditional QTEs</h3>
+<p>A first, simpler, case exists if we are happy to report conditional QTEs. Let’s begin by exploring conditional QTEs which can be estimated by quantile regression with covariates:</p>
+<div id="dca43c90" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_stata(<span class="st">"data/Dehejia_Wahba_2002.dta"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'id'</span>] <span class="op">=</span> df[<span class="st">'data_id'</span>].astype(<span class="st">'category'</span>).cat.codes</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'nsw'</span>] <span class="op">=</span> df[<span class="st">'id'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">==</span> <span class="dv">2</span> <span class="cf">else</span> np.nan)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'cps'</span>] <span class="op">=</span> df[<span class="st">'id'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="dv">0</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">'cps'</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">'cps'</span>] <span class="op">==</span> <span class="dv">1</span>) <span class="op">|</span> (df[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">1</span>)]</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>covariates <span class="op">=</span> [<span class="st">'treat'</span>, <span class="st">'age'</span>, <span class="st">'education'</span>, <span class="st">'black'</span>, <span class="st">'hispanic'</span>, <span class="st">'married'</span>, <span class="st">'re74'</span>, <span class="st">'re75'</span>]</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'re78 ~ '</span> <span class="op">+</span> <span class="st">' + '</span>.join(covariates)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>]</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>cqte_results <span class="op">=</span> []</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> q <span class="kw">in</span> quantiles:</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.quantreg(formula, df)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> model.fit(q<span class="op">=</span>q)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    treat_coef <span class="op">=</span> res.params[<span class="st">'treat'</span>]</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    treat_se <span class="op">=</span> res.bse[<span class="st">'treat'</span>]</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    cqte_results.append({</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">'quantile'</span>: q,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">'qte'</span>: treat_coef,</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">'se'</span>: treat_se,</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">'upper'</span>: treat_coef <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> treat_se,</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">'lower'</span>: treat_coef <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> treat_se</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>cqte_df <span class="op">=</span> pd.DataFrame(cqte_results)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>plt.plot(cqte_df[<span class="st">'quantile'</span>], cqte_df[<span class="st">'qte'</span>], label<span class="op">=</span><span class="st">'CQTE'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>plt.plot(cqte_df[<span class="st">'quantile'</span>], cqte_df[<span class="st">'upper'</span>], <span class="st">'--'</span>, color<span class="op">=</span><span class="st">'gray'</span>, label<span class="op">=</span><span class="st">'CQTE + 2 s.e.'</span>)</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>plt.plot(cqte_df[<span class="st">'quantile'</span>], cqte_df[<span class="st">'lower'</span>], <span class="st">'--'</span>, color<span class="op">=</span><span class="st">'gray'</span>, label<span class="op">=</span><span class="st">'CQTE - 2 s.e.'</span>)</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Conditional Quantile Treatment Effects"</span>)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Quantile"</span>)</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Earnings in 1978 (in thousands)"</span>)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"figures/CQTE.png"</span>)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/dcc213/venvs/microecon/lib/python3.10/site-packages/statsmodels/regression/quantile_regression.py:191: IterationLimitWarning:
+
+Maximum number of iterations (1000) reached.
+
+/home/dcc213/venvs/microecon/lib/python3.10/site-packages/statsmodels/regression/quantile_regression.py:191: IterationLimitWarning:
+
+Maximum number of iterations (1000) reached.
+
+/home/dcc213/venvs/microecon/lib/python3.10/site-packages/statsmodels/regression/quantile_regression.py:191: IterationLimitWarning:
+
+Maximum number of iterations (1000) reached.
+</code></pre>
+</div>
+</div>
+<p>This can also be estimated using the user-written <code>ivqte</code> package of <span class="citation" data-cites="FrolichMelly2010">Frölich and Melly (<a href="#ref-FrolichMelly2010" role="doc-biblioref">2010</a>)</span>, which similarly permits for heteroscedastic standard errors, and so forth.</p>
+</section>
+<section id="unconditional-qtes" class="level3">
+<h3 class="anchored" data-anchor-id="unconditional-qtes">Unconditional QTEs</h3>
+<p>Finally, let’s see how we can fully calculate unconditional QTEs and QTTs. Below, we implement <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>’s methods and estimate both QTEs and QTTs. We do this using the <code>ivqte</code> package, which implements these weighting-based estimators, along with their standard errors:</p>
+<div id="2afd1f2d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gaussian_kde</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Python does not have package similar to ivqte but we aproximate using RIF regressions</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_rif(y, tau):</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    q_tau <span class="op">=</span> np.quantile(y, tau)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    f_qtau <span class="op">=</span> gaussian_kde(y)(q_tau)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    rif <span class="op">=</span> q_tau <span class="op">+</span> ((y <span class="op">&lt;=</span> q_tau).astype(<span class="bu">int</span>) <span class="op">-</span> tau) <span class="op">/</span> f_qtau</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rif</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>df_rif <span class="op">=</span> df.copy()</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> [<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>]</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>uncond_qte_results <span class="op">=</span> []</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df_rif[[<span class="st">'treat'</span>, <span class="st">'age'</span>, <span class="st">'education'</span>, <span class="st">'black'</span>, <span class="st">'hispanic'</span>, <span class="st">'married'</span>, <span class="st">'re74'</span>, <span class="st">'re75'</span>]]</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(X, drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tau <span class="kw">in</span> quantiles:</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    df_rif[<span class="st">'rif'</span>] <span class="op">=</span> compute_rif(df_rif[<span class="st">'re78'</span>], tau)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> LinearRegression().fit(X, df_rif[<span class="st">'rif'</span>])</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    coef <span class="op">=</span> model.coef_[<span class="dv">0</span>]  <span class="co"># Coef. de 'treat'</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    uncond_qte_results.append({</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">'quantile'</span>: tau,</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">'qte'</span>: coef</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>uqte_df <span class="op">=</span> pd.DataFrame(uncond_qte_results)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(uqte_df)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Useful to refer to Firpo (2007) Econometrica paper.  In particular, supplement is important</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.econometricsociety.org/publications/econometrica/2007/01/01/efficient-semiparametric-estimation-quantile-treatment-effects/supp/ECTA5407SUPP_0.pdf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   quantile          qte
+0      0.25 -1284.099854
+1      0.50 -1113.982178
+2      0.75 -2139.409668
+3      0.90 -2718.320312</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="code-call-out-8.2-exploring-quantile-treatment-effects-in-a-regression-discontinuity-design" class="level1">
+<h1>Code Call-out 8.2: Exploring Quantile Treatment Effects in a Regression Discontinuity Design</h1>
+<p><span class="note-under-construction"> This Code Call Out is under construction [Example available in Stata]. </span></p>
+</section>
+<section id="code-call-out-8.3-marginal-treatment-effects" class="level1">
+<h1>Code Call-out 8.3: Marginal Treatment Effects</h1>
+<p><span class="note-under-construction"> This Code Call Out is under construction. </span></p>
+<p>To understand the estimation of Marginal Treatment Effect (MTE) we will be based on the study of <span class="citation" data-cites="Carneiroetal2017">Carneiro, Lokshin, and Umapathi (<a href="#ref-Carneiroetal2017" role="doc-biblioref">2017</a>)</span>, which examines the returns to upper secondary schooling and how these returns vary across individuals with different likelihoods of enrolling.</p>
+<p>The authors analysis relies on a subsample from the 2000 wave of the Indonesia Family Life Survey (IFLS). This subsample focus on men aged 25–60 who are employed and report non-missing information on wages and schooling. The resulting sample consists of 2,608 working-age males. Similarly, they classify schooling into two groups: completed lower secondary or less, and attended upper secondary or higher.</p>
+<p>The control variables include age dummies, parental education indicators (including a category for missing values), an indicator for living in a village at age 12, province fixed effects, a rural residence indicator, and the distance from the community head’s office to the nearest health post. The instrument for schooling is the distance from the community head’s office to the closest secondary school.</p>
+<p>We begin by loading the dataset and constructing the <code>data_sample</code>. For this, we define the set of covariates used in the outcome equation <code>X</code>, drop observations with missing values in the outcome, regressors, and selection variables.</p>
+<div id="5fb1ea07" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_stata(<span class="st">"data/Carneiro_et_al_2017.dta"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age"</span>, <span class="st">"age2"</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r_protest"</span>, <span class="st">"r_cathol"</span>, <span class="st">"r_other"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"elem_f"</span>, <span class="st">"jsec_f"</span>, <span class="st">"edumiss_f"</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"elem_m"</span>, <span class="st">"jsec_m"</span>, <span class="st">"edumiss_m"</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rural"</span>, <span class="st">"kmsd"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"prov_NSUM"</span>, <span class="st">"prov_WSUM"</span>, <span class="st">"prov_SSUM"</span>, <span class="st">"prov_LAMP"</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"prov_JAKA"</span>, <span class="st">"prov_CJAV"</span>, <span class="st">"prov_YOGI"</span>, <span class="st">"prov_EJAV"</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"prov_BALI"</span>, <span class="st">"prov_WNUSA"</span>, <span class="st">"prov_SKALI"</span>, <span class="st">"prov_SSUL"</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>INT_vars <span class="op">=</span> [v <span class="cf">for</span> v <span class="kw">in</span> data.columns <span class="cf">if</span> v.startswith(<span class="st">"INT_"</span>)]</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>vars_all <span class="op">=</span> [<span class="st">"learnhr00"</span>, <span class="st">"dschool"</span>, <span class="st">"kmsmp"</span>] <span class="op">+</span> X <span class="op">+</span> INT_vars</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"touse"</span>] <span class="op">=</span> data[vars_all].notna().<span class="bu">all</span>(axis<span class="op">=</span><span class="dv">1</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>data_sample <span class="op">=</span> data.loc[data[<span class="st">"touse"</span>] <span class="op">==</span> <span class="dv">1</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_780957/1905630562.py:24: PerformanceWarning:
+
+DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+</code></pre>
+</div>
+</div>
+<p>We now estimate the propensity score using a logit model where the binary treatment indicator <code>dschool</code> is regressed on the full set of covariates included in the selection equation. Specifically, the specification includes the distance to the nearest secondary school (<code>kmsmp</code>), all interaction terms of covariates with the instrument (<code>INT_*</code>), and the baseline set of individual and household characteristics contained in the vector <code>X</code> (age and age squared, parental education indicators, religious affiliation, rural status, distance to the closest health post, and province fixed effects).</p>
+<div id="ec4ee2e1" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>model_vars <span class="op">=</span> [<span class="st">"kmsmp"</span>] <span class="op">+</span> INT_vars <span class="op">+</span> X</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data_sample[<span class="st">"dschool"</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Xmat <span class="op">=</span> data_sample[model_vars]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Xmat <span class="op">=</span> sm.add_constant(Xmat)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>logit_ps <span class="op">=</span> sm.Logit(y, Xmat).fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>data_sample[<span class="st">"ps_manual"</span>] <span class="op">=</span> logit_ps.predict(Xmat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Because the MTE can only be identified over the support of P, it is necessary to inspect the distribution of P. The following figure presents the predicted propensity score distributions for those who attend upper secondary school and those who do not.</p>
+<div id="a59c8de4" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>psvar <span class="op">=</span> <span class="st">"ps_manual"</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Subsets ---</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>df0 <span class="op">=</span> data_sample.loc[(data_sample[<span class="st">"dschool"</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (data_sample[psvar].notna())]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> data_sample.loc[(data_sample[<span class="st">"dschool"</span>] <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (data_sample[psvar].notna())]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Panel setup ---</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Panel 1: dschool == 0 ---</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>sns.histplot(</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>df0,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>psvar,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    bins<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    stat<span class="op">=</span><span class="st">"probability"</span>,        <span class="co"># ≈ fraction in Stata</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"grey"</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>axes[<span class="dv">0</span>]</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylim(<span class="dv">0</span>, <span class="fl">0.10</span>)</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="fl">1.1</span>, <span class="fl">0.2</span>))</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"less than upper secondary"</span>)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">""</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Panel 2: dschool == 1 ---</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>sns.histplot(</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>df1,</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>psvar,</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>    bins<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    stat<span class="op">=</span><span class="st">"probability"</span>,        <span class="co"># ≈ fraction</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">"grey"</span>,</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>axes[<span class="dv">1</span>]</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylim(<span class="dv">0</span>, <span class="fl">0.10</span>)</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xticks(np.arange(<span class="dv">0</span>, <span class="fl">1.1</span>, <span class="fl">0.2</span>))</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"upper secondary"</span>)</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">""</span>)</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Title ---</span></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Propensity score by treatment status"</span>, fontsize<span class="op">=</span><span class="dv">14</span>, color<span class="op">=</span><span class="st">"navy"</span>)</span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter8Python_files/figure-html/cell-12-output-1.png" width="1142" height="381" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To further assess the support conditions, it is useful to examine not only the overall distribution of the propensity score, but also how this distribution varies across individuals with different observable characteristics.</p>
+<p>“If all we are willing to assume is that (<span class="math inline">\(U_0\)</span>, <span class="math inline">\(U_1\)</span>,V) is independent of Z given X, then it is only possible to estimate the MTE over the support of P conditional on X. Figure 2 plots f(P|X), the density of P given X.” (AERHeckman, 2011)</p>
+<p>We begin by constructing the gain index <span class="math inline">\(X(\delta_1 - \delta_0)\)</span>. To do this, we estimate separate outcome equations for individuals with and without upper secondary schooling, obtain the coefficient vectors <span class="math inline">\(\hat{\delta}_1\)</span> and <span class="math inline">\(\hat{\delta}_0\)</span>, and take their difference. Multiplying this difference by each individual’s covariates yields the index <span class="math inline">\(X(\hat{\delta}_1 - \hat{\delta}_0)\)</span>, which summarizes the observable component of the return to schooling.</p>
+<div id="b31476bf" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> patsy</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>formula_outcome <span class="op">=</span> <span class="st">"learnhr00 ~ "</span> <span class="op">+</span> <span class="st">" + "</span>.join(X)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>fit1 <span class="op">=</span> sm.OLS.from_formula(formula_outcome, data<span class="op">=</span>data_sample[data_sample[<span class="st">"dschool"</span>] <span class="op">==</span> <span class="dv">1</span>]).fit()</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>delta1_hat <span class="op">=</span> fit1.params</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>fit0 <span class="op">=</span> sm.OLS.from_formula(formula_outcome, data<span class="op">=</span>data_sample[data_sample[<span class="st">"dschool"</span>] <span class="op">==</span> <span class="dv">0</span>]).fit()</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>delta0_hat <span class="op">=</span> fit0.params</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>delta_diff <span class="op">=</span> delta1_hat <span class="op">-</span> delta0_hat</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>y, X_mat <span class="op">=</span> patsy.dmatrices(formula_outcome, data_sample, return_type<span class="op">=</span><span class="st">"dataframe"</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>data_sample[<span class="st">"index_X"</span>] <span class="op">=</span> X_mat.dot(delta_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, we estimate a smooth joint density <span class="math inline">\(f(X, P)\)</span> using using a bivariate kernel density estimator <code>gaussian_kde</code>. Then, for each value of <span class="math inline">\(X\)</span> (each row of the matrix), we normalize the density values over <span class="math inline">\(P\)</span> so that they represent the conditional density of <span class="math inline">\(P\)</span> given <span class="math inline">\(X\)</span>, i.e.&nbsp;<span class="math inline">\(f(P \mid X)\)</span>.</p>
+<div id="3a482216" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gaussian_kde</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>x_idx <span class="op">=</span> data_sample[<span class="st">"index_X"</span>].to_numpy()</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p_ps  <span class="op">=</span> data_sample[<span class="st">"ps_manual"</span>].to_numpy()</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> np.vstack([x_idx, p_ps])          </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>kde <span class="op">=</span> gaussian_kde(values)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>n_grid <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>x_grid <span class="op">=</span> np.linspace(x_idx.<span class="bu">min</span>(), x_idx.<span class="bu">max</span>(), n_grid)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>p_grid <span class="op">=</span> np.linspace(<span class="fl">0.0</span>, <span class="fl">1.0</span>, n_grid)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>Xg, Pg <span class="op">=</span> np.meshgrid(x_grid, p_grid)      </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>positions <span class="op">=</span> np.vstack([Xg.ravel(), Pg.ravel()])</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> kde(positions).reshape(Xg.shape)       </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>z_joint <span class="op">=</span> Z.T                             </span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>row_sums <span class="op">=</span> z_joint.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>row_sums[row_sums <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> np.nan          </span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>z_cond <span class="op">=</span> z_joint <span class="op">/</span> row_sums    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Figures</p>
+<div id="6b8e9b8e" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>[</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        go.Surface(</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span>x_grid,        </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>            y<span class="op">=</span>p_grid,        </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>            z<span class="op">=</span>z_cond.T      </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Support of P conditional on X index"</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    scene<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        xaxis_title<span class="op">=</span><span class="st">"X(δ1 - δ0) index"</span>,</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        yaxis_title<span class="op">=</span><span class="st">"P (propensity score)"</span>,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        zaxis_title<span class="op">=</span><span class="st">"f(P | X)"</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+        <script type="text/javascript">
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        </script>
+        <script type="module">import "https://cdn.plot.ly/plotly-3.1.0.min"</script>
+        
+</div>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.0.min.js" integrity="sha256-Ei4740bWZhaUTQuD6q9yQlgVCMPBz6CZWhevDYPv93A=" crossorigin="anonymous"></script>                <div id="69122bda-9bbe-4b86-8684-0041ae5a59b9" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("69122bda-9bbe-4b86-8684-0041ae5a59b9")) {                    Plotly.newPlot(                        "69122bda-9bbe-4b86-8684-0041ae5a59b9",                        [{"x":{"dtype":"f8","bdata":"O3i8FPwF47+aGvVUARnhv\u002fJ5WyoNWN6\u002fsL7Mqhd+2r9uAz4rIqTWvytIr6ssytK\u002f0hlBWG7gzb9OoyNZgyzGv5RZDLQw8by\u002fENmia7USq78ACJiGtOd9P4htpEZRRrE\u002fSK1vohNXwD\u002fMI42h\u002fgrIP1CaqqDpvs8\u002fagjkT2q50z+sw3LPX5PXP+5+AU9Vbds\u002fMjqQzkpH3z+5eg8noJDhP1vY1uaafeM\u002f+zWeppVq5T+dk2VmkFfnPz3xLCaLROk\u002f30705YUx6z9\u002frLulgB7tPyEKg2V7C+8\u002f4DOlEjt88D+y4ohyuHLxP4KRbNI1afI\u002fUkBQMrNf8z8i7zOSMFb0P\u002fSdF\u002fKtTPU\u002fxEz7UStD9j+U+96xqDn3P2SqwhEmMPg\u002fNlmmcaMm+T8GCIrRIB36P9a2bTGeE\u002fs\u002fpmVRkRsK\u002fD94FDXxmAD9P0jDGFEW9\u002f0\u002fGHL8sJPt\u002fj\u002foIOAQEeT\u002fP93nYThHbQBARb9T6IXoAECtlkWYxGMBQBVuN0gD3wFAfkUp+EFaAkDmHBuogNUCQA=="},"y":{"dtype":"f8","bdata":"AAAAAAAAAAA5BS+n4OWUPzkFL6fg5aQ\u002f1ofG+tBYrz85BS+n4OW0P4fG+tBYH7o\u002f1ofG+tBYvz+SJEmSJEnCPzkFL6fg5cQ\u002f4OUUvJyCxz+HxvrQWB\u002fKPy6n4OUUvMw\u002f1ofG+tBYzz8+NNaHxvrQP5IkSZIkSdI\u002f5RS8nIKX0z85BS+n4OXUP431obE+NNY\u002f4OUUvJyC1z801ofG+tDYP4fG+tBYH9o\u002f27Zt27Zt2z8up+DlFLzcP4KXU\u002fByCt4\u002f1ofG+tBY3z8VvJyCl1PgPz401ofG+uA\u002faKwPjfWh4T+SJEmSJEniP7ycgpdT8OI\u002f5RS8nIKX4z8PjfWhsT7kPzkFL6fg5eQ\u002fY31orA+N5T+N9aGxPjTmP7Zt27Zt2+Y\u002f4OUUvJyC5z8KXk7ByynoPzTWh8b60Og\u002fXU7Byyl46T+HxvrQWB\u002fqP7E+NNaHxuo\u002f27Zt27Zt6z8FL6fg5RTsPy6n4OUUvOw\u002fWB8a60Nj7T+Cl1PwcgruP6wPjfWhse4\u002f1ofG+tBY7z8AAAAAAADwPw=="},"z":{"dtype":"f8","bdata":"pnQKay\u002fMnz4Rt0pPCEm4Pm4wgzWAhNg+4ahMwAV89z6r3tARYawSPx4xtoZA6yc\u002fm0EUAUNUOD9UCyAMXMdDP1brsPrXoko\u002f24L7rgJmTz8GkLyG7iVRP\u002fqR+VPOH1I\u002fkuU7KjkQUz8bd2Zc6GNUPzxYwa0Hc1Y\u002feLqBPY1bWT+b5EXmKjJdP9CqEnyRLWE\u002fxF52rwLGZD8qEMxTTLNpP1LoYuq+728\u002f\u002fyyUljdncz9Fz7nTA4d2PzxJONNj0Xg\u002fSKsanP1Bej+wNkwmNVB7PznoTOPKjXw\u002fc2I8u0RJfj9Lbh\u002fpVziAP431n+QrWYE\u002fU1RL0qxlgj8B8Fvwm1yDP1CofGRyM4Q\u002f4S6YOU+whD9KIl8hgdGEP3zaeebbZYU\u002f8un1OzLThz8IKBc4owONP2PjQTexUpI\u002ffdAm+OzLlj+eatf3x1ybP4\u002fVFdybk58\u002fXFqpjSyaoT86ffW9BD+jP1tpf1czCqU\u002fK7q\u002fhhAQpz9YLYW6AeSoPxc\u002f7XwVUqo\u002fNZYf1CPHrD8QlQicki6xP1psc4udRcE+tcRqhAJi1D5c4kgGxObwPrjjWW8YVA0\u002f\u002fs05CcHDJT\u002fAVpyiojM6P9gXO5+2IEk\u002fF06ruVhVUz8+QeJ8bcpYPxK5+6SHFlw\u002f1PlwU1raXT9pKTUUiRBfP9JlIIq8L2A\u002fG0o9yFchYT\u002f2OKZjkJFiP12Zq1GdnWQ\u002fOEGimpNqZz9rm9D+pFlrPywTuywxgXA\u002fiN\u002fyMOxtdD+hJ3YGxlR5P+V5GPNNg34\u002fUjYyDW96gT+cS\u002f1QcAeDP8NB6bqHBIQ\u002f16NeZ9bPhD\u002fPi6\u002fqw8CFP\u002fUOkfZs+oY\u002fx1wSYzVmiD\u002fX4OoUU9CJPzh7J886IYs\u002fWOOpJJBvjD\u002f7JV55X6yNP\u002fe4jBg3fI4\u002fa3D6Vjnujj\u002f8O3nXOB+QP6yrigvyH5I\u002fQt2sLJvnlT\u002fcJuaQkgybP6cNezBtX6A\u002fmR9lXGMpoz\u002fNGtsK9KulP3WeMADUzKc\u002f9AHUPuCmqT9+KeX\u002f6XarP6bO8+yoMa0\u002fgV67Rb9Yrj+9UTP\u002frNCuP+i023+LGLA\u002ffpJRbEY6sj+ZiYDO9HrhPlUNwIq0W\u002fA+zoDFS3qmBT\u002f\u002fneD3DrcgP9feKzRfDTc\u002f59rNpRIPSj9D+YXzipFXP+092tkVL2E\u002fCbmpc1QJZT8l31ZBowJnP2ag\u002fhW272c\u002flWUdRVCpaD\u002fjm5ulBI1pP+tLXlRlyWo\u002ffQXJLiWdbD8RbACY0E1vPwCxsGtZnXE\u002f6LCaU9iEdD8KzozKfch4PzIKQy7spX4\u002fdAqkXE\u002fegj\u002fT+e8brWyGPxJ57VsCTYk\u002f4Ml2PZE9iz9oGa9nioWMP56J2p\u002fVno0\u002fFgjiip\u002fjjj8GLY+VhjeQP2UJ5bheD5E\u002fhVu9ExDdkT\u002fEJrG3EaCSPxj3sy5+c5M\u002f7d8iwxJLlD+DcD1AMOmUPw1Km6EFaJU\u002f3gLL6jKelj8NFE6nPpOZP8nu4oeeiZ4\u002f+9KW8K5joj91UbEYoKalPw8InY98uag\u002fXldL\u002ffxwqz9NHzV2xLitP2c3fMgnna8\u002fe6u9tlSesD85QTdgITqxP+WaG9P\u002fYbE\u002fZt77seYNsT91BF7idwaxP+EykELBPLI\u002fWPxihh5JAD\u002fvqAJJQQkJP5v+SFZUAxo\u002fTzmyD3J9MT+k8DaexUhGP7wfQztpolc\u002fmrby1eAsZD9f\u002fLehCfBrP4Cq9i\u002fqYnA\u002fAQDnU8tlcT+dtlk+o9JxP9nj7PchRXI\u002fYUdRMv7bcj8XNkJPiJdzP9nwZzYTpHQ\u002f7UOfx95Pdj\u002fOJHM3u\u002ft4P+nV6pcQIn0\u002f4O5N9xyfgT+91YPWMLWFP69A\u002fECwaoo\u002fM2g3gBTfjj+8B5cipiSRP5N0UzI7R5I\u002fHFxvGPUQkz+rwd0lQ8OTPwrppVKdhpQ\u002fZ0KKR01llT9RsP7Q00qWP3kqiaHIHJc\u002f+AtW4vnrlz\u002f82n898+SYP2Whgxqp9Zk\u002fvrX3tQzYmj\u002fNbEnLqcGbPzT93g5nsZ0\u002fkv9G8OHPoD\u002fUNf9iNr+jP6M3DL3RJKc\u002fcj4Bgnl9qj++CwC3rYqtP96CfxY3HLA\u002f9etjXrw7sT\u002fVZhECBCCyP1CVNVFxyrI\u002f6qoxQlsksz9zdessse+yP6SrRL+jHbI\u002fYVagLcFksT\u002fSXIE0pLyxP9kl\u002f+eUrhs\u002f3yRMdnIbIj8gY3FY5Y0tP9fDemzl6kA\u002fh8+6367FUz+I+SZ\u002fA6pjP3NmFeZpvW8\u002fugqFHdPvdD99mDxcUaZ3P\u002fL3u58rhXg\u002fGzguxh\u002fheD\u002fpyiYRkHV5P2CfHsxTMno\u002fYHnY64n0ej\u002f+NsXHpQh8PzB3FbwHCH4\u002fowmb8m7LgD+EIpaJh6eDP1pcFOwYzIc\u002fSXJjqn8ZjT\u002fEw+9NS26RP0HOkF7m\u002fZM\u002fXcV\u002f2Z\u002felT\u002fBGwTIBCGXPzGAcWWwDJg\u002fA7Kami7bmD+QsSIHD62ZP7FJcUkbjJo\u002f16GY7r5jmz9DzIA7vSCcPwBB3e0q6pw\u002frfC\u002fzU79nT+m2H7bckSfP+Afakp8PqA\u002fdfXdTfb7oD\u002fRA+kqEFyiP71BuIeGuKQ\u002fj7+HnG\u002fXpz8veX9c9SKrP63ZItrXL64\u002fLlC7A7dzsD+nQsQBnaixP8d3rJVUsLI\u002fOGs0VEd+sz\u002ftf6Pumwu0P\u002fmjsDszQLQ\u002fHoMRG4Hbsz8TSApmVL+yP2VGxFJukrE\u002fPBdpTvtgsT+o4Crl0lM1P7aFCWzKdzg\u002fImxM9cvjPz+Sntqg2n1OP+UtVZg\u002fN2A\u002f+C2wkcY\u002fbj\u002fjPWq30yV3PwD5jYT3On0\u002fMtpt3JL7fz9Bt0Vi\u002fEmAP2rlTQQdcIA\u002frTuLI\u002fvOgD+yeQ+hcziBP7EpcMdjiYE\u002fqefjEz4Hgj8pFjnCbDSDP5UX0emHiIU\u002fG9O5FEJTiT\u002fQZ8UuaKOOP3lfxB8uiJI\u002fSF5zoAfMlT\u002fYxju4S4WYP6\u002f+deNwdJo\u002fSWLaz3zKmz\u002fWTLolr86cP3D\u002fGYhuqJ0\u002f8MPCMqlwnj9D0sQCoTOfP\u002f1Bavxd4J8\u002fNQs5Kbs4oD94ziVChpOgP8cajuADJqE\u002fin\u002fNcKfloT\u002f\u002fqhzg5beiP8cxuUZpzKM\u002ftk5JjqKOpT8YtapZuR+oPx\u002fh3exWFqs\u002foRKoF7njrT\u002fFZU2cpSewP57tLOQROrE\u002fjCH32hg5sj8czj2eBB+zP7YCoYh227M\u002fsm+SuKBktD+AHQLB8520P0J7dObzPbQ\u002fNhzCyjAcsz8liihAr92xP9FJHHiLlrE\u002fIEBxQUyrTT97RiLIiIpOP0\u002fksV2OU1A\u002f\u002fUxXrdHMWT8cDjWLQcpoP8OLfy\u002f4tXU\u002fuqkJF1alfz9hjkA7az2DP89NwXSfhYQ\u002fVDTghDajhD\u002fZ5AnULb+EP8sQi3LTKoU\u002fyGBXsiiLhT+DNebNwLOFP9\u002fyzU59GoY\u002f4UWyIv+Bhz82cVxu+YGKPxMMda1GV48\u002f1CG8sZ3mkj\u002fEwiTj3I6WP4x33k60Apo\u002f+yETpyy2nD9eQkrO1peeP556JF0B858\u002fuLmbcByAoD9EReswF+igP7PT2q8mO6E\u002fDxAnWpWBoT8dvEgzV7ehPzYk949y5KE\u002fr3mRWww1oj8PQ5utZdKiP7Ywrfyis6M\u002fuKoVRtfFpD\u002fs4+BXpjOmP4RTdZ4kPag\u002fA9WvKybCqj\u002f4lbDCqjqtP5Zp1CakO68\u002fuRixhhFosD9gWuwwsCGxP5+ADSig4rE\u002fWnXyfA+msj8+SpnIY12zP\u002fGfq02b\u002fLM\u002ftAoiJjFbtD+E6ov+3Sa0P5986iRwQbM\u002f6IrkERZYsj8TEdKYOFiyPyerRdodlWI\u002fiBKhsDtyYT+MnuXG8YtfP35A1aUSoGQ\u002fNYoVIo\u002fRcT9sBYJmFmN9PyBBmnY+hIQ\u002fsyLcyy4viD9g3mG\u002f2EqJPzVTXj\u002fRLYk\u002ftJWKS8QviT92a+U4QY6JP+lsU8n4xok\u002f3h9EkqqziT9UBrbPcweKP4cZVw\u002fbw4s\u002fHPWPC3CQjz8v\u002fDiTdb6SP1yhOD65e5Y\u002f493CaUdrmj+evHV5JNmdP0W5P\u002f3CLaA\u002fG+TCNTMLoT\u002f8Tc2vSbKhP2BH5\u002fiPM6I\u002fMRYtnHKMoj9bdGXnqsSiP1xOQOlw56I\u002fRF+Fugj5oj9Eop7eWA+jP2jpuihuX6M\u002f4sO5fIIRpD84H2seAx2lPzZAfYAscqY\u002fP2MGi7gpqD9cUoXHyE2qP4VN4\u002fh3hKw\u002fCVgnt1U\u002frj+ttkpL10uvP4y9HRXG+q8\u002fixp+YbhdsD\u002fFf+q5puGwP35eQilFhrE\u002fXnP4usJBsj\u002fSPKAZywGzPzjMVIyNjLM\u002fdQvAExeTsz9SESo\u002fmBuzP6upLxtk0bI\u002fsF2dhog5sz9ovILKGe10P8PsnQ3\u002fHnI\u002fGn3rqB+DbD+y51pGkkJvP2g0DOa9SXg\u002fVRq7CtLxgj80qi05K4KJPyHfvoGrVo0\u002fXZ4\u002fEls2jj8lbpn9hsmNP4tFTitHj40\u002fnBzJMq+3jT+w749\u002fnaqNP6WLr6AxWY0\u002f5KoezP60jT\u002fSQvcM1e2PPwKJ1UoOUZI\u002fGz65T+jNlT9PHGoSK++ZPxe1MBoL9J0\u002fIuFkL0yUoD8U2hD0r6qhP2TAmG0TaaI\u002fQOifynT\u002foj+gl+GRpnGjP0E9HNvBs6M\u002fSMIHobXLoz9S0G0gSMmjP6jfDeFyvaM\u002fjeHP2InMoz8f1sCUWi6kP6fcrKyWA6U\u002fjYyEURw\u002fpj9O5VZ7uMynP\u002fT0vyS0q6k\u002fH228lGm0qz+pVXKTk2etPwdqYMaIR64\u002fBXYk6Dhhrj+Cci+Yfj6uP0wkreuPYK4\u002fyVmW9Xj5rj\u002frqSrhkASwP0XQfVcMwrA\u002fDlHTohaXsT\u002fX+n7cpTuyP9DGD+VdebI\u002fGfVNNeGKsj\u002fqcKLt9feyP3i3aS8Rp7M\u002fMTrfAPUphT9aQUXnggiBP14ydMqU43c\u002fLvF\u002fFDpzdj\u002fuvRAMI5d\u002fP4qJST36dIc\u002fKQwElLipjj\u002fnMMzCEk2RP21P3MKYl5E\u002fJ4vlMkYqkT+ESmpmttiQP4eBlOXQvJA\u002fYG9uPPeLkD\u002ffEy+gLFCQP11OYE\u002fwmZA\u002fAEFOiTEJkj+QG7x7q9qUP97pcnJvyJg\u002fi0rbdDYgnT9rIppMSIGgP4fws4Nn56E\u002fp\u002fTUckPEoj9hzGAZzVmjP93DsW2i1qM\u002fjkrljL0ypD+wB2bvWVqkP6gwRiQmUqQ\u002fSwLdyUQxpD9E8CIkMhikP2s8VaNHNqQ\u002faxX5LBO+pD80aI3lr8GlP8v4Jd6lKKc\u002ff\u002f6Xl9zTqD9hMSJm56qqPye0Gn4BZaw\u002fxTbHppd2rT\u002fM\u002fuulCIKtPw3Ogs9QzKw\u002fp3t9oNEBrD8IybiC8qKrP\u002fK0t+oc2as\u002fvDiDK9OqrD\u002fcjigKMg6uP6Oo0s\u002fJqq8\u002fDCxQtnJ2sD9KBT655uCwP5UfbpNEfrE\u002f1o8K9tyFsj8n20eqUTGzP0Dos+kFNpM\u002ffsMho+XjjD9ciq6OUmiCP3\u002fV2k5Cdn4\u002fU8ggH7asgz9bpGeMiAuMP4n7OzkJ6pE\u002fVwsRkMzukz+qXWEWExCUP7RwqaSxXpM\u002fglkTS4bFkj\u002fV2qvLZmySP\u002f8wakhmFpI\u002ftmwS+2bekT\u002f0iojPcF2SPzpxGiOFKZQ\u002f428wENFhlz+xYQhDJpSbP1D\u002fuWMl5J8\u002f0BzGy6OzoT9WjgyNHdGiP11bcKSqaqM\u002fPH1bvETSoz\u002flImZ4bDGkP\u002fHlC2sZdaQ\u002fHYRnoxqDpD+FurWowWCkP5AQRtQ9L6Q\u002fgljFN4IdpD+tuo8ZLF+kP+FyfIcnGqU\u002fPf2H6jlMpj+aNG6o0sunP7+hxq92bak\u002fGT5z13ULqz\u002fblzNe01GsP8e\u002fuT7lvaw\u002fArM7NKoWrD+sXDKlAMiqPxPPpg3Oh6k\u002fWHIEDWfHqD8BPQrB5aaoP6UB56LlMqk\u002fyyjgNBVbqj+bQkvwULCrP2zjejqcvKw\u002fT+2WltfYrT97qCmVFwCwP6JTlVouXrE\u002f7dRMzKi3sT+a2+6beUqfP6sBFnveD5Y\u002fdTZHgY\u002fuiT\u002f5jCG9WnCDPxdQ3cLogoc\u002fes6fra1AkD9BC8KmsHCUP7jBiLNsjJY\u002fO3NH0g+Llj9NcUEqepGVPxVdVSSqp5Q\u002f6yXuy8AQlD\u002fv8mgl9qSTP95Hmixwh5M\u002fUPtdrjxHlD+\u002fCE6C1mGWP8C4OFZT1Jk\u002fUWLzll8Gnj9ycPPBTAGhP5fknjlWdaI\u002fJOxNjs07oz\u002feILK0f5CjP5opjG8FzaM\u002fqrSr3RQRpD+ckyMEGT+kP6tm8yvrOKQ\u002fEcI7Im4HpD\u002fvAtHlJtajP01MrikY3aM\u002feoQ8MM1MpD+LPDczbTqlP8evyjmzjKY\u002f\u002fE62ywQHqD+IgKL3I3apP5gLBbFftao\u002fyNyqcdJ3qz8VmsHSn0+rP01NnByxJKo\u002f7D1FBKp2qD9zF2AioPCmP0QJLsd27aU\u002fLWhVQUuGpT+R3VdINculP8QSTfYBn6Y\u002fE5E22XGJpz\u002fEMaoCKU2oP+3DaI5nn6k\u002fsS1catJbrD\u002fMiL0TrR6vP+qHKBc2y64\u002fm1dI\u002fqfbpj+bPHxLfE6eP7VhDVg7opA\u002ffY7FNjtEhz8gQvNggAWLP\u002f2a6xzgW5I\u002fv4mhf3Xulj\u002fhEMoDwD6ZP0SegkBoLpk\u002fFDRurDLylz8Fmla42rmWPyZxm42w7pU\u002f9Wwr+vd7lT90+5x3ln6VP\u002f9Gse1QbZY\u002fC+oH8KinmD8dX20b7gucP5engTbP558\u002flAJIP0OhoT\u002fIORUok7CiP6dS5HKvHKM\u002ffi8tjAY2oz\u002fbM55hDVOjP8P0sJSUhKM\u002fO9lQcM2joz+B+4etfJKjP5wkw+1AX6M\u002fkZs7f2s8oz8dhmjXbGOjPwOfwSE9\u002faM\u002fnsPcbZUOpT887WkUPmimP3pfW0Wmvac\u002fQU3FxU\u002fcqD8\u002fItTYoKupPxa5MoYI7qk\u002fZw6gvd1MqT+hZ0KPEcunPwXhfE5\u002f7qU\u002f+4DAT6NLpD87HPMjISWjP9R1QKHCjqI\u002flcWDV5iWoj+3yiFMWQ+jP4CBGxQKiKM\u002f6gQnR\u002fsFpD\u002f+gBMKB3KlP5RjTKtnT6g\u002fzAQNcsyIqj+y7NuX6SWpP9flyv+a860\u002fWOqO9GK2oj8Z\u002fLS3qWeTP7WiYaW0JYo\u002f\u002fYmY83UQjj+ia2n0lGaUPwTb23wMjpk\u002f5DU2VnU\u002fnD+DqAk8QTecP+KiiwEewZo\u002f\u002fHCyW4NDmT\u002fcUsaZYU+YP+x38ouJ1Zc\u002fMUNVHiHflz\u002fJyIQZL8iYP1bIMsTd15o\u002f+8thsbXWnT87lLRswYOgP6W+7RUcwqE\u002fVhayPpNjoj\u002fxkDU6RICiPzpcVHgTcqI\u002f0Hq6BPOAoj8mptf2dKuiP0MOoELhxKI\u002fSh3liAyzoj8xztd72omiPzcL3kAJfKI\u002fHjidyD++oj9Eo6IC+nGjP5lSSzxbj6Q\u002fci0LSKHVpT\u002fscXv5d++mP\u002foQFEkus6c\u002frGYoRp4WqD9KVhf0meinPwRaHcRp56Y\u002fPDj1wHQvpT\u002fM4FGFL0ijP38uKogAq6E\u002faInnVbuBoD\u002fOJQ\u002fVurCfP3BPOO7\u002fZp8\u002fWHqGvQivnz8tM\u002fTx\u002fdKfP0CIJ215KaA\u002f5\u002f82gZODoT8ZQO45ig6kPyUjsh8AbKU\u002fwakJS+xBoz\u002fL0NQzZ5mxP6Td3IA3xqQ\u002fW3yvAKOflD8wh7e8rtOLP+egbIstZ5A\u002fjJodn+2Wlj\u002fxGob3E5ScP0l\u002fM\u002fREy58\u002fAkglbT\u002fUnz+7pT66SimeP9gAE0M0cpw\u002fJSwiQmNYmz+EwNOoJ76aPw2qGFjulZo\u002fR6gOAFktmz+f3k+SBsCcP2JJG9uRCp8\u002fsEgW7I+poD9ek4RWIWyhP5enISmTqKE\u002fhBFXqm6NoT+o9tH71HChP4sXGm5hg6E\u002fWB4SN7uxoT\u002fDmj45DM6hP9XFN53CxKE\u002fojExuderoT8QLyziVLChP7hmO9P3\u002f6E\u002fRuxDBjm4oj+k4Jv\u002fccmjP9PSvCbB56Q\u002fCJAj3A2+pT8euFm\u002fHy+mP3dQu+PON6Y\u002ffbxT1eWppT+cTri6ZlikP4QqESR+fqI\u002fm9awKK6moD\u002fWUSSr4VmeP8M0TO\u002fmPZw\u002fDNYuX3r0mj+xB0dJzGiaP\u002fqcO0x\u002fF5o\u002fvJqS6a2MmT9DkFPNN5aZPxrDSPfmxZs\u002fJI4ozH2Tnz8C7oOXsUOgP7yPKsg0jZs\u002fI8+a8DSNsj9\u002f7ICD\u002fMGkP95qylsZHZQ\u002f4Km35qGWjD89fj36keCRP7KF14RwNZk\u002fiFU7sRYZoD+pQCz99\u002fWhP8Z\u002ff3bP+qE\u002fh0ZcKeYLoT\u002faHQ+CYxmgPyrrnna66J4\u002fGpUxcmb+nT+6+GyCKV2dPw4jBCE6Wp0\u002fWTjm8Uwxnj+o3gSH5JifP3jdwk9pcqA\u002fvKLz\u002fzHBoD\u002fG\u002fyq+w7CgP5soqJBqe6A\u002fNtdnoupnoD\u002f4NIPzxIugP625UYl6xaA\u002fETm3FIDqoD8ll9QgBO6gP47M8ZRI5KA\u002fCXIMeMfxoD9WMhk\u002fDT+hP251gwf36KE\u002fZdZhGk\u002fboj\u002fq6HkRLcajP4N2+hUhXaQ\u002fDDijnIaNpD\u002f\u002fgTduFU6kP\u002fq3lgdva6M\u002fYhSnRATToT\u002fn2rw0Sc6fP2fsMwMRa5w\u002fmvy1wE\u002fvmT+f2Pub5TGYP7oTzGdEBJc\u002fEK5DjOs1lj8ckQzaeFOVP7nefqzQNZQ\u002fN32ILk\u002fJkz\u002fX7i0NEjGVP2H+hVMYfZc\u002fEj8hd1MQlz9jS7cQ0lKSP9pEBROsjLE\u002fY1nlBx67oj8TLQJHOlKSP0OL3gAxP40\u002fHsv26\u002f\u002fKkz+ssnhvS3CcP0jsjIffKKI\u002fDYSkHJEnpD+0DEJJDxqkP3y\u002fo2w4FKM\u002fTOAyBLQPoj8a43hApUehPzi+uU1tkKA\u002fUH8WIXDPnz9rNJ9yagufP2KBSID7Ep8\u002fj+6+p3CWnz+21Mzd5PyfPwxzY2wd5J8\u002fa6zcKkRonz809mRNAQCfP0VRP5p6DJ8\u002fosXfbSGFnz\u002fcYrtfTQqgP7tX5QPFOKA\u002fnL22Qt1GoD\u002fIOycsdUWgP791tGSfUaA\u002fgw4zYEmRoD8W0XHpsyChP4UaDLzR56E\u002f1\u002f3NY8KZoj8\u002fhqIIWvmiPxCqBzcq+aI\u002fL+NLKyN+oj97cF1UAE+hP5AlyyBh+p4\u002fXsHySkMqmz82k9mQBUCYP2F6sx5vWZY\u002fQohgrBYBlT\u002fA93gLWN+TP8BTxOsvu5I\u002fsuPV9HBPkT8MfSjPBXyPP3lRi1+7zY0\u002frpE93N\u002fxjj9M0Ea322uQP2x0vDEvaY4\u002fnstnXJmShj+1QbjL8datP9+mk3utzZ4\u002fzj1VqmwrkD8ryOf02OOOPwdgZxbka5Y\u002fxBYUqZ8ZoD9IxTdWkD+kP1wosWoJJqY\u002fmWUe+wXxpT\u002fo4DvsV9qkP\u002fd3JlDLx6M\u002fc+S4ynPSoj+7q39B+8qhP31T4pyoxaA\u002fCqiasp0KoD\u002fhw3CF9WqfPzA1nDzyMp8\u002fjgankULqnj94oyPWJFueP\u002f3eBk4av50\u002fPHydC+h\u002fnT9NUc6ln8+dPxmpdDJZep4\u002f7z54sSwgnz+lm\u002fSMhoWfP4HX2IiHp58\u002fGIrCJ3Kknz\u002fKtqRczq2fP9mJAEYGBaA\u002fA6QT89RzoD90225vugahP0LIx7XXeqE\u002fzaUeev+moT8m2Pbl3n2hPxBrJA54zqA\u002fnDpSCQ3Cnj+sThQGdOKaP6Bfy7CJV5c\u002ff9lljFYKlT\u002fgXsQyL7iTP6QMg\u002fLUqJI\u002fKVRpZUBvkT\u002faOh6YWcyPP8EJ5UZKEYw\u002f89He2w9biD\u002f6lT0CaBGGPzJsjMcTzIU\u002fb5ae\u002fty2hT8hMTjhorWCP3\u002f\u002fQ9icxnk\u002fpktFCEvkpj8zyLRDjp6XP+SxY5yXbY0\u002fFJfAhH8\u002fkT8nseydcdaZP0FbHGGOEKI\u002fR7Fw2FEEpj9g0p1xS4ynPwI7JO5GH6c\u002fzi71BVMApj9Ika6PQeSkP0R+F1iTwaM\u002fuFi8E7lzoj\u002f7lB0JViuhP9jXJw3fOKA\u002fo7vhVZhYnz9Vm2k9DqaeP0oQf0TX750\u002fjihA9qQmnT9v1nm5DpWcP0XlIk+hkZw\u002f+IJ+gyYknT9K+HX1AfadP7kukyiCoZ4\u002f8iVVOwr7nj9MAH8hYA+fPx7NiU2cAJ8\u002fJ6ERiUD7nj\u002feWkSswzefP050Rqr\u002fzJ8\u002f6ksl5HY8oD+6STEh1mugPzxpHiuQYqA\u002fiJ3Zzn4RoD\u002fA7vLMe22eP+nBqHA+TZs\u002f0EDL5QyFlz+rmQ6jKoCUPzVHQxdM25I\u002foI2Jf4X7kT9OLohyfwWRPzvpIgeRLY8\u002fTSs7nGZniz+4khCKxSWHP77v8GD3P4M\u002fuKsq5xijgD+XtNc6A7F+P3DA1bdU+Hs\u002fN66lXt3vdT+0+u6\u002fBqJrPy4z2ViECKA\u002f+rL9KwPTkT+PLZYO1I6NP1BFF7iAS5Q\u002fFhEUZL\u002fenT9sT769SNijP05oP0zBHqc\u002f+saZBjUHqD88rOg6NlmnP+Fzne8mO6Y\u002faU6wo5AepT\u002fr4bjVneCjPyx40vq+caI\u002f\u002fbNcH5MYoT\u002f2l3mfLx+gP2m7qs8tBp8\u002fPz53e7Ycnj9r\u002fNvEnjSdPzlGCyQKX5w\u002f2Ebo81Pvmz\u002feE4gnnSicP3u2Vm\u002fT75w\u002fAf344eHSnT9MWos5nWqeP3gTvQAsoJ4\u002fQ3YQmReXnj\u002fpQB02LnueP\u002fTMWAOwcJ4\u002fJ+JSxeGTnj9qL7jTw9ieP98Smmcd+p4\u002fMztjHoHCnj+LlQE1zj6eP910436NUJ0\u002fT8CmAvNnmz9srfVRmFKYPzd96CM\u002f+5Q\u002fD\u002f\u002fBGymlkj8FV10jmo+RPxEU7gGR6ZA\u002fxBfOMlzDjz9TPsZtSXiMP8Onu7HgUog\u002f8zkoweEChD+ZQohfoUSAP+EqRpnKDns\u002fRMkh5hYJdz8yv\u002f0nF6xyP1hYYhrzymk\u002fIEwk20zbXD+AHBXUTCyVP9HGeaarI40\u002fLmTgira3kD\u002fAqp3i2IGYP1VWVqmmDqE\u002fnrbvT\u002fcppT9f1OLG1lKnPyYq7VoLb6c\u002fpRzyWMl\u002fpj9fS58iOm2lP9LPbkjpYaQ\u002fC9u\u002f1Zstoz+cZpRA39WhPwulPrQXp6A\u002f1emv8Q+snz8rufIZRZmeP\u002firoHaNr50\u002fz6NuPN7CnD8CEfqGMf6bP39KUMt6t5s\u002fFQq+JmMgnD9IgzQ4bQKdPzqtZLyv150\u002ffv8xJ1c+nj9iPngaIzueP9+TDHj0DZ4\u002f1xqLoD7snT8C3Yt9VOidPx1CrRu09J0\u002fzdBrQeXfnT9y1\u002fNuIm2dP1vSSXhInpw\u002flYyVIS+vmz9BkKxlUoiaPyjwb3oPo5g\u002fh9\u002f2H2vslT8U2kIU\u002fEOTP6JY9+WUmJE\u002fVaxrlczZkD\u002fJna6Z5TOQP2ykPZlbDo4\u002f1lRf9zuQij8gobK3UIKGP1i8iUy7joI\u002fTYySm3RKfj8tkYSa7qB4Py+QgYD1bXM\u002fsBwSCcK4az\u002f8tdLqmmpgP8G\u002f18znd08\u002fGTbffjZwjD8xvNgcBiKMP9WUVZ3cUpQ\u002fYRrbZXZqnT8ZmELVP\u002f2iPxno\u002fuoRy6U\u002f3d2vhu+Npj+Nd2m7z9ClP7NHL0t9q6Q\u002ffTtZHsCzoz8YLxh8vNSiPzorf6vp2KE\u002fczZYMXbRoD8+GHGMA\u002fyfP\u002fhdZHxK654\u002f3zkbTgMpnj89sOGUjWOdPxzy6brhkJw\u002feBDwjt\u002fsmz9PzZhH98mbP4QDUr1GSpw\u002fEahEpecjnT\u002fDUoJOycedP\u002fEkULwh450\u002fHzzFQvebnT9bnN1NiE6dP8DsrLPUMp0\u002fyjgjSwU9nT+N6TF5xi6dPyUeNCZPuZw\u002fafP3vGS3mz+jRi2wrGSaPzC2X9E1JJk\u002f\u002fj8sHkHqlz8f4YZXQUOWP5PFqCFtJZQ\u002fevRnzT83kj8CbnE92gaRP4SHHnVdXJA\u002fchDeVwUjjz+wHXPXBZSMP5AivA45PYk\u002fqiNFbieuhT9lWUZwb0+CP\u002fhiF9RZaH4\u002fuDUwpM1eeD\u002fyptKCNhJyP3TLdtLrHWc\u002f+gJjIjiuVz90ZnyAwTxDP0VZOgf+5oU\u002fgUWBh3d9jz+mgs5XduGYP8to5eYdG6E\u002f19PGJ8NjpD\u002f2g\u002fjIhJelPxOFRd3f56Q\u002fs\u002fYYHBlqoz9zbbmBMiiiP+yXZIivYKE\u002fGfs8yD7MoD9btsg6PjKgPzIuVvWtRJ8\u002fgWjAGsyFnj8H4H1EsB2eP6ImAXfEvJ0\u002f+c4FfGYwnT\u002fG3x8GYYqcP3p5fincC5w\u002flgawE6f9mz+wL3b1x3ScP5G\u002f7j48Hp0\u002fhvCSyehvnT+0XxKrDTCdP53yShQLp5w\u002fIbF59XNGnD\u002f\u002fcEmDuTycP7\u002fEt8+TVZw\u002fkrkU7DMknD\u002foRqxogE2bP5c5wK0y0pk\u002fn\u002fFwRIAimD9Fk781EruWP0ZCJiPlmZU\u002fMyA3xZtalD9sWxC8TOKSP3Ul+RSliJE\u002fODBGUjWQkD9\u002fY8by35CPP+gUwd\u002f6o40\u002fTGC+jzgXiz\u002f1h9R8yTOIPyXPlx0SU4U\u002f6ban5XmCgj+gOOdOnRV\u002fP5WPFJr9dHg\u002fkF\u002fBw3M5cT\u002ft85AEEkpkP0jjFT5Xm1I\u002fWVrYxj5iOj+kFik6XaOEP2iIZO7ZlJI\u002fSlDDpupcnT8eb0LS5fqiPwtx5XMB+aQ\u002fFXEBeCSOpD96iz7CIZ+iP+iwc9Z4m6A\u002fxB0z+pDEnj+Ly\u002fi9ssSdPwvhys36Xp0\u002frkgBEAcZnT+mmeEkBPycP9xguo\u002flHp0\u002fHcBu9DlSnT9QN4oE3VCdP8Gd2KQhB50\u002fqsSL07KVnD\u002fnuLzv+zacP29912oQJpw\u002fS\u002fun7JVvnD\u002fxmRSwVsScP+HZv\u002fcnrpw\u002fO0pLbwcTnD8yIWUnc1ibPx6TlABV+Jo\u002frkl\u002fw8UJmz8UuJKY9CqbPwQj0O4WzJo\u002fGJa7lGCbmT+APiFjLcmXP6MBt5xK7ZU\u002fd8L1a46LlD8PJMh7xqKTP4dSgpL50pI\u002fhsCYri7hkT8RPpGqlt6QP8WWuoGC0I8\u002fltT87drmjT8VXaB+98aLP5hwUWG2cok\u002fyypuf+sdhz8dtCuZ2deEP3QyY1wDX4I\u002f3fcOpyO2fj8qDpu39X53PzpHozCGhW8\u002fr3LPoXhhYT98A6Hkz19NPxxIyS1m3jI\u002f5IMwCFglhj+cErLHjHqVPx4reQ9mZaA\u002fKY6ZpPj7oz8MZmqRR6WkP4OnRrsN3aI\u002fjzby5jcQoD\u002fxmXx5BqabP4bGWwcVk5k\u002fXZcUOwREmT9HKNKb862ZP5IcMi97Spo\u002fwT013MkJmz+vIHYZ+d2bPyj4yvadipw\u002fAfuE6k7dnD9omtcLbNacP7mKP5\u002fglZw\u002fYUhPgcVGnD+x2uysnBacP9lcNWBAEZw\u002f74IRNbb4mz8DuWIIrXabP4jk8ZHSkZo\u002fB7PyoLLBmT8O6LZSIniZPwcVGbOmqJk\u002fa8F75NbFmT806hhazC+ZP\u002f2Q78Zss5c\u002fyxh3ekaylT\u002f\u002fbezPyNeTPzQU2UxXmpI\u002fkL8uQR\u002fvkT9mffitVXSRP5BfAS+o05A\u002fNheYedrnjz+ykjUvZtmNPwPMycPLtos\u002fbVo7f9uZiT9KToxbBpaHP2de\u002fAaZtIU\u002fa5opbNnFgz9WvxkIw1+BP8nYECINbnw\u002fcrMiXWTwdD8K2JTL77VqPyzy+7pXwVs\u002f4XBcIZvtRT\u002fDH+TRrh4qP\u002fzeQRqEX4g\u002fk5cFqwujlz9z38q4o1KhP+KOddJPEqQ\u002f2757F9KZoz9wUH0x\u002ft+gP2Zr+ZxHRps\u002fMwnanqfjlj8PL+IFF2eVP9w5zGotzpU\u002fruN4dUfslj9JKMwBZDGYP+17BbvngZk\u002fo2XD61\u002fFmj9aSyjgVMSbP9FONSTpWpw\u002fgRFmX\u002f+MnD9sQRr\u002fZG2cP14+RY2vFZw\u002fVoDqdp+qmz+HcJvvFECbPyZNJQTZs5o\u002fw0afrk7VmT8xwb\u002fFuMaYPxtPc2i7Apg\u002f7dKF3ybilz\u002ffVb3SPi2YP3+MF+FCNZg\u002fqOWY9fhhlz9vI8XKMK+VP06UbBB3ppM\u002f\u002fsxwd6DtkT+\u002fKK47aduQP9YzXxJYV5A\u002ffWNL5BEEkD+kaqmPiwiPPw2XlJV7Y40\u002fJnYmlKNSiz\u002fjOufF+zeJP+WWTC52Roc\u002fzHFea3SGhT8rAg\u002fTkduDP9HQFx8i9YE\u002f\u002fv04Yxrcfj8Cot7YVVV4P1rix18TF3E\u002fS9a52I+mZD8D9uylJz1UP8cb01ykDz4\u002frOr5HkbFID\u002falaCf3CaKP7FBY4fpzZg\u002fyAztz5OLoT\u002f2cBRwG4qjP646UbUeRaI\u002f4YE0XN0Mnj8tMDvUaV+XPxCXkhztaJM\u002fJPgJfmiRkj+uwxbsq5OTP5RTJITXK5U\u002fd7GqjGXJlj9Wzd9g4FmYP4+iLuQ80Jk\u002fKlry5i7\u002fmj9q8itaVMWbP+dI6XLcG5w\u002f2+i5ZMYDnD8+ohfpYombPyOrwJD5z5o\u002fY6GAl3b6mT9FLlBBUAeZP9EgdUO66pc\u002f2Js9fePYlj+BimlnKj+WP4wdjyn9TpY\u002fP1MHFkullj+1WyBhF4WWP7fOhdfFdpU\u002fCGeAXxSrkz9RFmzgoL6RP5oXSl\u002fqNpA\u002fmQA5gCeCjj\u002fTEuBMYH2NPw8mbpNt0Iw\u002f\u002f47PbNngiz+55jbFD2eKP28kfhZ7k4g\u002fYClREhy5hj\u002fD2czvM\u002f+EP+bRQd08YIM\u002fCmZD1emsgT+5r8tNCCh\u002fP6s1IV61snk\u002fjQC4WaY9cz8nIXeccoVpP\u002fEyMJ3JDl0\u002f1ZhpNRDQSj9cbIw5trwyPzrRJViipxM\u002f4O6Wogc\u002fiz+hVdc+L0iZP7O4j1s\u002fbqE\u002foN5786fioj9gyG0WWiOhP\u002fadDJ\u002frVJs\u002ftXaqR9\u002fIlD\u002fYgm0ffFCRP8u9zDNvBZE\u002f0wKy3Gpwkj+6Nio83z2UPzR9ezvl6ZU\u002fsIo0kjZ8lz8zhrCOS\u002fuYP9Gz\u002fDc1Ppo\u002fnbsOqZQamz\u002fsLu1dKnmbP8IFKG6QTJs\u002fv7boqn6bmj+LvGPbDo6ZP4Xp4rH0WJg\u002fIKmExgcalz8fzLIeIeSVPwbfJVJw8ZQ\u002fGuWUDeuSlD+fOsVMN8qUP9FMf3rtEpU\u002fi2Lk+fG7lD+MBUcOfYKTP5hLoP8kxJE\u002faGXofa8SkD9JZylEAHuNP9SSMVnhlYs\u002fIPsbkw5Rij9rD0Ohr26JP2kcl3H5jYg\u002f67t5fAdphz\u002fxJ1zUzwOGPwyUWuMHgIQ\u002fNtl+\u002fqfxgj\u002fcX5JT4k+BP5Y80rIT1X4\u002fp2M6UTcOej++CXyKXEh0P4TxTgW3amw\u002f1rSJSd+aYT+DGvjC7MJSP3G9lNnAPkA\u002f6i6+xZNYJT87V+C80BIFPy\u002fg3FsUD4w\u002fJTRGBH2omT+cLb\u002fQHmqhP94uK18tjaI\u002fsk6ituWGoD\u002fc650rfOGZP5lToiaJfJM\u002frRwYgghkkD+9tQ51AXWQP4kraA90DpI\u002fr5THwUHWkz84MF7oA2GVP7t1GgnT1JY\u002fyJupjPpEmD8Qbq0AlIOZPzCx5Bd1WZo\u002fHV0AVLaimj87INyWiEuaP5G+0SL9W5k\u002fL3bzCbUDmD9lod2gGYeWPzhxIAZsHZU\u002fmbthKC\u002fvkz\u002fKNOw2rTCTP\u002fYa++lPC5M\u002fwMP+KaRRkz\u002f6vNex3HGTP3AKXrUR4pI\u002fRiRFJdickT\u002fDecT2ZhaQP3pqgpjwbI0\u002fQY9jl+MZiz9muwof8BGJPx4Dbm1kb4c\u002fakr1V3JWhj9Zy6HTGpqFP8\u002fWE7Rp4YQ\u002fL5lgIgvwgz9jLOklNLWCP\u002fGX+8n9O4E\u002fkPYqCCECfz9yqOub3Ll6P4f8HssFbXU\u002fv5DIeLcZbz9GHF7\u002fFiNkP4NCv88pE1c\u002fR28sOGzdRj9os1PhpIQyP\u002fu7e+f73BY\u002fcBSvwpRF9T6\u002fAAVRzSaNPwupq3f1bpo\u002fYo84ZEzFoT\u002fAhXdSvbmiP2q2l3WVe6A\u002fQbpy28eImT8QIzTlsCmTP2td07kPQpA\u002fXTFhyDx5kD+aA3u1Xw2SPw5Jg8TSqpM\u002fuTV\u002fVLIDlT\u002fmJ6fN8VGWP2TLLnYMp5c\u002f43ysnUDLmD8z4mMeCYCZP1vQvuYGnpk\u002fN\u002feeHJISmT9lfRaafuqXP4Y5sJu4W5Y\u002fzYkbwwi1lD\u002fb22o3Dj+TP9et7el2LpI\u002fokWAJbenkT\u002fJQuiXI6iRPxNpJ2Ya3pE\u002fZDljg8zDkT9J4KtfSgqRP\u002flfTxT9w48\u002f73HVRvJujT+WiPGef2WLP\u002f8qsXZqV4k\u002fyNEZaF4hhz+Fr17p2TGFPxugahJC\u002foM\u002fMYeGnnxxgz97QqU2UhKDPw7QbmY\u002fb4I\u002fymaf4qNbgT\u002fLPSiI0Mh\u002fP1Iq80eUFnw\u002fTJoxlj5ndz8ZhtDJ88txP9N2W+mLF2g\u002fiiq4sKbUXD8AiZQ29IpOP7PN1xKnKTw\u002feKCRw7BjJT8kd6raK+wIP1svCkwR++U+Mz4UZXTZjj8EUgUdIMebP18BPeZig6I\u002faj6MjFhPoz8CXA+LXdGgPzFvxBwk2Zk\u002f6XvRWM5ikz8dlbHYSYWQP8DVBURZtJA\u002fwFeaCtwdkj9IK5JVfoOTP9wJfPwysJQ\u002fVUjtOFTelT+6NLb6phCXPwPLgFWiCJg\u002fPFRL8uqKmD9Sg7vSInWYP+UHL3B7uZc\u002fMy6E3zFplj95+jYJ\u002fLyUPyIGWgz0B5M\u002fbmZoJ16ckT9FKCQRjrKQP6RkMAmkWJA\u002fbjbunVVjkD\u002f87bZmbW+QP23YwG7BGZA\u002f4n\u002f26jOmjj8TToIKQdiMP5hzKevCXIs\u002fi74886L9iT8bp\u002fiA2yaIPyLp1T3t2YU\u002fAqye0pnNgz\u002fVWfIFEpyCP9m5nVkZLII\u002funvOMBXvgT9b3bdMp2GBP80OfibmVIA\u002fw7BAtAKvfT80UNdgrdN5P+TxxvBo83Q\u002foigz+kmnbj9zYtm1nsNjPznyw+9MaFY\u002f\u002f\u002fQ1FLd7Rj98jVFPqbIzPxqZtRCuixw\u002fyk5qMEfX\u002fz6oePvDxvLaPt+DULW6kpA\u002fejakaIKNnT9GuKQH3HajP54aBfEHCqQ\u002fjaZ057s+oT9\u002fGBnuCFOaP9F3ahqvw5M\u002fi8ecMRPckD8UxoBGIuKQP9aV+u71C5I\u002fhZ+F4DU8kz9aioeqREqUPxlFajAkXpU\u002fjYtlYHZnlj9ZW20rxSmXP1u\u002f0\u002fHudZc\u002fgNKc\u002f\u002fMxlz8RTZwlOFSWP5NxWdES8JQ\u002f8t882bc9kz+REHduI5CRPy1BBH45PZA\u002fI1MqDfPzjj9pVCwEuXeOP5CcJNfIco4\u002fCxehECQkjj8osXQRwyKNPz\u002fTP+F5uIs\u002fAK1jSRqRij97pUabA96JP0qtSbwRA4k\u002f9bMeAWNfhz86Lcu3QSeFP9poWYGuL4M\u002fPU+HKAwGgj\u002fB\u002f5eiJIWBP+XBN4QGKoE\u002flNPyzFKFgD82JNw7Y+F+PzTHWr0t5Xs\u002fRLY17CkKeD+Cg1DUAUFzPzEZ0wZe0Gs\u002fbGPhcfi+YT95RLJkmOxTP1ceMzSLu0M\u002fHrOJxen0MD+9umJGXfEXP\u002fpzCOlf4vk+oejbg3cn1T4if9R0yfORP7v43J53hZ8\u002fi09ajelmpD8wwQ93tKKkPwFSivYjgaE\u002fpN4WH8aPmj94sv5KMQGUPyVK7WZHDZE\u002fu77pvU\u002fZkD+KiOhiQb2RP7XsEtItwZI\u002fXcsatoW6kz\u002fS5Tuy07SUP6SPqoiEkZU\u002fCGSIgJUflj+SfkgZEz+WP\u002f0HYsLY25U\u002f\u002ft4nclPtlD+h3clGFoeTPxGepHnN35E\u002fThwwQL1IkD8nMlzrUy6OP22myn497ow\u002fvpM9waCNjD8ckMEs0ViMP\u002fzv14gYs4s\u002fRVait5+Nij9ti5h15m6JP60qLtD\u002f4Yg\u002fvNdNQ\u002fK9iD8H4bWKHjeIP1rIJD6MyYY\u002f3o3Txm\u002fMhD9GRtOXLP+CPzqMSpiHxYE\u002f4cT20MIAgT8klb2j6l6AP4JyNaWkLn8\u002fsOL2RUcHfT8rjAKgCi16P3zT5rmzinY\u002fE+fUys8kcj8cpDGeBJ5qPyHpNdvNYmE\u002f\u002fHyGEknvUz\u002fB5cpeOOVDP5wK\u002fJvN7jA\u002fNbw5LhNUFz8dgOtMxFn4PlC4A+2VFtM+f+IwlrqQkz\u002frUIXAfMagPxl2JkggLKU\u002fU+Rwu\u002f\u002fnpD9E65NLt2yhP9QLHHRoTJo\u002fAQDVHfvnkz8Wmq3mEPSQPxrcs9+ZhpA\u002f7cLOeX4rkT+hYuSELA2SP86Lw4e39JI\u002fwzz5XxjSkz\u002fkLGCmFYOUPzcBYNWq55Q\u002ft2Chc0HrlD\u002fW35n2ZXmUP81XGut\u002fh5M\u002fHsmahMMpkj\u002fvwimVa5eQPwydJE3KQY4\u002fW1054bAujD8bYlsA5TGLP2++sqx04Io\u002fe4JMpzWAij+oOaswUaeJP6cIyl83iog\u002fXZqsWY2\u002fhz9+V8i3e56HP3rID45BxIc\u002frLFLq61ohz8rgMR2yjGGP0pQhXi+d4Q\u002fCHagWHTBgj+\u002fvyJvAE+BP4hn0T9SKYA\u002foxRwiduGfj9eWKmK8uN8P+ToItH\u002f9Ho\u002fmOiCEnhueD9gN5GvR0B1P3hbFqLpenE\u002fuQ9DEVeGaj9i9dermu9hP8HVtds7\u002fVQ\u002fHBQ3DCLrRD9ZG9VjsGwxP3uF+TGNKBc\u002fmXcf8FMc9z7ahfBAwTrRPtxCIA8ZiZU\u002fjvdKOZnToT\u002f3FoW2GLWlP+0NZJGpwaQ\u002fMpHLu4jsoD+tsRgzSWWZP4bUfOqSWJM\u002fDduspWR9kD+DyvcRBNKPPxFWs1xCYZA\u002fnEPKLHcrkT9a9FpPggCSPx9gsFLIvZI\u002f7SK9QbtIkz+K3EiysJKTP+OIpSxvipM\u002fH4cta9EUkz+nwqWhbiSSP6E6Ra9i0ZA\u002f1mgW38Wvjj8vx3SIQxKMP6j6gZkMXIo\u002f6icsQjSkiT+xGPVY6WCJP3EiUnCS5Yg\u002fWJHTpHb8hz8LQ8zE3ACHP\u002fMoF0rSeoY\u002fC0cjwhaRhj9MX0sdC8yGP01NSn95gYY\u002fUCKcf6FzhT\u002fdO+NDdt2DP+agHuDODII\u002fHNzWI0dAgD+unDkM3IZ9P0BGuY1Zins\u002f89eQ8ZQyej\u002f214yLw714P7X6HkyAunY\u002fcuo6PzUtdD8CgBlkmCFxP8IbdQXp7Wo\u002fI\u002f9uHzajYj9qeLAU8dVVP89J\u002fgrHUUU\u002fJIVjyg0fMT\u002fRu5RiP7gVP7HEquXVkfQ+T6YmTOYDzT5199UHbgGYP46mN+Ng7KI\u002fV\u002funFRv3pT\u002fTN0ZnXCakPzGFCtjA+J8\u002fdeh2D+DRlz8jnalwHEqSP\u002ft8+vEzVo8\u002fXv6T0iYjjj+B5bG6YPKOP0BgypTBOZA\u002fnci03Vb9kD8rqnOZxpqRP1qW167dB5I\u002fkMfKPq9Dkj+cgOWHAjiSP73ZJrhyv5E\u002fmrO\u002fCTfMkD+ACUfCPP+OPy2cfKj8Pow\u002fljQKt8\u002f7iT8YVP+RiKuIP0DxunL8Nog\u002fUVPGc8X+hz+qNIIFCnOHP2nh7f4OjoY\u002ft7D9YP26hT83W7AkVmWFP0bEfzR9kYU\u002fv0SJRNfJhT97pqrRQoCFPyymI\u002fLaeoQ\u002fY9NlwAnPgj9GL0QukLCAP41ooDySCn0\u002fB1kn4Lm+eT+OTa6I\u002fg94P5fr89m7YHc\u002fseUxd5WWdj\u002f14BG78zJ1P2XOTYVCU3M\u002fqx+bymHqcD\u002f5LidzyCprP8+1M5ZZ0mI\u002f81\u002fTwh2ZVT8T1K+3WFBEP6NTPzQjGi8\u002fxUORPoaxEj8\u002fRqE687jwPnDiAPD5PsY+bT3aGkPumj9Vfq4XpfejP\u002feCh0fq2aU\u002fBxqiPUwQoz\u002fqjtbGfUidP5Zqiq2Ep5U\u002fbMH7FVPSkD+elJehYDKNP5TtPn4GSYw\u002f7308PaE6jT+clIe5Q8yOP2oQ0eedHZA\u002fZl5ytxSfkD\u002fZ\u002fkVza\u002fWQP+WV5xgqKJE\u002fz1keo6cWkT+j7+8HDJKQPxdW4LFvIo8\u002fpM3c9gOIjD8NRRPQvPiJP0Gf+eSFFIg\u002ftdwS3PQmhz\u002ftua5B6uSGP\u002fUeKF9epoY\u002fPb313ZwGhj\u002fPtzpJsyuFP\u002faqaT4ugYQ\u002fxAoU+ndShD82GBkQWY2EP2tLHIs6wYQ\u002fqJlaArhphD8O0UtPv0CDP+mpqoLNRoE\u002fKGfC9XGBfT9UTTQeRKh4P1ulTVj2h3U\u002fkiQKQkeUdD99i\u002f5CycF0P3mNfYdlsHQ\u002fqlvbfdXrcz9QLI5I9J5yP5cZK4x6l3A\u002fUY92S5qiaj95ej8cwg1iP\u002fBo+K0m7VM\u002f\u002f\u002f8OV\u002frUQT952fhN8tEpP18G9cg3Qw0\u002fSUIMP0Cl6D5z9Na\u002fBtq+PqPAUrQ15J0\u002fEC+keDqvpD9+scICWzClP5qly5FYe6E\u002f71FR483ymT\u002fXPhyFMh+TPwlKDA1HVI4\u002fey1bdHv9ij+YwGISuK+KP3FCjqVEB4w\u002f2escVIXPjT\u002fUpJvfnjWPPyEJo1jyBJA\u002ftmfS5ktHkD9yiUJtD22QP7BS8gP\u002fSZA\u002f\u002fwfJP3JUjz9kiXRbCh6NP6TWXZZldIo\u002fREBGJJgRiD+7KgGT64SGP6\u002fZD+yr4YU\u002fReV2ewurhT9kEkETo0SFP93PlEqwg4Q\u002fsYO12TO0gz92hVs9azWDP71sLJKjMYM\u002f6bLxO9iDgz8rk1KyqbaDP29xoQpjPoM\u002fUkK86obKgT\u002f1T54OPcl+P\u002fvQYkNlBnk\u002fl7Xe1l8SdD8lGCfZhYpxPyHf3sEVhXE\u002fhRDeLqmLcj+5ma98mR5zP8i37jko3HI\u002f7JH+E0jmcT8Xl7tVrtdvPwtWIoUV+Wg\u002fHiRamM4+YD9tyuQfCgNRPyyZLbp8tTw\u002f\u002f0X3aGiKIz8svo9LBMwEP5Xa+i0EcuA+dpT+SFJVsz7oa1kl1QqgP\u002fd0UH+KrKQ\u002fzvo66jPJoz9UqxLMd+CeP4RoY\u002fhrRZY\u002fFvWjaV+UkD9\u002foFTmFU2LP4x53lCGS4k\u002fu3GfI5rYiT\u002fwoABEasuLP5lZE6EN5o0\u002fXe2bOJVMjz\u002f6lhbQk\u002fWPP02+TYnAJpA\u002f6ese7po1kD+9SJaPgOKPPzx7Y\u002faBTI4\u002fJ5+WZQfKiz+njEpIhwSJP6ob2IJww4Y\u002feCipheF0hT+cZBXQ6uqEP+2vdj7shYQ\u002fnuFPg6rQgz9VNfbCt+SCP8QKdIbrJoI\u002fgyRSL\u002fXbgT8NiwN1TAuCP1mfFVCTe4I\u002fK1NkI3aogj\u002fLG39TBPuBP\u002fJPugeNKIA\u002fV\u002f5Aumu8ej+m5iDuKZp0P9IL6Vjh728\u002fxXY1RtmCbD\u002f7lT9NxjRuP+xVIBqHyXA\u002fJoxthgzVcT90MfCSduJxP8J0tczk93A\u002fL0Q\u002fQ7CCbT9E567J+yxmP\u002fcfv3ssSFs\u002f\u002fg9nkDfUSj9Q5LtITTI1P1ZvSYa4\u002fho\u002fUruqv27i+j6SJhouCOjTPsHL5B5O7qU+O7f3FpBKoD8vbfyPLpajP2BNRMH3kqE\u002fY2AkGRUpmj+SOJSWKrKSP9D\u002fk5Dr6Yw\u002fnSI6wilIiT8PyHYwRbOIP4CxN78mPYo\u002fuhsXEFjkjD+Td9mEQ1SPP2xwgGkKWpA\u002faMY6O0WWkD9pGrwfuqeQPzzerS08lpA\u002fu5hKMdcikD+9INVquD2OP80CykILW4s\u002frfovJp5riD\u002f1eD5k4TaGP2U2mE0w+YQ\u002fX+Y3LbtEhD8XbAmUb3ODP6EQjeaXU4I\u002fOSire9FAgT9USsF3TqGAP2WPD1tokIA\u002fWKYsKH\u002fygD+KHzTkMHmBP1O4yNK4j4E\u002fB4c0ciCegD\u002fu3CN\u002freZ8P\u002fSmoNwW13Y\u002fCGwhFrrHcD8ygQVSKY5pPzJsGkjnvmc\u002fsB4J9mGtaj+nFGl44M9uPznQ7Xzqs3A\u002fb6aEK3rScD9miJ61AVpvPwBHLXUXKmo\u002f+8V9BGuOYj+ycmlxElpVPwNRMiizkEM\u002fw9hxaz3ILD9iGDSRcRIRP\u002fmu7VN5te8+79a9y\u002fXrxT5e9WRBLJSWPvRf\u002fXMWxp4\u002fCPbuWnJXoT+kvv\u002fi6HSdP86UndbpXpU\u002fBBMcqJt2jz8MxdQt9EeKP2PdE6ms1og\u002fZ1qkAH+giT\u002fGUTOdAyaMP\u002fBY5FdWc48\u002frRhgqpIMkT+oS4VFRayRP7FWXIztzJE\u002fzUELZP\u002fEkT\u002f2VQ+pnpCRPxhKk11y5ZA\u002fnWuGvDI6jz8Dh+qm++OLP2CEMHFDuIg\u002fcGMtXv9uhj9f+hFRzQaFP8pWgdSs4IM\u002fcoDmC5d0gj9nFLOocOaAP8w0c6Vpf38\u002fjSLpNHOUfj+aWI6RK91+P5J94Vog5n8\u002f213t7td4gD9tmrswgGOAPxwcSjeUVn4\u002fJvkkrV+LeT+TlF27fG9zP454lRpluWs\u002fRrtytnZEZT+Sey92n7ZkP+Bs6lrOOWg\u002fIfzHYCmLbD8nsPHdYCVvP5NooGOsA28\u002fj0jiEHrpaz\u002flKzKO9QhmP4uzxwpDL10\u002fVhSOhtAqTz8D8hxTPHU6P5tCXN\u002fPCCI\u002fjGkRp67ZAz8taEA6rSHhPv3qz9TODLY+fte5N94shT6TX7AQi7qaP296FLCFd5w\u002fKMboHJ9Tlz\u002fBQfvygTKRP43LA1VZm4s\u002fE87i7+WziT\u002f7k21SXjCKP+\u002fGTtFRKIw\u002fr7CPv6yBjz+0Ps8Zf52RP6Aw3\u002fyu65I\u002fNjhkPGBqkz+uzPmf9nKTP1xGv9W+XZM\u002f0+MarzQMkz8+ZGmk9COSP3gEQG7KjJA\u002fIUgPnwE9jT\u002f3AFY7L8CJP3aq7nTYO4c\u002fZK2tkZVthT\u002fUaFWlsZ+DP+ZwtVXFiYE\u002fUYwiSOhGfz+An9mHUwJ9P5rKVRiabXw\u002f+X0tAFD4fD9cNA9ctgl+P3yEL8bn1n4\u002fz1AQzRc1fj8iUn\u002fUgFN7P6oqGQaNa3Y\u002fCMyBam+zcD9ttwY1l9BnP775im6y4mI\u002fEhlVDLIRYz8pIkcPDIVmPyu+b6egdWo\u002fCtskEzSObD9qOFJIYqZrP\u002fIHnHugsWc\u002fo13QoNeDYT\u002f9bmqdmINVP57Afk6TOEU\u002f5x0TH+SfMD\u002fgsdTMF+4UP3NESPRSTvU+rcz6U+kI0T6FpfFROlmkPpYdXSn9KnI+x6BiR8Y7lT\u002fgvaieDK6VP8iLqYIVxpE\u002fYeywlh9vjD9SWThqpDOKP5hiYJMPH4s\u002fn9\u002f2HJQWjT8yom5SBu6PP84tGQTL5pE\u002fnfxVKCPKkz9okurEW+yUP3Ee1nrbPpU\u002f6ZEVoAs\u002flT+PFzSH8TGVP+pRMvqOy5Q\u002fUADXkJagkz\u002fhzyxmt7GRPwVf71\u002fe9I4\u002fohKFP2wYiz97dYp7gDmIP+sbI3Il3IU\u002fRIhhvqBTgz9i2HaJ0amAP2MXNDqZJH0\u002fcxtqJGoMez\u002fPyV1mlLF6P2U6FwFPP3s\u002fTHPMMZ0VfD\u002fkAQzMuXN8P3E+6kZoWXs\u002fgostd99BeD9gonRISZ9zP\u002f83IsJpS20\u002faHApVwyQZT8JlfD2l+9hP\u002fh\u002f0VP\u002fVGI\u002fwEoza2ArZT9JhxQEuzhoP0LmR8zoXWk\u002fNl\u002fTBtqDZz+PcPhTyvpiPyq8KHlpG1o\u002fC+2W68ihTT+VbFv6t+46P6yEoSy0biM\u002fEnIKl1aMBj\u002fmcVHzRS7lPsGaIuDqTL8+FtfaZ\u002fFNkT7e2Nf2bqZcPjoEt2VS6I4\u002fBVFHuucejz8lF0X2sy+LP9DIEiC7Vok\u002fachFatb8ij+hrYEalfGNP\u002f+Z4DnkaZA\u002ffy0T7kgTkj\u002fuOwVW\u002fBGUP+B7DZA2xZU\u002f9Cy6N1qZlj\u002fxpXklUcGWP0oPIvej0ZY\u002fEbB\u002fEq7glj9MvKAvlWeWP4mjd9\u002f18pQ\u002ft97JjCGqkj+fF9B0Iy6QP3SEsoCtJIw\u002ftHeS2rbhiD9ZJa72Fu+FPw23nbadxII\u002fdLd3H4l2fz8VebT+FDl7P7GffXnFVXk\u002fW6RLwTcDeT8gm3b051R5P90i0FGXvnk\u002f2XdP0AadeT8PQe8qQix4P2BwKrZCLHU\u002fJPqzoY0lcT85p+Uin0ZqP6fM+E6QbmQ\u002fC2QZ\u002fX3JYT+NFzZylPNhP1tWDFlkwWM\u002fLKeWcQ2JZT\u002fLTdzcwn5lP+WPmt551GI\u002f49hoe8hpXD9CaP+o4h1SP0Gfjf\u002fC+UI\u002fsrw78UrFLz+KDBIuPRsVPwpy+zU\u002fj\u002fY+jpJxj2CJ0z5bVY+PyKSqPlxPH18nOHs+mqBca6zYRD5whuKu8eGEP9ysOGTz5IU\u002fzjQFG+4mhj8qwbNDo7yIP0KvWQl9GI0\u002fJBBr\u002fIySkD\u002f1zos1ki6SP1bqlR134ZM\u002f+PFufRa5lT\u002fJtGuOkgyXP1KgHX5cgJc\u002fZ3MHv12Llz\u002frtIwwAsGXPxBRYuaX8Zc\u002f0g7s549dlz9vieBcM5yVP7r3a0GrBZM\u002fP3lPl2lZkD8Ns6\u002fq9kCMPzo3bb1FsIg\u002ffQdtgidLhT8gPry2fr2BP2l3IL1+MH0\u002fm+HFXLIoeT\u002fE6Gd0bGx3P3Ygnhom8nY\u002fcCCO6Mzgdj8mMLbcks92PwH\u002f1ShTQ3Y\u002fOzhR9Bu3dD8Agi6CZRlyP8cdPulI0G0\u002fOk7NeNngZz\u002f6Z8XqB8JjP+KBDqddw2E\u002fMdykMDNiYT8HDfwiNethP11D41g+R2I\u002fKVSLU2EgYT+Wb9u4XRNcP+frktqVs1M\u002ffUVy\u002fdRARz\u002f8uWxhWXo2PxDQCmmNWCE\u002fO3C+i4w9BT9ZNbxwpe3kPq\u002fv7cHptsA+ljb15H8IlT5pCrgi39ZjPn5rLMY4FCw+UwkdLvcbez+TIO2MCx2AP3UbYRan84M\u002fJYNp89GOiT9+ZLhIuEWPP\u002fww607JwZE\u002fwkrhYxJLkz+V6DXU5dyUP5nm5EndYpY\u002flX9prU46lz+qSM5euE6XP6JCooaoTZc\u002f8kXPGWmtlz8Y0M9eyPCXPwUTDIB4NJc\u002ffeaklAAwlT9tKF4PvWuSP2UkYVw5aY8\u002fHmifZ0v5ij9UBGQKJU+HP\u002fPng0sxu4M\u002fJjw9xdodgD+6ZfeiHz16PyYAk+Ubl3Y\u002f+bfFV2XvdD9kz3AyZTV0P7voQc36vnM\u002fhb7+GDpJcz9hxOjlAoJyP\u002fGiYYr1GHE\u002fYE73ZT8hbj8zAQEoupBpP9V7D\u002fQ4mWU\u002fZ\u002fluC8TpYj\u002ft640wSkhhP20IXBqSN2A\u002fvZ+tTan8Xj\u002fCBa5g3C1dP7m3KrVNXVk\u002fvi+sV\u002fxPUz9CBUIsEyFJP7inMQkwbzs\u002fIqiceH1+KD8hdfbqznIRP6qkBXMnufM+qPUriF\u002fx0T51MGmDpHeqPuDZsJQVw34+XG7f7KDNSj58Ndk7S4YRPixE4B8uBHI\u002f3hwHHcJGej\u002fd0D8Gc2GDP4LfeMThbIo\u002fDjDf3TkgkD9PnuO2+wCSP5xivlwxU5M\u002fN2rR2VWrlD+TB\u002ftbwMiVP72sFDvcH5Y\u002ff9E+ziDllT9o6ys24uKVP2XKtaFVXZY\u002fCnr2md2Xlj\u002fX0bx3aKyVP31elOfwgJM\u002fRSgx4tW\u002fkD+QbrK2dFqMP4D9nOlaNog\u002fEXc22w+3hD+MEg1VREWBP0jdMeED1Hs\u002f8xN\u002fFDGHdj9tE3z8I1tzP2VO0Ff1wXE\u002fXPzGk\u002f3QcD\u002fXda6fLhRwP+G7HMz9zm4\u002fLvGBPHw2bT+CRD2ciQRrP\u002frWg0eqPmg\u002fIxaNIClfZT8bJ506KxFjPwyCP4g\u002feGE\u002f4KAYZL\u002f\u002fXz9hXR16C5hcP\u002fXW80BJKVk\u002f\u002f5605X+oVT9guPwWOk9RP34TqerCWkg\u002fvq9Nx3FRPT+OqVyNMZotP1uceScqbxg\u002ftX462n0XAD9mtKvPQNLgPjVxINQEULw+pem4iiZSkz4w4FQ\u002f\u002fcZkPvewpWxUvzA+iZsyfilB9D3tmTCiFVlqP04US0XKlXc\u002ft29PjXgTgz9mfGKTOSSKPxF4\u002fuSKLI8\u002fJMOzp+UMkT8gscmOxB+SPz5WvNceN5M\u002fgzBRHxXpkz9jIHAavtCTPymMYBtXX5M\u002fOanIaqpdkz9ZQLJmpteTP8A1b+sd8JM\u002flBX6JWrekj+\u002f\u002flOTV7eQP5YeCbpjX4w\u002fAvxQIBLdhz8ORllnz0eEP\u002fGyH8OkM4E\u002fVmyqQdFWfD+jwzQBG552P\u002fl7dTx\u002fPnI\u002fORMBHPIwbz9xoxlIWjNsP29Cwg7PJWo\u002fUQWtHLh7aD+ptxf21xVnP2xWtbTixGU\u002fFU4+G2pTZD9hHtHiHLdiP3ZBAxbYNWE\u002fJm9MVy8oYD8Esq1YiphePyG\u002fD670xFs\u002f4ldzAomFVz8ecAb29P1SP\u002fVsVzYgrU0\u002foCx5VsWmRT8Otc665QY8P\u002fHDo42qKS8\u002fsF5GmX8ZHT\u002f7ABWbYjkGP8vOMAQHGes+ixirt9A8yj7qjepazXakPgwh+73v5Hk+TuIW2X3RST7Oj9s+e0oTPhUJfUAintU9A4gRo6eOZT9+bevbHdx1P4dfFjwxBYI\u002fFgjbwlYXiD9a\u002fSn8NeGLP8JZz6Yq9o0\u002f7gekr+exjz9\u002fVFSPTrKQPx7+TDP3BJE\u002fndlYckeckD+\u002fKnu68Q6QP03RhnhUCpA\u002fX0fwhi9rkD\u002fxt4XdcFeQP6BeEVo9cI4\u002fpb8H7IGIij8hOacJN0WGPwnW0O1mooI\u002fgdfDryeMfz\u002fO2dMgv496P506fprUq3U\u002fMOtHmCYtcT8gFIjZlphrP1IuT+SSYWc\u002f4eWu\u002fg3FZD+Tgkz1g9piP2iCFLHZU2E\u002fnENpBPknYD+oGfDwmoVeP39SSelX+1w\u002fdN0YeRSEWz\u002f3C6pVCW9aP\u002fSww7K091k\u002fUr5aHyYdWT8g\u002f2eDEWJWP2lG0Y4F6VE\u002fyaJX1k17Sj90xq469q5CP+J+1u8nvTg\u002fPqPL7TpZLT+5+cM7GBgeP1bH9r5q\u002fAk\u002fy0Xt4axf8j7c6fw6N8LUPsrg6zgRpLI+WF95eXr9ij6R0H8wNrhfPgIw1q\u002frYS0+d\u002fy8zhZl9D0r5tPwKzm1PXfQqG08n2I\u002f4OXyWc2ccz8MKA9TcKV\u002fP0Eic9u5ZYQ\u002f68Zv2xvshj9ZgOQ2ZlmIP6DLcV\u002fYxok\u002fVhjBpMcHiz\u002fZe\u002fhUZRmLP3dXHVu+8Yk\u002f0USuc+HQiD9K5hj\u002fHbyIP1PlfLbmM4k\u002fgAWH1wfDiD+KQRoni6eGP9itWek1boM\u002fNFYiJb0lgD+weGwFVep6Pw2XHAw3tnY\u002f9C0P2ZYAcz8Ldk8xosNuP+EuB9vBO2g\u002fllmOzIBYYz\u002fH9ObG5y9gPznI2Cn6NVw\u002foeLGGvUZWT+FCYfP\u002fLdWP9OmAAnpEFU\u002f68H6pNcTVD9yYth5bX9TP\u002fszeTswJVM\u002fA2YhdCw3Uz8flLD+HaBTP+fkMNHrLVM\u002fRtH+tCyoUD9XkDbPxh1JP7PSoVJt\u002fEA\u002fG0gPjYuRNT8LVDusZccpP1MWGod96xs\u002fqm\u002fPCHRbCj9\u002f5xR34Qn1PpqXtFZxjds+yZ8cibfcvD7N8focnw6YPu+Yp7rzLnA+lR1DImewQT6LmZ8Uan8OPl4O0aZHtNM9GNK71xIVkz0=","shape":"50, 50"},"type":"surface"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"title":{"text":"Support of P conditional on X index"},"scene":{"xaxis":{"title":{"text":"X(\u03b41 - \u03b40) index"}},"yaxis":{"title":{"text":"P (propensity score)"}},"zaxis":{"title":{"text":"f(P | X)"}}}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('69122bda-9bbe-4b86-8684-0041ae5a59b9');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Carneiroetal2017" class="csl-entry" role="listitem">
+Carneiro, Pedro, Michael Lokshin, and Nithin Umapathi. 2017. <span>“Average and Marginal Returns to Upper Secondary Schooling in Indonesia.”</span> <em>Journal of Applied Econometrics</em> 32 (1): 16–36. https://doi.org/<a href="https://doi.org/10.1002/jae.2523">https://doi.org/10.1002/jae.2523</a>.
+</div>
+<div id="ref-Firpo2007" class="csl-entry" role="listitem">
+Firpo, Sergio. 2007. <span>“Efficient Semiparametric Estimation of Quantile Treatment Effects.”</span> <em>Econometrica</em> 75 (1): 259–76.
+</div>
+<div id="ref-FrolichMelly2010" class="csl-entry" role="listitem">
+Frölich, Markus, and Blaise Melly. 2010. <span>“Estimation of Quantile Treatment Effects with Stata.”</span> <em>The Stata Journal</em> 10 (3): 423–57.
+</div>
+<div id="ref-Lalonde1986" class="csl-entry" role="listitem">
+LaLonde, Robert J. 1986. <span>“<span class="nocase">Evaluating the Econometric Evaluations of Training Programs with Experimental Data</span>.”</span> <em>The American Economic Review</em> 76 (4): 604–20.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

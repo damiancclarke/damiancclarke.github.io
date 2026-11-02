@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>An Introduction to Stata – Applied Microeconometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-808c031e01507d627300357d88007fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Applied Microeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./about.html">
+ <span class="dropdown-text">About this book</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data.html">
+ <span class="dropdown-text">How to download the required data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-python" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Python</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-python">    
+        <li>
+    <a class="dropdown-item" href="./Python.html">
+ <span class="dropdown-text">Following Along with Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionPython.html">
+ <span class="dropdown-text">An Introduction to Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Python.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3Python.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Python.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Python.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Python.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Python.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Python.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9Python.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">Following Along with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionR.html">
+ <span class="dropdown-text">An Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2R.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3R.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4R.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5R.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6R.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7R.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8R.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9R.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-stata" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Stata</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-stata">    
+        <li>
+    <a class="dropdown-item" href="./Stata.html">
+ <span class="dropdown-text">Following Along with Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionStata.html">
+ <span class="dropdown-text">An Introduction to Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Stata.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter3Stata.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Stata.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Stata.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Stata.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Stata.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Stata.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter9Stata.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./IntroductionStata.html">An Introduction to Stata</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Following Along with Stata</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IntroductionStata.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">An Introduction to Stata</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter2Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter3Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter4Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter5Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter6Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter7Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter8Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter9Stata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 9</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link active" data-scroll-target="#preliminaries">Preliminaries</a></li>
+  <li><a href="#an-introduction-to-the-language-and-data-types" id="toc-an-introduction-to-the-language-and-data-types" class="nav-link" data-scroll-target="#an-introduction-to-the-language-and-data-types">An introduction to the language and data types</a>
+  <ul class="collapse">
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types">Data Types</a>
+  <ul class="collapse">
+  <li><a href="#data-stored-as-variables" id="toc-data-stored-as-variables" class="nav-link" data-scroll-target="#data-stored-as-variables">Data Stored as Variables</a></li>
+  <li><a href="#working-with-frames-ge-stata-16" id="toc-working-with-frames-ge-stata-16" class="nav-link" data-scroll-target="#working-with-frames-ge-stata-16">Working with frames (<span class="math inline">\(\ge\)</span> Stata 16)</a></li>
+  <li><a href="#other-types-of-data-stored-by-stata" id="toc-other-types-of-data-stored-by-stata" class="nav-link" data-scroll-target="#other-types-of-data-stored-by-stata">Other Types of Data Stored by Stata</a></li>
+  </ul></li>
+  <li><a href="#basic-operations" id="toc-basic-operations" class="nav-link" data-scroll-target="#basic-operations">Basic Operations</a>
+  <ul class="collapse">
+  <li><a href="#the-foreach-loop" id="toc-the-foreach-loop" class="nav-link" data-scroll-target="#the-foreach-loop"><strong>1. The <code>foreach</code> Loop</strong></a></li>
+  <li><a href="#the-while-loop" id="toc-the-while-loop" class="nav-link" data-scroll-target="#the-while-loop"><strong>2. The <code>while</code> Loop</strong></a></li>
+  <li><a href="#loop-control-mechanisms-in-stata" id="toc-loop-control-mechanisms-in-stata" class="nav-link" data-scroll-target="#loop-control-mechanisms-in-stata"><strong>3. Loop Control Mechanisms in Stata</strong></a></li>
+  </ul></li>
+  <li><a href="#stata-commands" id="toc-stata-commands" class="nav-link" data-scroll-target="#stata-commands">Stata Commands</a></li>
+  <li><a href="#user-written-commands" id="toc-user-written-commands" class="nav-link" data-scroll-target="#user-written-commands">User-Written Commands</a></li>
+  </ul></li>
+  <li><a href="#working-with-data" id="toc-working-with-data" class="nav-link" data-scroll-target="#working-with-data">Working with Data</a>
+  <ul class="collapse">
+  <li><a href="#loading-and-viewing-data" id="toc-loading-and-viewing-data" class="nav-link" data-scroll-target="#loading-and-viewing-data">Loading and viewing data</a></li>
+  <li><a href="#tidying-data" id="toc-tidying-data" class="nav-link" data-scroll-target="#tidying-data">Tidying data</a>
+  <ul class="collapse">
+  <li><a href="#aggregating-data" id="toc-aggregating-data" class="nav-link" data-scroll-target="#aggregating-data">Aggregating Data</a></li>
+  <li><a href="#mergingjoining-data" id="toc-mergingjoining-data" class="nav-link" data-scroll-target="#mergingjoining-data">Merging/Joining Data</a></li>
+  <li><a href="#filtering-data" id="toc-filtering-data" class="nav-link" data-scroll-target="#filtering-data">Filtering Data</a></li>
+  <li><a href="#reshaping-data" id="toc-reshaping-data" class="nav-link" data-scroll-target="#reshaping-data">Reshaping Data</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#basic-plots" id="toc-basic-plots" class="nav-link" data-scroll-target="#basic-plots">Basic Plots</a></li>
+  <li><a href="#writing-our-own-programs" id="toc-writing-our-own-programs" class="nav-link" data-scroll-target="#writing-our-own-programs">Writing Our Own Programs</a>
+  <ul class="collapse">
+  <li><a href="#an-introduction-to-programs-in-stata" id="toc-an-introduction-to-programs-in-stata" class="nav-link" data-scroll-target="#an-introduction-to-programs-in-stata">An Introduction to Programs in Stata</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-simple-program" id="toc-creating-a-simple-program" class="nav-link" data-scroll-target="#creating-a-simple-program">Creating a Simple Program</a></li>
+  <li><a href="#understanding-program-arguments" id="toc-understanding-program-arguments" class="nav-link" data-scroll-target="#understanding-program-arguments">Understanding Program Arguments</a></li>
+  <li><a href="#variable-scope-and-return-values" id="toc-variable-scope-and-return-values" class="nav-link" data-scroll-target="#variable-scope-and-return-values">Variable Scope and Return Values</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#simulation-and-regression" id="toc-simulation-and-regression" class="nav-link" data-scroll-target="#simulation-and-regression">Simulation and Regression</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">An Introduction to Stata</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="preliminaries" class="level1">
+<h1>Preliminaries</h1>
+<p>We will assume that when you are reading this you have access to some version of Stata. Likely, the way you will interact with Stata will be with Stata’s <a href="https://www.stata.com/features/overview/graphical-user-interface/">native GUI</a> which provides you with a number of windows including a panel showing the history of commands, an area displaying any variables you have loaded, a place to type commands, a number of emerging windows which we will discuss below, and most importantly, a “shell”, or Stata interface, which looks like the following:</p>
+<pre><code>  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 8-core  perpetual
+Serial number: SERIAL HERE
+  Licensed to: NAME HERE
+               INSTUTION HERE
+
+Notes:
+      1. Unicode is supported; see help unicode_advice.
+      2. More than 2 billion observations are allowed; see help obs_advice.
+      3. Maximum number of variables is set to 5,000 but can be increased; see help set_maxvar.
+
+.</code></pre>
+<p>Stata comes in versions ranging from 1 to 19, with later versions being assigned higher numbers. Later versions of Stata can run any code written in earlier versions of Stata, though at times new commands are introduced, which may be available in more recent versions of Stata, but not in earlier versions. In the below we will generally work in a way which will work with any recent versions of Stata (for example from version 12 onwards, given that versions prior to Stata 12 are not common), though we will note in a few cases where commands may be specific to only certain versions of Stata and later.</p>
+<p>If you are in the Stata GUI, <code>Stata</code> code can be entered directly in the command line which is generally located at the bottom of the window. The most simple way to execute code in <code>Stata</code> is to simply input commands at the command like. So, for example, you could write the following in the command line and press enter, and <code>Stata</code> will evaluate this code:</p>
+<div id="d1043fd3" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 4 + 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<style>div.jp-Notebook .datagrid-container {min-height: 448px; }</style>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>8</code></pre>
+</div>
+</div>
+<p>As you can see, <code>Stata</code> has understood the instruction that you want to add 4 plus 4 and show the result, which is evaluated, and output directly in the <code>Stata</code> console above. Later in this chapter we will properly explain these mathematical operations and the different <code>Stata</code> data types. You will note that unlike in certain other languages, here we have not simply input a mathematical operation to be evaluated. This is because <code>Stata</code> requires every interaction to be based on a valid command, which in this case happens to be the <code>display</code> command. So if, for example, we were instead to type:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>4+4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>4 is not a valid command name
+r(199);</code></pre>
+<p>we see that the answer is not returned to us, but rather some message suggesting that we have done something invalid (we will discuss such messages at more length below). <code>Stata</code> has a large range of commands which can be invoked at the command line. We will become familiar with a considerable number of these throughout this introduction. As another very simple example we can type <code>pwd</code> for “print working directory”:</p>
+<div id="869b9e74" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pwd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/home/dcc213/books/microeconometrics/site</code></pre>
+</div>
+</div>
+<p>This command show us the path on our computer where <code>Stata</code> is currently working. Thus, any files saved will be exported here, and <code>Stata</code> will search for any thing to import from this directory. If you wish to change this directory you must use the function <code>cd("Path/to/the/directory/you/want/to/use")</code> with the path written between <code>" "</code> in order for <code>Stata</code> understand that is a character, again a topic that will be introduced more deeply later. It is important to note that paths should be separated with the slash character: <code>/</code> rather than the backlash <code>\</code>, as this will work on any operating system. Indeed, if you try to set directories with a backslash, on certain operating systems you will see that <code>Stata</code> returns an error. This may not happen on your operating system, but it is good practice to separate paths by “/” as it ensures code can be run seamlessly on other systems.</p>
+<p>We will return to discuss the precise nature of commands in more detail a bit later on. For now you will note that we have simply been typing instructions to <code>Stata</code> directly into the command line, and <code>Stata</code> has been providing us with output. Generally, we will not work this way in an empirical research project, as we will want to develop code over time, and be able to return to <code>Stata</code> and replicate code in the future. For this reason, generally we will work in do files, or files named as <code>something.do</code> (where <code>something</code> will be logical name for the file). We will use these do files to store the commands which we require for particular processes or routines, and can then save them to the disk of our computer before running them in <code>Stata</code>. These scripts can be generated in any type of text editor, and then can be run in <code>Stata</code> using the <code>do</code> command. For example, below, you can see a screenshot of a session on <code>Stata</code> where we have a basic <code>Stata</code> do file named <code>firstStataScript.do</code> which we are editing in <code>Stata</code>’s native do file editor (which can be accessed by typing <code>doedit</code>, and behind this, in the <code>Stata</code> console we see that the script is run using <code>do</code> and output is provided.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/sourceStata.png" class="img-fluid figure-img"></p>
+<figcaption>A Stata do file and Output in Stata</figcaption>
+</figure>
+</div>
+<p>You may notice something strange about the code and the output in the <code>Stata</code> console. The Stata do file has 7 distinct lines of text, but the console only executes three lines of code (the lines in Stata which do not begin with a “.”). The reason for this is because we have included comments, or messages for human eyes, but not for the computer to interpret. Any time that <code>//</code> is included in code, <code>Stata</code> understands that this is a comment, and hence is ignored in executing the code. So, for example, when we write:</p>
+<div id="4de96c53" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"Hello World!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hello World!</code></pre>
+</div>
+</div>
+<p>in our code, the <code>Stata</code> console correctly echoes <em>Hello World!</em> back at us. However, if we enter precisely the same code, but begin the line with a comment symbol, <code>Stata</code> will not do anything given that it interprets everything to the right of <code>//</code> as plain text which should be ignored. Similarly, the “*” symbol used at the beginning of a line also serves to act as a comment character. You will note that on line 9 of the code displayed in the do file editor, we are also perfectly able to use comments within a line in do files, and the line will only be executed up to the point which the comment is reached. It is good practice to comment code extensively, both for sharing code with other users, but also for sharing code with yourself in the future, where you may not remember precisely what you were thinking when you originally wrote your code! As a final note on comments, you can also write comments which span multiple lines if these comments are contained within the characters: <code>/*</code> which opens the commend and <code>*/</code> which closes the comment. You may wish to confirm this yourself by opening a do file and checking that you can write a multi-line comment in this way.</p>
+</section>
+<section id="an-introduction-to-the-language-and-data-types" class="level1">
+<h1>An introduction to the language and data types</h1>
+<p>Until now we have executed some code in <code>Stata</code> and seem some specific commands which print output, but we have never stored any results for later use within our code. Generally we <em>will</em> want to store the output of intermediate steps in our code for later use. We will show a number of ways to do this below.</p>
+<p>In general, when we work with <code>Stata</code> we will work with variables, which are stored by <code>Stata</code> as a dataset. We can assign the values or characters to variables, provided that we first ensure that <code>Stata</code> has a defined number of observations. For example:</p>
+<div id="2b19ad81" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 10</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> x1=1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of observations (_N) was 0, now 10.</code></pre>
+</div>
+</div>
+<p>If we already have data in memory, the first line of code <code>set obs 10</code> will not be necessary, as we will already have a defined number of observations. However in the second line where we generate a variable named <code>x1</code> and define its value as 1 for each observation, this will be generated for the number of observations in our entire dataset. We will discuss this structure shortly, as well as alternative ways to store information, when we lay out <code>Stata</code>’s data types below.</p>
+<p>In the above code we have seen that Stata has used the command <code>generate</code> and then uses the equals symbol to assign a value to the variable generated. If we fail to remember to type generate, or make some other error in our assignation, Stata will inform us about our error by printing out an error message:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x1 = 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>command x1 is unrecognized
+r(199);</code></pre>
+<p>These error messages include a brief explanation of what has gone wrong, to help you diagnose and fix your code, as well as an error code (in this case r(199)), which may allow you to find further information related to the error. All error codes can be found in <code>Stata</code>’s <a href="https://www.stata.com/manuals/perror.pdf#perror">manuals</a>. When an error occurs, anything which you have asked of your code will not be performed, and so in this particular case you will not see any variable named <em>x1</em> in your Stata memory.</p>
+<section id="data-types" class="level2">
+<h2 class="anchored" data-anchor-id="data-types">Data Types</h2>
+<section id="data-stored-as-variables" class="level3">
+<h3 class="anchored" data-anchor-id="data-stored-as-variables">Data Stored as Variables</h3>
+<p>The logic of <code>Stata</code> is generally based on the idea that we will have a principal dataset which will allow us to store related variables. This is similar to the idea of data frames in other languages, and makes sense for a lot of our econometric work where we will often wish to store information on <em>N</em> individuals in rows, and <em>K</em> variables in columns. By default, when we generate variables these will be stored in a single dataset which we can browse in <code>Stata</code>. As we have seen above, we can generate this dataset “by hand” by first indicating the number of observations (rows) available, and then simply provide names for any newly added variables. As we will see below, in practice we will generally actually import an existing dataset, and then generate any variables to add to this data. Traditionally, Stata obliges us to work with a single dataset in memory, and so at times we need to think carefully about how to combine datasets if we are working with multiple pieces of information at once. However, as we will see shortly, frmo version 16 of <code>Stata</code> onwards, we are now able to hold multiple datasets in memory simultaneously, potentially making it more simple to work with varying types of information.</p>
+<section id="text-string-data" class="level4">
+<h4 class="anchored" data-anchor-id="text-string-data">Text (String) Data</h4>
+<p>To get up and running with <code>Stata</code>, it is useful to understand the different ways which data can be stored. <code>Stata</code> can hold a number of different types of information in the variables we generate, and it is important that <code>Stata</code> understands what type of information we are passing or storing. Among others, <code>Stata</code> allows for variables to hold text (strings) or numeric data types. Text is perhaps the conceptually simplest type of data. Text is simply saved as strings of characters, and should be specified between <code>" "</code>. We have seen the use of characters when displaying “Hello world” previously. If characters are not indicated between strings, <code>Stata</code> will understand that they refer to variable names. For example, returning to <em>Hello World</em>, if we seek to generate a variable which stores this text, if this is entered without quotes, an error will appear:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> mivar = Hello World</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Hello not found
+r(111);</code></pre>
+<p>Indeed, if we look carefully at the error message we may see that the error has occurred when <code>Stata</code> tried to evaulate <code>Hello</code>. As we did not enclose <code>Hello</code> in double quote, Stata seeks to find some internal information such as a variable or command called <code>Hello</code>. When it is unable to find tis, an error is produced. However, if we had correctly enclosed “Hello World” in double quotes, we would see that this would be stored as a variable, which we are naming <code>mivar</code>:</p>
+<div id="4e3148c0" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> mivar = <span class="st">"Hello World"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can confirm that this variable exists and is effectively understood to be string data by using the <code>describe</code> command. This command describes to us the variable which we request to describe, or if entered with no names, simply describes all the data held in the memory. Below we see that among other things, the storage type of this variable is denoted as <code>str11</code>, a string variable with 11 characters.</p>
+<div id="5841c615" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">describe</span> mivar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+mivar           str11   %11s                  </code></pre>
+</div>
+</div>
+<p>Numeric data is entered without any special behaviour, simply writing the number in the case of numerica values. Indeed, if numeric data is accidentally enclosed between quotes, it will be treated as character, and <em>not</em> numeric data. For example, below we assign two variables based on the number <code>2</code> and confirm that one is numeric while the other is viewed as a character.</p>
+<div id="7ae8f494" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">set</span> <span class="kw">obs</span> 10</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> num1=2</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> num2 = <span class="st">"2"</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">describe</span> num1 num2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+num1            float   %9.0g                 
+num2            str1    %9s                   </code></pre>
+</div>
+</div>
+<p>If you try to perform numerical operations based on the above variables (more on this below), you will see that <code>num1</code> can be involved in such calculations, while <code>num2</code> cannot.</p>
+</section>
+</section>
+<section id="working-with-frames-ge-stata-16" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-frames-ge-stata-16">Working with frames (<span class="math inline">\(\ge\)</span> Stata 16)</h3>
+<p>One of the few points we will see here which is Stata version specific is the use of frames. From Stata version 16 and beyond, the ability to work with multiple datasets simultaneously in a single session was introduced. For example, given that we have generated a number of variables in our session, we can see that there is a current data frame named default.</p>
+<div id="16fc73b8" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>frame</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  (current frame is default)</code></pre>
+</div>
+</div>
+<p>If we would like to start working with multiple frames we may wish to rename this frame for simplicity using <code>frame rename oldname newname</code></p>
+<div id="e04024e0" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>frame <span class="kw">rename</span> <span class="kw">default</span> my10obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we will create a new data frame with <code>frame create name</code> and change to that data frame with <code>cwf name</code>, where <code>cwf</code> refers to “Change working frame”:</p>
+<div id="979a8fa5" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>frame create secondframe</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>cwf secondframe</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">describe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Contains data
+ Observations:             0                  
+    Variables:             0                  
+Sorted by: </code></pre>
+</div>
+</div>
+<p>As you can see when we use the <code>describe</code> command, our new frame contains none of the information which we have previously generated in our session. However, if we request that Stata , but if you use</p>
+<div id="7816e66d" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>frames <span class="ot">dir</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>* my10obs      10 x 4
+  secondframe  0 x 0
+
+Note: Frames marked with * contain unsaved data.</code></pre>
+</div>
+</div>
+<p>You will see how there is two data frames and the one named <code>my10obs</code> contains our previously generated data. We can now simply use <code>cwf</code> to toggle between data frames should we wish to work in two separate data environments.</p>
+</section>
+<section id="other-types-of-data-stored-by-stata" class="level3">
+<h3 class="anchored" data-anchor-id="other-types-of-data-stored-by-stata">Other Types of Data Stored by Stata</h3>
+<p>Although the most common way to work in <code>Stata</code> will be within a dataset or data frame, <code>Stata</code> provides a number of additional ways to store data including as scalars and matrices. Scalars are objects that store a single value, which can be either a string or a number. For example, we can define scalars as below, noting the use of the <code>scalar</code> command.</p>
+<div id="8425232e" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> x1 = <span class="st">"Hello World"</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> x1</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> <span class="kw">x2</span> = 4 + 4</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="kw">x2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hello World
+8</code></pre>
+</div>
+</div>
+<p>This code succesfully store the string <em>Hello World</em> in the scalar named <code>x1</code> and 8 (as the result of 4 plus 4) in the scalar <code>x2</code>. This scalars can also be used in future operations</p>
+<div id="cd5ad7e8" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> <span class="kw">x2</span> = 4 + 4</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> x3 = <span class="kw">x2</span> + 4</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> x3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>12</code></pre>
+</div>
+</div>
+<p>You may note that here we have generated a scalar named as <code>x1</code>, and previously we had generated a variable named <code>x1</code> in our Stata dataset. There is no formal reason why you cannot name scalars in the same way as you name variables, as Stata will view them as different objects. Of course, you likely will wish to avoid the confusion of having variables and scalars named in the same way, and it is good practice to use more descriptive names when generating variables and scalars. However, it is worth noting one difference in working with scalars and variables. If we wish to generate a variable which is already generate, <code>Stata</code> will not allow us to, resulting in an error indicating a variable with this name is already defined. However, if we wish to replace a scalar with a new value, <code>Stata</code> will issue no error, simply destroying the old scalar, and creating a new one. For example, below (noting that the variable <code>x1</code> and the scalar <code>x1</code> have previously been defined), we can see this differing behaviour:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">set</span> <span class="kw">obs</span> 10</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> x1=1</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> x1=2</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> x1=2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>variable x1 already defined
+r(110);</code></pre>
+<p>If we do <em>actually</em> wish to save over our variable, we need to explicitly indicate this by using the <code>replace</code> command instead of the <code>generate</code> command.</p>
+<div id="49414694" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">set</span> <span class="kw">obs</span> 10</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> x1=1</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> x1=2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(10 real changes made)</code></pre>
+</div>
+</div>
+<p>Finally, we can also work with numerical matrices which can only store numbers and which work in the fashion of standard algebraic matrices, by using the group of <code>matrix</code> commands. To see this, consider the following matrices, which are input using <code>matrix input</code>, and which we name as <code>A</code> and <code>B</code>:</p>
+<div id="ba994f96" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> input A = (1, 2 \ 3, 4)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> input B = (5, 6 \ 7, 8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Stata’s matrix notation is to separate columns by commas, and rows with the backslash. We can see the result of this <code>matrix input</code> using the <code>matrix list</code> command</p>
+<div id="619af6a7" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> input A = (1, 2 \ 3, 4)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> input B = (5, 6 \ 7, 8)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">list</span> A</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">list</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+A[2,2]
+    c1  c2
+r1   1   2
+r2   3   4
+
+B[2,2]
+    c1  c2
+r1   5   6
+r2   7   8</code></pre>
+</div>
+</div>
+<p>This matrices are stored and can then be operated with to conduct permitted matrix operations, as seen below.</p>
+<div id="b3c87809" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> input A = (1, 2 \ 3, 4)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> input B = (5, 6 \ 7, 8)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="kw">define</span> C = A * B</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">list</span> C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+C[2,2]
+    c1  c2
+r1  19  22
+r2  43  50</code></pre>
+</div>
+</div>
+<p>A list of matrix operations can be found in <a href="https://www.stata.com/manuals/u14.pdf">Stata’s manuals</a>.</p>
+</section>
+</section>
+<section id="basic-operations" class="level2">
+<h2 class="anchored" data-anchor-id="basic-operations">Basic Operations</h2>
+<p>The standard mathematical operations in <code>Stata</code> likely work how you would expect. Basic mathematical operations are as follows, with an example of their use below:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Symbol</th>
+<th style="text-align: center;">Operation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>+</code></td>
+<td style="text-align: center;">Addition</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>-</code></td>
+<td style="text-align: center;">Subtraction</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>*</code></td>
+<td style="text-align: center;">Multiplication</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>/</code></td>
+<td style="text-align: center;">Division</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>^</code></td>
+<td style="text-align: center;">Power</td>
+</tr>
+</tbody>
+</table>
+<p>A few examples</p>
+<div id="4a7dc1d7" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 10 + 3</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 10 - 3</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 10 * 3</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 10 / 3</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 10 ^ 3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>13
+7
+30
+3.3333333
+1000</code></pre>
+</div>
+</div>
+<p>Also when you combine different operators it respects the PEMDAS order, first resolving Parentheses, second solve Exponents, third Multiplication and Division, fourth Addition and Substraction. Both multiplication and division, and addition and substraction are evaluated left to right, rather than sequentially by operation, so it is important to indicate to <code>Stata</code> explicitly what you need using parentheses in certain cases. For example in order to solve <span class="math display">\[-\frac{5 + 3^{5-3}}{5\times 3}\]</span> You should use the code</p>
+<div id="2e9d3058" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> -(5+3^(5-3))/(5*3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-.93333333</code></pre>
+</div>
+</div>
+<p>In general, these operations are assumed to refer to variables or scalars. In the case of matrices, addition, substraction multiplication and division are also possible with the same symbols, where multiplication will result in matrix multiplication (and not element-wise multiplication), and division assumes the division of each element of the matrix by a single scalar. Matrix transpose can also be performed simply using <code>'</code>. If, however, you wish to perform more complicated matrix calculations such as element-wise operations, it may be worth using <code>Stata</code>’s own matrix processing language, which is known as <code>Mata</code>. In this introduction we will not explore <code>Mata</code>, however it is worth noting its existence, particularly if you wish to work with demanding numerical tasks.</p>
+<p>Certain mathematical operators can also work with strings, specifically <code>+</code> and <code>*</code>. Stata automatically identifies when you use <code>+</code> if you are adding numerical values or concatenating strings, in this case you must use the same data type. When you use <code>*</code> to operate with strings you must specify a string and a number, because Stata will repeat the string as many times as the number indicates:</p>
+<div id="e873c0e1" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> x1 = <span class="st">"Hello "</span> + <span class="st">"World"</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> <span class="kw">x2</span> = 2 + 2</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> x3 = <span class="st">"Hello"</span> * 2</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> x1</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="kw">x2</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> x3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2
+4
+HelloHello</code></pre>
+</div>
+</div>
+<p>Stata also has relational and logical operators that returns a numerical value associated with the truth value of an expression (0 for False and 1 for True) pointing if the statement is true or false. This operators are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Symbol</th>
+<th style="text-align: center;">Comparison</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>==</code></td>
+<td style="text-align: center;">Equals</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>!=</code></td>
+<td style="text-align: center;">Difference</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>&gt;</code></td>
+<td style="text-align: center;">Greater</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>&gt;=</code></td>
+<td style="text-align: center;">Greater or Equal</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>&lt;</code></td>
+<td style="text-align: center;">Less</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>&lt;=</code></td>
+<td style="text-align: center;">Less or Equal</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>|</code></td>
+<td style="text-align: center;">Or</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>&amp;</code></td>
+<td style="text-align: center;">And</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>!</code> or <code>~</code></td>
+<td style="text-align: center;">Negation</td>
+</tr>
+</tbody>
+</table>
+<p>A few examples</p>
+<div id="58e88293" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 4 == 3</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 4 != 3</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 4 &gt; 3</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 4 &gt;= 3</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 4 &lt; 3</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> 4 &lt;= 3</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> (4 == 3) | (4 != 3)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> (4 == 3) &amp; (4 != 3)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> ~(4 == 3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0
+1
+1
+1
+0
+0
+1
+0
+1</code></pre>
+</div>
+</div>
+<p>We will return to these logical operators below when we discuss the use of conditions in manipulating variables.</p>
+<p>##<strong>Loops in Python</strong> Looping constructs in programming languages provide a mechanism to execute a set of instructions multiple times, contingent upon certain conditions. Stata, a powerful statistical software, offers several looping constructs. Among these, the <strong><code>foreach</code></strong> and <strong><code>while</code></strong> loops are paramount.</p>
+<section id="the-foreach-loop" class="level3">
+<h3 class="anchored" data-anchor-id="the-foreach-loop"><strong>1. The <code>foreach</code> Loop</strong></h3>
+<p>In Stata, the <strong><code>foreach</code></strong> loop is commonly used to iterate over lists or variables.</p>
+<p><strong>1.1. Iteration Over Variables</strong></p>
+<p>Consider a dataset of student grades:</p>
+<div id="6c4623f4" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>input str10 student grade</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>Alice 85</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>Bob 90</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>Charlie 78</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>Diana 92</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="kw">var</span> <span class="kw">of</span> <span class="kw">varlist</span> grade {</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">summarize</span> <span class="ot">`var'</span>, <span class="kw">detail</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+                            grade
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%           78             78
+ 5%           78             85
+10%           78             90       Obs                   4
+25%         81.5             92       Sum of wgt.           4
+
+50%         87.5                      Mean              86.25
+                        Largest       Std. dev.      6.238322
+75%           91             78
+90%           92             85       Variance       38.91667
+95%           92             90       Skewness      -.5083257
+99%           92             92       Kurtosis       1.738983</code></pre>
+</div>
+</div>
+<p><strong>1.2. Iteration Over Lists</strong></p>
+<p>For tasks requiring iteration over a series of numbers:</p>
+<div id="35e65087" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> i <span class="kw">of</span> numlist 3/8 {</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">display</span> <span class="st">"Processing data point `i'."</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Processing data point 3.
+Processing data point 4.
+Processing data point 5.
+Processing data point 6.
+Processing data point 7.
+Processing data point 8.</code></pre>
+</div>
+</div>
+</section>
+<section id="the-while-loop" class="level3">
+<h3 class="anchored" data-anchor-id="the-while-loop"><strong>2. The <code>while</code> Loop</strong></h3>
+<p>The <strong><code>while</code></strong> loop in Stata executes statements as long as a particular condition remains true.</p>
+<p>Consider a scenario where we’re approximating the square root of a number using the Babylonian method:</p>
+<div id="c67c5f9b" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> number = 49</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> guess = number / 2  <span class="co">// Initial guess</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> difference = 1</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> <span class="kw">tolerance</span> = 0.01</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="kw">while</span> difference &gt; <span class="kw">tolerance</span> {</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scalar</span> new_guess = 0.5 * (guess + number / guess)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scalar</span> difference = <span class="fu">abs</span>(new_guess - guess)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scalar</span> guess = new_guess</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"Approximated square root: "</span> <span class="fu">round</span>(guess, .01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Approximated square root: 7</code></pre>
+</div>
+</div>
+</section>
+<section id="loop-control-mechanisms-in-stata" class="level3">
+<h3 class="anchored" data-anchor-id="loop-control-mechanisms-in-stata"><strong>3. Loop Control Mechanisms in Stata</strong></h3>
+<p>The continue command in Stata’s foreach, forvalues, or while loops interrupts the current iteration and omits the rest of the loop’s commands, restarting from the loop’s beginning. However, when paired with the break option, it exits the loop completely and proceeds with the next command outside the loop. This feature allows for flexible control within looping constructs, either to skip an iteration or to terminate the loop based on specific conditions.</p>
+<p><strong>3.1. Utilizing <code>continue, break</code> in Odd Numbers and Least Common Multiple (LCM)</strong></p>
+<div id="af7a145c" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Loop through numbers 1 to 10</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="kw">forvalues</span> i = 1/10 {</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Display odd numbers and break the loop when the number reaches 7</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="fu">mod</span>(<span class="ot">`i'</span>, 2) == 1 {</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">display</span> <span class="st">"Odd number: `i'"</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">if</span> <span class="ot">`i'</span> == 7 {</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">continue</span>, <span class="kw">break</span> <span class="co">// Break out of the loop when the number reaches 7</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a><span class="kw">forvalues</span> x = 1/10000 {</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="fu">mod</span>(<span class="ot">`x'</span>,7)==0 &amp; <span class="fu">mod</span>(<span class="ot">`x'</span>,8)==0 &amp; <span class="fu">mod</span>(<span class="ot">`x'</span>,9)==0 {</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">display</span> <span class="st">"The least common multiple of 7, 8, and 9 is `x'"</span></span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">continue</span>, <span class="kw">break</span></span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Odd number: 1
+Odd number: 3
+Odd number: 5
+Odd number: 7
+The least common multiple of 7, 8, and 9 is 504</code></pre>
+</div>
+</div>
+<p>In conclusion, loops are indispensable in Stata, facilitating repetitive tasks and complex computations. Mastery of these constructs is essential for academic research, statistical analysis, and data visualization.</p>
+</section>
+</section>
+<section id="stata-commands" class="level2">
+<h2 class="anchored" data-anchor-id="stata-commands">Stata Commands</h2>
+<p>Beyond these logical and mathematical operators, <code>Stata</code> comes with a large suite of built in commands which perform specific tasks, as well as additional user-contributed functions (discussed below) which can perform a number of more specialised tasks. “Out of the box” <code>Stata</code> comes with many commands which are all comprehensively documented. A full list can be found in the <a href="https://www.stata.com/manuals/r.pdf#rrBaseReference">Stata manuals</a>.</p>
+<p>Commands are designed to perform specific tasks, potentially accepting input (known as “arguments”), and returning output which you can interact with. We have already seen a number of functions above such as <code>display</code>, <code>generate</code>, and <code>describe</code> which at times we have used with arguments, and at times we have used without arguments. In order to use commands the highly-standardised Stata syntax is to provide the command’s name, followed by its arguments (variable names, conditionals for a subset of observations and other requirements) and its specific options, which are separated by a comment from the main arguments. These options allow us to further specialise commands by requesting particular optional changes to the default implementation. To understand how a command works, we should consult the help documentation which is available for each command by typing <code>help</code> and the command name. For example, if we wish to understand the <code>describe</code> function, typing <code>help describe</code> will provide us with the following syntax, along with a list of options, further explanation, and so forth.</p>
+<p><u>d</u>escribe [varlist] [, memory_options]</p>
+<p>The syntax is always laid out in this standardised way, where square brackets imply that something is optional. Here if we do not type a specific list of variables (varlist) Stata will describe to us all the variables in memory. We are also optionally able to include options, such as simple, and short, which are laid out below in the help file. You will also note one other thing in the syntax diagram, and that is that the <code>d</code> describe is underlined. Each Stata command will underline the shortest possible way a command can be written by providing this underline, and in this case this implies that even if we just write <code>d</code> Stata will understand that this refers to the describe command. Indeed, we can write command names as this shortest version possible, or any longer version up to and including the full name, so <code>d</code>, <code>de</code>, <code>des</code> and so forth are all understood as <code>describe</code>.</p>
+<p>In certain cases if we are not sure exactly what function we need we can type <code>search search_term</code> and <code>Stata</code> will advise us of any functions which may do what we’re after. For example, if we are seeking to summarise our variables, we may type <code>search summary</code>, and we see a range of functions, including one called <code>summary</code>. We can then consult the help file to see if this is precisely what we are after. Reading the help file we see that the command “calculates and displays a variety of univariate summary statistics.”</p>
+<p>As in general we will work with data in using our commands, and to see how this <code>summarize</code> command works in practice, we will use an internal dataset which Stata provides for us. This is the <code>auto</code> dataset, a simple dataset often used to explore commands. In the following section we will further discuss ways to load data into Stata, but for now just note that we can load this particular dataset using the <code>sysuse</code> (for “system use”) command, along with the name of the auto dataset:</p>
+<div id="fc62583a" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sysuse</span> auto, <span class="kw">clear</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="kw">des</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> mpg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(1978 automobile data)
+
+Contains data from /usr/local/stata19/ado/base/a/auto.dta
+ Observations:            74                  1978 automobile data
+    Variables:            12                  13 Apr 2024 17:45
+                                              (_dta has notes)
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+make            str18   %-18s                 Make and model
+price           int     %8.0gc                Price
+mpg             int     %8.0g                 Mileage (mpg)
+rep78           int     %8.0g                 Repair record 1978
+headroom        float   %6.1f                 Headroom (in.)
+trunk           int     %8.0g                 Trunk space (cu. ft.)
+weight          int     %8.0gc                Weight (lbs.)
+length          int     %8.0g                 Length (in.)
+turn            int     %8.0g                 Turn circle (ft.)
+displacement    int     %8.0g                 Displacement (cu. in.)
+gear_ratio      float   %6.2f                 Gear ratio
+foreign         byte    %8.0g      origin     Car origin
+-------------------------------------------------------------------------------
+Sorted by: foreign
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+         mpg |         74     21.2973    5.785503         12         41</code></pre>
+</div>
+</div>
+<p>Here we can see that when loading this dataset and describing variables, there are number of variables and types, and when we type <code>symmarize mpg</code> (one of the variables) we are provided with summary statistics such as the mean, standard deviation, and so forth.</p>
+<p>If we again consult the help file of <code>summarize</code> we may see that there are actually some further details we did not encounter in the help file for describe. In particular, this time the syntax diagram is as follows:</p>
+<p><u>su</u>mmarize [varlist] [if] [in] [weight] [, options]</p>
+<p>As before, we see that the varlist is optional, and so we <em>could</em> type the command without any arguments, in which case <code>Stata</code> will assume that we want descriptive statistics for all variables:</p>
+<div id="ffff8257" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>su</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        make |          0
+       price |         74    6165.257    2949.496       3291      15906
+         mpg |         74     21.2973    5.785503         12         41
+       rep78 |         69    3.405797    .9899323          1          5
+    headroom |         74    2.993243    .8459948        1.5          5
+-------------+---------------------------------------------------------
+       trunk |         74    13.75676    4.277404          5         23
+      weight |         74    3019.459    777.1936       1760       4840
+      length |         74    187.9324    22.26634        142        233
+        turn |         74    39.64865    4.399354         31         51
+displacement |         74    197.2973    91.83722         79        425
+-------------+---------------------------------------------------------
+  gear_ratio |         74    3.014865    .4562871       2.19       3.89
+     foreign |         74    .2972973    .4601885          0          1</code></pre>
+</div>
+</div>
+<p>What is new here are the <em>if</em>, <em>in</em> and <em>weight</em> options, which allow us to apply the command to a particular subset of observations, in the case of <em>if</em> you must specify a condition. For example we will summarize the price of those those observations with a <code>mpg</code> greater than its mean</p>
+<div id="2478024b" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>su price <span class="kw">if</span> mpg &gt; 21.2973</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       price |         31    4879.968    1344.659       3299       9735</code></pre>
+</div>
+</div>
+<p>As you see the number of observations and other statistics have changed. The use of <em>in</em> is similar, but instead of specifying a condition you must specify the position as row numbers. For example, if for some reason we wished to summarise the price for the first 20 observations we could do so as follows:</p>
+<div id="973a9563" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>su price <span class="kw">in</span> 1/20</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       price |         20     6359.15    3710.311       3299      15906</code></pre>
+</div>
+</div>
+<p>Also you can see the <em>weight</em> observations if you wish to perform weighted calculations. We will not delve into this point here, but I direct you to the documentation for <em>weight</em> which can be consulted by typing: <code>help weights</code>.</p>
+<p>We may also wish to explore certain <em>[, options]</em>, which are laid out in the help file below the syntax diagram. As an example in the summarize help documentation you can see that there is a <em>detail</em> option and its description which says “display additional statistics”. So, noting the underlined <em>d</em> in the help file, we can provide more specialised output to the command by invoking this option:</p>
+<div id="7b80d1d7" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>su price, <span class="kw">d</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+                            Price
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%         3291           3291
+ 5%         3748           3299
+10%         3895           3667       Obs                  74
+25%         4195           3748       Sum of wgt.          74
+
+50%       5006.5                      Mean           6165.257
+                        Largest       Std. dev.      2949.496
+75%         6342          13466
+90%        11385          13594       Variance        8699526
+95%        13466          14500       Skewness       1.653434
+99%        15906          15906       Kurtosis       4.819188</code></pre>
+</div>
+</div>
+<p>A final point of note is something which you may have realised when we summarised the entire dataset. While our dataset contains 74 observations (something which we can confirm using the <code>count</code> command), but one variable (<code>rep78</code>) does not provide a summary for 74 observations:</p>
+<div id="36d496ad" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>su price rep78</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  74
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       price |         74    6165.257    2949.496       3291      15906
+       rep78 |         69    3.405797    .9899323          1          5</code></pre>
+</div>
+</div>
+<p>The reason for this is because the variable has certain missing observations.</p>
+<div id="ace7a793" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> mpg==.</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> rep78==.</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> rep78&lt;1000</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> rep78&gt;-1000</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> rep78&gt;-1000 &amp; rep78!=.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0
+  5
+  69
+  74
+  69</code></pre>
+</div>
+</div>
+<p>In Stata, missing values are recorded as <code>.</code>, and are, by definition, not considered when conducting numerical analyses. In the code above we first confirm that the variable <code>mpg</code> has no missing observations, using the <code>count</code> command, and the <code>if</code> construct discussed above. We then confirm that the missing observations in <code>mpg</code> are indeed recorded as <code>.</code>. In general, <code>Stata</code> makes it relatively easy to work with missing observations, simply omitting these observations from any analyses. However, it is important to note this when conducting analysis. There is one hugely important caveat here, and that is to realise that by construction, <code>Stata</code> views <code>.</code> as an infinitely large value. So, if you consider the examples above, you will note that when we count the observations with <span class="math inline">\(mpg&lt;1000\)</span>, we are correctly told it is 69. However, when we could the number of observations with <span class="math inline">\(mpg&gt;-1000\)</span>, we are told that it is 74, precisely because <code>.</code>is seen as an infinitely large value. For this reason, it will be very careful for us to ensure that we deal carefully with missing values, for example, explicitly accounting for missings, as we do in the last line above.</p>
+<p>When we first introduced commands, we noted both that they accept arguments, <em>and</em> that they potentially return objects. Conveniently, the objects which Stata returns are generally provided to use for further processing if desired. Anything return from commands can be found by inspecting the <code>return list</code>, or <code>ereturn list</code> for estimation commands, as follows:</p>
+<div id="3c3a5245" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>su mpg</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span> <span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+         mpg |         74     21.2973    5.785503         12         41
+
+scalars:
+                  r(N) =  74
+              r(sum_w) =  74
+               r(mean) =  21.2972972972973
+                r(Var) =  33.47204738985561
+                 r(sd) =  5.785503209735141
+                r(min) =  12
+                r(max) =  41
+                r(sum) =  1576</code></pre>
+</div>
+</div>
+<p>Here you can see that there is a group of scalars that are automatically generated by Stata once the summarize command is executed, and which correspond to the output of the command. You can freely operate with these scalars</p>
+<div id="66040a3c" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>su mpg</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"Pearson's Variation Coefficient is: "</span> <span class="fu">r</span>(<span class="fu">sd</span>)/<span class="fu">abs</span>(<span class="fu">r</span>(<span class="kw">mean</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+         mpg |         74     21.2973    5.785503         12         41
+Pearson's Variation Coefficient is: .27165434</code></pre>
+</div>
+</div>
+<p>Similarly, we can incorporate these scalars directly into any variable generation we may wish to proceed with, for example the variable <code>mpg_meandev</code> <span class="math display">\[mpg_i - \overline{mpg}\]</span> Where <span class="math inline">\(\overline{mpg}\)</span> is the mean of <code>mpg</code> variable</p>
+<div id="cca7f02e" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>su mpg</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> mpg_meandev = mpg - <span class="fu">r</span>(<span class="kw">mean</span>)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> mpg mpg_meandev <span class="kw">in</span> 1/5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+         mpg |         74     21.2973    5.785503         12         41
+
+     +-----------------+
+     | mpg   mpg_mea~v |
+     |-----------------|
+  1. |  22    .7027027 |
+  2. |  17   -4.297297 |
+  3. |  22    .7027027 |
+  4. |  20   -1.297297 |
+  5. |  15   -6.297297 |
+     +-----------------+</code></pre>
+</div>
+</div>
+<p>As you can see in the list output there is a new variable named <code>mpg_meandev</code> which reports the deviations of each observation from the mean of the <code>mpg</code> variable. Note that is not necessary to use the <code>summarize</code> command each time we want to access the <code>return list</code> values, provide that no other command is used which populates the return list with other values. For example, if we now decide that we would like to generate a standardised version of this variable named <code>mpg_zscore</code> as <span class="math display">\[\frac{mpg - \overline{mpg}}{\widehat{\sigma}_{mpg}}\]</span> Where <span class="math inline">\(\widehat{\sigma}_{mpg}\)</span> is the sample standard deviation of <code>mpg</code> variable, we can do as follows:</p>
+<div id="585f44bb" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> su mpg</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> mpg_zscore = (mpg - <span class="fu">r</span>(<span class="kw">mean</span>)) / <span class="fu">r</span>(<span class="fu">sd</span>)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> mpg mpg_zscore <span class="kw">in</span> 1/5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     +-----------------+
+     | mpg   mpg_zsc~e |
+     |-----------------|
+  1. |  22    .1214592 |
+  2. |  17   -.7427698 |
+  3. |  22    .1214592 |
+  4. |  20   -.2242324 |
+  5. |  15   -1.088462 |
+     +-----------------+</code></pre>
+</div>
+</div>
+</section>
+<section id="user-written-commands" class="level2">
+<h2 class="anchored" data-anchor-id="user-written-commands">User-Written Commands</h2>
+<p>While <code>Stata</code> provides a wide array of inbuilt commands, at times we may wish to install extensions written by users which are expected to provide both some specific functionality, as well documentation which can be read as a help file. In <code>Stata</code>, most user-written commands are stored on a central repository known as the Statistical Software Components (SSC). This can be done quite simply using the command <code>ssc install packagename</code>. As an example, in order to install <code>outreg2</code>, a library for formatting regression tables, you can do so with the following code:</p>
+<div id="caf8c2b3" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ssc</span> install outreg2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>checking outreg2 consistency and verifying not already installed...
+all files already exist and are up to date.</code></pre>
+</div>
+</div>
+<p>Now that the package is installed you can access the help file by typing <code>help outreg2</code>, and in the future will not need to re-install the package unless you wish to update the package. Once you have installed a user-written command, it will be permanently available to you.</p>
+<p>There are other sources such as the <a href="https://www.stata-journal.com/">Stata Journal</a> or simply a URL, in both cases the command <code>net</code> will provide the tools for search and install packages.</p>
+</section>
+</section>
+<section id="working-with-data" class="level1">
+<h1>Working with Data</h1>
+<section id="loading-and-viewing-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-and-viewing-data">Loading and viewing data</h2>
+<p>In most – if not all – of our research projects, we will not actually type in data to <code>Stata</code> by hand which is a cumbersome and highly error-prone activity, but rather we will wish to read in data which we have stored on our disk in one or a number of files. Such data may be stored in many formats; among others this may be free formats such as <code>csv</code> or <code>txt</code>, or proprietry formats such as <code>excel</code> or Stata’s own <code>dta</code> files. We have already seen one example of reading in data, which is Stata’s <code>sysuse</code> command, but this is a special case for data that is provided by Stata at installation.</p>
+<p>For data which we have stored somewhere on our hard drive in formats such as <code>csv</code> (comma seperated values) or <code>txt</code> formats <code>Stata</code> comes with the <code>import delimited</code>, command. If you consult the help documentation, which is something I would recommend anytime you come across a new function, you will see that the basic usage is relatively standard, as follows:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>*! eval=FALSE</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"Path/To/Your/File.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will work as is, provided that your csv file is indeed delimited by commas and has variable names on the first line. If, however, your csv does not have variable names, or is delimited by some other character, you may refer to the options in the help file to see how to proceed. Similar such procedures can be followed for other data stored in flat formats such as .txt or others, as laid out in the help file.</p>
+<p>This syntax crosses over to excel files too, via the <code>import excel</code> command:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>*! eval=FALSE</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>import excel <span class="st">"Path/To/Your/File.xls"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that the example is based on a file assumed to end with <code>xls</code> but the same command can be used replacing <code>xls</code> with <code>xlsx</code> if a file is saved as .xlsx. If you further explore the help documentation you will notice that you can specify a variety of arguments that indicates options such as if the row should be used as variable names, the range of cells you wish to import, the sheet name and other such details.</p>
+<p>Finally in order to import <code>dta</code> files, which is Stata’s native data format you can simply specify the <code>use</code> command:</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>*! eval=FALSE</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"Path/To/Your/File.dta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you are working entirely in Stata the value of saving your data in a .dta format is that you will maintain any internal labelling you may be working with, but this may be more complex if you wish to share your data with others who are working in other languages, given that it is a Stata-specific data format.</p>
+<p>Once a dataset is loaded in <code>Stata</code> it is immediately avaiable for further processing and use. For a number of examples below we will use another dataset which is provided by <code>Stata</code> upon installation (all such datasets can be seen by typing <code>sysuse dir</code>). This is an abstract of the 1988 US NLSW (National Longitudinal Survey of Mature and Young Women).</p>
+<div id="69716da6" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sysuse</span> nlsw88.dta, <span class="kw">clear</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(NLSW, 1988 extract)</code></pre>
+</div>
+</div>
+<p>Once we have loaded a dataset if we wish we can see a quick snapshot of the data with the <code>list</code> command, for example using <code>list in 1/3</code> to observe the first three lines:</p>
+<div id="93e9c74b" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> <span class="kw">in</span> 1/3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     +----------------------------------------------------------------+
+  1. | idcode | age  |  race  | married  |    never_married  | grade  |
+     |      1 |  37  | Black  |  Single  | Has been married  |    12  |
+     |----------------------------------------------------------------|
+     |          collgrad  |      south  |  smsa  |            c_city  |
+     |  Not college grad  |  Not south  |  SMSA  |  Not central city  |
+     |----------------------------------------------------------------|
+     |               industry | occupation | union |     wage | hours |
+     | Transport/Comm/Utility | Operatives | Union | 11.73913 |    48 |
+     |----------------------------------------------------------------|
+     |            ttl_exp            |              tenure            |
+     |           10.33333            |            5.333333            |
+     +----------------------------------------------------------------+
+
+     +----------------------------------------------------------------+
+  2. | idcode | age  |  race  | married  |    never_married  | grade  |
+     |      2 |  37  | Black  |  Single  | Has been married  |    12  |
+     |----------------------------------------------------------------|
+     |          collgrad  |      south  |  smsa  |            c_city  |
+     |  Not college grad  |  Not south  |  SMSA  |      Central city  |
+     |----------------------------------------------------------------|
+     |               industry | occupation | union |     wage | hours |
+     |          Manufacturing |  Craftsmen | Union | 6.400963 |    40 |
+     |----------------------------------------------------------------|
+     |            ttl_exp            |              tenure            |
+     |           13.62179            |                5.25            |
+     +----------------------------------------------------------------+
+
+     +----------------------------------------------------------------+
+  3. | idcode | age  |  race  | married  |    never_married  | grade  |
+     |      3 |  42  | Black  |  Single  |    Never married  |    12  |
+     |----------------------------------------------------------------|
+     |          collgrad  |      south  |  smsa  |            c_city  |
+     |  Not college grad  |  Not south  |  SMSA  |      Central city  |
+     |----------------------------------------------------------------|
+     |               industry | occupation | union |     wage | hours |
+     |          Manufacturing |      Sales |     . | 5.016723 |    40 |
+     |----------------------------------------------------------------|
+     |            ttl_exp            |              tenure            |
+     |           17.73077            |                1.25            |
+     +----------------------------------------------------------------+</code></pre>
+</div>
+</div>
+<p>Depending on the way that we are working with <code>Stata</code>, we may also be able to explore the data more interactively using the <code>browse</code> command.</p>
+</section>
+<section id="tidying-data" class="level2">
+<h2 class="anchored" data-anchor-id="tidying-data">Tidying data</h2>
+<p>Once we have loaded data in <code>Stata</code>, we will likely want to manipulate the data in a number of ways. This can include relatively simple things like sub-setting to certain columns or rows (which we have already encountered above), but also more complicated things like aggregating data to a higher level, calculating statistics for one or mutliple variable(s) over other variables, joining together a number of datasets, or “reshaping” data in certain ways. Here we will provide a very brief overview of these procedures, and introduce other things as we need them thoughout the book.</p>
+<section id="aggregating-data" class="level3">
+<h3 class="anchored" data-anchor-id="aggregating-data">Aggregating Data</h3>
+<p>To start with some basic data manipulations, we can consider the case where we may wish to convert the data which we have imported into some group-level averages. We can do many such manipulations of this type using Stata’s <code>collapse</code> command. At its most simple level, this command allows us to take some disaggregated data, and “collapse” it to some more aggregated data. For example, imagine we wished convert our data into a single line containing the mean wage over the entire data. We can do this simply with the collapse command:</p>
+<div id="0dbaaea7" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">collapse</span> wage</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     +----------+
+     |     wage |
+     |----------|
+  1. | 7.766949 |
+     +----------+</code></pre>
+</div>
+</div>
+<p>This aggregation can occur in a much richer way depending on how we wish to aggregate data (ie which type of statistics we desire), and over what variables we would like this aggregation to occur. For example, imagine instead of the mean wage we wished to measure mean wages <em>and</em> the standard deviation of wages over whether an individual graduated from college, and whether they are a member of a union. We can do so as follows, noting that statistics are indicated in parentheses along with other arguments, while the levels which we wish to group over are indicated with the <code>by()</code> option. Once we have generated this collapsed version of the data we will save the data file on disk using the <code>save</code> command for some processes below:</p>
+<div id="97bd6ae5" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sysuse</span> nlsw88.dta, <span class="kw">clear</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="kw">collapse</span> (<span class="kw">mean</span>) mean_wage = wage (<span class="fu">sd</span>) sd_wage = wage, <span class="kw">by</span>(collgrad <span class="kw">union</span>)</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a><span class="kw">save</span> groupedNLSW.dta, <span class="kw">replace</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(NLSW, 1988 extract)
+
+     +---------------------------------------------------+
+     |         collgrad      union   mean_w~e    sd_wage |
+     |---------------------------------------------------|
+  1. | Not college grad   Nonunion    6.36869   3.351124 |
+  2. | Not college grad      Union   7.823589   3.849597 |
+  3. | Not college grad          .   7.946638   10.00492 |
+  4. |     College grad   Nonunion   10.11737   5.052896 |
+  5. |     College grad      Union   10.47342   4.275456 |
+     |---------------------------------------------------|
+  6. |     College grad          .   12.53987   12.33248 |
+     +---------------------------------------------------+
+file groupedNLSW.dta saved</code></pre>
+</div>
+</div>
+<p>Generically, the syntax of <code>collapse</code> is as follows,</p>
+<p><code>collapse (stat) newname = varname (stat) newname = varname ..., by(groupvariables)</code></p>
+<p>Where the use of <code>...</code> is to denote that we could add more stats to this collapse.</p>
+</section>
+<section id="mergingjoining-data" class="level3">
+<h3 class="anchored" data-anchor-id="mergingjoining-data">Merging/Joining Data</h3>
+<p>We will also, at times, wish to join two (or more) pieces of data together, for example “merging” data to match up observations by some particular column or columns. For example, it may be that we have a survey where each individuals surveyed belongs to a household, where all of the individual-level questions in the data are stored as an individual-level file (along with the individual’s household ID), while the household level measures are stored in another file at the household level. If we wish to work with information on the individual <em>and</em> their household characteristics, we will need to “join”, or “merge” the file using the household ID.</p>
+<p>Such processes are conducted in Stata using the <code>merge</code> command. As a simple example of this, we could imagine that we would like to take the grouped-level statistics we generated previously and join them back into our original NLSW data.. What we want to do then, is for each individual who has a particular college and union status, join the information on the mean and standard deviation of the wage in this group to their row of data.</p>
+<div id="bbfacffb" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sysuse</span> nlsw88.dta, <span class="kw">clear</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="kw">merge</span> <span class="fu">m</span>:1 collgrad <span class="kw">union</span> <span class="kw">using</span> groupedNLSW</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="kw">d</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(NLSW, 1988 extract)
+(label unionlbl already defined)
+(label gradlbl already defined)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             2,246  (_merge==3)
+    -----------------------------------------
+
+Contains data from /usr/local/stata19/ado/base/n/nlsw88.dta
+ Observations:         2,246                  NLSW, 1988 extract
+    Variables:            20                  1 May 2024 22:52
+                                              (_dta has notes)
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+idcode          int     %8.0g                 NLS ID
+age             byte    %8.0g                 Age in current year
+race            byte    %8.0g      racelbl    Race
+married         byte    %8.0g      marlbl     Married
+never_married   byte    %16.0g     nev_mar    Never married
+grade           byte    %8.0g                 Current grade completed
+collgrad        byte    %16.0g     gradlbl    College graduate
+south           byte    %9.0g      southlbl   Lives in the south
+smsa            byte    %9.0g      smsalbl    Lives in SMSA
+c_city          byte    %16.0g     ccitylbl   Lives in a central city
+industry        byte    %23.0g     indlbl     Industry
+occupation      byte    %22.0g     occlbl     Occupation
+union           byte    %8.0g      unionlbl   Union worker
+wage            float   %9.0g                 Hourly wage
+hours           byte    %8.0g                 Usual hours worked
+ttl_exp         float   %9.0g                 Total work experience (years)
+tenure          float   %9.0g                 Job tenure (years)
+mean_wage       float   %9.0g                 (mean) wage
+sd_wage         float   %9.0g                 (sd) wage
+_merge          byte    %23.0g     _merge     Matching result from merge
+-------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.</code></pre>
+</div>
+</div>
+<p>As we can see here, after completing the merge, we have our original NLSW data, but have additionally added the new columns <code>mean_wage</code>, <code>sd_wage</code> which are our generated variables, along with <code>_merge</code> which summarises the number of units which correctly merge (in this case, all of them). There are three types of merge which we may need to use. These are <strong>m:1</strong> (as above), <strong>1:1</strong>, or <strong>1:m</strong>. These are indicated immediately after invoking the <code>merge</code> command and one of these must be indicated. These values refer to the quantity of observations in the data in Stata’s memory (in this case nlsw88.dta) and the quantity of observations in the data indicated after <code>using</code> (in this case groupedNLSW.dta), over which the merge should be conducted. When an <strong>m</strong> is indicated this implies that there are many observations in each level, and when a <strong>1</strong> is indicated it implies that there is a single observation in each level. In the above example, given that in the data on the disk there is a single observation for each of the variables <code>collgrad</code> and <code>union</code>, this is indicated as <strong>1</strong>, while in the original data, there are multiple women in each group made up of <code>collgrad</code> and <code>union</code> (hence <strong>m:1</strong>). It is fundamental in merges to ensure that we confirm that either all observations are correctly merged to a partner in the using data, or if not, understand why this is not the case.</p>
+</section>
+<section id="filtering-data" class="level3">
+<h3 class="anchored" data-anchor-id="filtering-data">Filtering Data</h3>
+<p>For the remaining examples, we will clear all the information from Stata’s memory to manually input a simplified data set to explore a number of tasks. We will do this using the <code>input</code> command, as follows:</p>
+<div id="9ce749ae" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>input str2 Zone Year Sales</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="st">"A"</span> 2021 100</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a><span class="st">"A"</span> 2022 115</span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="st">"B"</span> 2021 98</span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a><span class="st">"B"</span> 2022 106</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+     +---------------------+
+     | Zone   Year   Sales |
+     |---------------------|
+  1. |    A   2021     100 |
+  2. |    A   2022     115 |
+  3. |    B   2021      98 |
+  4. |    B   2022     106 |
+     +---------------------+</code></pre>
+</div>
+</div>
+<p>The <code>input</code> command is quite a unique command in that it tells Stata that we will manually write in variable values, and will be assumed to keep going until we type <code>end</code>. Here we have told Stata that we will input three variables manually, and these are named as <code>Zone</code>, <code>Year</code> and <code>Sales</code>. You may also note the addition of <code>str2</code> before the Zone variable name, which informs Stata that this variable Zone will be inputed as a string, as otherwise Stata assumes that variables will be input manually.</p>
+<p>One way to filter variables is to use the <code>keep</code> and <code>drop</code> commands. These commands can either indicate variable names, in which case all indicated variables will either be kept or dropped, or can indicate conditions, in which case all observations complying with the conditions will be kept or dropped. We will illustrate this below, additionally illustrating the use of <code>preserve</code> and <code>restore</code> which allow us to “store” a dataset in a particular moment, and then return to this dataset at a later moment.</p>
+<p>As an example first we are going to delete the variable <code>Year</code> with the drop command and next restore to its previous status</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="kw">preserve</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="kw">drop</span> Year</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"Prior to restore"</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="kw">restore</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"After restore"</span></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Prior to restore
+
+     +--------------+
+     | Zone   Sales |
+     |--------------|
+  1. |    A     100 |
+  2. |    A     115 |
+  3. |    B      98 |
+  4. |    B     106 |
+     +--------------+
+
+After restore
+
+    +---------------------+
+    | Zone   Year   Sales |
+    |---------------------|
+ 1. |    A   2021     100 |
+ 2. |    A   2022     115 |
+ 3. |    B   2021      98 |
+ 4. |    B   2022     106 |
+    +---------------------+</code></pre>
+<p>As you can see the combination of <code>preserve</code> and <code>restore</code> allows to modify the dataset and go back, while <code>drop</code> remove what we specify, in the example was a variable but also can be observations in specific positions specifying <em>in</em> or depending on a condition specifying <em>if</em>. <code>keep</code> command works opposite to <code>drop</code>, as <code>drop</code> remove only what is specified, <code>keep</code> mantains only the specified and remove everything else. You may wish to confirm that this also works with particular conditions, such as <code>if Sales&gt;100</code>.</p>
+</section>
+<section id="reshaping-data" class="level3">
+<h3 class="anchored" data-anchor-id="reshaping-data">Reshaping Data</h3>
+<p>Finally the last tool that we introduce for data manipulation is the idea of “reshaping” or transforming data from a wide format to a long format (and <em>vice versa</em>). We refer to data in a <strong>long</strong> format if for each observation we have multiple rows of data, covering different levels of some other variable. For example, a classic example of this would be a panel of data over countries and years. On the other hand, we refer to data as being in a <strong>wide</strong> format if for each observation we have multiple columns (or variables) which cover different levels of some other variable. In certain settings we will wish to work with data in one format, and in other settings we may find it more convenient to work with data in another format. Our simplified dataset above is precisely the example of a <strong>long</strong> format, given that for each Zone we have data over multiple years. In order to transform this dataset to a <em>wide</em> format the code is</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reshape</span> <span class="kw">wide</span> Sales, i(Zone) j(Year)</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Data                               Long   -&gt;   Wide
+-----------------------------------------------------------------------------
+Number of observations                4   -&gt;   2
+Number of variables                   3   -&gt;   3
+j variable (2 values)              Year   -&gt;   (dropped)
+xij variables:
+Sales   -&gt;   Sales2021 Sales2022
+-----------------------------------------------------------------------------
+
+   +----------------------------+
+   | Zone   Sal~2021   Sal~2022 |
+   |----------------------------|
+1. |    A        100        115 |
+2. |    B         98        106 |
+   +----------------------------+</code></pre>
+<p>As you can see now the dataset has one observation for each zone and no repeated values for a variable. If we wish to return to the long format we can use the reverse “reshape long” function, where in this case we must provide a name for the variable which will record the levels over which A and B are observed. Namely:</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reshape</span> <span class="kw">long</span> Sales, i(Zone) j(Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In practice, we will generally use these commands with a considerably larger number of units, but the basic principles are the same regardless.</p>
+</section>
+</section>
+</section>
+<section id="basic-plots" class="level1">
+<h1>Basic Plots</h1>
+<p>To end this initial introduction, we will briefly explore the generation of basic plots in <code>Stata</code>. There are a variety of plots that you can create in Stata, and each plot has its own precise syntax. The range of plots which can describe relationships between two (or more) variables can be seen by consulting <code>help twoway</code> and I would encourage to scan the plot types, or explore online to see a graphical overview. In this subsection we are going to show you two basic plots: (i) the line plot and (ii) the scatter plot.</p>
+<p>In Stata the command to do generate a line plot is, perhaps unsurprisingly, the <code>line</code> command. This function maps pairs of points in the <span class="math inline">\((x,y)\)</span> coordinate axis and places them on a graph. For example, let’s consider a case where <span class="math inline">\(x\)</span> is a sequence of integers between -5 and 5. This can be generated as below:</p>
+<div id="adc64ce9" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span> </span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 11</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> x = -6 + <span class="dt">_n</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of observations (_N) was 0, now 11.</code></pre>
+</div>
+</div>
+<p>In this code first we clear the Stata memory, then we set the observations in the dataset to 11, so that Stata understands that there is a dataset, empty for the moment, which has 11 observations (rows). Finally we create a variable named <code>x</code> which will take the value of -6 and the row number (<code>_n</code>) in the dataset. In this way, in row 1, where <code>_n=1</code>, x will equal -5, and will successively increase by one unit down rows:</p>
+<div id="0b016ad5" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> x <span class="kw">in</span> 1/4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     +----+
+     |  x |
+     |----|
+  1. | -5 |
+  2. | -4 |
+  3. | -3 |
+  4. | -2 |
+     +----+</code></pre>
+</div>
+</div>
+<p>Next we create <span class="math inline">\(y = x^2\)</span> as follows:</p>
+<div id="416dcac0" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="kw">generate</span> <span class="fu">y</span> = x^2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now with <code>line</code> function we create the line plot. <code>line</code>, by default generates a line plot of points, making reasonable decisions for axes and labelling:</p>
+<div id="e558aad4" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="kw">line</span> <span class="fu">y</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="IntroductionStata_files/figure-html/cell-48-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Line plot example</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In the help documentation you can see a series of option that allows to modify the graph aspect.</p>
+<p>Now we show you how to graph a scatter plot, for that we are going to simulate with <code>rnormal()</code> 100 pseudo-random numbers from a standard normal distribution in a variable <code>error</code>, then in a variable <code>x</code> we simulate another 100 pseudo-random numbers from a standard normal distribution and finally we create <span class="math display">\[y_i = 10 + 3*x_i + error_i\]</span></p>
+<div id="aa8d2f01" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 100</span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">error</span> = rnormal()</span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> x = rnormal()</span>
+<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">y</span> = 10 + 3*x + <span class="kw">error</span></span>
+<span id="cb107-6"><a href="#cb107-6" aria-hidden="true" tabindex="-1"></a><span class="kw">scatter</span> <span class="fu">y</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of observations (_N) was 0, now 100.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="IntroductionStata_files/figure-html/cell-49-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>Scatter plot example</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>If you access help documentation for <code>scatter</code> you can see how add to elements to the graph and further edit the graphs appearance, for example by adding axis titles, adding lines, and so forth.</p>
+<p>It is also relatively easy to include multiple graphs, laying these on a single graph window. Graphs can essentially be concatenated together, separating with “||” as follows, where we add a second graph, <code>lfitci</code> which fits a regression line along with 95% confidence intervals:</p>
+<div id="c8d805ae" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="kw">scatter</span> <span class="fu">y</span> x || lfitci <span class="fu">y</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="IntroductionStata_files/figure-html/cell-50-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Lfit Plot Example</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="writing-our-own-programs" class="level1">
+<h1>Writing Our Own Programs</h1>
+<p>At times when we are working with more elaborate processes or seek to systematise some procedure which we will wish to apply generically with multiple distinct inputs (or apply more generally in the future), we may wish to write our own programs. While a full discussion of programming in Stata can be found in multiple places such as XXX and that <a href="Stata Manuals">Stata Manuals</a>, we will discuss some key elements of this now. During certain call-outs we will see that we can gain from writing simple programs, and so we will apply these tools during the book.</p>
+<section id="an-introduction-to-programs-in-stata" class="level2">
+<h2 class="anchored" data-anchor-id="an-introduction-to-programs-in-stata">An Introduction to Programs in Stata</h2>
+<p>User-written programs in Stata let you package steps into a single command. Programs can parse inputs, perform calculations, and <strong>return results</strong> (scalars, macros, or matrices) that you can reuse.</p>
+<section id="creating-a-simple-program" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-simple-program">Creating a Simple Program</h3>
+<p>A minimal Stata program has a name and a body. By indicating a class of program (here <code>rclass</code>), elements are returned for post-program access in “return lists” accessible in <code>r()</code>. We could similarly call a program an <code>eclass</code> program, which is used for estimation commands, and access returned elements in <code>e()</code>. Below we write a simple program which adds to numbers:</p>
+<div id="a9ce8f18" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>cap <span class="kw">program</span> <span class="kw">drop</span> addnumbers</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="kw">program</span> <span class="kw">define</span> addnumbers, rclass</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Parse two required numeric options a() and b()</span></span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">syntax</span> , a(<span class="fu">real</span>) b(<span class="fu">real</span>)</span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Do the work using locals (local = temporary variable)</span></span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> <span class="kw">sum</span> = <span class="ot">`a'</span> + <span class="ot">`b'</span></span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Return a scalar so the result can be reused</span></span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="fu">scalar</span> <span class="kw">sum</span> = <span class="ot">`sum'</span></span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Also display for convenience</span></span>
+<span id="cb110-13"><a href="#cb110-13" aria-hidden="true" tabindex="-1"></a>    dis <span class="kw">as</span> txt <span class="st">"sum = "</span> <span class="kw">as</span> res %9.2f <span class="ot">`sum'</span></span>
+<span id="cb110-14"><a href="#cb110-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb110-15"><a href="#cb110-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-16"><a href="#cb110-16" aria-hidden="true" tabindex="-1"></a><span class="co">// Call it:</span></span>
+<span id="cb110-17"><a href="#cb110-17" aria-hidden="true" tabindex="-1"></a>addnumbers , a(10) b(5)</span>
+<span id="cb110-18"><a href="#cb110-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-19"><a href="#cb110-19" aria-hidden="true" tabindex="-1"></a><span class="co">// Use the returned value:</span></span>
+<span id="cb110-20"><a href="#cb110-20" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span> <span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+sum =     15.00
+
+scalars:
+                r(sum) =  15</code></pre>
+</div>
+</div>
+</section>
+<section id="understanding-program-arguments" class="level3">
+<h3 class="anchored" data-anchor-id="understanding-program-arguments">Understanding Program Arguments</h3>
+<p>Stata typically uses <strong>options</strong> to pass inputs. Above, we allowed two arguments as <code>a()</code> and <code>b()</code>, and these are used internally in the program to refer to the input. We then see that when we actually run the program (<code>addnumbers, a(10) b(5)</code>), the program returns to us output in which the arguments are set to the specified values. Optional arguments can be handled by setting default values which will be applied unless they are overruled by users. Such optional arguments are indicated by using square brackets, as below:</p>
+<div id="fad16822" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>cap <span class="kw">program</span> <span class="kw">drop</span> multiplynumbers</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="kw">program</span> <span class="kw">define</span> multiplynumbers, rclass</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// a() required, b() optional</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">syntax</span> , a(<span class="fu">real</span>) [b(<span class="fu">real</span> 2)]</span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// conduct calculation of interest</span></span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> product = <span class="ot">`a'</span>*<span class="ot">`b'</span></span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// return for post-estimation</span></span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="fu">scalar</span> product = <span class="ot">`product'</span></span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">di</span> <span class="kw">as</span> txt <span class="st">"product = "</span> <span class="kw">as</span> res %9.2f <span class="ot">`product'</span></span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a><span class="co">// With default b = 2</span></span>
+<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a>multiplynumbers , a(10)</span>
+<span id="cb112-17"><a href="#cb112-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-18"><a href="#cb112-18" aria-hidden="true" tabindex="-1"></a><span class="co">// With explicit b</span></span>
+<span id="cb112-19"><a href="#cb112-19" aria-hidden="true" tabindex="-1"></a>multiplynumbers , a(10) b(3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+product =     20.00
+product =     30.00</code></pre>
+</div>
+</div>
+<p>In the first case above we see that our program simply applies the default value for <code>b()</code>, while in the second when we explicitly overruled this argument, it does not.</p>
+</section>
+<section id="variable-scope-and-return-values" class="level3">
+<h3 class="anchored" data-anchor-id="variable-scope-and-return-values">Variable Scope and Return Values</h3>
+<p>It is important to understand what programs are doing, what occurs only inside programs, and what may affect that Stata session outside of a particular program. Relevant things to know in this regard are that locals (<code>local x = ...</code>) live only inside the program. Similary, we can use temporary variables or other temporary objects to generate things locally within our programs which will no longer exist once the project finishes execution.</p>
+<p>Of course as we see above, this does not mean that we cannot pass objects (even temporary objects) back to our session. We can use use <strong><code>return</code></strong> to expose results (for <code>rclass</code>), then access them with <code>r()</code>. If you need estimation-style results, write an <code>eclass</code> program and use <code>ereturn</code>. However note that if we make changes to data itself we hold in memory, these will be permanently made to the data, even once the program has finished. We can explore these ideas below.</p>
+<div id="5ac28167" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 10</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> x = 2</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> x</span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a><span class="co">//clear program if it already exists</span></span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>cap <span class="kw">program</span> <span class="kw">drop</span> demo_scope</span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a><span class="co">//Define program</span></span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a><span class="kw">program</span> <span class="kw">define</span> demo_scope, rclass</span>
+<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">tempname</span> <span class="kw">hold</span></span>
+<span id="cb114-11"><a href="#cb114-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scalar</span> <span class="ot">`hold'</span> = 42     <span class="co">// temporary scalar; name auto-unique</span></span>
+<span id="cb114-12"><a href="#cb114-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> msg <span class="st">"hello"</span></span>
+<span id="cb114-13"><a href="#cb114-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-14"><a href="#cb114-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// edit variable in data</span></span>
+<span id="cb114-15"><a href="#cb114-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">replace</span> x = 3</span>
+<span id="cb114-16"><a href="#cb114-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-17"><a href="#cb114-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Return both a scalar and a local as text</span></span>
+<span id="cb114-18"><a href="#cb114-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="fu">scalar</span> answer = <span class="ot">`hold'</span></span>
+<span id="cb114-19"><a href="#cb114-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> <span class="kw">local</span> greeting <span class="st">"`msg'"</span></span>
+<span id="cb114-20"><a href="#cb114-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb114-21"><a href="#cb114-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-22"><a href="#cb114-22" aria-hidden="true" tabindex="-1"></a><span class="co">// Run the program</span></span>
+<span id="cb114-23"><a href="#cb114-23" aria-hidden="true" tabindex="-1"></a>demo_scope</span>
+<span id="cb114-24"><a href="#cb114-24" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span> <span class="ot">list</span></span>
+<span id="cb114-25"><a href="#cb114-25" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="st">"greeting was: "</span> <span class="fu">r</span>(greeting)</span>
+<span id="cb114-26"><a href="#cb114-26" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="st">"answer was: "</span> %9.0f <span class="fu">r</span>(answer)</span>
+<span id="cb114-27"><a href="#cb114-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-28"><a href="#cb114-28" aria-hidden="true" tabindex="-1"></a><span class="co">// Check if locals and scalars have passed outside of program</span></span>
+<span id="cb114-29"><a href="#cb114-29" aria-hidden="true" tabindex="-1"></a>dis <span class="ot">`hold'</span></span>
+<span id="cb114-30"><a href="#cb114-30" aria-hidden="true" tabindex="-1"></a>dis <span class="st">"`msg'"</span></span>
+<span id="cb114-31"><a href="#cb114-31" aria-hidden="true" tabindex="-1"></a><span class="co">// Check if data is changed</span></span>
+<span id="cb114-32"><a href="#cb114-32" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of observations (_N) was 0, now 10.
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+           x |         10           2           0          2          2
+
+(10 real changes made)
+
+scalars:
+             r(answer) =  42
+
+macros:
+           r(greeting) : "hello"
+greeting was: hello
+answer was:        42
+
+
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+           x |         10           3           0          3          3</code></pre>
+</div>
+</div>
+<p>You may note that this program <code>demo_scope</code> is actually quite simple in that it does not accept arguments, and hence we use the program simply by typing the program’s name. What is more important to see is that everything which we have defined locally (ie temporary objects such as temporary variables and locals), exists only locally within the program, while any changes to data do live on. For this reason, if we actually want access to local elements, we need to return them explicitly and access them from return lists. And conversely, if we wish to make changes to data but do so only temporarily, we may wish to explore the use of elements such as <code>preserve</code> and <code>restore</code>.</p>
+</section>
+</section>
+</section>
+<section id="simulation-and-regression" class="level1">
+<h1>Simulation and Regression</h1>
+<p><span class="note-under-construction"> Under construction: relevant for questions </span></p>
+<p>To start with, let’s have a look at some simple simulations, like those referred to in the end of chapter questions. Let’s begin by considering the data generating process (DGP) which we wish to simulate:</p>
+<p><span class="math inline">\(y_i = \beta_0 + \beta_1 x_i + \varepsilon_i\)</span></p>
+<p>Having a DGP defined, all we need to do is define how any variables area distributed, as well as any necessary scalar values. In this case, let’s set <span class="math inline">\(\beta_0=1\)</span> and <span class="math inline">\(\beta_1=2\)</span>. And let’s define both <span class="math inline">\(x_i\)</span> and <span class="math inline">\(\varepsilon_i\)</span> as being distributed <span class="math inline">\(\mathcal{N}(0,1)\)</span>. We will simulate these separately implying that they are independent, though we could simulate them as coming from a bivariate normal if we wanted to generate correlations between the variables. Our interest in the below demonstration will be to conduct a simulation, and then implement a regression model to estimate <span class="math inline">\(\widehat\beta_1\)</span> by OLS. In the book, you will be asked to consider examples which are more appropriate for the treatment effects framework which we are considering.</p>
+<div id="b26d7645" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 1213</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 1000</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> x = rnormal()</span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> epsilon = rnormal()</span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">y</span> = 1 + 2*x + epsilon</span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">y</span> x</span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> yhat</span>
+<span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a><span class="kw">scatter</span> <span class="fu">y</span> x || <span class="kw">line</span> yhat x, <span class="bn">legend</span>(<span class="kw">label</span>(1 <span class="st">"Data Points"</span>) <span class="kw">label</span>(2 <span class="st">"Regression Line"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of observations (_N) was 0, now 1,000.
+
+      Source |       SS           df       MS      Number of obs   =     1,000
+-------------+----------------------------------   F(1, 998)       =   4367.26
+       Model |  4055.21601         1  4055.21601   Prob &gt; F        =    0.0000
+    Residual |  926.693078       998  .928550178   R-squared       =    0.8140
+-------------+----------------------------------   Adj R-squared   =    0.8138
+       Total |  4981.90909       999  4.98689599   Root MSE        =    .96361
+
+------------------------------------------------------------------------------
+           y | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           x |   2.008796   .0303971    66.09   0.000     1.949147    2.068446
+       _cons |     1.0104   .0304954    33.13   0.000     .9505573    1.070242
+------------------------------------------------------------------------------
+(option xb assumed; fitted values)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="IntroductionStata_files/figure-html/cell-54-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Finally, we will do this 500 times, to see what the distribution of estimated parameters <span class="math inline">\(\widehat\beta_1\)</span> looks like:</p>
+<div id="a58dc7da" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>*! fig-cap: Regression <span class="kw">estimates</span> <span class="kw">in</span> 500 simulations</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 1213</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 1000</span>
+<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Create variable beta1hat to store estimates</span></span>
+<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> beta1hat = .</span>
+<span id="cb118-8"><a href="#cb118-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-9"><a href="#cb118-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate variables for DGP</span></span>
+<span id="cb118-10"><a href="#cb118-10" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">y</span>        = .</span>
+<span id="cb118-11"><a href="#cb118-11" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> x        = .</span>
+<span id="cb118-12"><a href="#cb118-12" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> epsilon  = .</span>
+<span id="cb118-13"><a href="#cb118-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-14"><a href="#cb118-14" aria-hidden="true" tabindex="-1"></a><span class="kw">forvalues</span> i = 1/500 {</span>
+<span id="cb118-15"><a href="#cb118-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">quietly</span> {</span>
+<span id="cb118-16"><a href="#cb118-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">replace</span> x = rnormal()</span>
+<span id="cb118-17"><a href="#cb118-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">replace</span> epsilon = rnormal()</span>
+<span id="cb118-18"><a href="#cb118-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">replace</span> <span class="fu">y</span> = 1 + 2*x + epsilon</span>
+<span id="cb118-19"><a href="#cb118-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">reg</span> <span class="fu">y</span> x</span>
+<span id="cb118-20"><a href="#cb118-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">replace</span> beta1hat = _b[x] <span class="kw">in</span> <span class="ot">`i'</span></span>
+<span id="cb118-21"><a href="#cb118-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb118-22"><a href="#cb118-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb118-23"><a href="#cb118-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-24"><a href="#cb118-24" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> beta1hat</span>
+<span id="cb118-25"><a href="#cb118-25" aria-hidden="true" tabindex="-1"></a><span class="kw">histogram</span> beta1hat, <span class="kw">frequency</span> <span class="bn">xline</span>(2, lcolor(<span class="kw">red</span>)) <span class="co">///</span></span>
+<span id="cb118-26"><a href="#cb118-26" aria-hidden="true" tabindex="-1"></a>    <span class="bn">xtitle</span>(<span class="st">"{&amp;beta}1 hat"</span>) <span class="bn">ytitle</span>(<span class="st">"Frequency"</span>) lcolor(<span class="bn">black</span>) fcolor(<span class="bn">purple</span>%40)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of observations (_N) was 0, now 1,000.
+(1,000 missing values generated)
+(1,000 missing values generated)
+(1,000 missing values generated)
+(1,000 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    beta1hat |        500    2.001018    .0321036   1.898776   2.113259
+(bin=22, start=1.8987763, width=.00974922)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="IntroductionStata_files/figure-html/cell-55-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We will take forward many of the examples laid out on this page in the chapters ahead. For now, this introductory session aims to provide you with a sufficient overview to get up and running in <code>Stata</code>, and apply your knowledge to microeconometric methods introduced in the book.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

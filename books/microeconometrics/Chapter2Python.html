@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 2 – Applied Microeconometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-808c031e01507d627300357d88007fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ac5da5c64b141da9f16073cc958e5313.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Applied Microeconometrics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./about.html">
+ <span class="dropdown-text">About this book</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data.html">
+ <span class="dropdown-text">Downloading the Data</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-python" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Python</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-python">    
+        <li>
+    <a class="dropdown-item" href="./Python.html">
+ <span class="dropdown-text">Following Along with Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionPython.html">
+ <span class="dropdown-text">An Introduction to Python</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Python.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Python.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Python.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Python.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Python.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Python.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Python.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Python.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r">    
+        <li>
+    <a class="dropdown-item" href="./R.html">
+ <span class="dropdown-text">Following Along with R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./IntroductionR.html">
+ <span class="dropdown-text">An Introduction to R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2R.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3R.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4R.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5R.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6R.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7R.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8R.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9R.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-stata" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Stata</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-stata">    
+        <li>
+    <a class="dropdown-item" href="./Stata.html">
+ <span class="dropdown-text">Following Along with Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./introStata.html">
+ <span class="dropdown-text">An Introduction to Stata</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter2Stata.html">
+ <span class="dropdown-text">Chapter 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3Stata.html">
+ <span class="dropdown-text">Chapter 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter4Stata.html">
+ <span class="dropdown-text">Chapter 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter5Stata.html">
+ <span class="dropdown-text">Chapter 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter6Stata.html">
+ <span class="dropdown-text">Chapter 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter7Stata.html">
+ <span class="dropdown-text">Chapter 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Chapter8Stata.html">
+ <span class="dropdown-text">Chapter 8</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9Stata.html">
+ <span class="dropdown-text">Chapter 9</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Chapter2Python.html">Chapter 2</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Following Along with Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./IntroductionPython.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">An Introduction to Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter2Python.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter4Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter5Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 5</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter6Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 6</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter7Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 7</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Chapter8Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 8</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 9</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#code-call-out-2.1-regression-comparison-of-means-and-covariates" id="toc-code-call-out-2.1-regression-comparison-of-means-and-covariates" class="nav-link active" data-scroll-target="#code-call-out-2.1-regression-comparison-of-means-and-covariates">Code Call Out 2.1: Regression, Comparison of Means and Covariates</a>
+  <ul class="collapse">
+  <li><a href="#equivalence-between-regression-and-comparison-of-means" id="toc-equivalence-between-regression-and-comparison-of-means" class="nav-link" data-scroll-target="#equivalence-between-regression-and-comparison-of-means">Equivalence between regression and comparison of means</a></li>
+  <li><a href="#heterogeneity-by-a-baseline-covarite-x" id="toc-heterogeneity-by-a-baseline-covarite-x" class="nav-link" data-scroll-target="#heterogeneity-by-a-baseline-covarite-x">Heterogeneity by a baseline covarite <span class="math inline">\(X\)</span></a></li>
+  </ul></li>
+  <li><a href="#call-out-2.2-randomization-inference" id="toc-call-out-2.2-randomization-inference" class="nav-link" data-scroll-target="#call-out-2.2-randomization-inference">Call Out 2.2: Randomization Inference</a>
+  <ul class="collapse">
+  <li><a href="#an-exact-p-value" id="toc-an-exact-p-value" class="nav-link" data-scroll-target="#an-exact-p-value">An Exact p-value</a></li>
+  <li><a href="#a-real-example" id="toc-a-real-example" class="nav-link" data-scroll-target="#a-real-example">A Real Example</a></li>
+  </ul></li>
+  <li><a href="#code-call-out-2.3-bootstrap" id="toc-code-call-out-2.3-bootstrap" class="nav-link" data-scroll-target="#code-call-out-2.3-bootstrap">Code Call Out 2.3: Bootstrap</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="code-call-out-2.1-regression-comparison-of-means-and-covariates" class="level1">
+<h1>Code Call Out 2.1: Regression, Comparison of Means and Covariates</h1>
+<p>In this code call out we will explore some basic elements of regression as a means to estimate treatment effects. First we will, very simply, confirm the equivalance between a regression and difference of means estimator for the pooint estimate of binary treatment receipt on outcomes. And secondly, we will explore effect heterogeneity by a single covariate. We will do this with data from <span class="citation" data-cites="Barietal2024">Bari et al. (<a href="#ref-Barietal2024" role="doc-biblioref">2024</a>)</span>, who experimentally assess the impact of access to large business assets in microenteprises in Pakistan, where a randomly treated sample was offered a larger microfinance route to purchase such large assets.</p>
+<section id="equivalence-between-regression-and-comparison-of-means" class="level2">
+<h2 class="anchored" data-anchor-id="equivalence-between-regression-and-comparison-of-means">Equivalence between regression and comparison of means</h2>
+<p>To understand the equivalence between regression analysis and the comparison of means in a binary regression set-up, we will first open the data from <span class="citation" data-cites="Barietal2024">Bari et al. (<a href="#ref-Barietal2024" role="doc-biblioref">2024</a>)</span> and run a basic regression such as that documented in Table 4 of their paper:</p>
+<div id="6f1b9e2e" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_stata(<span class="st">"data/Bari_et_al_2024.dta"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>data_wave1 <span class="op">=</span> data[data[<span class="st">"wave"</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(data_wave1[<span class="st">"A"</span>])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data_wave1[<span class="st">"biz_ta"</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> sm.OLS(y, X).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(res.summary())</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>coef_treatment <span class="op">=</span> res.params[<span class="st">"A"</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(coef_treatment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                 biz_ta   R-squared:                       0.019
+Model:                            OLS   Adj. R-squared:                  0.018
+Method:                 Least Squares   F-statistic:                     14.28
+Date:                Thu, 14 May 2026   Prob (F-statistic):           0.000170
+Time:                        00:52:49   Log-Likelihood:                -6550.0
+No. Observations:                 739   AIC:                         1.310e+04
+Df Residuals:                     737   BIC:                         1.311e+04
+Df Model:                           1                                         
+Covariance Type:                  HC1                                         
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const       1149.0111    109.987     10.447      0.000     933.441    1364.581
+A            507.0368    134.165      3.779      0.000     244.078     769.996
+==============================================================================
+Omnibus:                      303.091   Durbin-Watson:                   1.867
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1030.966
+Skew:                           2.012   Prob(JB):                    1.34e-224
+Kurtosis:                       7.158   Cond. No.                         3.21
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC1)
+507.03681309809275</code></pre>
+</div>
+</div>
+<p>Here <code>biz_ta</code> is an outcome measuring total business assets, and this is measured at wave 1 (ie the wave in data immediately after treatment was first provided).</p>
+<p>To confirm that this is–by definition–simply equivalent to a difference in means we can consider the quantities which would be observed if we substituted <span class="math inline">\(A=1\)</span> and <span class="math inline">\(A=0\)</span> into the above equation. In this case we can see that the regression consists of a constant term: <span class="math inline">\(E[Y_i|Treat_i=0]\)</span>, and a second term which capture the difference between units receiving treatment and those not receiving treatment: <span class="math inline">\(E[Y_i|Treat_i=1]-E[Y_i|Treat_i=0]\)</span>. This latter is just the treatment effect of interest. Below we confirm that the coefficient on <span class="math inline">\(A\)</span> above is equivalent to the difference in means.</p>
+<div id="8f9cedec" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mean_treatment <span class="op">=</span> data_wave1.loc[data_wave1[<span class="st">'A'</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">'biz_ta'</span>].mean()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mean_control <span class="op">=</span> data_wave1.loc[data_wave1[<span class="st">'A'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'biz_ta'</span>].mean()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>diff_means <span class="op">=</span> mean_treatment <span class="op">-</span> mean_control</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Coefficient for treatment in regression: </span><span class="sc">{</span>coef_treatment<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Difference in means (Treatment - Control): </span><span class="sc">{</span>diff_means<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The coefficient from the regression should be equal to the difference in means to demonstrate equivalence."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coefficient for treatment in regression: 507.03681309809275
+Difference in means (Treatment - Control): 507.036865234375
+The coefficient from the regression should be equal to the difference in means to demonstrate equivalence.</code></pre>
+</div>
+</div>
+<p>Here we see that, as expected, our mean for the control group is equivalent to the constant in the regression, and the difference in means is equivalent to the coefficient on the treatment indicator in the regression.</p>
+</section>
+<section id="heterogeneity-by-a-baseline-covarite-x" class="level2">
+<h2 class="anchored" data-anchor-id="heterogeneity-by-a-baseline-covarite-x">Heterogeneity by a baseline covarite <span class="math inline">\(X\)</span></h2>
+<p>Let’s now consider the incorporation of a covariate into this regression and confirm that we can also quite simply break down (linear) heterogeneity, as discussed in (2.10) of the book. Here we will consider a variable which measures the management capacity of the small businesses in the sample. We will consider this management capacity at baseline, which below we generate, standardise so that it is mean zero, and then interact with treatment:</p>
+<div id="0c6f106a" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'temp'</span>] <span class="op">=</span> np.where(data[<span class="st">'wave'</span>] <span class="op">==</span> <span class="dv">0</span>, data[<span class="st">'mpall'</span>], np.nan)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'manage'</span>] <span class="op">=</span> data.groupby(<span class="st">'id'</span>)[<span class="st">'temp'</span>].transform(<span class="kw">lambda</span> x: x.mean(skipna<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'manage'</span>] <span class="op">=</span> data[<span class="st">'manage'</span>] <span class="op">-</span> data[<span class="st">'manage'</span>].mean(skipna<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Amanage'</span>] <span class="op">=</span> data[<span class="st">'A'</span>] <span class="op">*</span> data[<span class="st">'manage'</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data[<span class="st">'Amanage'</span>].describe())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>count    4365.000000
+mean        0.012202
+std         0.608976
+min        -1.076952
+25%        -0.442583
+50%         0.000000
+75%         0.143815
+max         2.305716
+Name: Amanage, dtype: float64</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_776376/71791465.py:3: PerformanceWarning:
+
+DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+
+/tmp/ipykernel_776376/71791465.py:4: PerformanceWarning:
+
+DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+
+/tmp/ipykernel_776376/71791465.py:6: PerformanceWarning:
+
+DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+</code></pre>
+</div>
+</div>
+<p>We can now consider whether there are differential treatment effects by a firm’s management capacity. To do so, we estimate the interacted regression below which allows for (a) a differential intercept for treated and untreated groups by the inclusion of the treatment dummy and a constant, and (b) a differential slope by management capacity, by including both a control for management capacity, as well as an interaction with treatment:</p>
+<div id="34d542ba" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"biz_ta ~ A + manage + Amanage"</span>, data<span class="op">=</span>data[data[<span class="st">"wave"</span>] <span class="op">==</span> <span class="dv">1</span>]).fit()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                 biz_ta   R-squared:                       0.035
+Model:                            OLS   Adj. R-squared:                  0.031
+Method:                 Least Squares   F-statistic:                     8.985
+Date:                Thu, 14 May 2026   Prob (F-statistic):           7.53e-06
+Time:                        00:52:49   Log-Likelihood:                -6543.8
+No. Observations:                 739   AIC:                         1.310e+04
+Df Residuals:                     735   BIC:                         1.311e+04
+Df Model:                           3                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept   1167.5899    108.190     10.792      0.000     955.192    1379.988
+A            485.2146    132.656      3.658      0.000     224.784     745.645
+manage       442.0014    156.314      2.828      0.005     135.125     748.877
+Amanage     -229.2233    186.898     -1.226      0.220    -596.140     137.694
+==============================================================================
+Omnibus:                      304.670   Durbin-Watson:                   1.887
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1056.553
+Skew:                           2.012   Prob(JB):                    3.74e-230
+Kurtosis:                       7.256   Cond. No.                         4.61
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>Above we eastimate this regression, and observe that while in general business with higher management capacity at baseline have much higher business assets, there is not (at least in wave 1) a statistically significantly different return to management among treated and untreated individuals. There is, however, a quite large negative effect on the interaction, weakly suggestive of smaller treatment effects among firms with higher management capacity. We can visualise this as in Figure 2.1 of the book. There are many ways we can do this, and you may wish to explore alternative ways of setting this up by considering marginal effects, or by confirming that the four quantities estimated in the regression above correspond to the two intercepts and two slopes of the lines plotted below which can be similarly plotted “by hand” based on these values. However, below we can see that it is sufficient to plot the predicted effect among treated and control units across the range of the <code>manage</code> variable. We do this in the code block below, first generating this predicted effect from the regression, and then plotting resulting curves for treated and control units.</p>
+<div id="67b6a2bf" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_pred <span class="op">=</span> data.loc[data[<span class="st">'wave'</span>] <span class="op">==</span> <span class="dv">1</span>].copy()</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>df_pred[<span class="st">'yhat'</span>] <span class="op">=</span> model.predict(df_pred)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> grp, grp_df <span class="kw">in</span> df_pred.groupby(<span class="st">'A'</span>):</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    grp_sorted <span class="op">=</span> grp_df.sort_values(<span class="st">'manage'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    ls <span class="op">=</span> <span class="st">'-'</span> <span class="cf">if</span> grp <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">'--'</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    col <span class="op">=</span> <span class="st">'red'</span> <span class="cf">if</span> grp <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">'blue'</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    lbl <span class="op">=</span> <span class="st">'Treated'</span> <span class="cf">if</span> grp <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">'Untreated'</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    ax.plot(grp_sorted[<span class="st">'manage'</span>], grp_sorted[<span class="st">'yhat'</span>],</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>            linestyle<span class="op">=</span>ls, color<span class="op">=</span>col, label<span class="op">=</span>lbl, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'manage'</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Linear prediction'</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">'lower center'</span>, ncol<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2Python_files/figure-html/cell-6-output-1.png" width="602" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>While this is just a simple illustration, it points to the flexibility of regression for capturing treatment effects when treatment is randomly assigned, and assumptions of unconditional unconfoundedness are reasonable.</p>
+</section>
+</section>
+<section id="call-out-2.2-randomization-inference" class="level1">
+<h1>Call Out 2.2: Randomization Inference</h1>
+<p>Randomization inference is perhaps best-illustrated with practical examples. A particularly illuminating approach to understand how randomisation inference works is visualization through tabular permutation. In this code call-out we will first consider a made-up example based on 3 treated units and 3 control units, before working with a larger number of control and treated units in data from an experiment implemented by <span class="citation" data-cites="Banerjeeetal2021">Banerjee, Duflo, and Sharma (<a href="#ref-Banerjeeetal2021" role="doc-biblioref">2021</a>)</span>, which we discuss below.</p>
+<section id="an-exact-p-value" class="level2">
+<h2 class="anchored" data-anchor-id="an-exact-p-value">An Exact p-value</h2>
+<p>It is perhaps useful to see a simple example. Consider the case of 6 units, with 3 observations randomly assigned treatment. Imagine that after having been exposed to treatment, the observed outcomes were, in the treatment group: <span class="math inline">\((34,27,29)\)</span> and in the control group: <span class="math inline">\((14,18,24)\)</span>. A simple comparison of means estimator suggests that the treatment effect is 11.33. To calculate a p-value, we can permute all the possible combinations, and ask what proportion of these are greater than or equal to this treatment effect. If we consider random orderings of 6 units, this suggests that there are <span class="math inline">\(6!\)</span> possible combinations, but in reality, as we are randomly choosing 3 units from these 6 to assign a permuted treatment status, the actual value of different combinations is <span class="math inline">\(6\choose 3\)</span> <span class="math inline">\(=\frac{6!}{3!*(6-3)!}=20\)</span>. We document each of these possible permutations, as well as their permuted treatment effect in the Table below. In this case, we can see that only 1 of the 20 different permutations is greater than or equal to 11.33 (the original treatment assignment). Suggesting an exact p-value of <span class="math inline">\(1/20=0.05\)</span> if a one-sided test is considered. If, however, we wish to consider a two-sided p-value, there are two values as extreme as 11.33, which is permutation 1, and permutation 20 below, suggesting a two-sided p-value of <span class="math inline">\(2/10=0.10\)</span>.</p>
+<table class="table-striped table-hover table-borderless table-secondary caption-top table">
+<caption>A Simple Illustration of Randomization Inference</caption>
+<thead>
+<tr class="header">
+<th>Permutation</th>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+<th>C1</th>
+<th>C2</th>
+<th>C3</th>
+<th>Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original (1)</td>
+<td>34</td>
+<td>27</td>
+<td>29</td>
+<td>14</td>
+<td>18</td>
+<td>24</td>
+<td>11.33</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>34</td>
+<td>27</td>
+<td>14</td>
+<td>29</td>
+<td>18</td>
+<td>24</td>
+<td>1.33</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>34</td>
+<td>27</td>
+<td>18</td>
+<td>14</td>
+<td>29</td>
+<td>24</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>34</td>
+<td>27</td>
+<td>24</td>
+<td>14</td>
+<td>18</td>
+<td>29</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>34</td>
+<td>14</td>
+<td>29</td>
+<td>27</td>
+<td>18</td>
+<td>24</td>
+<td>2.67</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>34</td>
+<td>18</td>
+<td>29</td>
+<td>14</td>
+<td>27</td>
+<td>24</td>
+<td>5.33</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>34</td>
+<td>24</td>
+<td>29</td>
+<td>14</td>
+<td>18</td>
+<td>27</td>
+<td>9.33</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>14</td>
+<td>27</td>
+<td>29</td>
+<td>34</td>
+<td>18</td>
+<td>24</td>
+<td>-2</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>18</td>
+<td>27</td>
+<td>29</td>
+<td>14</td>
+<td>34</td>
+<td>24</td>
+<td>0.67</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>24</td>
+<td>27</td>
+<td>29</td>
+<td>14</td>
+<td>18</td>
+<td>34</td>
+<td>4.67</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>34</td>
+<td>14</td>
+<td>18</td>
+<td>27</td>
+<td>29</td>
+<td>24</td>
+<td>-4.67</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>34</td>
+<td>14</td>
+<td>24</td>
+<td>27</td>
+<td>18</td>
+<td>29</td>
+<td>-0.67</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>34</td>
+<td>18</td>
+<td>24</td>
+<td>14</td>
+<td>27</td>
+<td>29</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>14</td>
+<td>27</td>
+<td>18</td>
+<td>34</td>
+<td>29</td>
+<td>24</td>
+<td>-9.33</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>14</td>
+<td>27</td>
+<td>24</td>
+<td>34</td>
+<td>18</td>
+<td>29</td>
+<td>-5.33</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>18</td>
+<td>27</td>
+<td>24</td>
+<td>14</td>
+<td>34</td>
+<td>29</td>
+<td>-2.67</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>14</td>
+<td>18</td>
+<td>29</td>
+<td>34</td>
+<td>27</td>
+<td>24</td>
+<td>-8</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>14</td>
+<td>24</td>
+<td>29</td>
+<td>34</td>
+<td>18</td>
+<td>27</td>
+<td>-4</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>18</td>
+<td>24</td>
+<td>29</td>
+<td>14</td>
+<td>34</td>
+<td>27</td>
+<td>-1.33</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>14</td>
+<td>18</td>
+<td>24</td>
+<td>34</td>
+<td>27</td>
+<td>29</td>
+<td>-11.33</td>
+</tr>
+</tbody>
+</table>
+<p>While this is so simple that we can set it up by hand, it is also useful to see how we can compute this in Stata. First, we will load import our “data”:</p>
+<div id="14c8c3a0" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Y'</span>: [<span class="dv">34</span>, <span class="dv">27</span>, <span class="dv">29</span>, <span class="dv">14</span>, <span class="dv">18</span>, <span class="dv">24</span>],</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'W'</span>: [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and then calculate a comparison of means estimator of the ATT:</p>
+<div id="a88ded80" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mean_Y1 <span class="op">=</span> data.loc[data[<span class="st">'W'</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">'Y'</span>].mean()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mean_Y0 <span class="op">=</span> data.loc[data[<span class="st">'W'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'Y'</span>].mean()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>tau_hat <span class="op">=</span> mean_Y1 <span class="op">-</span> mean_Y0</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Treatment effect is:"</span>, tau_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Treatment effect is: 11.333333333333332</code></pre>
+</div>
+</div>
+<p>Now let’s generate our p-value by permuting all possible treatment combinations. While there are many ways we could consider doing this, one is to note that we could start our permutation by assigning units 1, 2 and 3 to treatment and the last three units to control, and subsequently increase the units assigned to treatment until we are assigning units 4, 5 and 6 to treatment, and the remaining units to control. Below we begin by preparing a new frame of data in which to store our resulting treatment effects:</p>
+<div id="b183a7cc" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>permutations <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'permutation'</span>: np.arange(<span class="dv">1</span>, <span class="dv">21</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'effect'</span>: np.nan</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(permutations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    permutation  effect
+0             1     NaN
+1             2     NaN
+2             3     NaN
+3             4     NaN
+4             5     NaN
+5             6     NaN
+6             7     NaN
+7             8     NaN
+8             9     NaN
+9            10     NaN
+10           11     NaN
+11           12     NaN
+12           13     NaN
+13           14     NaN
+14           15     NaN
+15           16     NaN
+16           17     NaN
+17           18     NaN
+18           19     NaN
+19           20     NaN</code></pre>
+</div>
+</div>
+<p>which is simply a frame containing 20 lines where <code>permutation</code> increases from 1 to 20, with an empty variable <code>effect</code> that we can fill in with our effects. Now, let’s begin permuting our effect, where we will generate a variable <code>Wperm</code> which is our new treated unit. The below code will iterate through the three possible units receiving treatment (<code>t1</code>, <code>t2</code> and <code>t3</code>), starting from units 1, 2 and 3, and going until these reach units 3, 4 and 5 respectively. It is worth reading through this code carefully given that this is done “manually”, but in each loop we will print out the units receiving treatment so that we can convince ourselves that we are indeed seeing the 20 treatment combinations mentioned in the table above.</p>
+<div id="b1d20de2" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate all 20 permutations and compute effects</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> []</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> combo <span class="kw">in</span> itertools.combinations(<span class="bu">range</span>(<span class="dv">6</span>), <span class="dv">3</span>):</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    Wperm <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="dv">6</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx <span class="kw">in</span> combo:</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        Wperm[idx] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    df_temp <span class="op">=</span> pd.DataFrame({<span class="st">'Y'</span>: data[<span class="st">'Y'</span>], <span class="st">'Wperm'</span>: Wperm})</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="st">"Y ~ Wperm"</span>, data<span class="op">=</span>df_temp).fit()</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    effects.append(model.params[<span class="st">'Wperm'</span>])</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>permutations <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'permutation'</span>: <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(effects) <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'effect'</span>: effects</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the code above, within each loop we have estimated our permuted treatment effect, and placed it in the permutations frame. We can now open up this frame, and compare these permutation-based effects to the original effect (which is the first effect stored in our data), and calculate the one-sided and two-sided p-values. We do this below.</p>
+<div id="02b54bbd" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute effect1 and p-values</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>effect1 <span class="op">=</span> permutations[<span class="st">'effect'</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>p1side <span class="op">=</span> (permutations[<span class="st">'effect'</span>] <span class="op">&gt;=</span> effect1).mean()</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>p2side <span class="op">=</span> (permutations[<span class="st">'effect'</span>].<span class="bu">abs</span>() <span class="op">&gt;=</span> <span class="bu">abs</span>(effect1)).mean()</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"One sided p-value:"</span>, p1side)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Two sided p-value:"</span>, p2side)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot histogram</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>ax.hist(permutations[<span class="st">'effect'</span>], bins<span class="op">=</span><span class="dv">10</span>, facecolor<span class="op">=</span><span class="st">'lightblue'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>ax.axvline(x<span class="op">=</span>effect1, color<span class="op">=</span><span class="st">'red'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Permutation Distribution of Treatment Effects"</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Effect"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>One sided p-value: 0.05
+Two sided p-value: 0.05</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2Python_files/figure-html/cell-11-output-2.png" width="589" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we can confirm that we find the p-values we calculated by hand above, and view these permutations graphically in the resulting histogram above.</p>
+</section>
+<section id="a-real-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-real-example">A Real Example</h2>
+<p>It turns out, that to translate this to a case with real data, we do not need to add many additional elements. In this section, we work with data from a randomized control trial that examines asset transfers to poor households in India, as discussed in the paper by <span class="citation" data-cites="Banerjeeetal2021">Banerjee, Duflo, and Sharma (<a href="#ref-Banerjeeetal2021" role="doc-biblioref">2021</a>)</span>. Here we will consider the impact of receipt of asset transfers on two outcomes: a financial index <code>ind_fin_el1</code> and an asset index <code>asset_ind_tot_el1</code>.</p>
+<p>Before we explore randomisation inference, let’s open these data and estimate a simple regression, considering the effect of treatment receipt on the asset index:</p>
+<div id="d6850ec7" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Banerjee_et_al_2021.csv"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"asset_ind_tot_el1 ~ treatment"</span>, data<span class="op">=</span>data).fit()</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>robust_res <span class="op">=</span> model.get_robustcov_results(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(robust_res.summary())</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>assetEffect <span class="op">=</span> model.params[<span class="st">"treatment"</span>]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(assetEffect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:      asset_ind_tot_el1   R-squared:                       0.017
+Model:                            OLS   Adj. R-squared:                  0.016
+Method:                 Least Squares   F-statistic:                     11.94
+Date:                Thu, 14 May 2026   Prob (F-statistic):           0.000582
+Time:                        00:52:50   Log-Likelihood:                -1257.3
+No. Observations:                 682   AIC:                             2519.
+Df Residuals:                     680   BIC:                             2528.
+Df Model:                           1                                         
+Covariance Type:                  HC1                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     -0.1961      0.076     -2.591      0.010      -0.345      -0.047
+treatment      0.4078      0.118      3.456      0.001       0.176       0.639
+==============================================================================
+Omnibus:                      209.123   Durbin-Watson:                   1.995
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              558.197
+Skew:                           1.552   Prob(JB):                    6.15e-122
+Kurtosis:                       6.164   Cond. No.                         2.58
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC1)
+0.4077528208202768</code></pre>
+</div>
+</div>
+<p>From the summary we can note that <span class="math inline">\(\widehat{\tau}_{ATE} = 0.408\)</span> and its standard error equals 0.118. This suggests a p-value of around 0.0005. We have saved the original estimated effect in a local (<code>assetEffect</code>) which we will use below.</p>
+<p>We can similarly consider the financial index:</p>
+<div id="0e30e633" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Banerjee_et_al_2021.csv"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>model_fin <span class="op">=</span> smf.ols(<span class="st">"ind_fin_el1 ~ treatment"</span>, data<span class="op">=</span>data).fit()</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>robust_fin <span class="op">=</span> model_fin.get_robustcov_results(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(robust_fin.summary())</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>finEffect <span class="op">=</span> model_fin.params[<span class="st">"treatment"</span>]</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(finEffect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:            ind_fin_el1   R-squared:                       0.000
+Model:                            OLS   Adj. R-squared:                 -0.001
+Method:                 Least Squares   F-statistic:                   0.05335
+Date:                Thu, 14 May 2026   Prob (F-statistic):              0.817
+Time:                        00:52:50   Log-Likelihood:                -729.69
+No. Observations:                 815   AIC:                             1463.
+Df Residuals:                     813   BIC:                             1473.
+Df Model:                           1                                         
+Covariance Type:                  HC1                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      0.1354      0.030      4.576      0.000       0.077       0.194
+treatment     -0.0096      0.042     -0.231      0.817      -0.091       0.072
+==============================================================================
+Omnibus:                      613.330   Durbin-Watson:                   1.913
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             9492.123
+Skew:                           3.359   Prob(JB):                         0.00
+Kurtosis:                      18.310   Cond. No.                         2.69
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC1)
+-0.009589322745445043</code></pre>
+</div>
+</div>
+<p>where we observe a point estimate quite close to zero, and p-value of 0.817.</p>
+<p>Let’s now consider how we conduct permutation inference in this particular case where there are too many permutations of treatment to feasibly consider them all. Here, rather than considering all possible permutations, we will consider randomly assigned permutations of treatment which respect the original treatment assignment structure. Namely, if we inspect these data, we can see that there are 991 units, 525 of whom receive treatment. We can thus conduct a single permutation by randomly re-assigning treatment to 525 units, and control to the remaning units. We do this below, estimating the correspnding effect.</p>
+<div id="4c5e8a0f" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data[<span class="st">'treatment'</span>].value_counts())</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'epsilon'</span>] <span class="op">=</span> np.random.randn(<span class="bu">len</span>(data))</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.sort_values(<span class="st">'epsilon'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Wperm'</span>] <span class="op">=</span> [<span class="dv">1</span>]<span class="op">*</span><span class="dv">525</span> <span class="op">+</span> [<span class="dv">0</span>]<span class="op">*</span>(<span class="bu">len</span>(data) <span class="op">-</span> <span class="dv">525</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>model_perm <span class="op">=</span> smf.ols(<span class="st">'asset_ind_tot_el1 ~ Wperm'</span>, data<span class="op">=</span>data).fit()</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>robust_perm <span class="op">=</span> model_perm.get_robustcov_results(cov_type<span class="op">=</span><span class="st">'HC1'</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(robust_perm.summary())</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>data.drop(columns<span class="op">=</span>[<span class="st">'Wperm'</span>, <span class="st">'epsilon'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>treatment
+1    525
+0    466
+Name: count, dtype: int64
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:      asset_ind_tot_el1   R-squared:                       0.001
+Model:                            OLS   Adj. R-squared:                 -0.001
+Method:                 Least Squares   F-statistic:                    0.3872
+Date:                Thu, 14 May 2026   Prob (F-statistic):              0.534
+Time:                        00:52:50   Log-Likelihood:                -1263.1
+No. Observations:                 682   AIC:                             2530.
+Df Residuals:                     680   BIC:                             2539.
+Df Model:                           1                                         
+Covariance Type:                  HC1                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept     -0.0376      0.082     -0.458      0.647      -0.199       0.124
+Wperm          0.0735      0.118      0.622      0.534      -0.158       0.305
+==============================================================================
+Omnibus:                      211.184   Durbin-Watson:                   1.926
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              568.819
+Skew:                           1.564   Prob(JB):                    3.04e-124
+Kurtosis:                       6.200   Cond. No.                         2.65
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC1)</code></pre>
+</div>
+</div>
+<p>Here we see that, perhaps unsurprisingly, our randomly assigned treatment results in a small estimated “effect”, of 0.082, which is substantially smaller than the original treatment effect itself.</p>
+<p>To estimate a permutation-based p-value all we need to do is repeat this procedure a large number of times (below 10,000 times), and count the proportion of permuted effects which are <em>larger</em> than our estimated treatment effect. We set this up below, using the <code>++</code> notation to increase our local <code>pval</code> by one any time the condition on line 12 is met:</p>
+<div id="1a84826e" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>Npermut <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>pval <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(Npermut):</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    epsilon <span class="op">=</span> np.random.randn(n)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> np.argsort(epsilon)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    Wperm <span class="op">=</span> np.zeros(n, dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    Wperm[idx[:<span class="dv">525</span>]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    df_temp <span class="op">=</span> data.copy()</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    df_temp[<span class="st">'Wperm'</span>] <span class="op">=</span> Wperm</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    model_i <span class="op">=</span> smf.ols(<span class="st">"asset_ind_tot_el1 ~ Wperm"</span>, data<span class="op">=</span>df_temp).fit()</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">abs</span>(model_i.params[<span class="st">"Wperm"</span>]) <span class="op">&gt;</span> <span class="bu">abs</span>(assetEffect):</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>        pval <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pval)</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pval <span class="op">/</span> Npermut)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>8
+0.0008</code></pre>
+</div>
+</div>
+<p>Here we see that among all of our 10,000 placebos, only 8 effects were larger than the effect we actually observed in our data, suggesting a p-value of 8/10000, or 0.0008.</p>
+<p>We can generalise this idea below (for this specific data set-up), and below we do this defining a program which we call <code>randomisation_inference</code>. This program takes a single argument, which is the outcome we wish to consider, and packages the procedure we have explored above, finally printing the p-value and a number of other pieces of information. While we could further optimise this program, for example to automatically infer how to permute the treatment assignment and to return resulting p-values to users, the below is sufficient for our interests here of estimating a randomisation-based p-value.</p>
+<div id="19d4753c" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> randomisation_inference(varname, data, Npermut<span class="op">=</span><span class="dv">10000</span>):</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    np.random.seed(<span class="dv">121316</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Observed effect</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    model_obs <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss"> ~ treatment"</span>, data<span class="op">=</span>data).fit()</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    obs_effect <span class="op">=</span> model_obs.params[<span class="st">'treatment'</span>]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Permutation test</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    pval <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> data.shape[<span class="dv">0</span>]</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(Npermut):</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>        epsilon <span class="op">=</span> np.random.randn(n)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> np.argsort(epsilon)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>        Wperm <span class="op">=</span> np.zeros(n, dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>        Wperm[idx[:<span class="dv">525</span>]] <span class="op">=</span> <span class="dv">1</span>  <span class="co"># same number of treated as original</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>        df_temp <span class="op">=</span> data.copy()</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>        df_temp[<span class="st">'Wperm'</span>] <span class="op">=</span> Wperm</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>        model_perm <span class="op">=</span> smf.ols(<span class="ss">f"</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss"> ~ Wperm"</span>, data<span class="op">=</span>df_temp).fit()</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">abs</span>(model_perm.params[<span class="st">'Wperm'</span>]) <span class="op">&gt;</span> <span class="bu">abs</span>(obs_effect):</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>            pval <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    p_value <span class="op">=</span> pval <span class="op">/</span> Npermut</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"The observed effect of </span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss"> is </span><span class="sc">{</span>obs_effect<span class="sc">}</span><span class="ss"> and its p-value is </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, we can run this program, simply passing as an argument the two variables we have examined above. We do this below:</p>
+<div id="964916e5" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>randomisation_inference(<span class="st">"ind_fin_el1"</span>, data)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>randomisation_inference(<span class="st">"asset_ind_tot_el1"</span>, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The observed effect of ind_fin_el1 is -0.009589322745445189 and its p-value is 0.8161
+The observed effect of asset_ind_tot_el1 is 0.4077528208202771 and its p-value is 0.0008</code></pre>
+</div>
+</div>
+<p>If we compare these p-values to regression-based estimates, we will see that, perhaps unsurpringly, they are very similar.</p>
+</section>
+</section>
+<section id="code-call-out-2.3-bootstrap" class="level1">
+<h1>Code Call Out 2.3: Bootstrap</h1>
+<p>For an introduction to the bootstrap, refer to Section 2.4.4 of the book. Here we will examine a computational implementation of a bootstrap standard error and confidence intervals, using data from <span class="citation" data-cites="Chongetal2016">Chong et al. (<a href="#ref-Chongetal2016" role="doc-biblioref">2016</a>)</span> which we have worked with above. First we will consider the main regression <span class="math display">\[Y_i = \mu + \tau_{ATE}W_i + \varepsilon_i.\]</span> Here we will work with the data Chong_et_al_2016, and examine the total cognitive score (<code>wii_total</code>) as our outcome measure <span class="math inline">\(Y_i\)</span>. We can load the data and examine the estimated treatment effect via regression below.</p>
+<div id="b6e10808" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_stata(<span class="st">"data/Chong_et_al_2016.dta"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data[[<span class="st">'student_id'</span>, <span class="st">'hhid'</span>, <span class="st">'treat'</span>]].head(<span class="dv">5</span>))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>data_clean <span class="op">=</span> data.dropna(subset<span class="op">=</span>[<span class="st">'wii_total'</span>, <span class="st">'treat'</span>])</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"wii_total ~ treat"</span>, data<span class="op">=</span>data_clean).fit()</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  student_id  hhid  treat
+0     001001     1      0
+1     001002     1      0
+2     001003     1      0
+3     002001     2      0
+4     002002     2      1
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              wii_total   R-squared:                       0.025
+Model:                            OLS   Adj. R-squared:                  0.020
+Method:                 Least Squares   F-statistic:                     5.174
+Date:                Thu, 14 May 2026   Prob (F-statistic):             0.0240
+Time:                        00:54:26   Log-Likelihood:                -1365.7
+No. Observations:                 208   AIC:                             2735.
+Df Residuals:                     206   BIC:                             2742.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept    455.6642     14.759     30.874      0.000     426.566     484.762
+treat         57.4625     25.262      2.275      0.024       7.658     107.267
+==============================================================================
+Omnibus:                        4.050   Durbin-Watson:                   1.512
+Prob(Omnibus):                  0.132   Jarque-Bera (JB):                3.153
+Skew:                          -0.179   Prob(JB):                        0.207
+Kurtosis:                       2.514   Cond. No.                         2.41
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>From the summary we can note that <span class="math inline">\(\widehat{\tau}_{ATE} = 57.46\)</span> and its standard error equals 25.26. This suggests a p-value of 0.024, and 95% confidence intervals of [7.66;107.267]. In this case the standard errors are computed via the standard OLS variance estimator, assuming homoscedastic errors, although heteroscedasticity-robust standard errors can be requested quite simply using the <code>robust</code> option from the command <code>reggress</code> This is showed below, resulting in slight variations to the reported standard error (and correspondingly, p-value and resulting confidence intervals).</p>
+<div id="6e969276" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"wii_total ~ treat"</span>, data<span class="op">=</span>data_clean).fit()</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>robust_res <span class="op">=</span> model.get_robustcov_results(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(robust_res.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              wii_total   R-squared:                       0.025
+Model:                            OLS   Adj. R-squared:                  0.020
+Method:                 Least Squares   F-statistic:                     5.651
+Date:                Thu, 14 May 2026   Prob (F-statistic):             0.0184
+Time:                        00:54:26   Log-Likelihood:                -1365.7
+No. Observations:                 208   AIC:                             2735.
+Df Residuals:                     206   BIC:                             2742.
+Df Model:                           1                                         
+Covariance Type:                  HC1                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept    455.6642     15.415     29.560      0.000     425.273     486.055
+treat         57.4625     24.172      2.377      0.018       9.807     105.118
+==============================================================================
+Omnibus:                        4.050   Durbin-Watson:                   1.512
+Prob(Omnibus):                  0.132   Jarque-Bera (JB):                3.153
+Skew:                          -0.179   Prob(JB):                        0.207
+Kurtosis:                       2.514   Cond. No.                         2.41
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC1)</code></pre>
+</div>
+</div>
+<p>An alternative to these closed-form methods for variance estimation is to use bootstrap resampling methods. There are multiple ways a bootstrap can be implemented, but the simplest here will be to simply conduct a paired bootstrap, which is also robust to heteroscedasticity. The pairs bootstrap consists of, first, sampling with replacement the ordered pairs <span class="math inline">\(\left\{(y_i,w_i)\right\}_{i=1}^{N} = \left\{(y_1,w_1),\ldots,(y_N,w_N)\right\}\)</span> from original data, obtaining a “new” dataset of <span class="math inline">\(N\)</span> resampled pairs <span class="math inline">\(\left\{(y_i^*,w_i^*)\right\}_{i=1}^{N} = \left\{(y_1^*,w_1^*),\ldots,(y_N^*,w_N^*)\right\}\)</span>. The new dataset thus simply consists of (potentially repeated) randomly selected rows of the original data. Let’s see what this looks like with a single bootstrap replicate. First, we will generate a vector of size <span class="math inline">\(N\)</span>, drawn with replacement. We do this below, having a look at the first 10 rows of the vector.</p>
+<div id="91acbb84" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>data_bootstrap <span class="op">=</span> data_clean.sample(n<span class="op">=</span><span class="bu">len</span>(data_clean), replace<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">121316</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data_bootstrap[[<span class="st">'student_id'</span>, <span class="st">'hhid'</span>, <span class="st">'treat'</span>]].head(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    student_id  hhid  treat
+189     183002   183      0
+77      071002    71      0
+91      084001    84      0
+180     174001   174      0
+98      089001    89      0</code></pre>
+</div>
+</div>
+<p>With this bootstrap sample we estimate again the coefficient of interest with standard OLS procedure:</p>
+<div id="e840febe" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>model_bootstrap <span class="op">=</span> smf.ols(<span class="st">"wii_total ~ treat"</span>, data<span class="op">=</span>data_bootstrap).fit()</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_bootstrap.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              wii_total   R-squared:                       0.043
+Model:                            OLS   Adj. R-squared:                  0.038
+Method:                 Least Squares   F-statistic:                     9.243
+Date:                Thu, 14 May 2026   Prob (F-statistic):            0.00267
+Time:                        00:54:26   Log-Likelihood:                -1350.4
+No. Observations:                 208   AIC:                             2705.
+Df Residuals:                     206   BIC:                             2711.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept    454.4189     13.190     34.452      0.000     428.414     480.424
+treat         74.6644     24.559      3.040      0.003      26.246     123.083
+==============================================================================
+Omnibus:                        5.828   Durbin-Watson:                   1.864
+Prob(Omnibus):                  0.054   Jarque-Bera (JB):                3.299
+Skew:                          -0.053   Prob(JB):                        0.192
+Kurtosis:                       2.392   Cond. No.                         2.43
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
+</div>
+</div>
+<p>With this sample, we have obtained an estimate of <span class="math inline">\(\widehat{\tau}_{ATE}^* =23.41\)</span>; a different value to the original value, in line with variation in the sample used for estimation. If we want some idea of how much estimates vary as the sample changes (ie the sampling variation of our estimate), the next step simply consists of repeating this bootstrap process <span class="math inline">\(B\)</span> times, resulting in <span class="math inline">\(B\)</span> estimates of <span class="math inline">\(\widehat{\tau}_{ATE,(b)}^*\)</span> with <span class="math inline">\(b\in\{1,\ldots,B\}\)</span>. Let’s set <span class="math inline">\(B=1,000\)</span>, and do this:</p>
+<div id="9ea5654c" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>taus <span class="op">=</span> np.empty(<span class="dv">1000</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="bu">len</span>(data_clean), size<span class="op">=</span><span class="bu">len</span>(data_clean))</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    data_bootstrap <span class="op">=</span> data_clean.iloc[idx]</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> smf.ols(<span class="st">"wii_total ~ treat"</span>, data<span class="op">=</span>data_bootstrap).fit()</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    taus[i] <span class="op">=</span> model.params[<span class="st">"treat"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You may wish to step through each of the lines in this loop to ensure that you can see what is going on, but the end product of this code is a column matrix called <code>taus</code> which has been filled in with <span class="math inline">\(B\)</span> estimates of <span class="math inline">\(\tau\)</span>, <span class="math inline">\(\left\{\widehat{\tau}^{(b)}\right\}_{b=1}^{B}\)</span>. The next step is to convert this column matrix into a variable in our dataset</p>
+<div id="a773f261" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>taus_df <span class="op">=</span> pd.DataFrame({<span class="st">'taus'</span>: taus})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can have a look at the entire empirical distribution of these estimates as follows: <!-- In order to get the graph the blindschemes package from SSC mut be installed.    --></p>
+<div id="74e588bf" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gaussian_kde</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>p25 <span class="op">=</span> np.quantile(taus_df[<span class="st">'taus'</span>], <span class="fl">0.025</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>p975 <span class="op">=</span> np.quantile(taus_df[<span class="st">'taus'</span>], <span class="fl">0.975</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Kernel density estimate</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>data_vals <span class="op">=</span> taus_df[<span class="st">'taus'</span>].values</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>kde <span class="op">=</span> gaussian_kde(data_vals)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(data_vals.<span class="bu">min</span>(), data_vals.<span class="bu">max</span>(), <span class="dv">200</span>)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> kde(x)</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>ax.fill_between(x, y, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'lightblue'</span>)</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>ax.axvline(p25, linestyle<span class="op">=</span><span class="st">'dashed'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>ax.axvline(p975, linestyle<span class="op">=</span><span class="st">'dashed'</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="fl">0.407753</span>, linestyle<span class="op">=</span><span class="st">'solid'</span>, color<span class="op">=</span><span class="st">'grey'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="vs">r'</span><span class="dv">$</span><span class="ch">\t</span><span class="vs">au</span><span class="dv">$</span><span class="vs"> Empirical Distribution'</span>)</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'</span><span class="dv">$</span><span class="ch">\t</span><span class="vs">au</span><span class="dv">$</span><span class="vs">'</span>)</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Density'</span>)</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(plt.FuncFormatter(<span class="kw">lambda</span> val, pos: <span class="ss">f"</span><span class="sc">{</span>val<span class="sc">:.2f}</span><span class="ss">"</span>))</span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Chapter2Python_files/figure-html/cell-24-output-1.png" width="614" height="450" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As we can see, this empirical distribution is close to centred on the original estimate (in the limit, they will be exactly the same, which is something you may wish to confirm by using a larger value for <span class="math inline">\(B\)</span>), while also giving us some idea of the variation of the estimate over alternative resamples. We additionally plot the empirical 2.5<sup>th</sup> and 97.5<sup>th</sup> quantiles of the distribution, which provides a 95% confidence interval for <span class="math inline">\(\widehat\tau\)</span>. Clearly, and in line with the regression results observed above, we can reject the null that <span class="math inline">\(\tau=0\)</span> with some certainty. Using these values <span class="math inline">\(\left\{\widehat{\tau}^{(b)}\right\}_{b=1}^{B}\)</span>, finally we display the estimate’s standard error as the standard deviation of the bootstrap estimates, and the confidence intervals can be generated from empirical quantiles. <!-- Similarly, if we wish to calculate a p-value, we can do so, asking how many values of the empirical distribution are more extreme than the estimate of interest.    --> We illustrate this below:</p>
+<div id="d8b3244d" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>var_estimate <span class="op">=</span> taus_df[<span class="st">'taus'</span>].var()</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>sd_estimate <span class="op">=</span> taus_df[<span class="st">'taus'</span>].std()</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>ci <span class="op">=</span> taus_df[<span class="st">'taus'</span>].quantile([<span class="fl">0.025</span>, <span class="fl">0.975</span>])</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The variance estimate is: </span><span class="sc">{</span>var_estimate<span class="sc">:.4f}</span><span class="ss"> as such, the standard error estimate is: </span><span class="sc">{</span>sd_estimate<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The empirical 95% confidence interval is: [</span><span class="sc">{</span>ci<span class="sc">.</span>iloc[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>ci<span class="sc">.</span>iloc[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">]."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The variance estimate is: 500.2855 as such, the standard error estimate is: 22.3671
+The empirical 95% confidence interval is: [16.4375, 105.4291].</code></pre>
+</div>
+</div>
+<p>We can see that the standard error, and hence 95% confidence interval, is very closely alligned to that from regression documented above, given both are valid under broadly similar assumptions.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Banerjeeetal2021" class="csl-entry" role="listitem">
+Banerjee, Abhijit, Esther Duflo, and Garima Sharma. 2021. <span>“<span class="nocase">Long-Term Effects of the Targeting the Ultra Poor Program</span>.”</span> <em>American Economic Review: Insights</em> 3 (4): 471–86. <a href="https://doi.org/10.1257/aeri.20200667">https://doi.org/10.1257/aeri.20200667</a>.
+</div>
+<div id="ref-Barietal2024" class="csl-entry" role="listitem">
+Bari, Faisal, Kashif Malik, Muhammad Meki, and Simon Quinn. 2024. <span>“Asset-Based Microfinance for Microenterprises: Evidence from Pakistan.”</span> <em>American Economic Review</em> 114 (2): 534–74. <a href="https://doi.org/10.1257/aer.20210169">https://doi.org/10.1257/aer.20210169</a>.
+</div>
+<div id="ref-Chongetal2016" class="csl-entry" role="listitem">
+Chong, Alberto, Isabelle Cohen, Erica Field, Eduardo Nakasone, and Maximo Torero. 2016. <span>“Iron Deficiency and Schooling Attainment in Peru.”</span> <em>American Economic Journal: Applied Economics</em> 8 (4): 222–55. <a href="https://doi.org/10.1257/app.20140494">https://doi.org/10.1257/app.20140494</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

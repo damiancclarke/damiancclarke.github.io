@@ -1,0 +1,7 @@
+*------------------------------   stata.toc  ------------------------------------
+v 3
+
+d Damian Clarke, Department of Economics, USACH
+d contact: damian.clarke@usach.cl
+
+p plausexog Plausibly Exogenous Bounds
