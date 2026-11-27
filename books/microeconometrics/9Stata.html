@@ -658,7 +658,7 @@ window.Quarto = {
 <section id="baselines-estimates-without-regularization" class="level2">
 <h2 class="anchored" data-anchor-id="baselines-estimates-without-regularization">Baselines estimates without regularization</h2>
 <p>Let’s get started by opening these data and doing some initial insepection, as well as estimating some baseline (regression) models without regularization.</p>
-<div id="1481cd9e" class="cell" data-execution_count="1">
+<div id="d5ede331" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"data/Farrell_2015.csv"</span>, <span class="kw">clear</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -670,7 +670,7 @@ window.Quarto = {
 </div>
 </div>
 <p>With the data in memory we can confirm that it looks how we think it should. We can start by confirming that the experimental sub-sample is identical to that in <span class="citation" data-cites="DeheijaWahba1999">Dehejia and Wahba (<a href="#ref-DeheijaWahba1999" role="doc-biblioref">1999</a>)</span>,<span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>, which we discussed in code call-out 3.1:</p>
-<div id="8ad367a2" class="cell" data-execution_count="2">
+<div id="0e72d018" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Experimental sample (NSW).</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> treat <span class="kw">if</span> nsw == 1   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -684,7 +684,7 @@ window.Quarto = {
 </div>
 </div>
 <p>We can see here that, similarly to when we inspected the NSW analysis in Chapter 3, the experimental sample consists of 185 treated units and 260 controls. We can also inspect the layout of the <em>non-experimental</em> sample:</p>
-<div id="965cb4f5" class="cell" data-execution_count="3">
+<div id="fa0b8669" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Observational sample (PSID).</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> treat <span class="kw">if</span> nsw == 0   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -698,7 +698,7 @@ window.Quarto = {
 </div>
 </div>
 <p>In this case, there are 2,675 observations, with the treated group simply being replicated from NSW data, and the remaining 2,490 drawn from the PSID. We can also confirm that we re-create experimental estimates from the NSW training program:</p>
-<div id="d007925c" class="cell" data-execution_count="4">
+<div id="bf2b0613" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">y</span> treat <span class="kw">if</span> nsw == 1, <span class="kw">vce</span>(<span class="kw">robust</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -719,7 +719,7 @@ Linear regression                               Number of obs     =        445
 </div>
 <p>This is our experimental benchmark, and as we have seen previously suggests that the job training program increases earnings by an average of $1,794 per year.</p>
 <p>From now on, however, we will focus on the non-experimental subsample (i.e., individuals with <code>nsw==0</code>). In this case, we will seek to determine which covariates are relevant predictors of wages in the post-treatment period from our large set of potential covariates using regularized regression. Before implementing these models, let’s define the variables we will use. Below we store as a number of locals baseline covariates, interaction terms (between continuous and dummy variables respectively), and polynomials of continuous variables.</p>
-<div id="44237d04" class="cell" data-execution_count="5">
+<div id="b0023c79" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>* Definition <span class="kw">of</span> globals.</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> covariates v3-v12</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> continuous_interactions v13-v34</span>
@@ -727,7 +727,7 @@ Linear regression                               Number of obs     =        445
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> polynomials v49-v173</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can confirm that the choice of covariates to include is certainly of consequence. If we simply regress the outcome on treatment, we see that the observational sample clearly does not form a good counterfactual. Rather than approximating the experimental effect, we find effects which are both mis-signed and an order of magnitude larger (ie an average <em>decrease</em> of $15,205 in annual earnings for treated individuals).</p>
-<div id="19f62471" class="cell" data-execution_count="6">
+<div id="b41a58e8" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">y</span> treat <span class="kw">if</span> nsw == 0, <span class="kw">vce</span>(<span class="kw">robust</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -747,7 +747,7 @@ Linear regression                               Number of obs     =      2,675
 </div>
 </div>
 <p>We can, however, see that simplying including all possible covariates in this model also appears to not be an ideal solution. When we do this, as we may expect given that we are in essence likely over-fitting our model, the variance of our estimated treatment effect becomes quite large, not letting us rule out the actual experimental treatment effect we estimated earlier, but also quite a large range of other effects.</p>
-<div id="e5baea6a" class="cell" data-execution_count="7">
+<div id="7b74ebe7" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">y</span> treat <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="ot">`polynomials'</span> <span class="kw">if</span> nsw == 0, <span class="kw">vce</span>(<span class="kw">robust</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>note: v3 omitted because of collinearity.
@@ -798,7 +798,7 @@ Linear regression                               Number of obs     =      2,675
 <section id="lasso-selection-with-an-arbitrary-penalty" class="level3">
 <h3 class="anchored" data-anchor-id="lasso-selection-with-an-arbitrary-penalty">Lasso Selection (with an arbitrary penalty):</h3>
 <p>We can see the way that penalisation in <a href="#eq-lasso" class="quarto-xref">Equation&nbsp;1</a> works by incorporating an arbitrary penalisation value for Lambda. To run the Lasso in Stata with our data we can use the command <code>lasso linear</code>, including the dependent variable and all the covariates in our model. Selecting an arbitrary lambda can be done using the <code>selection(none)</code> option of Lasso command, in which case the Lasso is estimated for all possible lambdas across a grid of values (up to some stopping limit). Once these have been estimated, we can impose any value of lambda we desire, which we arbitarily set as 10 below:</p>
-<div id="47abd553" class="cell" data-execution_count="8">
+<div id="1f0c6f7c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>* Lasso selection with lambda <span class="ot">value</span> <span class="kw">of</span> 10. </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>lasso linear <span class="fu">y</span> <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="ot">`polynomials'</span> <span class="kw">if</span> nsw == 0, selection(<span class="kw">none</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>lassoselect lambda = 10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -950,7 +950,7 @@ Note: No lambda selected. lassoselect can be used to select lambda.
 
 ID = 77  lambda = 9.874727 selected</code></pre>
 <p>In this case we see that across the values of lambdas considered, the highest value of lambda is that which increases penalisation on variable inclusion so much that all coefficients are driven to 0, while in the lowest value considered, 142 of the 172 possible selected variables remain in the model. In the case here where we have set lambda to 10, we can see which covariates are retained after the selection process using the command <code>lassocoef</code>.</p>
-<div id="b91a39d9" class="cell" data-execution_count="9">
+<div id="d202136d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Lasso selected variables (with an arbitrary penalty of 10).</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>lassocoef, <span class="kw">display</span>(coef, postselection)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span> <span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1069,7 +1069,7 @@ matrices:
 </div>
 </div>
 <p>Above we see that when we have imposed a lambda of 10, 122 out of the 172 available covariates are retained in the model. We can also display the coefficients on these covariates, though of course, given the nature of the Lasso, they will be shrunk towards zero. Clearly, this value of 10 does not penalize much, as the majority of considered variables remain in the model. However, if we choose a larger penalty, such as a lambda of 1000 below, we should expect fewer covariates to be selected.</p>
-<div id="bd63290c" class="cell" data-execution_count="10">
+<div id="f84dcadf" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Selecting an arbitrary penalty of 1000 and visualization of the selected variables.</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lassoselect lambda = 1000</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>lassocoef, <span class="kw">display</span>(coef, postselection)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1095,7 +1095,7 @@ Legend:
 </div>
 <p>As we can see, in this case, only 6 covariates remain in the model. In general (though not necessarily given distinct variable selection), we will also see that the coefficients on selected variables will be closer to zero than in cases with a smaller shrinkage term.</p>
 <p>We can view the entire path of coefficients across distinct values of lambda using <code>coefpath</code>. Below we plot these values (requesting coefficients be plotted against lambda in logarithmic scale). We can see the nature of shrinkage with coefficients both moving towards zero, and exiting the model as lambda rises.</p>
-<div id="2cb925c3" class="cell" data-execution_count="11">
+<div id="a6e5cd8e" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Coefficient paths for each L1 norm.</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>coefpath, lcolor(<span class="bn">purple</span>%50) xunits(lnlambda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1110,7 +1110,7 @@ Legend:
 <section id="choosing-lambda-by-cross-validation" class="level3">
 <h3 class="anchored" data-anchor-id="choosing-lambda-by-cross-validation">Choosing <span class="math inline">\(\lambda\)</span> by Cross-Validation</h3>
 <p>Rather than selecting <span class="math inline">\(\lambda\)</span> arbitrarily, typically it will be selected using cross-validation, or some other optimal selection method. By default, 10 fold cross-validation is used, where lambda is selected to minimise out-of-sample prediction error across 10 sub-samples of data (in code call-out 9.2 below we see such cross-validation implemented “by hand”). Below we do this, again visualising coefficients. In this case, given that folds of data are randomly selected, we set a seed for replicability across runs.</p>
-<div id="6aaceb59" class="cell" data-execution_count="12">
+<div id="2638cd37" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lasso linear <span class="fu">y</span> <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="ot">`polynomials'</span> <span class="co">///</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> nsw == 0, selection(cv) rseed(12131627)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>lassocoef, <span class="kw">display</span>(coef, postselection)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1231,7 +1231,7 @@ Linear regression                               Number of obs     =      2,675
 <section id="sensitivity-to-tuning-choices" class="level3">
 <h3 class="anchored" data-anchor-id="sensitivity-to-tuning-choices">Sensitivity to Tuning Choices</h3>
 <p>One concern with cross-validation-based Lasso is that results can vary with the random seed used to assign observations to folds. We can illustrate this by changing the seed:</p>
-<div id="2dc41016" class="cell" data-execution_count="14">
+<div id="d1d617c3" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lasso linear <span class="fu">y</span> <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="ot">`polynomials'</span> <span class="co">///</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> nsw == 0, selection(cv) rseed(121316)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1343,7 +1343,7 @@ Selection: Cross-validation                 No. of CV folds   =         10
 </div>
 </div>
 <p>With seed <code>121316</code>, cross-validation selects <span class="math inline">\(\lambda \approx 223\)</span> and retains 35 covariates: a considerably larger set from those selected with seed <code>1213</code>, implying any procedures relying on variable selection will change. An alternative that avoids this seed-dependence is the <em>plug-in</em> estimator of <span class="citation" data-cites="BelloniChenChernozhukovHansen2012">A. Belloni et al. (<a href="#ref-BelloniChenChernozhukovHansen2012" role="doc-biblioref">2012</a>)</span>, which derives <span class="math inline">\(\lambda\)</span> analytically from the data rather than by minimising a cross-validated objective:</p>
-<div id="17729bac" class="cell" data-execution_count="15">
+<div id="e2720ccd" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lasso linear <span class="fu">y</span> <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="ot">`polynomials'</span> <span class="co">///</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> nsw == 0, selection(plugin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1436,7 +1436,7 @@ Legend:
 \tag{2}\]</span></span></p>
 <p>This change implies that Ridge Regression penalizes high coefficient values by introducing a penalty that shrinks them towards zero, but never sets them exactly to zero. As a result, this regularization method is not suitable for model selection but is useful in high-dimensional models where overfitting is a concern, also in cases where the number of covariates exceeds the sample size.</p>
 <p>To perform Ridge regression, we can use the command <code>elasticnet linear</code>, including the dependent variable and all the covariates in our model. As with Lasso regression, we include a seed to ensure reproducibility. The main difference is that we must indicate the option <code>alpha(0)</code> to indicate that we wish to implemente a Ridge regression (the implications of this will be clearer below, when defining the elastic net, of which Ridge is a special case):</p>
-<div id="66d6c8ca" class="cell" data-execution_count="17">
+<div id="0e49170b" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Ridge regularization (with cross-validation penalties).</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>elasticnet linear <span class="fu">y</span> treat <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="ot">`polynomials'</span> <span class="kw">if</span> nsw == 0, selection(cv) rseed(1234) <span class="kw">alpha</span>(0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1481,7 +1481,7 @@ alpha       ID |     Description      lambda    coef.    R-squared        error
 -------------------------------------------------------------------------------
 * alpha and lambda selected by cross-validation.</code></pre>
 <p>Unlike Lasso, all coefficients remain non-zero throughout. Ridge shrinks coefficients but never selects variables. If we again examine the coefficient path here we will see quite distinct behaviour to the Lasso. In this case, coefficients shrink gradually towards zero, never hitting zero.</p>
-<div id="3f0c61e4" class="cell" data-execution_count="19">
+<div id="ff465764" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>coefpath, xunits(lnlambda) lcolor(<span class="kw">red</span>%50)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1497,7 +1497,7 @@ alpha       ID |     Description      lambda    coef.    R-squared        error
 +\lambda\sum_{j=1}^p\left(\alpha|\beta_j|+(1-\alpha)\beta_j^2\right)\right\}
 \tag{3}\]</span></span></p>
 <p>When <span class="math inline">\(\alpha=1\)</span> this is the Lasso, whereas when <span class="math inline">\(\alpha=0\)</span> (as we indicated above) it converges on the Ridge. In cases where one wishes to implement an elastic net, both <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\lambda\)</span> can be selected jointly by cross-validation:</p>
-<div id="f6409b69" class="cell" data-execution_count="20">
+<div id="e798d8da" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>elasticnet linear <span class="fu">y</span> treat  <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="co">///</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">`polynomials'</span> <span class="kw">if</span> nsw == 0,</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1554,7 +1554,7 @@ alpha       ID |     Description      lambda    coef.    R-squared        error
 -------------------------------------------------------------------------------
 * alpha and lambda selected by cross-validation.</code></pre>
 <p>Interestingly, in this case, cross-validation selects <span class="math inline">\(\alpha=1\)</span>, i.e., a pure Lasso, indicating that sparsity is preferred over Ridge-style shrinkage when considering out of sample prediction. We can compare out-of-sample fit across all three methods:</p>
-<div id="8f4e08e0" class="cell" data-execution_count="21">
+<div id="0ac0a0d0" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> lasso linear <span class="fu">y</span> treat <span class="ot">`covariates'</span> <span class="ot">`continuous_interactions'</span> <span class="ot">`dummy_interactions'</span> <span class="co">///</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="ot">`polynomials'</span> <span class="kw">if</span> nsw == 0, selection(cv) rseed(12131627)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> lasso</span>
@@ -1590,7 +1590,7 @@ Postselection coefficients
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>We will explore double-debiased machine learning and post-double selection methods using an example from <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span>, which has been discussed in <span class="citation" data-cites="Bellonietal2014b">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014b" role="doc-biblioref">2013</a>)</span>. This examines the impact of abortion legalisation in the United States in the 1970s on crime rates many years later when birth cohorts exposed to abortion reform reached early adulthood. The much-analysed hypothesis first proposed by <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span> is that crime rates decline as a result of declines in cohort sizes and changes in cohort composition given declining rates of unplanned births. However, this finding has been questioned, and one specific question is about the precise set of controls included in specifications of <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span> (refer to Tables IV and V showing principal models and robustness). In this code call-out, we will examine the use of both post double selection (<span class="citation" data-cites="Bellonietal2014b">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014b" role="doc-biblioref">2013</a>)</span>) and double-debiased ML (<span class="citation" data-cites="Chernozhukovetal2018">Chernozhukov et al. (<a href="#ref-Chernozhukovetal2018" role="doc-biblioref">2018</a>)</span>) to see how they differ, and their estimated effects in this particular setting.</p>
 <p>To begin, we load the state-level panel data used by <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span>, which mirrors Donohue and Levitt’s 1985-1997 dataset (50 states <span class="math inline">\(\times\)</span> 13 years):</p>
-<div id="c4710572" class="cell" data-execution_count="22">
+<div id="64ce2c06" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1609,7 +1609,7 @@ Postselection coefficients
 crime_{cit} = \tau_c abortion_{cit} + w^\prime_{it}\beta_c + \delta_{ci} + \gamma_{ct} + \varepsilon_{cit},
 \]</span> where <span class="math inline">\(c\)</span> indexes different crime types (violent crime, property crime and murder), <span class="math inline">\(i\)</span> refers to states, and <span class="math inline">\(t\)</span> refers to time. The interest is in identifying <span class="math inline">\(\tau_c\)</span> which describes the impact of abortion rates years earlier on crime rates among cohorts in adulthood. Here, <span class="math inline">\(abortion_{cit}\)</span> is coded as in <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span> to refer to the abortion rate among cohorts most likely to commit crime type <span class="math inline">\(c\)</span>. A set of controls is included as <span class="math inline">\(w_{it}\)</span> (state and time-varying controls), <span class="math inline">\(\delta_{ci}\)</span> (state-specific effects) and <span class="math inline">\(\gamma_{ct}\)</span> (time-specific effects). <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span> take first differences which avoids the need for state-level fixed effects, and year fixed effects will be consistently included. The question we will examine here is precisely which set of time-varying controls to include among a large set of potential confounders.</p>
 <p>With data loaded, we can construct the first-difference variables for crime and abortion rates, and define our large set of candidate controls, which follows <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span> (and <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span>) to include as controls the log of lagged prisoners per capita, the log of lagged police per capita, the unemployment rate, per‐capita income, the poverty rate, the generosity of AFDC at <span class="math inline">\(t-15\)</span>, a concealed‐weapons law dummy, and beer consumption per capita contemporaneous state support programs. Importantly, while this is a reasonably small number of time-varying controls (8 time varying controls, beginning with <code>xx</code> in data), as the functional form is not known, a very rich set-up is considered including these variables in levels, in differences, their quadractic, their cross products, the quadratic of cross-products, interactions with time-trends, and so forth. <!--This results in up to xxx variables.--> Below we generate the full set of controls, essentially following <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span>, though as this is somewhat long, we keep this unexposed, please click on the code to see the full generating process<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<div id="2bc8f82e" class="cell" data-execution_count="23">
+<div id="6ea3e273" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> {</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Drop DC </span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">drop</span> <span class="kw">if</span> statenum == 9 </span>
@@ -1740,7 +1740,7 @@ crime_{cit} = \tau_c abortion_{cit} + w^\prime_{it}\beta_c + \delta_{ci} + \gamm
 </div>
 <p>What is key above is that we have defined three locals which contain the full set of potential covariates: <code>Allviol</code>, <code>Allprop</code> and <code>Allmurd</code>, corresponding to three crime types. With these sets of variables in hand, we will consider below which of these (many) controls may be appropriate for our models using post-double selection LASSO and Double-debiased machine learning.</p>
 <p>We can see below that the implications of such a decision are considerable. If we first estimate the specification focusing on violent crimes and using no covariates, we estimate that <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span>’s measure of abortion suggests that exposure to reform reduces crime rates by a statistically significant 15.7 percent. However, in cases where all potential covariates are included, we see that estimates become very noisy, with a point estimate of a <em>positive</em> 12.8 percent, but a standard error much larger in magnitude.</p>
-<div id="e85bff77" class="cell" data-execution_count="24">
+<div id="e0238287" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> <span class="fu">year</span>, <span class="kw">gen</span>(_year)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>eststo m_first_diff:   <span class="kw">reg</span> Dyviol Dviol           _year3-_year13, <span class="kw">cluster</span>(statenum)</span>
@@ -1812,7 +1812,7 @@ Standard errors in parentheses
 <h2 class="anchored" data-anchor-id="post-double-selection-lasso">Post Double Selection Lasso</h2>
 <p>As we lay out at more length in Section 9.3.1 of the book, the “double selection” procedure works as follows. First, we estimate a Lasso to pick the controls that best predict the outcome. Second, we repeat the Lasso, to this time selecting the covariates that best predict the treatment variable. Third, we take the union of those two sets of controls. Finally, we estimate the treatment effect by regressing the outcome on the treatment and all controls in that combined set. This procedure, laid out in <span class="citation" data-cites="Bellonietal2014b">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014b" role="doc-biblioref">2013</a>)</span> has been shown to work well provided that a theoretical “plugin” parameter is used for <span class="math inline">\(\lambda\)</span> in the Lasso, which is typically larger than values selected by cross-validation, and guards against overfitting. We can see these ideas set up “by hand” below.</p>
 <p>We will begin by estimating a model in which the outcome is regressed on all potential predictor variables (as well as year fixed effects, which we force to remain in the model). We use the theoretically grounded “plugin” parameter. We see that this selects 11 variables (which it turns out are just time dummies), and we save these selected covariates in a local we call <code>v1</code>.</p>
-<div id="4277d15e" class="cell" data-execution_count="25">
+<div id="c082577c" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> lasso linear Dyviol (_year3-_year13) <span class="ot">`Allviol'</span>, selection(plugin) </span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> v1 <span class="ot">`e(othervars_sel)'</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>lassocoef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1842,7 +1842,7 @@ Legend:
 </div>
 </div>
 <p>Now we can do precisely the same thing with our treatment variable of interest. In this case we see that 7 additional variables are selected (along with the year fixed effects), and we save these as <code>v2</code>.</p>
-<div id="d97284f0" class="cell" data-execution_count="26">
+<div id="fb855a31" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> lasso linear Dviol (_year3-_year13) <span class="ot">`Allviol'</span>, selection(plugin) </span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> v2 <span class="ot">`e(othervars_sel)'</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>lassocoef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1880,7 +1880,7 @@ Legend:
 </div>
 </div>
 <p>Finally, we run the post-double selection model, simply regressing our outcome of interest on treatment along with covariates in both <code>v1</code> or <code>v2</code>:</p>
-<div id="1a95b615" class="cell" data-execution_count="27">
+<div id="ace576e9" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>eststo m_postdouble: <span class="kw">reg</span> Dyviol Dviol <span class="ot">`v1'</span> <span class="ot">`v2'</span> _year3-_year13, <span class="kw">cluster</span>(statenum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1920,7 +1920,7 @@ Dxxincome0Xt |  -5.859656   22.09876    -0.27   0.792    -50.26878    38.54946
 </div>
 </div>
 <p>In this case, we see that estimates are quite close to the original model without covariates, with an estimated decline in crime rates of 19.7%. It is also worth noting that Stata has its own native implementation of the post-double selection Lasso, which is <code>dsregress</code>. If we wish to bundle the above three steps in a single command, we can see how this is done directly below:</p>
-<div id="3bc26837" class="cell" data-execution_count="28">
+<div id="745d6603" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dsregress Dyviol Dviol, controls((_year3-_year13) <span class="ot">`Allviol'</span>)  <span class="kw">cluster</span>(statenum)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>lassoinfo </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1972,7 +1972,7 @@ Note: Lassos are performed accounting for clusters in statenum.
 <li><p>Finally, regress the residualized outcome on the residualized treatment: This final step estimates <span class="math inline">\(\alpha_c\)</span> using only the variation in treatment that is orthogonal to the controls, yielding a debiased estimate.</p></li>
 </ul>
 <p>Below we will implement this ourselves “by hand”. A key thing to see here is that we are conducting cross fitting in which we first divide our sample into 10 approximately equal folds. Then, in each fold we use all data apart from the data in the fold to predict relevant covariates, before residualizing using the data in that fold. We do this for both treatment and outcome variables, as we can see below:</p>
-<div id="47f182b6" class="cell" data-execution_count="29">
+<div id="a59d8259" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 121316</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co">//Split sample into 10 equal parts for cross-fitting</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>splitsample, <span class="kw">generate</span>(<span class="kw">split</span>) nsplit(10)</span>
@@ -2042,7 +2042,7 @@ Note: Lassos are performed accounting for clusters in statenum.
 </div>
 </div>
 <p>Although we have silenced the output of the regression and the Lasso in each fold of data, we can see how we populate the residualized outcome and treatment variable piece-by-piece. The outcome of this process is thus a residualized outcome and treatment variable (<code>Ytilde</code> and <code>Dtilde</code> respectively), with each having residualized relevant controls. We can then complete our double-debiased procedure by regressing the outcome of interest on treatment, as below:</p>
-<div id="32edacbf" class="cell" data-execution_count="30">
+<div id="e75a088f" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> Ytilde Dtilde, <span class="kw">cluster</span>(statenum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2063,7 +2063,7 @@ Linear regression                               Number of obs     =        600
 </div>
 </div>
 <p>In this particular case, we find estimates which are broadly similar to those above, with abortion reform estimated to reduce rates of violent crime by around 20 percent. Note that while the above set-up by hand allows us to easily see how these DDML estimators work in practice, we may wish to use out of the box implementations to perform such procedures. We can do this below, where, up to random variation owing to folds in data, we will find the same result.</p>
-<div id="8fb7f0b6" class="cell" data-execution_count="31">
+<div id="632339fd" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>xporegress Dyviol Dviol, controls((_year3-_year13) <span class="ot">`Allviol'</span>)  <span class="kw">cluster</span>(statenum) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2130,7 +2130,7 @@ Note: Lassos are performed accounting for clusters in statenum.</code></pre>
 </div>
 </div>
 <p>Previously, we have performed our Lasso’s using the theoretically driven plugin penalty parameter. While this was required in post-double selection, one benefit of DDML is that in theory we can use many types of underlying machine-learning procedures for the process of selecting controls themselves. One such otpion would be to use a Lasso but selecting the penalization parameter by cross-validation, and as we see below, this is easy to do in practice:</p>
-<div id="77c9ce97" class="cell" data-execution_count="32">
+<div id="cb8a1dd9" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>xporegress Dyviol Dviol, controls((_year3-_year13) <span class="ot">`Allviol'</span>)  <span class="kw">cluster</span>(statenum) selection(cv) rseed(121316) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2201,7 +2201,7 @@ Note: Lassos are performed accounting for clusters in statenum.</code></pre>
 <section id="bringing-things-together" class="level2">
 <h2 class="anchored" data-anchor-id="bringing-things-together">Bringing things together</h2>
 <p>Above we have considered these procedures for one type of crime (violent crime), though noted that there are quite useful routines to do this automatically. Below we can see how we can easily repeat the above procedures for each outcome of interest. We do this in a loop below considering each of the three crime types and displaying estimates from models (a) with no covariabes, (b) with all covariates (c) with covariates selected by post-double selection Lasso, (d) covariates selected by DDML with a plugin penalization parameter, and (e) covariates selected by DDML with a cross-validated penalization parameter:</p>
-<div id="799c71ab" class="cell" data-execution_count="33">
+<div id="67fc9e75" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">clear</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> crime <span class="kw">in</span> viol <span class="kw">prop</span> murd {</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">qui</span> {</span>
@@ -2264,7 +2264,7 @@ Standard errors in parentheses
 This Code Call Out is under construction.
 </span>
 
-::: {#6af4b45f .cell execution_count=34}
+::: {#796ae23b .cell execution_count=34}
 ``` {.stata .cell-code}
 clear all 
 set more off
@@ -2280,7 +2280,7 @@ use "data/Kumar_Liang_2024", clear
 <section id="code-call-out-9.4-causal-trees-with-an-rct" class="level1">
 <h1>Code Call Out 9.4: Causal Trees with an RCT</h1>
 <p>In this section, we’re going to examine how to quantify heterogeneous treatment effects using Causal Forests. In particular, we’re going to work using the data from <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span>, a field experiment examining discrimination against skilled immigrants in the Canadian labor market. <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span> conducted an audit experiment in which a large number of résumés were sent out, and callback rates for jobs were examined based on randomised characteristics displayed on these résumés. We first import the data, seeing that we have 10,184 résumés:</p>
-<div id="65315d22" class="cell" data-execution_count="35">
+<div id="fe67f312" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span> </span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2291,7 +2291,7 @@ use "data/Kumar_Liang_2024", clear
 </div>
 </div>
 <p>In particular, <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span> is interested in whether immigrants face labour market discrimination, and the variable <code>canadian_name</code> indicates whether candidate résumés show a Canadian-sounding (native) or non-Canadian-sounding (immigrant) name. We can see the variation in this treatment variable below:</p>
-<div id="a8ed1d85" class="cell" data-execution_count="36">
+<div id="bda53c15" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> canadian_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2306,7 +2306,7 @@ canadian_na |
 </div>
 <p>Next, we prepare the dataset for analysis. We define our dependent variable callback, which indicates whether a job applicant received a callback. Initially binary (0 or 1), we convert it to a scale from 0 to 100, enabling easier interpretation of results as percentage points (p.p.).</p>
 <p>We define our treatment variable as canadian_name, indicating if the applicant has a Canadian-sounding name, and create a list of covariates (X_var) relevant for the analysis. These covariates represent applicant characteristics such as gender, education quality, and experience.</p>
-<div id="25c99cb5" class="cell" data-message="false" data-execution_count="37">
+<div id="363572f1" class="cell" data-message="false" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Define variable lists</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> y_var callback</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> D_var canadian_name</span>
@@ -2317,7 +2317,7 @@ canadian_na |
 <span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> D = canadian_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s begin by estimating a standard regression in which callback rates are regressed on our variable of interest (Canadian-sounding name), as well as our full vector of covariates.</p>
-<div id="c1d2ce90" class="cell" data-message="false" data-execution_count="38">
+<div id="5ec1ecf6" class="cell" data-message="false" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> X_with_D canadian_name female ba_quality extracurricular_skills language_skills ma same_exp exp_highquality reference accreditation legal </span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Run OLS regression of Y on all covariates and treatment</span></span>
@@ -2351,7 +2351,7 @@ accreditat~n |  -.5473368   1.372454    -0.40   0.690    -3.237618    2.142944
 </div>
 <p>This allows us to replicate one of the main results from <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span>. Namely, above we see a clear bias in call-back rates against individuals with non-Canadian sounding names. Here, even though this is randomly assigned, implying that all other characteristics on résumés will be balanced across individuals with Canadian and non-Canadian-sounding names, we see that individuals with names associated with immigrants are 5.4pp less likely to be called back than individuals with “Canadian-names”. This effect is large: greater than having an undergraduate degree from a well recognised university.</p>
 <p>However, our interest here is in understanding heterogeneity of this effect among different types of individuals (i.e.&nbsp;estimating CATEs), as laid out in Section 9.4 of the book. Traditionally, we may seek to explore heterogeneity in treatment effects by estimating effects by groups, or equivalently, by interacting our treatment variable with other factors. Consider below where we seek to examine whether this effect varies by two specific covariates (gender and BA quality). These interactions allow us to initially investigate simple forms of heterogeneity in the treatment effect.</p>
-<div id="abb1ef60" class="cell" data-message="false" data-execution_count="39">
+<div id="7360b8d1" class="cell" data-message="false" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Create interaction terms</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> canadian_name_female = female * canadian_name</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> canadian_name_BA     = ba_quality * canadian_name</span>
@@ -2396,7 +2396,7 @@ accreditat~n |  -.5176983    1.37078    -0.38   0.706    -3.204698    2.169301
 <p>In order to implement a causal forest we turn to Stata’s <code>cate</code> command, available from Stata 19 onwards. It is worth being precise about what <code>cate</code> does, since it differs in some way from the canonical causal forest which you can find implemented in R’s <code>grf</code> package or Python’s <code>econml</code> package. If you wish to see a precise implementation of the classic causal forest algorithm as developed by <span class="citation" data-cites="AtheyWager2017">Athey and Wager (<a href="#ref-AtheyWager2017" role="doc-biblioref">2018</a>)</span>, <span class="citation" data-cites="AtheyTibshiraniWager2019">Athey, Tibshirani, and Wager (<a href="#ref-AtheyTibshiraniWager2019" role="doc-biblioref">2019</a>)</span>, you can refer to this same code call out implementation in the <code>R</code> or <code>Python</code> files for this chapter. You may also note that (although in practice these implementations in <code>R</code> and <code>Python</code> are not so different to <code>cate</code> in practice), if you wish to implement these same methods in Stata, you could also use <a href="https://www.stata.com/python/"><code>Stata</code> and <code>Python</code>’s interoperability</a> via <code>pystata</code> to do this.</p>
 <p>What distinguishes the standard causal forest from what <code>cate</code> implements is the splitting criterion inside the trees themselves. In standard causal forests, and as discussed in Section 9.4.1 of the book, each tree split is chosen to directly maximise heterogeneity in treatment effects, which is to say that the causal structure is considered in every node of every tree. In contrast, Stata’s implementation via <code>cate po</code> is based on the (related) R-learner of <span class="citation" data-cites="NieWager2021">Nie and Wager (<a href="#ref-NieWager2021" role="doc-biblioref">2021</a>)</span> which first residualises both the outcome and the treatment of covariates in a way similar to that we examined in code call-out 9.2 (by default, using linear and logit Lassos respectively), and then fits a standard honest random forest to the resulting residualised outcomes. These approaces are clearly related. In practice the two approaches often yield similar estimates of individual treatment effects, and <code>cate</code> inherits the same theoretical guarantees on honesty and valid inference, but it is best understood as an R-learner with an honest random forest, rather than a causal forest in the strict sense. Nevertheless, Stata’s manuals make clear that this is their implementation of the causal forest, stating (in reference to <code>cate po</code>) “<em>This method is the default and is also known as causal forest</em>”.</p>
 <p>With this caveat in place, we implement Stata’s <code>cate</code> procedure below. The <code>po</code> option specifies the partialling-out (R-learner) implementation, and we retain the default Lasso models for both outcome and treatment residualization. From this we extract individual treatment effect estimates (<code>tau_hat</code>) and their associated standard errors, which allow us to construct pointwise confidence intervals based on the methods described in <span class="citation" data-cites="AtheyTibshiraniWager2019">Athey, Tibshirani, and Wager (<a href="#ref-AtheyTibshiraniWager2019" role="doc-biblioref">2019</a>)</span>.</p>
-<div id="723e0efd" class="cell" data-message="false" data-execution_count="40">
+<div id="d550a0d4" class="cell" data-message="false" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Causal Forest analysis using CATE command</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> X_var <span class="st">"female i.ba_quality extracurricular_skills language_skills ma same_exp exp_highquality reference accreditation legal"</span></span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2486,7 +2486,7 @@ tau_ci_upper |     10,184    14.79612    6.732898  -.3353376   35.41104</code></
 </div>
 </div>
 <p>After implementing the model, we visualize the distribution of estimated individual treatment effects. While we observe that effects line up with our ATE estimated earlier, what is new here is the quite broad distribution of effects based on individual variation in covariates.</p>
-<div id="19a96023" class="cell" data-message="false" data-execution_count="41">
+<div id="1c0aad4f" class="cell" data-message="false" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Visualize the distribution of individual treatment effects</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">summarize</span> tau_hat</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> ate_mean = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
@@ -2506,7 +2506,7 @@ tau_ci_upper |     10,184    14.79612    6.732898  -.3353376   35.41104</code></
 </div>
 <p>The results above show that while most estimated treatment effects are negative, reflecting the general disadvantage faced by applicants with non-Canadian-sounding names, there is meaningful dispersion, with some applicants predicted to face a much larger penalty than others, and for some relatively small proportion, no disadvantage is observed at all, but rather effects point to favourable call-back probabilities.</p>
 <p>We can examine whether these effects along with their confidence intervals, as we plot below. Here effects are ordered from smallest (i.e.&nbsp;suggestive of an immigrant advantage) to largers (suggestive of an immigrant disadvantage). Once again, this plot makes clear the substantial heterogeneity of effects within the sample, though also allowing us to easily visualise if 95% CIs exclude 0 effects.</p>
-<div id="33c97813" class="cell" data-message="false" data-execution_count="42">
+<div id="b589e522" class="cell" data-message="false" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>cap <span class="kw">drop</span> <span class="fu">index</span> sorted_index</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">index</span> = <span class="dt">_n</span></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="kw">sort</span> tau_hat</span>
@@ -2533,7 +2533,7 @@ tau_ci_upper |     10,184    14.79612    6.732898  -.3353376   35.41104</code></
 </div>
 </div>
 <p>While these results clearly point to heterogeneity within the sample, it is not possible to pinpoint where this heterogeneity is coming from in these visualisations. One way we can seek to consider the relevance of specific covariates is to explicitly consider treatment effects within groups. We examine this below using Group Average Treatment Effects (GATEs). We consider a single binary measure (quality of the undergraduate degree), and examine estimated treatment effects within individuals with higher and lower BA quality. We can recover these quite simply using the <code>reestimate</code> option, which bases estimates of the (already-estimated) treatment effect function we plotted above. This suggests meaningful differences in mean effects across groups, and indeed, if we wish, we can visualise these differences ourselves simply using the previously predictions, and plotting, as we do with the histogram below.</p>
-<div id="9ac9e6bf" class="cell" data-message="false" data-execution_count="43">
+<div id="1a9c30e9" class="cell" data-message="false" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Analyze heterogeneity by bachelor's degree quality</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="co">// First, estimate GATE by ba_quality groups</span></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>cate, <span class="fu">group</span>(ba_quality) reestimate </span>
@@ -2590,7 +2590,7 @@ POmean       |
 <section id="simple-summary-measures" class="level3">
 <h3 class="anchored" data-anchor-id="simple-summary-measures">Simple summary measures</h3>
 <p>There are a number of alternative ways which we can directly consider the importance of covariates (or features) in explaining the heterogeneity in treatment effects. Essentially, beyond simply knowing that heterogeneity exists, we would like to know which are the underlying features of data which can best explain this heterogeneity in effects. In both <code>R</code> and <code>Python</code> implementations, we will focus on feaure importance measures using a specific in-built algorithm, which we will discuss (and approximate) below. In Stata, this is not directly available however natural alternatives do exist. A simple starting point to seek to understand which characteristics drive treatment effect is to use post-estimation commands following <code>cate</code> such as <code>estat projection</code>. This regresses the estimated individual treatment effects on the full vector of covariates using OLS, giving a linear summary of each feature’s association with the predicted effect:</p>
-<div id="9a7824d2" class="cell" data-execution_count="44">
+<div id="4719077e" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="kw">estat</span> projection</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2625,7 +2625,7 @@ accreditat~n |    1.72012   1.524608     1.13   0.259    -1.268413    4.708652
 <h3 class="anchored" data-anchor-id="feature-importance-and-shap-values">Feature Importance and SHAP Values</h3>
 <p>One widely used approach of measuring variable importance in models such as the causal forest SHAP (SHapley Additive exPlanations). SHAP values decompose each individual prediction, which we generated above, into additive contributions from each feature. For a given observation, the SHAP value for a feature tells us how much that feature shifted the predicted treatment effect away from the sample average, with positive values implying this feature pushes the prediction above the mean, while negative values push it below. This is thus a quite rich way to measure feature importance, because it tells us both which variables are important in explaining heterogeneity, as well as how they move effects.</p>
 <p>Stata’s <code>cate</code> command does not natively compute SHAP values. Below we document a two-step approach which allows us to approximate the idea: we take the individual treatment effect predictions (<code>tau_hat</code>) produced by <code>cate</code> as our outcome of interest, and fit a second random forest using the <code>h2oml</code> package. This seeks to predict <code>tau_hat</code> from the vector of applicant characteristics. The values of using Stata’s integration with <code>h2oml</code> is that feature importance routines are available. Below we do this, with SHAP values reported from on this second forest. It is important to note that this is an approximation: we are explaining the predictions of a forest fitted to <code>tau_hat</code> rather than computing SHAP values directly from the causal forest itself. In practice, however, this approach tends to give similar feature importance rankings to those obtained from native SHAP implementations in R’s <code>grf</code> or Python’s <code>econml</code>, which we show on the corresponding pages for this chapter.</p>
-<div id="3c7dcb83" class="cell" data-message="false" data-execution_count="45">
+<div id="0482211e" class="cell" data-message="false" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">scheme</span> <span class="bn">white</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co">// local for features</span></span>
@@ -2647,13 +2647,13 @@ accreditat~n |    1.72012   1.524608     1.13   0.259    -1.268413    4.708652
 <div class="cell-output cell-output-stdout">
 <pre><code>Connecting to the H2O cluster running at http://127.0.0.1:54321.....not found.
 Starting a new cluster running at http://127.0.0.1:54321.
-Connecting to the H2O cluster running at http://127.0.0.1:54321... Successful.
+Connecting to the H2O cluster running at http://127.0.0.1:54321.... Successful.
 ------------------------------------------------------------------------------
 H2O cluster uptime:        1 sec
 H2O cluster timezone:      Europe/London
 H2O data parsing timezone: UTC
 H2O cluster version:       3.46.0.7
-H2O cluster version age:   1 year, 2 months and 18 days
+H2O cluster version age:   1 year, 7 months and 27 days
 H2O cluster total nodes:   1
 H2O cluster free memory:   15,61 Gb
 H2O cluster total cores:   8
@@ -2684,7 +2684,7 @@ accreditation   int               0      9752         0         0
 legal           int               0      9766         0         0             
 ------------------------------------------------------------------------------
 
-Progress (%): 0 11.8 48.3 84.3 100
+Progress (%): 0 4.3 26.1 49.6 73.0 91.2 100
 
 Random forest regression using H2O
 

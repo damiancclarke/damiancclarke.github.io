@@ -642,7 +642,7 @@ window.Quarto = {
 <p>In this code call out we use data from <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span> to estimate the local average treatment effect of Medicaid on health outcomes. In particular, we focus on understanding the range of ways which we can mechanically arrive to this estimand, showing the equivalance between, 2SLS, the Wald estimator, and indirect least squares as laid out in Section 5.2.4 of the book. This should also make clear to us the relationship between the intention to treat effect, the 2SLS first stage and the LATE.</p>
 <p>In the file <code>Finkelstein_et_al_2012.csv</code> you can find a minimalist sample of the data used by <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span> in order to replicate some of the paper’s tables 3 and 5 results. This minimalist sample consists of respondents to a survey that was sent out by mail in seven waves between July and August 2009.</p>
 <p>In this example we will focus on a binary outcome <code>er_any_12m</code> which takes a value of 1 if individual has any ER visits in last six months and 0 otherwise. The endogenous treatment indicator variable <span class="math inline">\(D\)</span> is a binary variable <code>ohp_all_ever_survey</code> which takes 1 if the individual was ever on Medicaid during the study period and our instrument <span class="math inline">\(Z\)</span> is a binary variable <code>treatment</code> which takes 1 if the individual’s household was selected by the lottery. Below, we load these data, rename the outcome, endogenous variable and instrument as <code>Y</code>, <code>D</code> and <code>Z</code> respectively, and make one minor edit to convert our outcome variable to a numeric format. Note that here we are dropping a small number of individuals for whom we do not have information on the outcome of interest:</p>
-<div id="b9280cea" class="cell" data-cache="true" data-execution_count="1">
+<div id="f000769f" class="cell" data-cache="true" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Finkelstein_et_al_2012.csv"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename variables</span></span>
@@ -651,7 +651,7 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will begin by estimating Intention to Treat Effect (ITT) of lottery receipt, to see that we can replicate the parameters reported by <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>. To estimate the ITT, we simply estimate: <span class="math display">\[Y_i = \beta_0 + \beta_1 Z_i + X^\prime_i\Gamma  + \varepsilon_i\]</span> Where <span class="math inline">\(X_i\)</span> is a vector of covariates which includes indicator variables for the number of individuals in the household listed on the lottery sign-up form, indicator variables for survey wave and the interaction between these two sets of indicator variables. As laid out in <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>, we will cluster standard errors at the household level</p>
-<div id="a3575f6a" class="cell" data-execution_count="2">
+<div id="edfecc2b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>itt_model <span class="op">=</span> sm.WLS.from_formula(data <span class="op">=</span> data,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                                formula <span class="op">=</span> <span class="st">"Y ~ Z + ddddraw_sur_2 + ddddraw_sur_3 + ddddraw_sur_4"</span> <span class="op">+</span></span>
@@ -687,13 +687,13 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>0.00</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>02:35:25</td>
+<td>09:10:38</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-14835.</td>
 </tr>
@@ -937,7 +937,7 @@ window.Quarto = {
 <section id="manually-estimating-2sls-right-estimates-wrong-standard-errors" class="level2">
 <h2 class="anchored" data-anchor-id="manually-estimating-2sls-right-estimates-wrong-standard-errors">Manually Estimating 2SLS: Right Estimates, Wrong Standard Errors</h2>
 <p>If we wish to estimate the LATE itself, there are a number of ways which we can proceed. In practice, we will essentially always want to make use of statistical routines for IV or 2SLS estimation, which will guarantee the correct implementation of standard errors. However, it is perhaps illustrative to see that we can “manually” estimate 2SLS, and—the point estimates at least—will agree entirely with those from 2SLS estimation routines. If we wish to estimate 2SLS, we can (logically) proceed in two stages. Below we begin by estimating the first stage, regressing endogenous treatment receipt on the randomly assigned lottery:</p>
-<div id="0bbf6390" class="cell" data-execution_count="3">
+<div id="ea6b3e97" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> sm.WLS.from_formula(data <span class="op">=</span> data,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                            formula <span class="op">=</span> <span class="st">"D ~ Z + ddddraw_sur_2 + ddddraw_sur_3 "</span> <span class="op">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"+ ddddraw_sur_4 + ddddraw_sur_5 + ddddraw_sur_6 "</span> <span class="op">+</span></span>
@@ -973,13 +973,13 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>0.00</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>02:35:25</td>
+<td>09:10:38</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-14088.</td>
 </tr>
@@ -1220,7 +1220,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Here we include the same set of controls and weights. We have also clustered standard errors by household, but for this manual implementation of 2SLS, this actually does not matter, as we will be simply working with predicted values <span class="math inline">\(\widehat{D}_i\)</span> in the second stage, which do not depend on the first stage standard errors (indeed, for this reason, our standard errors in this manual implementation will be wrong!). As we see above, the first stage coefficient for lottery assignment is 0.290, which suggests that being selected by the lottery actually increases the likelihood of being covered by Medicaid by 29.0%. This replicates the results laid out Table 3, column 6. This value is not 1 because various households which were selected did not end up applying for Medicaid, and other households did apply, but ended up not meeting maximum income thresholds. With this first stage estimation in hand, now all we need to do to estimate our 2SLS (LATE) parameter is generate the predicted value <span class="math inline">\(\widehat{D}_i\)</span>, and regress <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\widehat{D}_i\)</span>, conditional on the same controls and weights. We do this below:</p>
-<div id="094adf3b" class="cell" data-execution_count="4">
+<div id="1921f1ef" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'D_hat'</span>] <span class="op">=</span> first.fittedvalues</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>second <span class="op">=</span> sm.WLS.from_formula(data <span class="op">=</span> data,</span>
@@ -1258,13 +1258,13 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>0.00</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>02:35:25</td>
+<td>09:10:38</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-14835.</td>
 </tr>
@@ -1505,7 +1505,7 @@ window.Quarto = {
 </div>
 </div>
 <p>This results in an estimated LATE of 0.022, and a standard error of 0.023 (see <span class="citation" data-cites="Finkelsteinetal2012">Finkelstein et al. (<a href="#ref-Finkelsteinetal2012" role="doc-biblioref">2012</a>)</span>, Table 5, column 3). This suggests that Medicaid receipt results in a small increases in access to the ER, though again we cannot rule out that this estimate is 0 at standard levels of confidence. What we are interested in showing here, however, is that this “manual” 2SLS procedure is precisely what is estimated (thought with the correct standard errors now) if we use formal routines, such as Python’s user-written function <code>IV2SLS</code> from <code>linearmodels</code> library</p>
-<div id="7cefb6ed" class="cell" data-execution_count="5">
+<div id="93c63830" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>IV2SLS.from_formula(data <span class="op">=</span> data,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                    formula <span class="op">=</span> <span class="st">"Y ~ 1 + [D ~ Z] + ddddraw_sur_2 + ddddraw_sur_3 "</span> <span class="op">+</span></span>
@@ -1540,13 +1540,13 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, Jun 15 2026</td>
+<td>Tue, Nov 24 2026</td>
 <td data-quarto-table-cell-role="th">P-value (F-stat)</td>
 <td>0.0000</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>02:35:25</td>
+<td>09:10:38</td>
 <td data-quarto-table-cell-role="th">Distribution:</td>
 <td>chi2(17)</td>
 </tr>
@@ -1742,7 +1742,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<br><br>Endogenous: D<br>Instruments: Z<br>Clustered Covariance (One-Way)<br>Debiased: False<br>Num Clusters: 20810<br>id: 0x774e95323040
+<br><br>Endogenous: D<br>Instruments: Z<br>Clustered Covariance (One-Way)<br>Debiased: False<br>Num Clusters: 20810<br>id: 0x7f67f443b2e0
 </div>
 </div>
 <p>Above we see that with this procedure we perfectly recovered the same point estimate as above (0.022), but that standard errors is slightly higher. The fact that standard errors are higher makes sense, and indeed such a result will always occur, given that we are now accounting for the fact that the first stage prediction is estimated, and not a known regressor.</p>
@@ -1750,7 +1750,7 @@ window.Quarto = {
 <section id="sls-as-the-reduced-form-divided-by-the-first-stage-indirect-least-squares" class="level2">
 <h2 class="anchored" data-anchor-id="sls-as-the-reduced-form-divided-by-the-first-stage-indirect-least-squares">2SLS as the Reduced Form Divided by the First Stage: Indirect Least Squares</h2>
 <p>To understand more deeply what 2SLS is doing, it is also useful to see that we can build this up in a number of alternative ways. One of these is to note that our LATE estimate is simply the ratio of the reduced form (ie the ITT) to the first stage. Because the reduced form captures the effect of random assignment on the outcome of interest, and because the first stage is not actually equal to one, to estimate the effect of Medicaid receipt itself we must “scale up” the reduced form to correct for the fact that only some proportion of individuals assigned to treatment actually received treatment. Below we see this, where we are simply re-estimating two of the quantities we already estimated above (the ITT and the first stage), before finally taking their ratio:</p>
-<div id="70f5d1ae" class="cell" data-execution_count="6">
+<div id="6d63beef" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>itt_model.params[<span class="st">'Z'</span>] <span class="op">/</span> first.params[<span class="st">'Z'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>0.022333348074325653</code></pre>
@@ -1761,7 +1761,7 @@ window.Quarto = {
 <section id="sls-iv-and-the-wald-estimator-equivalent-in-setting-with-a-binary-iv-and-no-covariates" class="level2">
 <h2 class="anchored" data-anchor-id="sls-iv-and-the-wald-estimator-equivalent-in-setting-with-a-binary-iv-and-no-covariates">2SLS, IV and the Wald Estimator: Equivalent in Setting with a Binary IV and no Covariates</h2>
 <p>Finally, note that in cases where we are working with a binary instruments (as in this case), and if there are no controls, we can arrive to our LATE in a number of other ways including by implementing the Wald Estimator: <span class="math display">\[\widehat\tau^{Wald}_{LATE}=\frac{E[Y_i|Z_i=1]-E[Y_i|Z_i=0]}{E[D_i|Z_i=1]-E[D_i|Z_i=0]},\]</span> or by estimating IV: <span class="math display">\[\widehat\tau^{IV}_{LATE}=\frac{Cov(Y_i,Z_i)}{Cov(D_i,Z_i)}.\]</span> While these are just equivalent ways of estimating the same thing, it is useful to see, and we will illustrate this below, first estimating 2SLS without any controls or weights:</p>
-<div id="504cffa4" class="cell" data-execution_count="7">
+<div id="1881e85f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The 2SLS estimate is: "</span> <span class="op">+</span> <span class="bu">str</span>(IV2SLS.from_formula(data <span class="op">=</span> data, </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                    formula <span class="op">=</span> <span class="st">"Y ~ 1 + [D ~ Z]"</span>).fit().params[<span class="st">'D'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1769,7 +1769,7 @@ window.Quarto = {
 </div>
 </div>
 <p>and then comparing this to the Wald estimate:</p>
-<div id="d7e8948a" class="cell" data-execution_count="8">
+<div id="7ee45a8d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>YZ1 <span class="op">=</span> data[data[<span class="st">'Z'</span>]<span class="op">==</span><span class="dv">1</span>][<span class="st">'Y'</span>].mean()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>YZ0 <span class="op">=</span> data[data[<span class="st">'Z'</span>]<span class="op">==</span><span class="dv">0</span>][<span class="st">'Y'</span>].mean()</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1782,7 +1782,7 @@ window.Quarto = {
 </div>
 </div>
 <p>and the IV estimate:</p>
-<div id="8d5cac6b" class="cell" data-execution_count="9">
+<div id="efa55c2f" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>CovYZ <span class="op">=</span> data[[<span class="st">'Y'</span>, <span class="st">'Z'</span>]].cov().iloc[<span class="dv">0</span>,<span class="dv">1</span>]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>CovDZ <span class="op">=</span> data[[<span class="st">'D'</span>, <span class="st">'Z'</span>]].cov().iloc[<span class="dv">0</span>,<span class="dv">1</span>]</span>
@@ -1798,20 +1798,20 @@ window.Quarto = {
 <section id="code-call-out-5.2-characterising-compliers" class="level1">
 <h1>Code Call-out 5.2: Characterising Compliers</h1>
 <p>To understand how Abadie’s Kappa is estimated and how this allows to understand the characteristics of compliers, we use data and setting from <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span> who study the Hajj pilgrimage to Mecca. We open these data, called <code>Clingingsmith_et_al_2009.csv</code>, below:</p>
-<div id="84c49ff6" class="cell" data-execution_count="10">
+<div id="65dfaa95" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Clingingsmith_et_al_2009.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In their paper, <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span> instrument whether an individual made the <a href="https://en.wikipedia.org/wiki/Hajj">Hajj pilgrimage</a> in 2006 (<code>hajj2006</code>) with the outcome of a random lottery which determines the awarding of limited Hajj visas. The outcome of this random lottery process (<code>success</code>) strongly affects the likelihood an indivudal makes the pilgrimage, but is not deterministic, as unsuccessful applicants can seek places through private operators. Thus, it can be viewed as a case of random assignment with imperfect compliance. <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span> use this visa to study how making this pilgrimage shapes beliefs and views of a sample of around 1600 lottery applicans from Pakistan. Here we consider the composition of compliers in terms of a range of covariates, in particular documenting complier means using Abadie’s Kappa. Below we keep our “treatment” of interest and the IV, as well as a number of covariates we will consider later in this call-out.</p>
-<div id="1aa9773f" class="cell" data-execution_count="11">
+<div id="1fb0c867" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[[<span class="st">'success'</span>, <span class="st">'hajj2006'</span>, <span class="st">'female'</span>, <span class="st">'age'</span>, <span class="st">'urban'</span>, <span class="st">'literate'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For ease of notation below, we will redefine <code>D = hajj2006</code> and <code>Z = success</code> as our indicater variables for treatment and instrument respectively.</p>
-<div id="241af851" class="cell" data-execution_count="12">
+<div id="5112f81c" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.rename(columns<span class="op">=</span>{<span class="st">'success'</span>: <span class="st">'Z'</span>, <span class="st">'hajj2006'</span>: <span class="st">'D'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Before turning to consider the characteristics of compliers themselves, let’s briefly examine the first stage:</p>
-<div id="01c1e61a" class="cell" data-execution_count="13">
+<div id="8847c3e8" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># First stage regression</span></span>
@@ -1825,8 +1825,8 @@ window.Quarto = {
 Dep. Variable:                      D   R-squared:                       0.753
 Model:                            OLS   Adj. R-squared:                  0.753
 Method:                 Least Squares   F-statistic:                     4881.
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):               0.00
-Time:                        02:35:25   Log-Likelihood:                -15.435
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):               0.00
+Time:                        09:10:39   Log-Likelihood:                -15.435
 No. Observations:                1605   AIC:                             34.87
 Df Residuals:                    1603   BIC:                             45.63
 Df Model:                           1                                         
@@ -1853,12 +1853,12 @@ Rate of Hajj among individuals who are successful in the visa:
 <section id="covariate-means" class="level2">
 <h2 class="anchored" data-anchor-id="covariate-means">Covariate Means</h2>
 <p>Our main goal in this code call-out is to explore Abadie’s kappa, and how this allows us to “describe” compliers. We will thus be interested in calculating a series of means of covariates among compliers. In particular, we will consider the covariates documeted in Table 2 of <span class="citation" data-cites="Clingingsmith2009">Clingingsmith, Khwaja, and Kremer (<a href="#ref-Clingingsmith2009" role="doc-biblioref">2009</a>)</span>, and for this will create the <code>rural</code> and <code>illiterate</code> variables as the complements of <code>urban</code> and <code>literate</code> respectively.</p>
-<div id="fd04f607" class="cell" data-execution_count="14">
+<div id="1666c847" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'illiterate'</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> data[<span class="st">'literate'</span>]</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'rural'</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> data[<span class="st">'urban'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we summarise these variables to ensure that they do indeed coincide with those documented in the paper’s Table 2:</p>
-<div id="db145e69" class="cell" data-execution_count="15">
+<div id="3dbfb953" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>vars_list <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'female'</span>, <span class="st">'illiterate'</span>, <span class="st">'urban'</span>, <span class="st">'rural'</span>]</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>stat_df <span class="op">=</span> data[vars_list].mean().to_frame(name<span class="op">=</span><span class="st">'Full Sample'</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>stat_df[<span class="st">'Compliers'</span>] <span class="op">=</span> <span class="va">None</span></span>
@@ -1878,7 +1878,7 @@ rural          0.325857      None</code></pre>
 <p>In order to calculate mean characteristics of compliers, we start by calculating Abadie’s Kappa using the textbook formula (5.27): <span class="math display">\[
 \kappa_i = 1 - \frac{D_i (1 - Z_i)}{\Pr(Z_i = 0|X_i)} - \frac{(1 - D_i) Z_i}{\Pr(Z_i = 1|X_i)}
 \]</span> We observe each individual’s treatment status <span class="math inline">\(D_i\)</span> and instrument <span class="math inline">\(Z_i\)</span>, but we do not observe the conditional probabilities <span class="math inline">\(\Pr(Z_i = 1|X_i)\)</span> and <span class="math inline">\(\Pr(Z_i = 0|X_i)\)</span>. To estimate them, we fit a probit model of the instrument on covariates:</p>
-<div id="ab258797" class="cell" data-execution_count="16">
+<div id="7cba6af2" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate probit model</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.discrete.discrete_model <span class="im">import</span> Probit</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>mod1 <span class="op">=</span> Probit(endog<span class="op">=</span>data[<span class="st">'Z'</span>], </span>
@@ -1894,13 +1894,13 @@ rural          0.325857      None</code></pre>
 </div>
 </div>
 <p>We then compute Abadie’s kappa using the estimated probabilities:</p>
-<div id="2e5422a2" class="cell" data-execution_count="17">
+<div id="16cf2aec" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Kappa'</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> ( ( data[<span class="st">'D'</span>] <span class="op">*</span> ( <span class="dv">1</span> <span class="op">-</span> data[<span class="st">'Z'</span>] ) ) <span class="op">/</span> </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                     data[<span class="st">'PrZ0'</span>] ) <span class="op">-</span> ( ( ( <span class="dv">1</span> <span class="op">-</span> data[<span class="st">'D'</span>] ) <span class="op">*</span> data[<span class="st">'Z'</span>] ) <span class="op">/</span> </span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                     data[<span class="st">'PrZ1'</span>] )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s now have a look at what this Kappa looks like in our data, with a simple histogram plot:</p>
-<div id="5af332da" class="cell" data-execution_count="18">
+<div id="8467a711" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sns.set_theme()</span>
@@ -1922,7 +1922,7 @@ rural          0.325857      None</code></pre>
 </div>
 </div>
 <p>There are perhaps two key features we notice in this histogram. Firstly, we can see a large mass of units (93.15%) whose value for Abadie’s Kappa is concentrated around the value of 1. This is due to the high compliance level of this study as you can note from formula (5.27) that all compliers will have a value of 1 for their Abadie’s Kappa (as will any individuals who comply with their treatment assignment). Secondly, we note a series of negative values. This is also expected given the nature of the second and third terms in the formula for Abadie’s Kappa. You can see that both of these terms must either have 0 or 1 in the numerator. If <span class="math inline">\(Z_i=0\)</span> and <span class="math inline">\(D_i=1\)</span> (always-takers with values of zero for the instrument) the numerator of the first term will be one and of the second term will be 0, whereas if <span class="math inline">\(D_i=0\)</span> and <span class="math inline">\(Z_i=1\)</span> (never-takers assigned 1 for the instrument), the numerator of the second term will be 0 and that of the third term will be 1. Finally, note that as the denominator of each of these terms is strictly between 0 and 1, these terms must be bounded between 1 and <span class="math inline">\(\infty\)</span>, meaning that for non-compliers, Abadie’s Kappa will always be negative. In cases where <span class="math inline">\(\Pr(Z_i=0|X_i)\)</span> and <span class="math inline">\(\Pr(Z_i=1|X_i)\)</span> are approximately 0.5 (as we see below), we would expect that these second and third terms should be around -2, resulting in values of Abadie’s Kappa around -1.</p>
-<div id="e739528b" class="cell" data-execution_count="19">
+<div id="635da912" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">'PrZ0'</span>, <span class="st">'PrZ1'</span>]].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
@@ -1987,7 +1987,7 @@ rural          0.325857      None</code></pre>
 <section id="covariate-means-among-compliers" class="level2">
 <h2 class="anchored" data-anchor-id="covariate-means-among-compliers">Covariate Means among compliers</h2>
 <p>Now finally, with our calculated values for Abadie’s Kappa we can estimate the complier means of covariates following the textbook formula (5.28) <span class="math display">\[E[x_1|D_1 &gt; D_0] = \frac{1}{\Pr(D_1 &gt; D_0)}E[\kappa x_1]\]</span> Where <span class="math inline">\(\Pr(D_1 &gt; D_0)\)</span> is the rate of compliance in this sample, which incidentally can be calculated as the expected value of Abadie’s Kappa. We estimate these complier-means below:</p>
-<div id="ce5c5cea" class="cell" data-execution_count="20">
+<div id="c8f531dd" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Complier's mean denominator</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>PrD1 <span class="op">=</span> data[<span class="st">'Kappa'</span>].mean()</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2015,25 +2015,25 @@ rural          0.325857   0.338825</code></pre>
 <section id="code-call-out-5.3-average-causal-response-functions" class="level1">
 <h1>Code Call-out 5.3: Average Causal Response Functions</h1>
 <p>To understand how Average Causal Response (ACR) Functions are estimated we use data from <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span>. <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span> is a paper based on the twin instrument, in which the impact of a twin at different birth orders is used to instrument total fertility. This code call-out replicates the baseline scenario in plots (b) and (e) from Panels A and B respectively, in Figure 3 of <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span> and Figure 5.2 of the book. We begin by opening the data which pools surveys from the USA and the developing world. These data are rather large, which is important given the relative infrequency of twins, and necessity of a large sample to estimate parameters precisely with IV.</p>
-<div id="2307f3af" class="cell" data-execution_count="21">
+<div id="8c8c4ebc" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_stata(<span class="st">"data/Bhalotra_Clarke_2020.dta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In particular here we focus on a binary IV which records whether a mother gives birth to a twin on her third birth, on total fertility, a categorical variable. In order to understand what this IV identifies, we must estimate the ACR, which computes how the instrument shifts fertility from <span class="math inline">\(j-1\)</span> to <span class="math inline">\(j\)</span> children, over the support of <span class="math inline">\(j\)</span>. We thus start by generating indicators for whether an individual gives birth to at least <span class="math inline">\(j\)</span> children: <span class="math inline">\(\mathbf{1}\{fert_i \geq j\}\)</span>, for values of <span class="math inline">\(j\in\{1,\ldots,11\}\)</span>. We start at 4 births given that our instrument is the occurrence of twins (rather than singleton births) at birth order 3, and so <em>all</em> families must have at least 3 births.</p>
-<div id="ddff7a14" class="cell" data-execution_count="22">
+<div id="70ea88a8" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">12</span>):</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    data[<span class="ss">f'fert</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">'</span>] <span class="op">=</span> np.where(data[<span class="st">'fert'</span>] <span class="op">&gt;=</span> k, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We first focus on developing countries (DHS), this is Panel A from Figure 3 in <span class="citation" data-cites="BhalotraClarke2019">Bhalotra and Clarke (<a href="#ref-BhalotraClarke2019" role="doc-biblioref">2020</a>)</span>.</p>
-<div id="3dc32eaa" class="cell" data-execution_count="23">
+<div id="4661c28a" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dataDHS <span class="op">=</span> data[data[<span class="st">'datasource'</span>] <span class="op">==</span> <span class="st">"DHS"</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To estimate the ACR functions, we estimate the following regressions: <span id="eq-acrpython"><span class="math display">\[
 \mathbf{1}\{\text{Fert}_i = k\} = \beta_0 + \beta_1 \mathbf{1}\{\text{TwinBirth}_i = 3\} + \mathbf{X}'\gamma + \varepsilon_i
 \tag{1}\]</span></span></p>
 <p>where <span class="math inline">\(\mathbf{1}\{\text{Twin Birth} = 3\}\)</span> is a dummy variable equal to 1 if family <span class="math inline">\(i\)</span> had a twin birth at the third parity (<code>twin_three_fam</code>), and <span class="math inline">\(\mathbf{X}\)</span> is a vector of control variables. These include: A dummy for male child (<code>malec</code>), Dummies for country of origin (<code>_cou</code>), Mother’s year of birth (<code>year_birth</code>), The child’s age in years (<code>age</code>), Contraceptive use and intentions (<code>contracep_intent</code>), Child’s birth order (<code>bord</code>, omitting <code>bord == 1</code>), Mother’s age at the child’s birth (<code>motherage</code>), Mother’s age at first birth (<code>agefirstbirth</code>). These controls are important given the argument that twins are at best random conditional upon maternal age and health. Given the survey weights in DHS, we estimate the model using weighted least squares, applying sampling weights (<code>sweight</code>), and clustering standard errors at the family level (<code>id</code>). The analysis is restricted to families with at least three births (<code>three_plus</code>). We begin by generating a number of required variables below, and sub-setting to our estimation sample.</p>
-<div id="b2330819" class="cell" data-execution_count="24">
+<div id="a09bf865" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Country code</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>dataDHS.loc[:,<span class="st">'num_cou'</span>] <span class="op">=</span> dataDHS.loc[:,<span class="st">'_cou'</span>].astype(<span class="st">'category'</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2056,11 +2056,11 @@ rural          0.325857   0.338825</code></pre>
 <span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>dataDHS <span class="op">=</span> dataDHS[dataDHS[<span class="st">'three_plus'</span>] <span class="op">==</span> <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The ACR requires estimating <a href="#eq-acrpython" class="quarto-xref">Equation&nbsp;1</a> for each fertility indicator, in essence allowing us to map out how the instrument shifts the likelihood that individuals exceed all points of the distribution of the endogenous variable. As we wish to plot each of the coefficients and confidence intervals from this model we will create a DataFrame to store these below, and then progressively fill them in as we estimate models.</p>
-<div id="a9df75a4" class="cell" data-execution_count="25">
+<div id="565c9828" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ACR <span class="op">=</span> pd.DataFrame({<span class="st">'Child'</span>: <span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">12</span>), <span class="st">'Point'</span>: np.nan, <span class="st">'SE'</span>: np.nan, <span class="st">'UB'</span>: np.nan, <span class="st">'LB'</span>: np.nan})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, with this all in hand, we can loop through the support of the fertility variable, estimating <a href="#eq-acrpython" class="quarto-xref">Equation&nbsp;1</a> for <span class="math inline">\(j \in \{4, 5, \ldots, 11\}\)</span> and storing the results.</p>
-<div id="f74f3d13" class="cell" data-execution_count="26">
+<div id="fbcedcbc" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>, <span class="dv">12</span>):</span>
@@ -2097,7 +2097,7 @@ rural          0.325857   0.338825</code></pre>
 <span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>    ACR.loc[i<span class="op">-</span><span class="dv">4</span>, <span class="st">'LB'</span>] <span class="op">=</span> ACR.loc[i<span class="op">-</span><span class="dv">4</span>, <span class="st">'Point'</span>] <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> ACR.loc[i<span class="op">-</span><span class="dv">4</span>, <span class="st">'SE'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This results in a series of 8 estimates (and indeed, we could continue beyond 11 or more births, but there are very few births at such a high parity, and these are unlikely to be substantially affected by twins at birth order 3). It is standard to plot this ACR across the support of the “treatment” variable of interest, and we do this below, first saving the estimates stored in the DataFrame <code>ACR</code> into memory, and then generating the plot of interest.</p>
-<div id="147fb7f4" class="cell" data-execution_count="27">
+<div id="d6c3dc76" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>sns.set_theme()</span>
@@ -2132,7 +2132,7 @@ rural          0.325857   0.338825</code></pre>
 </div>
 <p>We observe here that, perhaps as we may expect, twins at birth order 3 generally shifts fertility low in distribution. Indeed, the largest shift observed occurs among families who in the absence of twins would have had 3 children, but now have four children. We then observe lower shifts at higher birth orders. In this sample, this provides us a clear illustration of how we should understand the LATE in terms of the categorical fertility variable.</p>
 <p>However, such an ACR is of course specific to the sample and the setting of interest. Let’s repeat the process above, however now using the sample of data from the USA. Below, we will essentially follow the identical procedures as those documented above and so do not step this through line-by-line, but do note that given the data used in the USA (the National Health Interview Survey) is different to that used above, the controls are slightly different. Specically, below we control for the mother’s age at first birth (<code>ageFirstBirth</code>), dummies for the mother’s age at date of birth of the child (<code>motherAge</code>), dummies for the survey year (<code>Syear</code>), dummies for the age of interview (<code>Bdate</code>), dummies for the region (<code>region</code>), dummies for the mother’s race (<code>mrace</code>) and the child’s sex (<code>childSex</code>). Everything else is identical to the procedures documented above.</p>
-<div id="9ec91cfb" class="cell" data-execution_count="28">
+<div id="d4679415" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dataNHIS <span class="op">=</span> data[data[<span class="st">'datasource'</span>] <span class="op">==</span> <span class="st">"NHIS"</span>].copy()</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Dummies for controls</span></span>
@@ -2243,14 +2243,14 @@ rural          0.325857   0.338825</code></pre>
 <section id="code-call-out-5.4-fully-saturating-a-model-with-controls" class="level1">
 <h1>Code Call-out 5.4: Fully Saturating a Model with Controls</h1>
 <p>In this code call out we will explore the concept of ‘fully saturating’ an IV model where covariates are required, as well as seeing that this fully saturated model captures underlying covariate-specific LATEs weighted by the relative explanatory power of the first stage in each case. To see this, we will work with data from <span class="citation" data-cites="Dufloetal2024">Duflo, Kiessel, and Lucas (<a href="#ref-Dufloetal2024" role="doc-biblioref">2024</a>)</span>. They study the impact of a number of school-level interventions in Ghana on child test scores. While the interventions themselves were randomly assigned, take-up was imperfect, and hence random assignment can be used to instrument take-up and estimate a LATE. We will focus on one specific outcome which is student scores on “foundational questions” in academic year 2, and we will examine the impact of receiving any intervention. This corresponds to column 3 of table 3 in <span class="citation" data-cites="Dufloetal2024">Duflo, Kiessel, and Lucas (<a href="#ref-Dufloetal2024" role="doc-biblioref">2024</a>)</span>. To begin, we will open the original student-level data from the paper, and keep only students scores in year 2:</p>
-<div id="495638e9" class="cell" data-execution_count="29">
+<div id="1b114fe3" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_stata(<span class="st">"data/Duflo_et_al_2024.dta"</span>)</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">"e2_testtaker"</span>] <span class="op">==</span> <span class="dv">1</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We start by simply estimating an IV model with controls to replicate the results from column 3 of Table 3. Here, we regress test scores (<code>e2_engmath_ASER_theta</code>) on an indicator of how frequently schools were observed to be correctly implementing interventions (<code>tarl</code>) instrumented by random assignment to treatment (<code>anytreat</code>). We control for an indicator of whether the student is female, as well as full strata fixed effects.</p>
-<div id="ab0cf23a" class="cell" data-execution_count="30">
+<div id="50edea9b" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> linearmodels.iv <span class="im">import</span> IV2SLS</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select needed columns </span></span>
@@ -2281,12 +2281,12 @@ rural          0.325857   0.338825</code></pre>
 </div>
 </div>
 <p>One thing to note is that the above specification is not actually ‘fully saturated’. For a model to be fully saturated we must both include all possible combinations of controls, and also include a separate interaction of each covariate level with the instrument. To see this in a simple set-up, we can first imagine that we had just a single covariate in our model. Later, we will see how things generalise for a setting with additional controls. We do this below with the binary indicator <code>female</code>. Here, because there are only two possible levels of controls, we need to generate an interaction with each level of the covariate to generate our fully saturated first stage. We do this below generating an interaction between the instrument for females (<code>Z1</code>) and males (<code>Z2</code>):</p>
-<div id="7114650f" class="cell" data-execution_count="31">
+<div id="9fde5539" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Z1'</span>] <span class="op">=</span> df[<span class="st">'anytreat'</span>] <span class="op">*</span> df[<span class="st">'female'</span>]</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Z2'</span>] <span class="op">=</span> df[<span class="st">'anytreat'</span>] <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> df[<span class="st">'female'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, let’s have a look at the “weight and saturate” idea in practice. To begin then, we will estimate the fully-saturated model. Note that here we must include the instrument for each level of <code>female</code> in the first stage which we generated above, and also control for all levels of the variables themselves. Given that female is a binary variable (and that we must omit a baseline reference group), this simply consists of including the covariate <code>female</code> below:</p>
-<div id="256b8f8a" class="cell" data-execution_count="32">
+<div id="8ca2f651" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>vars_iv2 <span class="op">=</span> [<span class="st">'e2_engmath_ASER_theta'</span>, <span class="st">'female'</span>, <span class="st">'tarl'</span>, <span class="st">'Z1'</span>, <span class="st">'Z2'</span>, <span class="st">'schcode'</span>]</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>df_iv2 <span class="op">=</span> df.dropna(subset<span class="op">=</span>vars_iv2)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2307,7 +2307,7 @@ rural          0.325857   0.338825</code></pre>
 </div>
 </div>
 <p>The specification above is our fully saturated model, and we store the resulting coefficient esimate as <code>IV2SLS_est</code> to consult below. Now, let’s confirm that this is equivalent to the weighted average of covariate-specific LATEs. To begin, we will calculate each LATE (one for <code>female==1</code>, and one for <code>female==0</code>), and store these as their own quantity:</p>
-<div id="3f39ece9" class="cell" data-execution_count="33">
+<div id="5488e938" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IV for female == 1</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>df_f1 <span class="op">=</span> df[df[<span class="st">'female'</span>] <span class="op">==</span> <span class="dv">1</span>].dropna(subset<span class="op">=</span>[</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'e2_engmath_ASER_theta'</span>, <span class="st">'tarl'</span>, <span class="st">'anytreat'</span>, <span class="st">'schcode'</span></span>
@@ -2329,7 +2329,7 @@ rural          0.325857   0.338825</code></pre>
 <span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>IV2 <span class="op">=</span> res_iv2.params[<span class="st">'tarl'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, we can calculate the weights themselves. Note that to do this we want to calculate the variance of the first stage prediction. So, below we calculate the first stage prediction as <code>Dhat</code>, and then calculate the variance for each first stage, which are also stored in <code>V1</code> and <code>V2</code>:</p>
-<div id="3ef5d3c7" class="cell" data-execution_count="34">
+<div id="59b87e38" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop any NaN in the columns of interest</span></span>
@@ -2355,7 +2355,7 @@ V2 (female=0): 0.010550</code></pre>
 </div>
 </div>
 <p>Finally, we can follow equation 5.42 in the book, and generate the weights based on the variances above and the frequency of each covariate group in data:</p>
-<div id="e372bafb" class="cell" data-execution_count="35">
+<div id="33a94ff2" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="op">=</span> df[<span class="st">'female'</span>].mean()</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>P2 <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> P1</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>Vtot <span class="op">=</span> P1 <span class="op">*</span> V1 <span class="op">+</span> P2 <span class="op">*</span> V2</span>
@@ -2363,7 +2363,7 @@ V2 (female=0): 0.010550</code></pre>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>omega2 <span class="op">=</span> P2 <span class="op">*</span> V2 <span class="op">/</span> Vtot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, finally, let’s just confirm that our weighted group-specific LATE quantity does indeed return approximately the same value as the saturated first stage model:</p>
-<div id="cb91a338" class="cell" data-execution_count="36">
+<div id="1e77d487" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the weighted IV estimate</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>IVweighted <span class="op">=</span> IV1 <span class="op">*</span> omega1 <span class="op">+</span> IV2 <span class="op">*</span> omega2</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2377,7 +2377,7 @@ Weighted IV is 0.23568</code></pre>
 <p>We see that here (as expected) our estimates do indeed coincide. Note that because these are asymptotically equivalent, in finite samples we may observe minor variations in the calculated estimates in each case, but as the sample grows, we will see that these quantities converge.</p>
 <p>While this is all relatively clear with a single covariate (with a single level), things get a little bit more complex if there are multiple covariates and multiple levels. Because we need <em>fully saturated</em> covariates, we need a single covariate for each possible combination of <span class="math inline">\(X_i\)</span> in data (<em>ie</em> we need the design matrix). In this particular case where we have 40 strata indicators (which are fortunately mutually exclusive), as well as a binary <code>female</code> indicator, we need up to 80 different instruments in the first stage, as well as a variable for each covariate. We will see that while this is a bit cumbersome in terms of output, we can also do this here.</p>
 <p>We set this up below by looping through all possible combinations of covariate levels that can be observed in data. We do this by generating an indicator for each strata and female or male indicator (as a series of variables <code>X1</code>, <code>X2</code>, …), and then also a series of instruments for each of these as <code>Z1</code>, <code>Z2</code>, … Because there are a number of small strata in the data, we also confirm that the instrument does indeed vary for all covariate combinations, and if it does now, we simply remove these covariates and instruments from our data.</p>
-<div id="87828090" class="cell" data-execution_count="37">
+<div id="13ad394c" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'Z1'</span>, <span class="st">'Z2'</span>, <span class="st">'Dhat'</span>], errors<span class="op">=</span><span class="st">'ignore'</span>)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> df[<span class="st">'strata'</span>].unique():</span>
@@ -2395,7 +2395,7 @@ Weighted IV is 0.23568</code></pre>
 <span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>        df.drop(columns<span class="op">=</span>col, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, having in essence “fully saturated” our data, we can run our IV model with the many controls and first stage instrument interactions. We do this below, saving our 2SLS estimate to compare to the weighted aggregate below.</p>
-<div id="f4bcc2f5" class="cell" data-execution_count="38">
+<div id="0b3d93c6" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>X_vars <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> df.columns <span class="cf">if</span> re.fullmatch(<span class="vs">r"X</span><span class="dv">\d</span><span class="op">+</span><span class="vs">"</span>, col)]</span>
@@ -2420,7 +2420,7 @@ Weighted IV is 0.23568</code></pre>
 </div>
 </div>
 <p>As in the case with a single control, we can confirm that this is equivalent to the weighted aggregate of covariate-specific LATEs. First, let’s estimate the late <em>for each</em> covariate level in the data. We do this quietly below (ie without showing each model) because this will result in a lot of LATEs!</p>
-<div id="0c7a6b88" class="cell" data-execution_count="39">
+<div id="413452ac" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>IV_list <span class="op">=</span> {}</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> X_vars:</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    df_sub <span class="op">=</span> df[df[var] <span class="op">==</span> <span class="dv">1</span>].dropna(subset<span class="op">=</span>[<span class="st">'e2_engmath_ASER_theta'</span>, <span class="st">'tarl'</span>, <span class="st">'anytreat'</span>, <span class="st">'schcode'</span>])</span>
@@ -2430,7 +2430,7 @@ Weighted IV is 0.23568</code></pre>
 <span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    IV_list[var] <span class="op">=</span> <span class="bu">float</span>(res.params[<span class="st">'tarl'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, let’s calculate the inputs for weights for each covariate-specific estimate. It is worth looking through this code carefully to ensure that these elements will allow us to calculate the weights required, as described in equation 5.42 in the book.</p>
-<div id="f4ce8bfd" class="cell" data-execution_count="40">
+<div id="38533183" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>Z_vars <span class="op">=</span> df.<span class="bu">filter</span>(regex<span class="op">=</span><span class="vs">r"</span><span class="dv">^</span><span class="vs">Z</span><span class="dv">\d</span><span class="op">+</span><span class="dv">$</span><span class="vs">"</span>).columns.tolist()</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>fs_vars <span class="op">=</span> Z_vars <span class="op">+</span> X_vars</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>df_fs <span class="op">=</span> df.dropna(subset<span class="op">=</span>fs_vars <span class="op">+</span> [<span class="st">'tarl'</span>])</span>
@@ -2444,7 +2444,7 @@ Weighted IV is 0.23568</code></pre>
 <span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    Vtot <span class="op">+=</span> <span class="bu">globals</span>()[<span class="ss">f"P</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss">"</span>] <span class="op">*</span> <span class="bu">globals</span>()[<span class="ss">f"V</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss">"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we can use the inputs above to estimate the weights, as well as the “saturated and weighted” equivalte of the 2SLS estimate we generated previously. Note that because there are many LATEs, we are just doing this in a loop where we sum iteratively across each covariate level. In this way we sum across all LATEs to arrive to our final IV estimate, and also confirm that we are correctly generating weights by ensuring that weights sum to 1.</p>
-<div id="2d71ede3" class="cell" data-execution_count="41">
+<div id="57daa816" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>IVweight <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>omega    <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>

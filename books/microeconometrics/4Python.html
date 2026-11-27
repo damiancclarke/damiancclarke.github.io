@@ -650,13 +650,13 @@ window.Quarto = {
 <section id="code-call-out-4.1-wild-cluster-bootstrap-implementation" class="level1">
 <h1>Code Call-out 4.1: Wild cluster bootstrap implementation</h1>
 <p>To see the difference between the wild cluster bootstrap described in Section 4.2.3.2 of the book and other clustering options such as standard cluster bootstrap or clustered standard errors we will set up an example by hand of the wild cluster bootstrap. We will do this with data provided by <span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span> who conducted a field experiment which sought to test whether student exposure to engaging and successful women instructors in early economics classes increases the likelihood that female students go on to major in economics. The dataset is provided as <code>Porter_Serra_2020.csv</code>, and we will open this data as <code>data</code> below:</p>
-<div id="741732f1" class="cell" data-execution_count="1">
+<div id="93f419d1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Porter_Serra_2020.csv"</span>, sep <span class="op">=</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Following <span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span> we will estimate the following linear probability model (LPM) <span class="math display">\[Y_{i} = \beta_0 + \beta_1 dt_i + \beta_2 dT_i + \beta_3 dt_i \times dT_i + \delta \mathbf{X}_i + \varepsilon_i\]</span> where we use identical notation from their paper. Treatment was randomly applied at the class level in 2016, and classes also existed in 2015, but no treatment was applied. Above, <span class="math inline">\(Y_i\)</span> is a student’s (binary) decision of whether or not to major in economics (<code>econmajor</code>), <span class="math inline">\(dt_i\)</span> (<code>yr_2016</code>) a dummy equal to one if she took the class in 2016 and zero if she took a class in 2015, and <span class="math inline">\(dT_i\)</span> (<code>treatment_class</code>) is a dummy equal to one if she is in a treatment class, and zero if she is in a control class. The interaction between these two dummies (<code>treat2016</code>) is the coefficient of interest and <span class="math inline">\(\mathbf{X}_i\)</span> is a vector of individual, demographic and class controls such as if the course was taught by a female professor (<code>female_prof</code>), if the student is an in-state student (<code>instate</code>), if the student is in freshman year (<code>freshman</code>), if the student is american (<code>american</code>), the student’s cumulative GPA (<code>ACumGPA</code>), the student’s grade in their Principles of Economics course (<code>gradePrinciples</code>) and if the student take a class with a limit of 40 students (<code>small_class</code>). As treatment is assigned at the class level (<code>class_fe2</code>), and as there are few clusters (12 clusters), the authors proceed to conduct inference using a wild cluster bootstrap. We conduct this procedure below.</p>
 <p>Here in particular we are interested in the parameter <span class="math inline">\(\beta_3\)</span> which under difference-in-difference assumptions will identify the effect of female role models on future enrollment in an economics major. Before examining this process, we will estimate the LPM in order to get an estimate of the coefficient of interest <span class="math inline">\(\widehat{\beta}_3\)</span>, along with the (traditional) cluster-robust standard error <span class="math inline">\(se\left(\widehat{\beta}_3\right)\)</span>, and resulting <span class="math inline">\(t\)</span>-statistic for the test of a null effect: <span class="math inline">\(t=\left(\widehat{\beta}_3 - 0\right)/se\left(\widehat{\beta}_3\right)\)</span>. We will do this using the <code>Regpyhdfe</code> function from the <code>regpyhdfe</code> package to estimate our regression model. The usage of this function includes a several arguments: one for the dependent variable (<code>target</code>), another for covariates (<code>predictors</code>), another for the clustering variables (<code>cluster_ids</code>) and an argument for any fixed effects (<code>ids</code>, which can be omitted if no fixed effects are desired, as in this case):</p>
-<div id="e5903ec3" class="cell" data-execution_count="2">
+<div id="53d0df36" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> regpyhdfe <span class="im">import</span> Regpyhdfe</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Constant'</span>] <span class="op">=</span> <span class="dv">1</span></span>
@@ -672,7 +672,7 @@ window.Quarto = {
 =================================================================
 Model:              OLS              Adj. R-squared:     0.040   
 Dependent Variable: econmajor        AIC:                258.5552
-Date:               2026-06-15 08:31 BIC:                307.4056
+Date:               2026-11-24 16:19 BIC:                307.4056
 No. Observations:   627              Log-Likelihood:     -118.28 
 Df Model:           10               F-statistic:        8.543   
 Df Residuals:       616              Prob (F-statistic): 0.000714
@@ -702,14 +702,14 @@ Notes:
 </div>
 </div>
 <p>We can see that the coefficient of interest is 0.0801 (as per column 4 of Table 4 of <span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span>) with a cluster-robust standard error of 0.0365 and a resulting t-statistic of 2.197. Below, we store these values along with the residuals of this unrestricted regression <span class="math inline">\(\widehat{\varepsilon}\)</span>:</p>
-<div id="9e1b035c" class="cell" data-execution_count="3">
+<div id="6983c593" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>beta3_hat    <span class="op">=</span> LPM.params[<span class="st">'treat2016'</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>se_beta3_hat <span class="op">=</span> LPM.bse[<span class="st">'treat2016'</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>t_beta3_hat  <span class="op">=</span> LPM.tvalues[<span class="st">'treat2016'</span>]</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>eps_hat      <span class="op">=</span> LPM.resid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Because we are interested in considering the variation of data in a model where we assume the null hypothesis <span class="math inline">\(\beta_3=0\)</span> is true, we will now <em>impose</em> this hypothesis, and re-estimate our model. We do this below, imposing the restriction <span class="math inline">\(\beta_3 = 0\)</span> by simply omiting the <code>treat2016</code> variable from the model, storing the restricted residuals from this regression as <span class="math inline">\(\tilde{\varepsilon}\)</span>.</p>
-<div id="22658610" class="cell" data-execution_count="4">
+<div id="ad8a6b81" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>LPM_r <span class="op">=</span> Regpyhdfe(df <span class="op">=</span> data[data[<span class="st">'female'</span>] <span class="op">==</span> <span class="dv">1</span>], target <span class="op">=</span> <span class="st">'econmajor'</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  predictors <span class="op">=</span> [<span class="st">'yr_2016'</span>, <span class="st">'treatment_class'</span>, <span class="st">'female_prof'</span>, </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'instate'</span>, <span class="st">'freshman'</span>, <span class="st">'american'</span>, <span class="st">'ACumGPA'</span>, </span>
@@ -719,7 +719,7 @@ Notes:
 </div>
 <p>These restricted residuals <code>eps_tilde</code> above will be key in our wild cluster bootstrap procedure. For a given bootstrap replication, for each cluster we will assign a value of -1 or +1, and multiply the previous residuals by this (cluster-specific) value. This will maintain correlations between residuals fixed within each cluster, but allow correlations to vary between clusters. We will thus generate a new “sample” of data taking original data and updated residuals, resulting in a new outcome for <span class="math inline">\(Y_i\)</span>.</p>
 <p>Below we will initialise this wild cluster bootstrap procedure, setting some large amount of bootstrap replicates (here 999), before storing the data we need as <code>bsample</code>. We will then also incorporate the residuals from above into this dataframe, so <code>bsample</code> contains all relevant covariates, as well as the restricted residuals. It is worth noting, that in practice, all we require from these covariates is the ability to form <span class="math inline">\(\widehat{Y}_i=\widehat\beta_0+\widehat\beta_1 dt_i + \widehat\beta_2 dT_i + \widehat\delta \mathbf{X}_i\)</span>, and we could actually just work with the quantity <span class="math inline">\(\widehat{Y}_i\)</span> below (you may wish to confirm this to yourself by editing the code below). However, for ease of exposition we will work with the full set of covariates in code below, even though this is somewhat less efficient.</p>
-<div id="caa59b9c" class="cell" data-execution_count="5">
+<div id="fbd28f0c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="dv">999</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>WildClusterBootstrap <span class="op">=</span> pd.DataFrame({<span class="st">'beta3'</span>: [<span class="bu">float</span>(<span class="st">'nan'</span>)] <span class="op">*</span> B,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">'se_beta3'</span>: [<span class="bu">float</span>(<span class="st">'nan'</span>)] <span class="op">*</span> B,</span>
@@ -732,7 +732,7 @@ Notes:
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>bsample[<span class="st">'eps_tilde'</span>] <span class="op">=</span> eps_tilde</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s see what each iteration of a wild cluster bootstrap looks like. As we will generate our new sample of data by (randomly) selecting values of -1 or 1 for each cluster to form “resampled” residuals, we will start by drawing these “Rademacher” weights for each cluster. Below we do this by first generating a cluster-specific draw for each cluster <span class="math inline">\(g\)</span> which assigns <span class="math inline">\(a_g = 1\)</span> or <span class="math inline">\(a_g = -1\)</span> with probability 0.5 (as seen in <code>clusters</code>). This value <span class="math inline">\(a_g\)</span> is joined into our main data:</p>
-<div id="918ae348" class="cell" data-execution_count="6">
+<div id="c74b5d4a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> pd.DataFrame({<span class="st">'class_fe2'</span>: bsample[<span class="st">'class_fe2'</span>].unique(),</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'ag'</span>: random.choices([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], k <span class="op">=</span> <span class="dv">12</span>)})</span>
@@ -749,18 +749,18 @@ Notes:
 5           9  -1
 6           6  -1
 7           4   1
-8           2   1
-9           8   1
-10          7  -1
+8           2  -1
+9           8  -1
+10          7   1
 11         32   1</code></pre>
 </div>
 </div>
 <p>Now, based on this draw and the original errors from the restricted model, we will generate the new set of bootstrap errors, which below we call <code>berrors</code>:</p>
-<div id="6867548e" class="cell" data-execution_count="7">
+<div id="37d1b5e1" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bsample[<span class="st">'berrors'</span>] <span class="op">=</span> bsample[<span class="st">'eps_tilde'</span>] <span class="op">*</span> bsample[<span class="st">'ag'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, below we will generate our new resampled outcome variable <code>beconmajor</code> from covariates, restricted regression estimates, and our resampled error term <code>berrors</code>.</p>
-<div id="552f4f0d" class="cell" data-execution_count="8">
+<div id="42ac9789" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bsample[<span class="st">'beconmajor'</span>] <span class="op">=</span> (LPM_r.params[<span class="st">'Constant'</span>] <span class="op">+</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                         LPM_r.params[<span class="st">'yr_2016'</span>] <span class="op">*</span> bsample[<span class="st">'yr_2016'</span>] <span class="op">+</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                         LPM_r.params[<span class="st">'treatment_class'</span>] <span class="op">*</span> bsample[<span class="st">'treatment_class'</span>] <span class="op">+</span></span>
@@ -774,7 +774,7 @@ Notes:
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                         bsample[<span class="st">'berrors'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With this data in hand, we estimate the non-restricted model exactly as we did so previously with <code>Regpyhdfe</code>. Below, we estimate this model, and examine summary output:</p>
-<div id="c2f21e02" class="cell" data-execution_count="9">
+<div id="976f8bc4" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>LPM_b <span class="op">=</span> Regpyhdfe(df <span class="op">=</span> bsample, target <span class="op">=</span> <span class="st">'beconmajor'</span>,</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                  predictors <span class="op">=</span> [<span class="st">'yr_2016'</span>, <span class="st">'treatment_class'</span>, <span class="st">'female_prof'</span>, </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'instate'</span>, <span class="st">'freshman'</span>, <span class="st">'american'</span>, <span class="st">'ACumGPA'</span>, </span>
@@ -785,45 +785,45 @@ Notes:
 <div class="cell-output cell-output-stdout">
 <pre><code>                 Results: Ordinary least squares
 =================================================================
-Model:              OLS              Adj. R-squared:     0.098   
-Dependent Variable: beconmajor       AIC:                244.2572
-Date:               2026-06-15 08:31 BIC:                293.1076
-No. Observations:   627              Log-Likelihood:     -111.13 
-Df Model:           10               F-statistic:        1784.   
-Df Residuals:       616              Prob (F-statistic): 3.61e-16
-R-squared:          0.112            Scale:              0.084949
+Model:              OLS              Adj. R-squared:     0.056   
+Dependent Variable: beconmajor       AIC:                251.6303
+Date:               2026-11-24 16:19 BIC:                300.4807
+No. Observations:   627              Log-Likelihood:     -114.82 
+Df Model:           10               F-statistic:        66.83   
+Df Residuals:       616              Prob (F-statistic): 2.20e-08
+R-squared:          0.071            Scale:              0.085954
 -----------------------------------------------------------------
                    Coef.  Std.Err.    z    P&gt;|z|   [0.025  0.975]
 -----------------------------------------------------------------
-yr_2016            0.0770   0.0231  3.3302 0.0009  0.0317  0.1223
-treatment_class    0.0295   0.0235  1.2541 0.2098 -0.0166  0.0757
-female_prof        0.0129   0.0305  0.4225 0.6727 -0.0469  0.0727
-instate            0.0526   0.0276  1.9101 0.0561 -0.0014  0.1066
-freshman           0.0088   0.0273  0.3240 0.7459 -0.0446  0.0623
-american          -0.3013   0.0481 -6.2645 0.0000 -0.3955 -0.2070
-ACumGPA           -0.0825   0.0382 -2.1618 0.0306 -0.1573 -0.0077
-gradePrinciples    0.0299   0.0176  1.6985 0.0894 -0.0046  0.0643
-small_class       -0.0515   0.0286 -1.8051 0.0711 -0.1075  0.0044
-Constant           0.5206   0.1540  3.3813 0.0007  0.2188  0.8224
-treat2016         -0.0365   0.0291 -1.2563 0.2090 -0.0936  0.0205
+yr_2016            0.0425   0.0286  1.4865 0.1371 -0.0135  0.0986
+treatment_class    0.0068   0.0214  0.3168 0.7514 -0.0351  0.0487
+female_prof       -0.0153   0.0239 -0.6419 0.5209 -0.0621  0.0314
+instate           -0.0140   0.0290 -0.4840 0.6284 -0.0708  0.0428
+freshman           0.0136   0.0287  0.4747 0.6350 -0.0426  0.0699
+american          -0.2162   0.0615 -3.5166 0.0004 -0.3368 -0.0957
+ACumGPA           -0.0884   0.0364 -2.4248 0.0153 -0.1598 -0.0169
+gradePrinciples    0.0596   0.0204  2.9252 0.0034  0.0197  0.0996
+small_class       -0.0696   0.0178 -3.9179 0.0001 -0.1044 -0.0348
+Constant           0.4085   0.1510  2.7056 0.0068  0.1126  0.7045
+treat2016         -0.0422   0.0428 -0.9868 0.3237 -0.1260  0.0416
 -----------------------------------------------------------------
-Omnibus:             92.153       Durbin-Watson:          2.058  
-Prob(Omnibus):       0.000        Jarque-Bera (JB):       633.310
-Skew:                0.418        Prob(JB):               0.000  
-Kurtosis:            7.852        Condition No.:          49     
+Omnibus:              133.349      Durbin-Watson:         2.013  
+Prob(Omnibus):        0.000        Jarque-Bera (JB):      612.898
+Skew:                 -0.879       Prob(JB):              0.000  
+Kurtosis:             7.514        Condition No.:         49     
 =================================================================
 Notes:
 [1] Standard Errors are robust to cluster correlation (cluster)</code></pre>
 </div>
 </div>
 <p>You will note here that the coefficient of interest (that on <code>treat2016</code>) is small and insignificant. This should not be surprising to us, as we have imposed that this coefficient should be zero in the process where we generated <code>beconmajor</code> previously. The idea of this process is that in this way we should have some idea of the variation we may expect in parameter estimates when the true parameter actually <em>is</em> zero. If we observe that our true estimate greatly exceeds these “null” estimates, we may be willing to conclude that the original effect is real. We store the relevant values from our regression model below to calculate a t-statistic from this bootstrap replicate.</p>
-<div id="31ee4cfa" class="cell" data-execution_count="10">
+<div id="46f17485" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>WildClusterBootstrap.loc[<span class="dv">0</span>,<span class="st">'beta3'</span>]    <span class="op">=</span> LPM_b.params[<span class="st">'treat2016'</span>]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>WildClusterBootstrap.loc[<span class="dv">0</span>,<span class="st">'se_beta3'</span>] <span class="op">=</span> LPM_b.bse[<span class="st">'treat2016'</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>WildClusterBootstrap.loc[<span class="dv">0</span>,<span class="st">'t_stat'</span>]   <span class="op">=</span> LPM_b.tvalues[<span class="st">'treat2016'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We wish to see how extreme our original t-statistic is compared to many t-statistics generated in this way, where the null is imposed. Thus, we will now repeat the previous bootstrap replicate <span class="math inline">\(B-1\)</span> more times in a loop, so that we have <span class="math inline">\(B\)</span> t-statistics.</p>
-<div id="bf54187c" class="cell" data-execution_count="11">
+<div id="aa00168d" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,B):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Erase from common data frame the data of previous replication</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  bsample <span class="op">=</span> bsample.drop(columns <span class="op">=</span> [<span class="st">'ag'</span>, <span class="st">'berrors'</span>, <span class="st">'beconmajor'</span>])</span>
@@ -857,7 +857,7 @@ Notes:
 <span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  WildClusterBootstrap.loc[b,<span class="st">'t_stat'</span>]   <span class="op">=</span> LPM_b.tvalues[<span class="st">'treat2016'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see below what this “null distribution” of t-statistics looks like. It is not a surprise that these are centred around 0, because this is what our model has imposed. However, more interesting than this is to see they type of variation in t-statistics which we can expect in our data with null effects imposed. We can see, below, that this looks somewhat heavier-tailed than a standard t-distribution.</p>
-<div id="2b6a6b4f" class="cell" data-execution_count="12">
+<div id="8e8adf24" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">'dark'</span>) </span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>WildClusterBootstrap.plot(kind <span class="op">=</span> <span class="st">'hist'</span>, column <span class="op">=</span> <span class="st">'t_stat'</span>, bins <span class="op">=</span> <span class="dv">20</span>,</span>
@@ -884,15 +884,15 @@ if(abs(t_beta3_hat) > abs(t97_5)){
 }
 
 -->
-<div id="3e2eba6b" class="cell" data-execution_count="13">
+<div id="c9479247" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pval <span class="op">=</span> (<span class="bu">abs</span>(WildClusterBootstrap[<span class="st">'t_stat'</span>]) <span class="op">&gt;</span> <span class="bu">abs</span>(t_beta3_hat)).mean()</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'The p-value is: '</span>, <span class="bu">round</span>(pval, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The p-value is:  0.1</code></pre>
+<pre><code>The p-value is:  0.078</code></pre>
 </div>
 </div>
 <p>We also could repeat this exercise with the <code>wildboottest</code> function from the <code>wildboottest</code>, a Python implementation of a library developed by <span class="citation" data-cites="FischerRoodman2021">Fischer and Roodman (<a href="#ref-FischerRoodman2021" role="doc-biblioref">2021</a>)</span>, and arrive to the same conclusion. This function works with the original model we estimated previously (<code>LPM</code>), and conducts an identical procedure to that which we have done above “by hand”. Any difference in p-values is incidental, owing to different random draws.</p>
-<div id="3e3955a9" class="cell" data-execution_count="14">
+<div id="ac263391" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> sm</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wildboottest.wildboottest <span class="im">import</span> wildboottest</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -908,13 +908,13 @@ if(abs(t_beta3_hat) > abs(t97_5)){
 <div class="cell-output cell-output-stdout">
 <pre><code>| param     |   statistic |   p-value |
 |:----------|------------:|----------:|
-| treat2016 |       2.197 |     0.101 |
-The p-value with the user-written function is: 0.101</code></pre>
+| treat2016 |       2.197 |     0.100 |
+The p-value with the user-written function is: 0.1</code></pre>
 </div>
 </div>
 <p>In principle, using such a library is likely the preferred way of conducting procedures such as the wild cluster bootstrap, however it is illustrative to see how it works in practice, as we do above. Although other feautres such as confidence intervals formed by inverting the test and iteratively searching for bounds are not available yet.</p>
 <p>Finally as a comparative exercise we may be interested in seeing how this procedure compares to a standard clustered bootstrap. We do this by hand. It turns out that while the 95% CI on <code>treat2016</code> coming from clustered bootstrap is narrower than the 95% CI from the wild cluster bootstrap (as expected), the difference is not <em>so</em> substantial in this particular case.</p>
-<div id="6ac8239b" class="cell" data-execution_count="15">
+<div id="492e3778" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ClusterBootstrap <span class="op">=</span> []</span>
@@ -928,7 +928,7 @@ The p-value with the user-written function is: 0.101</code></pre>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    ClusterBootstrap.append(model.params[<span class="st">'treat2016'</span>])</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>np.percentile(a <span class="op">=</span> ClusterBootstrap, q <span class="op">=</span> [<span class="fl">2.5</span>, <span class="fl">97.5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>array([-0.01417647,  0.1445029 ])</code></pre>
+<pre><code>array([-0.01450469,  0.15111777])</code></pre>
 </div>
 </div>
 </section>
@@ -939,7 +939,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 \tag{1}\]</span></span> where <span class="math inline">\(y_{st}\)</span> is the outcome variable, <span class="math inline">\(\gamma_s\)</span> and <span class="math inline">\(\lambda_t\)</span> are state (unit) and time fixed effects, <span class="math inline">\(w_{st}\)</span> is the binary treatment variable that takes the value of 1 if a state (unit) <span class="math inline">\(s\)</span> is treated at time <span class="math inline">\(t\)</span> and otherwise takes 0. We will work with a quite tractable example based on three units and 10 time periods, and will document how the approaches taken by <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> and by <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> to understand the two-way FE estimator compare.</p>
 <p>The results from <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> and those from <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> are similar, however they take quite different paths to get there. Goodman-Bacon’s (like that laid out in <span class="citation" data-cites="AtheyImbens2018">Athey and Imbens (<a href="#ref-AtheyImbens2018" role="doc-biblioref">2022</a>)</span>) is “mechanical” in that it is based on the underlying difference-in-differences comparisons between all groups. The result in <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> is based on a potential outcomes frame-work, and counterfactuals under parallel trend assumptions. Thus to examine how these methods work requires somewhat different frameworks. In the case of <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span>, we should consider all possible DD comparisons, while in the case of <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> we should consider the treatment effect for each unit and time period, which requires knowing the observed and counterfactual state. While the approaches the two papers take to understand the content of the estimator differ, they refer to the same estimator, so always recover the same parameter estimate. To examine this in a more applied way, we will look at a simulated example.</p>
 <p>To do this, let’s consider a panel of 3 states/areas over the 10 years (<span class="math inline">\(t\)</span>) of 2000 to 2009. One of these units is entirely untreated (<span class="math inline">\(unit = 1\)</span> or group <span class="math inline">\(U\)</span>), one is treated at an early time period, 2003, (<span class="math inline">\(unit = 2\)</span> or group <span class="math inline">\(k\)</span>), and the other is treated at a later time period, 2006, (<span class="math inline">\(unit = 3\)</span> or group <span class="math inline">\(l\)</span>). We will construct a general structure for this data below:</p>
-<div id="d59e7a3f" class="cell" data-execution_count="16">
+<div id="767af57f" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -991,22 +991,22 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 </div>
 </div>
 <p>We will consider a simple-case where the actual data-generating process is known as: <span class="math display">\[y_{unit,t} = 2 + 0.2 \times (t - 2000) + 1 \times unit + \beta_1 \times post \times unit + \beta_2 \times post \times unit \times (t - treat).\]</span> Here <span class="math inline">\(unit\)</span> refers to the unit number listed above (1, 2 or 3), <span class="math inline">\(post\)</span> indicates that a unit is receiving treatment in the relevant time period <span class="math inline">\(t\)</span>, and <span class="math inline">\(treat\)</span> refers to the treatment period (2003 for unit 2, and 2006 for unit 3). Let’s generate treatment, time to treatment, and post-treatment variables in <code>Python</code>:</p>
-<div id="cd4f23be" class="cell" data-execution_count="17">
+<div id="7cf28584" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'treat'</span>] <span class="op">=</span> np.where(Data[<span class="st">'unit'</span>] <span class="op">==</span> <span class="dv">2</span>, <span class="dv">2006</span>, </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                         np.where(Data[<span class="st">'unit'</span>] <span class="op">==</span> <span class="dv">3</span>, <span class="dv">2003</span>, <span class="dv">0</span>))</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'time'</span>] <span class="op">=</span> np.where(Data[<span class="st">'treat'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="dv">0</span>, Data[<span class="st">'year'</span>] <span class="op">-</span> Data[<span class="st">'treat'</span>])</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'post'</span>] <span class="op">=</span> np.where(((Data[<span class="st">'time'</span>] <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="op">&amp;</span> (Data[<span class="st">'treat'</span>] <span class="op">!=</span> <span class="dv">0</span>)), <span class="dv">1</span>, <span class="dv">0</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This specification allows for each unit to have its own fixed effect, given that <span class="math inline">\(unit\)</span> is multiplied by 1, and allows for a general time trend increasing by 0.2 units each period across the whole sample. These parameters are not so important, as what we care about are the treatment effects themselves. The impact of treatment comes from the units <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>. The first of these, <span class="math inline">\(\beta_1\)</span>, captures an immediate unit-specific jump when treatment is implemented which remains stable over time. The second of these, <span class="math inline">\(\beta_2\)</span>, implies a trend break occurring <em>only</em> for the treated units once treatment comes into place. We will consider 2 cases below. In the first case <span class="math inline">\(\beta_1 = 1\)</span> and <span class="math inline">\(\beta_2 = 0\)</span> (a simple case with a constant treatment effect per unit):</p>
-<div id="ef3bb273" class="cell" data-execution_count="18">
+<div id="39366240" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'y1'</span>] <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> (Data[<span class="st">'year'</span>] <span class="op">-</span> <span class="dv">2000</span>) <span class="op">*</span> <span class="fl">0.2</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="dv">1</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="dv">0</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">*</span> (Data[<span class="st">'time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and in a second case <span class="math inline">\(\beta_1 = 1\)</span> and <span class="math inline">\(\beta_2 = 0.45\)</span>. This is a more complex case in which there are heterogeneous treatment effects over time:</p>
-<div id="9e2a9eec" class="cell" data-execution_count="19">
+<div id="cd714fa2" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'y2'</span>] <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> (Data[<span class="st">'year'</span>] <span class="op">-</span> <span class="dv">2000</span>) <span class="op">*</span> <span class="fl">0.2</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="dv">1</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="fl">0.45</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">*</span> (Data[<span class="st">'time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>These two cases are plotted next where the line with empty circles refers to group <span class="math inline">\(U\)</span>, the line with black filled circles refers to group <span class="math inline">\(k\)</span> and the line with squares refers to group <span class="math inline">\(l\)</span></p>
-<div id="702a4120" class="cell" data-execution_count="20">
+<div id="168d6c4b" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -1068,7 +1068,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 <section id="the-two-way-fixed-effect-estimator" class="level2">
 <h2 class="anchored" data-anchor-id="the-two-way-fixed-effect-estimator">The Two-way Fixed Effect Estimator</h2>
 <p>First we will estimate the parameter by two-way fixed effects regression. This will provide us with the parameter estimate that both <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> and <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> will construct in a piece-wise fashion. This is done relatively simply in <code>Python</code>. We simply estimate <a href="#eq-twfe" class="quarto-xref">Equation&nbsp;1</a> by linear regression using <code>lm</code> as laid out below:</p>
-<div id="8163433c" class="cell" data-execution_count="21">
+<div id="356c3b76" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>case1 <span class="op">=</span> sm.OLS.from_formula(<span class="st">'y1 ~ post + C(unit) + C(year)'</span>, data<span class="op">=</span>Data).fit()</span>
@@ -1101,7 +1101,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 <section id="a-simple-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="a-simple-decomposition">(a) Simple Decomposition</h3>
 <p>In this case the <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> methodology documents that <span class="math inline">\(\widehat{\tau}\)</span> can be constructed by weighting the below four DD comparisons</p>
-<div id="50e1846f" class="cell" data-execution_count="22">
+<div id="0e0a30c8" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate axis with some space for labels</span></span>
@@ -1213,7 +1213,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 <section id="a.-early-group-vs-untreated-group" class="level4">
 <h4 class="anchored" data-anchor-id="a.-early-group-vs-untreated-group">A. Early Group v/s Untreated Group</h4>
 <p>In order to calculate the effects we start making the simple DD comparison of the untreated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 1\)</span>) with the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) getting <span class="math inline">\(\widehat{\beta}^{2 \times 2}_{kU}\)</span> as <span class="math display">\[\widehat{\beta}^{2 \times 2}_{kU} = \left( \overline{y}_k^{Post(k)} - \overline{y}_k^{Pre(k)} \right) - \left( \overline{y}_U^{Post(k)} - \overline{y}_U^{Pre(k)} \right)\]</span> Where <span class="math inline">\(\overline{y}_k^{Post(k)}\)</span> is the mean of the outcome variable for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) posterior to treatment, from 2003, <span class="math inline">\(\overline{y}_k^{Pre(k)}\)</span> is the mean for of the outcome variable for the early treated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 3\)</span>) prior to treatment, (up until 2002), and <span class="math inline">\(\overline{y}_U^{Post(k)}, \overline{y}_U^{Post(k)}\)</span> are the analogous quantities for the untreated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 1\)</span>)</p>
-<div id="a3705d25" class="cell" data-execution_count="23">
+<div id="df423a4a" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>((Data[(Data[<span class="st">'unit'</span>] <span class="op">==</span> <span class="dv">3</span>) <span class="op">&amp;</span> (Data[<span class="st">'post'</span>] <span class="op">==</span> <span class="dv">1</span>)][<span class="st">'y1'</span>].mean() <span class="op">-</span> </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a> Data[(Data[<span class="st">'unit'</span>] <span class="op">==</span> <span class="dv">3</span>) <span class="op">&amp;</span> (Data[<span class="st">'post'</span>] <span class="op">==</span> <span class="dv">0</span>)][<span class="st">'y1'</span>].mean()) <span class="op">-</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>(Data[(Data[<span class="st">'unit'</span>] <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (Data[<span class="st">'year'</span>] <span class="op">&gt;=</span> <span class="dv">2003</span>)][<span class="st">'y1'</span>].mean() <span class="op">-</span> </span>
@@ -1223,7 +1223,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </div>
 </div>
 <p>This result also can be obtained from the linear regression with the canonical DD formula <span class="math display">\[y_{unit,t} = \alpha_0 + \alpha_1 \times Post(k) + \alpha_2 \times \mathbf{1}(unit = 3) + \beta_{kU}^{2\times2} \times Post(k) \times \mathbf{1}(unit = 3) + \varepsilon_i\]</span> Where <span class="math inline">\(Post(k)\)</span> indicates that the year is equal or greater than the year where the group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) received the treatment (2003) and <span class="math inline">\(\mathbf{1}(unit = 3)\)</span> indicates if the observation is from the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>)</p>
-<div id="c4c425fb" class="cell" data-execution_count="24">
+<div id="65a02f0e" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'post2003'</span>] <span class="op">=</span> np.where(Data[<span class="st">'year'</span>] <span class="op">&gt;=</span> <span class="dv">2003</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sm.OLS.from_formula(<span class="st">'y1 ~ C(post2003) + C(unit) + C(post2003):C(unit)'</span>, </span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>Data[Data[<span class="st">'unit'</span>] <span class="op">!=</span> <span class="dv">2</span>]).fit().summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1251,13 +1251,13 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>7.35e-14</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>08:31:59</td>
+<td>16:19:43</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-7.1761</td>
 </tr>
@@ -1372,7 +1372,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </div>
 </div>
 <p>A third way to obtain this is from the next linear regression <span class="math display">\[y_{unit,t} = \alpha_0 + \beta_{kU}^{2 \times 2} \times Post + \sum_{i = 2001}^{2009} \alpha_{i-2000} \times \mathbf{1}(year = i) + \alpha_{10} \times \mathbf{1}(unit = 3) + \varepsilon_i\]</span> Where in this case <span class="math inline">\(Post\)</span> indicates if the unit is treated (note for group <span class="math inline">\(U\)</span> this will be always 0), <span class="math inline">\(\mathbf{1}(year = i)\)</span> indicates if the observation is in period <span class="math inline">\(i \in \{2001, \ldots, 2009\}\)</span> and <span class="math inline">\(\mathbf{1}(unit = 3)\)</span> keep its meaning</p>
-<div id="4e265185" class="cell" data-execution_count="25">
+<div id="e6d177c0" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sm.OLS.from_formula(<span class="st">'y1 ~ post  + C(year) + C(unit)'</span>, </span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>Data[Data[<span class="st">'unit'</span>] <span class="op">!=</span> <span class="dv">2</span>]).fit().summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
@@ -1399,13 +1399,13 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>2.68e-118</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>08:31:59</td>
+<td>16:19:43</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>641.71</td>
 </tr>
@@ -1592,7 +1592,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </div>
 </div>
 <p>Now we store this result for posterior use</p>
-<div id="ff0d2bad" class="cell" data-execution_count="26">
+<div id="0660ddf6" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>bku <span class="op">=</span> sm.OLS.from_formula(<span class="st">'y1 ~ post  + C(year) + C(unit)'</span>, </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>Data[Data[<span class="st">'unit'</span>] <span class="op">!=</span> <span class="dv">2</span>]).fit().params[<span class="st">'post'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1600,7 +1600,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 <section id="b.-later-group-vs-untreated-group" class="level4">
 <h4 class="anchored" data-anchor-id="b.-later-group-vs-untreated-group">B. Later Group v/s Untreated Group</h4>
 <p>The next DD comparison we calculate is that which compares the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>) with the untreated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 1\)</span>), resulting in <span class="math inline">\(\widehat{\beta}^{2 \times 2}_{lU}\)</span>. As above, we can generate this DD estimate in a number of ways (most simply by double-differencing with means), and this will then be stored.</p>
-<div id="b75296d9" class="cell" data-execution_count="27">
+<div id="a9d58d7c" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>blu <span class="op">=</span> sm.OLS.from_formula(<span class="st">'y1 ~ post  + C(year) + C(unit)'</span>, </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>Data[Data[<span class="st">'unit'</span>] <span class="op">!=</span> <span class="dv">3</span>]).fit().params[<span class="st">'post'</span>]</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(blu)</span>
@@ -1639,13 +1639,13 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>3.73e-11</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>08:31:59</td>
+<td>16:19:43</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-4.2993</td>
 </tr>
@@ -1763,7 +1763,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 <section id="c.-early-group-vs-later-group-before-2006" class="level4">
 <h4 class="anchored" data-anchor-id="c.-early-group-vs-later-group-before-2006">C. Early Group v/s Later Group Before 2006</h4>
 <p>Next we calculate the effects from the DD comparisons of early and later treated groups, up until the later treated group receives treatment (2006). This is: <span class="math display">\[\widehat{\beta}^{2 \times 2, k}_{kl} \equiv \left( \overline{y}^{Mid(k,l)}_{k} - \overline{y}^{Pre(k)}_{k} \right) - \left( \overline{y}^{Mid(k,l)}_{l} - \overline{y}^{Pre(k)}_{l} \right)\]</span> where <span class="math inline">\(\overline{y}^{Mid(k,l)}_{k}\)</span> is the mean of the outcome variable for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) in the period between the treatment for the group <span class="math inline">\(k\)</span> and the group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>), from 2003 to 2005, <span class="math inline">\(\overline{y}^{Pre(k)}_{k}\)</span> is the mean for of the outcome variable for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) previous to treatment, until 2002, and <span class="math inline">\(\overline{y}^{Mid(k,l)}_{l}, \overline{y}^{Pre(k)}_{l}\)</span> are the analogous for the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>)</p>
-<div id="547018dd" class="cell" data-execution_count="28">
+<div id="f667196a" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>bklk <span class="op">=</span> sm.OLS.from_formula(<span class="st">'y1 ~ post  + C(year) + C(unit)'</span>, </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>Data[(Data[<span class="st">'unit'</span>] <span class="op">!=</span> <span class="dv">1</span>) <span class="op">&amp;</span> (Data[<span class="st">'year'</span>] <span class="op">&lt;</span> <span class="dv">2006</span>)]).fit().params[<span class="st">'post'</span>]</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bklk)</span>
@@ -1801,13 +1801,13 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>1.11e-08</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>08:31:59</td>
+<td>16:19:43</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>4.7188</td>
 </tr>
@@ -1925,7 +1925,7 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 <section id="d.-early-group-vs-later-group-after-2003" class="level4">
 <h4 class="anchored" data-anchor-id="d.-early-group-vs-later-group-after-2003">D. Early Group v/s Later Group After 2003</h4>
 <p>The last DD comparison is for early and later treated groups, starting from 2006 <span class="math display">\[\widehat{\beta}^{2 \times 2, l}_{kl} \equiv \left( \overline{y}^{Post(l)}_{l} - \overline{y}^{Mid(k,l)}_{l} \right) - \left( \overline{y}^{Post(l)}_{k} - \overline{y}^{Mid(k,l)}_{k} \right)\]</span> Where <span class="math inline">\(\overline{y}^{Post(l)}_{l}\)</span> is the mean of the outcome variable for the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>) in the period after this group received the treatment, from 2006, <span class="math inline">\(\overline{y}^{Mid(k,l)}_{l}\)</span> is the mean for of the outcome variable for the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>) in the period between the treatment for the group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) and the group <span class="math inline">\(l\)</span>, from 2003 to 2005, and <span class="math inline">\(\overline{y}^{Post(l)}_{k}, \overline{y}^{Mid(k,l)}_{k}\)</span> are the analogous quantities for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>). We can generate and save this quantity as we have previously:</p>
-<div id="01de2041" class="cell" data-execution_count="29">
+<div id="cfbd36b8" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>bkll <span class="op">=</span> sm.OLS.from_formula(<span class="st">'y1 ~ post  + C(year) + C(unit)'</span>, </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>Data[(Data[<span class="st">'unit'</span>] <span class="op">!=</span> <span class="dv">1</span>) <span class="op">&amp;</span> (Data[<span class="st">'year'</span>] <span class="op">&gt;</span> <span class="dv">2002</span>)]).fit().params[<span class="st">'post'</span>]</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bkll)</span>
@@ -1963,13 +1963,13 @@ The parameter estimated by two-way fixed effects regression for case 2 is:  3.80
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Mon, 15 Jun 2026</td>
+<td>Tue, 24 Nov 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>1.07e-09</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>08:31:59</td>
+<td>16:19:43</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>2.6670</td>
 </tr>
@@ -2094,18 +2094,18 @@ W_{kU} &amp; = \frac{(n_k + n_U)^2\widehat{V}^D_{kU}}{\widehat{V}^D} \quad &amp;
 W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}}{\widehat{V}^D} \quad &amp;  \quad W_{kl}^l &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_k)]^2\widehat{V}^{D,l}_{kl}}{\widehat{V}^D}
 \end{align*}
 \]</span> Where <span class="math inline">\(n\)</span> refers to the sample share of the group</p>
-<div id="03fc9a35" class="cell" data-execution_count="30">
+<div id="e5b6eff6" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>nk <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>nl <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>nu <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math inline">\(\overline{D}\)</span> referes to the share of time the group is treated</p>
-<div id="96c377cd" class="cell" data-execution_count="31">
+<div id="e91d9ac5" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>Dk <span class="op">=</span> Data[Data[<span class="st">'unit'</span>] <span class="op">==</span> <span class="dv">3</span>][<span class="st">'post'</span>].mean()</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>Dl <span class="op">=</span> Data[Data[<span class="st">'unit'</span>] <span class="op">==</span> <span class="dv">2</span>][<span class="st">'post'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and <span class="math inline">\(\widehat{V}\)</span> refers to how much treatment varies</p>
-<div id="7dbb9127" class="cell" data-execution_count="32">
+<div id="e9afc6c8" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>VkU <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span><span class="fl">0.5</span><span class="op">*</span>(Dk)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>Dk)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>VlU <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span><span class="fl">0.5</span><span class="op">*</span>(Dl)<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>Dl) </span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>Vklk <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span><span class="fl">0.5</span><span class="op">*</span>((Dk<span class="op">-</span>Dl)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>Dl))<span class="op">*</span>((<span class="dv">1</span><span class="op">-</span>Dk)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>Dl))</span>
@@ -2114,7 +2114,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>                           data<span class="op">=</span>Data).fit().resid<span class="op">**</span><span class="dv">2</span>).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The weights are thus the following:</p>
-<div id="eab85460" class="cell" data-execution_count="33">
+<div id="7996f908" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>wkU <span class="op">=</span> (((nk <span class="op">+</span> nu)<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>VkU)<span class="op">/</span>VD</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(wkU)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>wlU <span class="op">=</span> (((nl <span class="op">+</span> nu)<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>VlU)<span class="op">/</span>VD</span>
@@ -2131,7 +2131,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>With this in mind the <span class="math inline">\(\tau\)</span> estimate is</p>
-<div id="428dba49" class="cell" data-execution_count="34">
+<div id="cd3f4e7d" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>tau <span class="op">=</span> wkU <span class="op">*</span> bku <span class="op">+</span> wlU <span class="op">*</span> blu <span class="op">+</span> wklk <span class="op">*</span> bklk <span class="op">+</span> wkll <span class="op">*</span> bkll</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tau)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2144,7 +2144,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <section id="b-decomposition-with-trends" class="level3">
 <h3 class="anchored" data-anchor-id="b-decomposition-with-trends">(b) Decomposition with trends</h3>
 <p>In this case the <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> decomposition follows as above generating the treatment effect as follows:</p>
-<div id="834c4a3c" class="cell" data-execution_count="35">
+<div id="96ad43f0" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate axis with some space for labels</span></span>
@@ -2253,7 +2253,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>As seen in the plots, in the decomposition with trends these effects are no longer constants of 3 and 2 for early and later treated units given that the “treatment effect” is no longer simply <span class="math inline">\(1 \times unit\)</span> in each case.</p>
-<div id="e6edaa63" class="cell" data-execution_count="36">
+<div id="944ad06f" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2X2 DD Regressions</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>panelA <span class="op">=</span> sm.OLS.from_formula(<span class="st">'y2 ~ post + C(year) + C(unit)'</span>, </span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                         data<span class="op">=</span>Data[Data[<span class="st">'unit'</span>] <span class="op">!=</span> <span class="dv">2</span>]).fit()</span>
@@ -2302,11 +2302,11 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <p>Now, we will show that the procedures described in <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>, despite arriving to the estimator in a different way, also let us understand how the regression weights the two-way fixed effect estimator. In this case, rather than considering each treatment-control comparison pair, the authors note that the two-way fixed estimator can be conceived as a weighted sum of each single group by time period in any post-treatment group.</p>
 <p>The authors define <span class="math inline">\(\widehat{\beta}_{fe}\)</span> as the coefficient estimated in the following (standard) two-way fixed effects regression: <span class="math display">\[y_{i,s,t} = \beta_0 + \beta_{fe} D_{s,t} + \mu_s + \lambda_t + \varepsilon_{s,t}\]</span> Where <span class="math inline">\(D_{s,t}\)</span> is the mean over <span class="math inline">\(i\)</span> of a binary indicator variable that takes value of 1 if the unit <span class="math inline">\(i\)</span> in state <span class="math inline">\(s\)</span> is treated at period <span class="math inline">\(t\)</span> and 0 otherwise, in our case as we have one observartion per state <span class="math inline">\(D_{s,t} = post_{s,t}\)</span>, meanwhile <span class="math inline">\(\mu_s\)</span> and <span class="math inline">\(\lambda_t\)</span> are state and time fixed effects. This is, of course, precisely the same model as we have estimated in <a href="#eq-twfe" class="quarto-xref">Equation&nbsp;1</a>, implying that <span class="math inline">\(\beta_{fe}=2.4545\)</span> in cases without post-treatment trends (<code>y1</code>), or <span class="math inline">\(\beta_{fe}=3.8045\)</span> in cases with post-treatment dynamics (<code>y2</code>).</p>
 <p><span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> define the ATE for any (<span class="math inline">\(s,t\)</span>) cell as: <span class="math display">\[\Delta_{s,t} = \frac{1}{N_{s,t}} \sum_{i = 1}^{N_{s,t}}[Y_{i,s,t}(1) - Y_{i,s,t}(0)].\]</span> You will note that here we require an unobserved counterfactual <span class="math inline">\(Y_{i,s,t}(0)\)</span>. If we impose a parallel trend assumption, such a counterfactual can be inferred from unit-specific fixed effects, time-specific fixed effects, and the constant term. Because in this case we <em>know</em> our data generating process, we can simply generate this counterfactual as the data generating process, absent any effect of treatment. Below we generate such a counterfactual, where you will note that we impose that this is an ‘untreated’ counterfactual by setting the treatment effects to 0 in the generation of <code>y1_c</code> below:</p>
-<div id="750a1a64" class="cell" data-execution_count="37">
+<div id="5b6e11a6" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'y1_c'</span>] <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> (Data[<span class="st">'year'</span>] <span class="op">-</span> <span class="dv">2000</span>) <span class="op">*</span> <span class="fl">0.2</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="dv">0</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="dv">0</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">*</span> (Data[<span class="st">'time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is likely useful to confirm to ourselves that graphically we are indeed generating the untreated counterfactual in this way.</p>
-<div id="1fe0b399" class="cell" data-execution_count="38">
+<div id="556b0fb5" class="cell" data-execution_count="38">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>[Fig4, ax] <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>)</span>
@@ -2345,7 +2345,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>This allows us to calculate a state- and time-period specific treatment effect (<span class="math inline">\(\Delta_{s,t}\)</span>) for each treated unit. We do so, calculating this quantity for all units in which treatment exists:</p>
-<div id="530eadaf" class="cell" data-execution_count="39">
+<div id="1aebda45" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'Delta_st'</span>] <span class="op">=</span> np.where(Data[<span class="st">'post'</span>] <span class="op">==</span> <span class="dv">1</span>, Data[<span class="st">'y1'</span>] <span class="op">-</span> Data[<span class="st">'y1_c'</span>],</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                            np.nan)</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>Data[Data[<span class="st">'post'</span>] <span class="op">==</span> <span class="dv">1</span>][[<span class="st">'y1'</span>, <span class="st">'y1_c'</span>, <span class="st">'unit'</span>, <span class="st">'year'</span>, <span class="st">'Delta_st'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2460,7 +2460,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>Unsurprisingly, given the data generating process we have defined, we see that each treatment effect is 2 for unit 2, and 3 for unit 3. If we were to calculate a mean treatment effect by hand, we may wish to simply take an average over all periods and units. However, one of the key results of <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> is to show that under a series of standard assumptions <span class="math display">\[\beta_{fe} = E \left[ \sum_{s,t:D_{s,t}=1}\frac{N_{s,t}}{N_1}w_{s,t}\Delta_{s,t} \right]\]</span> Where <span class="math inline">\(N_1\)</span> refers to the sum of all treated observations and <span class="math display">\[w_{s,t} = \frac{\varepsilon_{s,t}}{\sum_{s,t:D_{s,t}=1}\frac{N_{s,t}}{N_1}\varepsilon_{s,t}}\]</span> Where <span class="math inline">\(\varepsilon_{s,t}\)</span> is the residual from a regression of <span class="math inline">\(D_{s,t}\)</span> on state and time fixed-effects. To confirm this in our data, we will estimate these regression residuals and add them into the dataframe:</p>
-<div id="629902e5" class="cell" data-execution_count="40">
+<div id="79d890c4" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>auxreg <span class="op">=</span> sm.OLS.from_formula(<span class="st">'post ~ C(year) + C(unit)'</span>,</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                             data<span class="op">=</span>Data).fit()</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'eps_st'</span>] <span class="op">=</span> auxreg.resid</span>
@@ -2483,7 +2483,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>Note here that after generating <span class="math inline">\(w_{s,t}\)</span> we print this out using the round function to avoid very small digits appearing which are only different to zero given machine precision. The key thing that we can see is that the effective weighting of treatment effects which occurs in regression is quite different to what we would expect. Indeed, four periods are given 0 weights! Finally, we can confirm that this decomposition gives us the two-way fixed effect estimate by multiplying <span class="math inline">\(\Delta_{s,t}\)</span> and <span class="math inline">\(w_{s,t}\)</span> and summing:</p>
-<div id="e6250fca" class="cell" data-execution_count="41">
+<div id="83579566" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates of: "</span> <span class="op">+</span> <span class="bu">str</span>((Data[<span class="st">'Delta_st'</span>] <span class="op">*</span> Data[<span class="st">'w_st'</span>]).<span class="bu">sum</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates of: 2.454545454545454</code></pre>
@@ -2491,7 +2491,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 <p>We can see that correctly, this decomposition also returns the two-way fixed effect estimate of 2.4545.</p>
 <p>We can follow precisely the same series of steps to see the case of the decomposition where treatment exposition also results in a trend-break. To see this, we conduct each of the above steps below, however here we have not produced similar graphs (though you may wish to do so to confirm that counterfactuals make sense):</p>
-<div id="6ed6f1df" class="cell" data-execution_count="42">
+<div id="68e97a5f" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'y2_c'</span>] <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> (Data[<span class="st">'year'</span>] <span class="op">-</span> <span class="dv">2000</span>) <span class="op">*</span> <span class="fl">0.2</span> <span class="op">+</span> <span class="dv">1</span> <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="dv">0</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">+</span> <span class="dv">0</span> <span class="op">*</span> Data[<span class="st">'post'</span>] <span class="op">*</span> Data[<span class="st">'unit'</span>] <span class="op">*</span> (Data[<span class="st">'time'</span>])</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>Data[<span class="st">'Delta_st2'</span>] <span class="op">=</span> np.where(Data[<span class="st">'post'</span>] <span class="op">==</span> <span class="dv">1</span>, Data[<span class="st">'y2'</span>] <span class="op">-</span> Data[<span class="st">'y2_c'</span>],</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>                            np.nan)</span>
@@ -2512,7 +2512,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>Because there is no difference in the structure of the treatment indicator or the unit and time fixed effects, the residuals <span class="math inline">\(w_{s,t}\)</span> are identical, though of course the treatment effects themselves, <span class="math inline">\(\Delta_{s,t}\)</span> are not. Thus, once again we see that later treatment effects for unit 3 (precisely those units for which treatment effects are largest), are given zero weights. Finally, again we can calculate the two-way fixed effect estimate following this decomposition by summing across units, capturing the estimate we have previously observed in regression models of 3.804545.</p>
-<div id="2d6c80a1" class="cell" data-execution_count="43">
+<div id="023d2bd3" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates of: "</span> <span class="op">+</span> <span class="bu">str</span>((Data[<span class="st">'Delta_st2'</span>] <span class="op">*</span> Data[<span class="st">'w_st'</span>]).<span class="bu">sum</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates of: 3.8045454545454547</code></pre>
@@ -2524,7 +2524,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <section id="code-call-out-4.3a-event-study-and-interaction-weighted-estimators" class="level1">
 <h1>Code Call-out 4.3(a): Event study and Interaction-weighted Estimators</h1>
 <p>To understand the equivalence between the panel event study model described in Section 4.4.2.1 of the book and the “Interaction-weighted (IW) estimator” proposed by <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span> we work with data from <span class="citation" data-cites="StevensonWolfers2006">Stevenson and Wolfers (<a href="#ref-StevensonWolfers2006" role="doc-biblioref">2006</a>)</span> which examines the effect of the staggered adoption of no-default divorce reforms (<code>_nfd</code>) and female suicide (<code>asmrs</code>) in United States for 49 states (<code>stfips</code>) from 1964 to 1996. We begin by loading the data below, and confirming that it effectively consists of a balanced sample of 49 states (we will denote using <span class="math inline">\(s\)</span> below) over 33 years (denoted as <span class="math inline">\(t\)</span>):</p>
-<div id="6136156e" class="cell" data-execution_count="44">
+<div id="8c896061" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Stevenson_Wolfers_2006.csv"</span>)</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(data))</span>
@@ -2547,7 +2547,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>In order to prepare our dataset we note that the variable <code>_nfd</code> contains the year a state adopts a law (<span class="math inline">\(Event_s\)</span>), and define a variable <code>timeToTreat</code> as the difference between year <span class="math inline">\(t\)</span> and <span class="math inline">\(Event_s\)</span>:</p>
-<div id="f8d2a027" class="cell" data-execution_count="45">
+<div id="9a835b3b" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"timeToTreat"</span>] <span class="op">=</span> data[<span class="st">"year"</span>] <span class="op">-</span> data[<span class="st">"_nfd"</span>]</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">"year"</span>, <span class="st">"_nfd"</span>, <span class="st">"timeToTreat"</span>]].head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="45">
@@ -2636,7 +2636,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <p>We will begin by estimating a standard event study, defined as follows, or as equation 4.38 in the book: <span class="math display">\[asmrs_{st} = \alpha + \sum_{j=2}^{J} \beta_j (Lead \ j)_{st} + \sum_{k = 0}^{K} \gamma_{k} (Lag \ k)_{st} + \mu_s + \lambda_t + X_{st}^\prime \Gamma + \varepsilon_{st}
 \]</span> Here <span class="math inline">\(asmrs_{st}\)</span> refers to the female suicide rate for all women of state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span>, <span class="math inline">\((Lead \ j)_{st}\)</span> a dummy variable that takes 1 if the state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span> is <span class="math inline">\(j\)</span> periods pre-treatment, <span class="math inline">\((Lag \ k)_{st}\)</span> a dummy variable that takes 1 if the state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span> is <span class="math inline">\(k\)</span> periods post-treatment, <span class="math inline">\(\mu_s\)</span> and <span class="math inline">\(\lambda_t\)</span> are state and time fixed effects respectively and <span class="math inline">\(X^\prime_{st}\)</span> a vector of covariates for state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span> such as per-capita income <span class="math inline">\(pcinc_{st}\)</span>, homicide mortality <span class="math inline">\(asmrh_{st}\)</span> and the aid to families with dependent children (AFDC) rate for a family of four <span class="math inline">\(cases_{st}\)</span>.</p>
 <p>Thus, we wish to include a single binary variable for each lead and lag observed in our data (arbritarily omitting lead 1). If we inspect the values of <code>timeToTreat</code> below, we can see how there are <span class="math inline">\(J = 21\)</span> binary <span class="math inline">\(Lead\)</span> variables and <span class="math inline">\(K = 27\)</span> <span class="math inline">\(Lag\)</span> variable to include:</p>
-<div id="f4fb6d60" class="cell" data-execution_count="46">
+<div id="70fddfc5" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'timeToTreat'</span>].unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="46">
 <pre><code>array([ -7.,  -6.,  -5.,  -4.,  -3.,  -2.,  -1.,   0.,   1.,   2.,   3.,
@@ -2647,7 +2647,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>A natural option to generate lags and leads is to use the <code>get_dummies</code> function from <code>pandas</code>library, but this don’t generate clearly names so we write a function to rename the columns generated by the <code>get_dummies</code> function and then join it to the original data frame</p>
-<div id="47af9429" class="cell" data-execution_count="47">
+<div id="85eb6c28" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate dummies</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>dummies_timeToTreat <span class="op">=</span> pd.get_dummies(data[<span class="st">'timeToTreat'</span>]).astype(<span class="bu">int</span>)</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2733,7 +2733,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>Next we can estimate the event study by standard OLS using the <code>Regpyhdfe</code> function from the <code>regpyhdfe</code> package. Note that we omit <code>Lead1</code> as a reference base level. The usage of this function includes several arguments where the <code>target</code> argument points the dependent variable, the <code>predictors</code> argument are the explanatory covaraites, the <code>absorb_ids</code> argument determine the fixed effects (in this case year and state fixed effects) and the <code>cluster_ids</code> argument is for the variable to use if clustered standard errors are desired.</p>
-<div id="a5cd70b4" class="cell" data-execution_count="48">
+<div id="dee01f81" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> regpyhdfe <span class="im">import</span> Regpyhdfe</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>EventStudy <span class="op">=</span> Regpyhdfe(df <span class="op">=</span> data, target <span class="op">=</span> <span class="st">'asmrs'</span>, </span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>                       predictors <span class="op">=</span> [<span class="st">'Lead21'</span>, <span class="st">'Lead20'</span>, <span class="st">'Lead19'</span>, <span class="st">'Lead18'</span>,</span>
@@ -2755,7 +2755,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 =================================================================================
 Model:                  OLS              Adj. R-squared (uncentered): 1499.768   
 Dependent Variable:     asmrs            AIC:                         12250.9721 
-Date:                   2026-06-15 08:32 BIC:                         12525.7768 
+Date:                   2026-11-24 16:19 BIC:                         12525.7768 
 No. Observations:       1617             Log-Likelihood:              -6074.5    
 Df Model:               51               F-statistic:                 372.7      
 Df Residuals:           -1               Prob (F-statistic):          2.76e-49   
@@ -2830,7 +2830,7 @@ problems.</code></pre>
 </div>
 </div>
 <p>Once we have estimated this regression, we can visualise point estimates and standard errors in the traditional event study style, as laid out below. To do this, we will create a data frame that incorporates the parameters we need from our regression, which we saved as <code>EventStudy</code> above. Finally, we will plot an event study using <code>pyplot</code>:</p>
-<div id="6074d700" class="cell" data-execution_count="49">
+<div id="8abc9fd9" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> pd.DataFrame({<span class="st">'Estimate'</span>: EventStudy.params,</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>                       <span class="st">'Std. Err'</span>: EventStudy.bse<span class="op">*</span><span class="fl">1.96</span>})</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> params.drop([<span class="st">'pcinc'</span>, <span class="st">'asmrh'</span>, <span class="st">'cases'</span>])</span>
@@ -2874,14 +2874,14 @@ problems.</code></pre>
 <li>Estimate the IW estimator following equation (<a href="#eq-IWEstimator" class="quarto-xref">Equation&nbsp;2</a>).</li>
 </ol>
 <p>To fix ideas and get a hold on notation, in our example <span class="math inline">\(g = \{-21 , -20 , \cdots , 27\}\)</span>, as we are considering the full set of lags and leads <span class="math inline">\(\ell\)</span> as part of <span class="math inline">\(g\)</span>. The years which a no fault divorce law was passed (<span class="math inline">\(e\)</span>) are <span class="math inline">\(e \in \{1969 , 1970 , 1971 , 1972 , 1973 , 1974 , 1975 , 1976 , 1977 , 1980 , 1984 , 1985\}\)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. We will start by building a series of indicator variables for <span class="math inline">\(E_i\)</span> as follows:</p>
-<div id="b1cd4419" class="cell" data-execution_count="50">
+<div id="4a9659b8" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>dummies_Cohort <span class="op">=</span> pd.get_dummies(data[<span class="st">'_nfd'</span>].astype(<span class="st">'Int64'</span>), </span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>                                prefix <span class="op">=</span> <span class="st">'E'</span>, prefix_sep <span class="op">=</span> <span class="st">''</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.concat([data, dummies_Cohort], axis <span class="op">=</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You may wish to confirm each <code>E1969</code> generated with the <code>get_dummies</code> function above contains a vector of 1s for all units which were first exposed to the policy in 1969, and so forth for other indicators.</p>
 <p>If we return to (<a href="#eq-IWEstimator" class="quarto-xref">Equation&nbsp;2</a>), we can see that we are interested in estimating a full set of lags and leads for each adoption period <span class="math inline">\(e\)</span>. With this particular setup, we have 12 indicator variables drawn from <span class="math inline">\(e\)</span>, and if we consider all lags and leads in <span class="math inline">\(g\)</span>, we have 48 indicator variables<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Thus, from <span class="math inline">\(\displaystyle\sum_{e\neq C}\sum_{\ell\neq-1}\delta_{e, \ell} (\mathbf{1}\{ E_i = e\} \cdot D_{i,t}^{\ell})\)</span> we have 576 indicator variables! To ilustrate this we build three matrix: (i) Dummies for <span class="math inline">\(g = \{-21 , -20 , \cdots , 27\}\)</span>, (ii) dummies for <span class="math inline">\(e \in \{1969 , 1970 , 1971 , 1972 , 1973 , 1974 , 1975 , 1976 , 1977 , 1980 , 1984 , 1985\}\)</span> and (iii) dummies for <span class="math inline">\(CATT_{e,\ell}\)</span>. At the end, we will also rename the column names of the last matrix in order to make it clearer when we go forward where we will store each of the outputs of interest.</p>
-<div id="142bafb8" class="cell" data-execution_count="51">
+<div id="ac91373b" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the data frame for all interactions</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> dummies_Cohort.columns:</span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ell <span class="kw">in</span> dummies_timeToTreat.drop(columns <span class="op">=</span> <span class="st">'Lead1'</span>).columns:</span>
@@ -2903,7 +2903,7 @@ problems.</code></pre>
 <span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a>dummies_CATT.columns <span class="op">=</span> colnames</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The matrix <code>dummies_timeToTreat</code> will consist of an indicator for each observation capturing whether it is at a particular time to treatment adoption. Similarly, <code>dummies_Cohort</code> will consists of an indicator for whether or not an observation is part of each group <span class="math inline">\(e\)</span>. The interaction between these two matrices (<code>dummies_CATT</code>) will thus build an indicator for each cohort and time to treatment, indicating whether an observation is in this particular group. Note, however, that some of the indicator variables in <code>dummies_CATT</code> will actually be entirely empty. This is because there are some cohorts that never experience some specific <span class="math inline">\(\ell\)</span> relative to the period of treatment (eg early treatment adopters won’t have enough data prior to treatment to observe very long leads, and late treatment adopters won’t have enough post-treatment data to observe very long lags). In order to delete these indicators which exist in our matrix <code>dummies_CATT</code> but not in practice, we can simply remove from the matrix <code>dummies_CATT</code> those columns with 0 mean:</p>
-<div id="f9ba5d99" class="cell" data-execution_count="52">
+<div id="84b0fba7" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>dummies_CATT <span class="op">=</span> dummies_CATT.loc[:,dummies_CATT.mean() <span class="op">!=</span> <span class="dv">0</span>]</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(dummies_CATT.columns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="52">
@@ -2911,7 +2911,7 @@ problems.</code></pre>
 </div>
 </div>
 <p>As we see here, we have now reduced the dimensionality of the indicator variables <span class="math inline">\(\displaystyle\sum_{e\neq C}\sum_{\ell\neq-1}\delta_{e, \ell} (\mathbf{1}\{ E_i = e\} \cdot D_{i,t}^{\ell})\)</span> from 576 to 384, which are the full observable lags and leads for each treatment cohort. Now we can actually go about the business of estimating <span class="math inline">\(\delta_{e,\ell}\)</span>!</p>
-<div id="d725ebda" class="cell" data-execution_count="53">
+<div id="136bfaf8" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>CATT_eldf <span class="op">=</span> pd.concat([dummies_CATT, </span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>                       data[[<span class="st">'pcinc'</span>, <span class="st">'asmrh'</span>, <span class="st">'cases'</span>, <span class="st">'year'</span>, <span class="st">'stfips'</span>,</span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">'asmrs'</span>]]], axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -2921,7 +2921,7 @@ problems.</code></pre>
 <span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>                       cluster_ids<span class="op">=</span>[<span class="st">'stfips'</span>]).fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This looks quite simple, and it is precisely because we have gone to all the work of generating all the dummies we need for our CATT groups. This, in essence, estimates an event study equivalent for each treatment adoption cohort. As there is many estimates here, we don’t show the full summary, but we can peruse the first 10 estimates for <span class="math inline">\(CATT_{e,\ell}\)</span>:</p>
-<div id="44b7774c" class="cell" data-execution_count="54">
+<div id="00877392" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>CATT_el.params[<span class="dv">0</span>:<span class="dv">9</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="54">
 <pre><code>E1969_Lead5    -5.932187
@@ -2937,7 +2937,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>To have a full idea of what we’ve just estimated here, we will re-organise these estimates to present the coefficient in the style of Table 3 of <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>. In particular, let’s display <span class="math inline">\(\ell\)</span> values (lags and leads) in rows and <span class="math inline">\(e\)</span> values in columns so we can observe our cohort-specific event studies in a column-wise fashion. We do this below, we first build a matrix <code>deltas</code> in which to store these estimates, then fill them in, before finally displaying the tabular output. Most of this code is actually relatively auxiliary, used to ensure that we can extract each lag and lead from regression results. To do this, we are generating a function we call <code>fetch_coefficient</code>, as the coefficient we need may sometimes be named with <code>_Lag</code> in the variable, sometimes be named as <code>_Lead</code>, and sometimes not exist (and this may imply either that it is the base period -1, or that the lag or lead doesn’t exist). It is worth working through this function carefully to confirm that you can see that in this way we grab each coefficient <span class="math inline">\(\widehat\delta_{e,\ell}\)</span>.</p>
-<div id="c360179e" class="cell" data-execution_count="55">
+<div id="5917f6d8" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix to store delta_{e,l}</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>deltas <span class="op">=</span> pd.DataFrame(index <span class="op">=</span> dummies_timeToTreat.columns,</span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>                      columns <span class="op">=</span> dummies_Cohort.columns)</span>
@@ -3747,7 +3747,7 @@ Cohort E = 1985</code></pre>
 </div>
 </div>
 <p>Now, with <span class="math inline">\(\widehat\delta_{e,\ell}\)</span> in hand, the only other thing we need are the weights of each cohort at the respective relative period. We could do this “by hand”, calculating from observations in our data, but it is likely easier to get these by regressing each cohort indicator variable <span class="math inline">\(\mathbf{1} \{ E_i = e \}\)</span> on all the relative period indicator variables <span class="math inline">\(D^\ell_{i,t}\)</span>. This regression will just tell us the proportion of a specific lead or lag which are made up of observations from a particular cohort. We will do this below, storing weights in a matrix called <code>w1</code>:</p>
-<div id="f7bb1626" class="cell" data-execution_count="56">
+<div id="b9211bac" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix to store results</span></span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>w1 <span class="op">=</span> pd.DataFrame(index <span class="op">=</span> dummies_timeToTreat.columns,</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>                  columns <span class="op">=</span> dummies_Cohort.columns)</span>
@@ -3873,7 +3873,7 @@ Cohort E = 1985</code></pre>
 </div>
 </div>
 <p>We can display these weights in the same was as we documented the quantities <span class="math inline">\(\widehat\delta_{e,\ell}\)</span> previously:</p>
-<div id="3caf68fb" class="cell" data-execution_count="57">
+<div id="2a2882c5" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>ws <span class="op">=</span> w1</span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(ws))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="57">
@@ -4619,7 +4619,7 @@ Cohort E = 1985</code></pre>
 </div>
 </div>
 <p>Now, finally, we can generate <span class="math inline">\(\widehat{v}_{\ell}\)</span> for <span class="math inline">\(\ell = -21, \ldots, 27\)</span> and compare this with the results of the standard Panel Event Study Model we documented above.</p>
-<div id="9585335a" class="cell" data-execution_count="58">
+<div id="16f7bb87" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>delta_l <span class="op">=</span> (deltas <span class="op">*</span> ws).<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>coefs <span class="op">=</span> pd.DataFrame(index <span class="op">=</span> dummies_timeToTreat.columns,</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>                     columns <span class="op">=</span> [<span class="st">'IW'</span>, <span class="st">'ES'</span>])</span>
@@ -4892,7 +4892,7 @@ Cohort E = 1985</code></pre>
 \end{align*}\]</span> Where <span class="math inline">\(h^\ell\)</span> is the set of cohorts that experience the relative period <span class="math inline">\(\ell\)</span>, variance and covariance of the <span class="math inline">\(CATT_{e,\ell}\)</span> come from estimates of step 1 and, variance and covariance of the weights <span class="math inline">\(\widehat{Pr} \{ E_i = e | e \in h^\ell \}\)</span> come from the regressions of <span class="math inline">\(\mathbf{1} \{ E_i = e \}\)</span> on <span class="math inline">\(D^\ell_{i,t}\)</span>.</p>
 <p>The key thing to see is that we could estimate this manually with the pieces we have already put together, and indeed, with the use of seemingly unrelated regression techniques it is possible to estimate the variance of <span class="math inline">\(\widehat{Pr}(\cdot)\)</span> and <span class="math inline">\(\widehat\delta_{e\ell}\)</span> in a single step. However, in practice we will likely prefer to use a canned routine which allows for the estimation of the interaction weighted estimator, as well as the corresponding variance-covariance matrix. To see that our process of “manually” buidling up Sun and Abraham’s estimator from its composite parts, and to additionally conduct inference in a direct way, we can use estimation routines such as <code>interactionweighted_eventstudy</code> function from the <code>paneleventstudy</code> package in <code>Python</code>. Below we do this, showing the point estimates recovered are identical to what we have done.</p>
 <p>Note the usage of the <code>interactionweighted_eventstudy</code> function requires an specific data preparation, reason why we upload again the package and follow the data preparation steps of the package. The first step is to check if the panel is balanced as the function only works with balanced panels, the package includes the function <code>balancepanel</code> to check this.</p>
-<div id="d5fbc426" class="cell" data-execution_count="59">
+<div id="818804ad" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Upload data</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Stevenson_Wolfers_2006.csv"</span>)</span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4918,7 +4918,7 @@ Every group has the same maximum calendartime value</code></pre>
 </div>
 </div>
 <p>Now we identify the controls units with the <code>identifycontrols</code> that check which groups has only 0 treatment events. A detail of the dataset in here is that originally have some 1s in the <code>post</code> variable that indicate treatment, so we slightly modify the dataset to ensure never treated units has only 0s in <code>post</code> variable. We identify this units by those who whas nan values in the variable <code>_nfd</code>. In this case the result is an exactly copy of the dataframe <code>data</code> with a new column named <code>control_group</code> that takes value equal to 1 for never (or last if never doesn’t exists) treated units and 0 otherwise.</p>
-<div id="c6980ee5" class="cell" data-execution_count="60">
+<div id="fc0cfcd2" class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace mistaken post values</span></span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'post'</span>] <span class="op">=</span> np.where(np.isnan(data[<span class="st">'_nfd'</span>]), <span class="dv">0</span>, data[<span class="st">'post'</span>])</span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5034,7 +5034,7 @@ There exists a never-treated group, skipping the search for last-treated groups<
 </div>
 </div>
 <p>The next step is to generate the relative time variable, in this case the function <code>genreltime</code> needs the unit id variable be a string so we previously create a new variable <code>stfips_s</code> that transform the existing unit id <code>stfips</code> into a string. As the previous function this one also return a dataframe that is an exact copy of the previous one with an additional column whose name is specified in the <code>reltime</code> argument.</p>
-<div id="544ecf75" class="cell" data-execution_count="61">
+<div id="327ecfcc" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create string unit id</span></span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'stfips_s'</span>] <span class="op">=</span> data[<span class="st">'stfips'</span>].astype(<span class="bu">str</span>)</span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5066,7 +5066,7 @@ All groups without events have reltime filled with 0</code></pre>
 </div>
 </div>
 <p>Note how we just set <code>check_balance</code> as <code>False</code> in order to the function doesn’t check if the panel is balance as we checked this earlier. Proceeding with data preparation we now generate the cohort variables. As the previous functions this one also return a dataframe that is an exact copy of the previous one with an additional column whose name is specified in the <code>cohort</code> argument.</p>
-<div id="c046e099" class="cell" data-execution_count="62">
+<div id="42306775" class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> paneleventstudy.gencohort(data <span class="op">=</span> data, group <span class="op">=</span> <span class="st">'stfips_s'</span>, event <span class="op">=</span> <span class="st">'post'</span>,</span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>                                 calendartime <span class="op">=</span> <span class="st">'year'</span>, cohort <span class="op">=</span> <span class="st">'cohort'</span>,</span>
 <span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>                                 check_balance<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5094,7 +5094,7 @@ All groups without events have cohort filled with -1</code></pre>
 </div>
 </div>
 <p>Finally we ensure the calendartime variable is a numeric variable. The next function operates as the previous ones with the new column be named following the <code>calendartime_numerics</code> argument</p>
-<div id="ea2a4520" class="cell" data-execution_count="63">
+<div id="0ddd8427" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> paneleventstudy.gencalendartime_numerics(data <span class="op">=</span> data, group <span class="op">=</span> <span class="st">'stfips_s'</span>, </span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>                                                event <span class="op">=</span> <span class="st">'post'</span>, calendartime <span class="op">=</span> <span class="st">'year'</span>,</span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>                                                calendartime_numerics <span class="op">=</span> <span class="st">'ct'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5113,7 +5113,7 @@ Quick check indicates panel is balanced</code></pre>
 </div>
 </div>
 <p>With all data preparation ready we can proceed to estimate with the <code>interactionweighted_eventstudy</code> function that returns a dataframe with the point estimante and the 95% CI and show it along with our manual estimates.</p>
-<div id="679f17ce" class="cell" data-execution_count="64">
+<div id="a588f8ae" class="cell" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Implement IW estimator</span></span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>IW <span class="op">=</span> paneleventstudy.interactionweighted_eventstudy(data <span class="op">=</span> data, </span>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>                                                    outcome <span class="op">=</span> <span class="st">'asmrs'</span>,</span>
@@ -5156,11 +5156,11 @@ Checks if input data frame is a BALANCED PANEL
 Checking if every group has the same number of observations
 Every group has the same number of observations
 NOT checking min and max of calendartime by groups
-Quick check indicates panel is balanced
-Estimating equation: asmrs ~ C(reltime):C(cohort) +pcinc+asmrh+cases</code></pre>
+Quick check indicates panel is balanced</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
+<pre><code>Estimating equation: asmrs ~ C(reltime):C(cohort) +pcinc+asmrh+cases
+
 Checks if RHS columns in data are linearly independent
 Will trim columns that are linearly dependent
 Later columns get precedence
@@ -5168,7 +5168,7 @@ Returns a list of columns that are linearly dependent, and should be dropped
 Intercept label given; intercept column will be given precedence
 Transforming input matrix into reduced row echelon form
 The following columns were dropped due to linear dependence:
-C(reltime)[T.-21]:C(cohort)[8], C(reltime)[T.9]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[20], C(reltime)[T.-16]:C(cohort)[11], C(reltime)[T.18]:C(cohort)[16], C(reltime)[T.24]:C(cohort)[13], C(reltime)[T.-21]:C(cohort)[20], C(reltime)[T.-14]:C(cohort)[6], C(reltime)[T.16]:C(cohort)[21], C(reltime)[T.-18]:C(cohort)[12], C(reltime)[T.-10]:C(cohort)[7], C(reltime)[T.-18]:C(cohort)[-1], C(reltime)[T.-13]:C(cohort)[12], C(reltime)[T.-10]:C(cohort)[5], C(reltime)[T.24]:C(cohort)[16], C(reltime)[T.26]:C(cohort)[8], C(reltime)[T.-19]:C(cohort)[10], C(reltime)[T.15]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[9], C(reltime)[T.23]:C(cohort)[10], C(reltime)[T.-8]:C(cohort)[6], C(reltime)[T.-17]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[7], C(reltime)[T.19]:C(cohort)[20], C(reltime)[T.23]:C(cohort)[16], C(reltime)[T.23]:C(cohort)[12], C(reltime)[T.13]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[7], C(reltime)[T.-10]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[13], C(reltime)[T.-9]:C(cohort)[-1], C(reltime)[T.-6]:C(cohort)[-1], C(reltime)[T.-9]:C(cohort)[6], C(reltime)[T.-13]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[12], C(reltime)[T.24]:C(cohort)[11], C(reltime)[T.2]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[10], C(reltime)[T.-2]:C(cohort)[-1], C(reltime)[T.25]:C(cohort)[13], C(reltime)[T.-14]:C(cohort)[9], C(reltime)[T.-6]:C(cohort)[5], C(reltime)[T.26]:C(cohort)[-1], C(reltime)[T.-13]:C(cohort)[9], C(reltime)[T.-20]:C(cohort)[6], C(reltime)[T.-16]:C(cohort)[9], C(reltime)[T.-12]:C(cohort)[11], C(reltime)[T.21]:C(cohort)[16], C(reltime)[T.-14]:C(cohort)[8], C(reltime)[T.19]:C(cohort)[16], C(reltime)[T.1]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[16], C(reltime)[T.-12]:C(cohort)[6], C(reltime)[T.27]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[10], C(reltime)[T.-19]:C(cohort)[6], C(reltime)[T.-12]:C(cohort)[9], C(reltime)[T.18]:C(cohort)[20], C(reltime)[T.-15]:C(cohort)[9], C(reltime)[T.-16]:C(cohort)[6], C(reltime)[T.-13]:C(cohort)[10], C(reltime)[T.21]:C(cohort)[13], C(reltime)[T.-17]:C(cohort)[16], C(reltime)[T.-20]:C(cohort)[5], C(reltime)[T.-15]:C(cohort)[10], C(reltime)[T.3]:C(cohort)[-1], C(reltime)[T.-10]:C(cohort)[9], C(reltime)[T.21]:C(cohort)[20], C(reltime)[T.-19]:C(cohort)[5], C(reltime)[T.-13]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[8], C(reltime)[T.25]:C(cohort)[11], C(reltime)[T.-17]:C(cohort)[12], C(reltime)[T.-11]:C(cohort)[8], C(reltime)[T.-16]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[12], C(reltime)[T.-19]:C(cohort)[13], C(reltime)[T.-15]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[7], C(reltime)[T.-20]:C(cohort)[10], C(reltime)[T.-15]:C(cohort)[7], C(reltime)[T.11]:C(cohort)[-1], C(reltime)[T.20]:C(cohort)[16], C(reltime)[T.13]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[6], C(reltime)[T.-21]:C(cohort)[7], C(reltime)[T.-15]:C(cohort)[8], C(reltime)[T.-12]:C(cohort)[5], C(reltime)[T.17]:C(cohort)[20], C(reltime)[T.4]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[8], C(reltime)[T.-8]:C(cohort)[7], C(reltime)[T.19]:C(cohort)[21], C(reltime)[T.-14]:C(cohort)[11], C(reltime)[T.10]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[8], C(reltime)[T.22]:C(cohort)[12], C(reltime)[T.-20]:C(cohort)[-1], C(reltime)[T.21]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[9], C(reltime)[T.-5]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[11], C(reltime)[T.24]:C(cohort)[12], C(reltime)[T.-8]:C(cohort)[5], C(reltime)[T.-21]:C(cohort)[11], C(reltime)[T.-19]:C(cohort)[16], C(reltime)[T.27]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[20], C(reltime)[T.-17]:C(cohort)[5], C(reltime)[T.-7]:C(cohort)[-1], C(reltime)[T.-20]:C(cohort)[13], C(reltime)[T.-3]:C(cohort)[-1], C(reltime)[T.25]:C(cohort)[9], C(reltime)[T.-15]:C(cohort)[13], C(reltime)[T.-13]:C(cohort)[7], C(reltime)[T.-9]:C(cohort)[7], C(reltime)[T.-18]:C(cohort)[11], C(reltime)[T.23]:C(cohort)[21], C(reltime)[T.25]:C(cohort)[16], C(reltime)[T.-16]:C(cohort)[8], C(reltime)[T.-17]:C(cohort)[7], C(reltime)[T.14]:C(cohort)[20], C(reltime)[T.27]:C(cohort)[12], C(reltime)[T.-11]:C(cohort)[6], C(reltime)[T.22]:C(cohort)[21], C(reltime)[T.-16]:C(cohort)[10], C(reltime)[T.-14]:C(cohort)[5], C(reltime)[T.25]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[5], C(reltime)[T.-18]:C(cohort)[6], C(reltime)[T.7]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[7], C(reltime)[T.25]:C(cohort)[8], C(reltime)[T.27]:C(cohort)[20], C(reltime)[T.-10]:C(cohort)[8], C(reltime)[T.-12]:C(cohort)[7], C(reltime)[T.-4]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[12], C(reltime)[T.-12]:C(cohort)[8], C(reltime)[T.20]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[11], C(reltime)[T.-14]:C(cohort)[10], C(reltime)[T.25]:C(cohort)[21], C(reltime)[T.-10]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[10], C(reltime)[T.-11]:C(cohort)[5], C(reltime)[T.24]:C(cohort)[9], C(reltime)[T.-11]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[11], C(reltime)[T.-17]:C(cohort)[6], C(reltime)[T.26]:C(cohort)[16], C(reltime)[T.22]:C(cohort)[11], C(reltime)[T.16]:C(cohort)[20], C(reltime)[T.22]:C(cohort)[16], C(reltime)[T.12]:C(cohort)[21], C(reltime)[T.17]:C(cohort)[16], C(reltime)[T.24]:C(cohort)[10], C(reltime)[T.-21]:C(cohort)[6], C(reltime)[T.-21]:C(cohort)[13], C(reltime)[T.-20]:C(cohort)[12], C(reltime)[T.-12]:C(cohort)[10], C(reltime)[T.26]:C(cohort)[9], C(reltime)[T.-11]:C(cohort)[9], C(reltime)[T.21]:C(cohort)[21], C(reltime)[T.-8]:C(cohort)[-1], C(reltime)[T.-13]:C(cohort)[8], C(reltime)[T.-17]:C(cohort)[13], C(reltime)[T.13]:C(cohort)[20], C(reltime)[T.-9]:C(cohort)[8], C(reltime)[T.-19]:C(cohort)[9], C(reltime)[T.15]:C(cohort)[20], C(reltime)[T.23]:C(cohort)[20], C(reltime)[T.12]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[21], C(reltime)[T.-19]:C(cohort)[12], C(reltime)[T.16]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[5], C(reltime)[T.26]:C(cohort)[10], C(reltime)[T.19]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[-1], C(reltime)[T.-20]:C(cohort)[16], C(reltime)[T.17]:C(cohort)[21], C(reltime)[T.-14]:C(cohort)[13], C(reltime)[T.-13]:C(cohort)[11], C(reltime)[T.23]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[9], C(reltime)[T.-16]:C(cohort)[7], C(reltime)[T.-16]:C(cohort)[13], C(reltime)[T.-20]:C(cohort)[11], C(reltime)[T.-16]:C(cohort)[12], C(reltime)[T.-19]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[13], C(reltime)[T.24]:C(cohort)[21], C(reltime)[T.27]:C(cohort)[7], C(reltime)[T.-17]:C(cohort)[8], C(reltime)[T.14]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[12], C(reltime)[T.27]:C(cohort)[16], C(reltime)[T.27]:C(cohort)[13], C(reltime)[T.18]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[10], C(reltime)[T.27]:C(cohort)[21], C(reltime)[T.-7]:C(cohort)[6], C(reltime)[T.15]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[13], C(reltime)[T.5]:C(cohort)[-1], C(reltime)[T.-12]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[13], C(reltime)[T.18]:C(cohort)[21], C(reltime)[T.-15]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[5], C(reltime)[T.-7]:C(cohort)[5], C(reltime)[T.17]:C(cohort)[-1], C(reltime)[T.20]:C(cohort)[20], C(reltime)[T.-11]:C(cohort)[10], C(reltime)[T.-15]:C(cohort)[5], C(reltime)[T.-17]:C(cohort)[11], C(reltime)[T.20]:C(cohort)[13], C(reltime)[T.26]:C(cohort)[20], C(reltime)[T.-18]:C(cohort)[7], C(reltime)[T.-21]:C(cohort)[-1], C(reltime)[T.8]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[10], C(reltime)[T.-9]:C(cohort)[5], C(reltime)[T.6]:C(cohort)[-1], C(reltime)[T.14]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[8], C(reltime)[T.21]:C(cohort)[12], C(reltime)[T.-16]:C(cohort)[5], C(reltime)[T.-21]:C(cohort)[16], C(reltime)[T.-18]:C(cohort)[9], C(reltime)[T.-11]:C(cohort)[7], C(reltime)[T.26]:C(cohort)[12], C(reltime)[T.20]:C(cohort)[21]
+C(reltime)[T.-15]:C(cohort)[8], C(reltime)[T.25]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[13], C(reltime)[T.27]:C(cohort)[12], C(reltime)[T.26]:C(cohort)[-1], C(reltime)[T.14]:C(cohort)[21], C(reltime)[T.24]:C(cohort)[9], C(reltime)[T.1]:C(cohort)[-1], C(reltime)[T.-13]:C(cohort)[8], C(reltime)[T.25]:C(cohort)[10], C(reltime)[T.-12]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[7], C(reltime)[T.-20]:C(cohort)[5], C(reltime)[T.-21]:C(cohort)[9], C(reltime)[T.-12]:C(cohort)[6], C(reltime)[T.-20]:C(cohort)[6], C(reltime)[T.21]:C(cohort)[16], C(reltime)[T.13]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[6], C(reltime)[T.27]:C(cohort)[7], C(reltime)[T.-14]:C(cohort)[11], C(reltime)[T.25]:C(cohort)[21], C(reltime)[T.-21]:C(cohort)[16], C(reltime)[T.-17]:C(cohort)[9], C(reltime)[T.-12]:C(cohort)[5], C(reltime)[T.8]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[8], C(reltime)[T.-18]:C(cohort)[16], C(reltime)[T.2]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[16], C(reltime)[T.-12]:C(cohort)[8], C(reltime)[T.21]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[7], C(reltime)[T.13]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[-1], C(reltime)[T.-4]:C(cohort)[-1], C(reltime)[T.17]:C(cohort)[20], C(reltime)[T.-19]:C(cohort)[13], C(reltime)[T.23]:C(cohort)[-1], C(reltime)[T.-10]:C(cohort)[9], C(reltime)[T.21]:C(cohort)[12], C(reltime)[T.-19]:C(cohort)[5], C(reltime)[T.-16]:C(cohort)[5], C(reltime)[T.7]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[5], C(reltime)[T.-13]:C(cohort)[5], C(reltime)[T.24]:C(cohort)[10], C(reltime)[T.-2]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[10], C(reltime)[T.5]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[20], C(reltime)[T.25]:C(cohort)[16], C(reltime)[T.23]:C(cohort)[16], C(reltime)[T.-5]:C(cohort)[-1], C(reltime)[T.-11]:C(cohort)[8], C(reltime)[T.-13]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[6], C(reltime)[T.-10]:C(cohort)[5], C(reltime)[T.-15]:C(cohort)[11], C(reltime)[T.27]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[12], C(reltime)[T.25]:C(cohort)[12], C(reltime)[T.-17]:C(cohort)[10], C(reltime)[T.-18]:C(cohort)[13], C(reltime)[T.-14]:C(cohort)[6], C(reltime)[T.18]:C(cohort)[21], C(reltime)[T.-13]:C(cohort)[12], C(reltime)[T.-9]:C(cohort)[6], C(reltime)[T.-20]:C(cohort)[16], C(reltime)[T.21]:C(cohort)[13], C(reltime)[T.-9]:C(cohort)[8], C(reltime)[T.16]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[9], C(reltime)[T.-21]:C(cohort)[12], C(reltime)[T.-21]:C(cohort)[6], C(reltime)[T.19]:C(cohort)[-1], C(reltime)[T.-12]:C(cohort)[11], C(reltime)[T.-21]:C(cohort)[20], C(reltime)[T.26]:C(cohort)[21], C(reltime)[T.-18]:C(cohort)[-1], C(reltime)[T.-3]:C(cohort)[-1], C(reltime)[T.21]:C(cohort)[-1], C(reltime)[T.-16]:C(cohort)[10], C(reltime)[T.-20]:C(cohort)[8], C(reltime)[T.17]:C(cohort)[16], C(reltime)[T.19]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[11], C(reltime)[T.26]:C(cohort)[8], C(reltime)[T.-9]:C(cohort)[5], C(reltime)[T.-10]:C(cohort)[7], C(reltime)[T.13]:C(cohort)[20], C(reltime)[T.9]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[11], C(reltime)[T.-15]:C(cohort)[6], C(reltime)[T.-17]:C(cohort)[8], C(reltime)[T.-11]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[5], C(reltime)[T.-14]:C(cohort)[12], C(reltime)[T.22]:C(cohort)[12], C(reltime)[T.26]:C(cohort)[7], C(reltime)[T.-20]:C(cohort)[12], C(reltime)[T.20]:C(cohort)[16], C(reltime)[T.-11]:C(cohort)[5], C(reltime)[T.-14]:C(cohort)[5], C(reltime)[T.-7]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[8], C(reltime)[T.27]:C(cohort)[16], C(reltime)[T.25]:C(cohort)[11], C(reltime)[T.-7]:C(cohort)[5], C(reltime)[T.-19]:C(cohort)[9], C(reltime)[T.26]:C(cohort)[9], C(reltime)[T.22]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[13], C(reltime)[T.-13]:C(cohort)[9], C(reltime)[T.-19]:C(cohort)[7], C(reltime)[T.-10]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[21], C(reltime)[T.18]:C(cohort)[16], C(reltime)[T.-11]:C(cohort)[7], C(reltime)[T.-19]:C(cohort)[10], C(reltime)[T.20]:C(cohort)[21], C(reltime)[T.26]:C(cohort)[10], C(reltime)[T.24]:C(cohort)[11], C(reltime)[T.17]:C(cohort)[-1], C(reltime)[T.11]:C(cohort)[-1], C(reltime)[T.-9]:C(cohort)[7], C(reltime)[T.-10]:C(cohort)[6], C(reltime)[T.-18]:C(cohort)[9], C(reltime)[T.-14]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[13], C(reltime)[T.-11]:C(cohort)[6], C(reltime)[T.-19]:C(cohort)[16], C(reltime)[T.27]:C(cohort)[10], C(reltime)[T.19]:C(cohort)[21], C(reltime)[T.-16]:C(cohort)[12], C(reltime)[T.-20]:C(cohort)[9], C(reltime)[T.-18]:C(cohort)[6], C(reltime)[T.-17]:C(cohort)[12], C(reltime)[T.-16]:C(cohort)[13], C(reltime)[T.-19]:C(cohort)[8], C(reltime)[T.-20]:C(cohort)[10], C(reltime)[T.14]:C(cohort)[20], C(reltime)[T.23]:C(cohort)[11], C(reltime)[T.20]:C(cohort)[13], C(reltime)[T.-12]:C(cohort)[10], C(reltime)[T.20]:C(cohort)[-1], C(reltime)[T.-16]:C(cohort)[11], C(reltime)[T.-20]:C(cohort)[11], C(reltime)[T.26]:C(cohort)[11], C(reltime)[T.-14]:C(cohort)[7], C(reltime)[T.-17]:C(cohort)[-1], C(reltime)[T.4]:C(cohort)[-1], C(reltime)[T.-11]:C(cohort)[10], C(reltime)[T.23]:C(cohort)[20], C(reltime)[T.-12]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[20], C(reltime)[T.22]:C(cohort)[16], C(reltime)[T.24]:C(cohort)[12], C(reltime)[T.14]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[13], C(reltime)[T.-19]:C(cohort)[12], C(reltime)[T.22]:C(cohort)[11], C(reltime)[T.27]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[21], C(reltime)[T.-15]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[9], C(reltime)[T.-18]:C(cohort)[5], C(reltime)[T.-16]:C(cohort)[9], C(reltime)[T.-6]:C(cohort)[5], C(reltime)[T.-16]:C(cohort)[7], C(reltime)[T.25]:C(cohort)[13], C(reltime)[T.19]:C(cohort)[16], C(reltime)[T.-21]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[13], C(reltime)[T.27]:C(cohort)[21], C(reltime)[T.-13]:C(cohort)[6], C(reltime)[T.24]:C(cohort)[13], C(reltime)[T.-20]:C(cohort)[13], C(reltime)[T.16]:C(cohort)[21], C(reltime)[T.26]:C(cohort)[12], C(reltime)[T.18]:C(cohort)[-1], C(reltime)[T.-11]:C(cohort)[9], C(reltime)[T.-10]:C(cohort)[8], C(reltime)[T.10]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[5], C(reltime)[T.-15]:C(cohort)[7], C(reltime)[T.-12]:C(cohort)[7], C(reltime)[T.-7]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[13], C(reltime)[T.-16]:C(cohort)[8], C(reltime)[T.-19]:C(cohort)[-1], C(reltime)[T.18]:C(cohort)[20], C(reltime)[T.27]:C(cohort)[8], C(reltime)[T.21]:C(cohort)[21], C(reltime)[T.26]:C(cohort)[16], C(reltime)[T.-21]:C(cohort)[7], C(reltime)[T.-9]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[7], C(reltime)[T.-17]:C(cohort)[16], C(reltime)[T.15]:C(cohort)[21], C(reltime)[T.-21]:C(cohort)[8], C(reltime)[T.-21]:C(cohort)[10], C(reltime)[T.23]:C(cohort)[12], C(reltime)[T.-20]:C(cohort)[7], C(reltime)[T.16]:C(cohort)[20], C(reltime)[T.25]:C(cohort)[20], C(reltime)[T.17]:C(cohort)[21], C(reltime)[T.3]:C(cohort)[-1], C(reltime)[T.12]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[13], C(reltime)[T.26]:C(cohort)[13], C(reltime)[T.20]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[10], C(reltime)[T.12]:C(cohort)[21], C(reltime)[T.-21]:C(cohort)[11], C(reltime)[T.6]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[7], C(reltime)[T.23]:C(cohort)[21], C(reltime)[T.25]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[12], C(reltime)[T.-16]:C(cohort)[6], C(reltime)[T.-16]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[10], C(reltime)[T.-17]:C(cohort)[6], C(reltime)[T.24]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[11], C(reltime)[T.-6]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[6], C(reltime)[T.15]:C(cohort)[20], C(reltime)[T.22]:C(cohort)[20], C(reltime)[T.-18]:C(cohort)[8], C(reltime)[T.-14]:C(cohort)[10], C(reltime)[T.24]:C(cohort)[20], C(reltime)[T.15]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[10], C(reltime)[T.-15]:C(cohort)[5]
 
 Checks if RHS variables contained within the dataframe are collinear or invariant
 Will trim collinear (-1 / +1 in correlation matrix) or invariant (nan in correlation matrix) columns
@@ -5430,7 +5430,7 @@ The following columns were dropped due to collinearity or duplication:
 </div>
 </div>
 <p>Finally, we plot the output along with its 95% confidence intervals to compare this with our original event study. In order to do this previously we get the standard error and then 1.96 times the standard error</p>
-<div id="5e7af94b" class="cell" data-execution_count="65">
+<div id="c2691836" class="cell" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to plot data frame</span></span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>plot_df[<span class="st">'IW Estimate'</span>] <span class="op">=</span> IW[<span class="st">'parameter'</span>]</span>
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>plot_df[<span class="st">'IW StdErr95%'</span>] <span class="op">=</span> IW[<span class="st">'upper'</span>] <span class="op">-</span> IW[<span class="st">'parameter'</span>]</span>
@@ -5463,14 +5463,14 @@ The following columns were dropped due to collinearity or duplication:
 <h1>Code Call-Out 4.3(b): Alternative time-varying treatment effects</h1>
 <p>In this code call-out we return to the previous example in code call-out 4.3(a) where we review the interaction weighted estimator from <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>. However here, we now consider a range of frequently-used estimators which are used to estimate treatment effects in this setting, and which have desirable properties even in cases with heterogeneous treatment effects and staggered adoption designs. In particular, we will see how we can use packages provided by the authors or other developors to implement the treatment effects estimators proposed by <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="CallawaySantAnna2018">Callaway and Sant’Anna (<a href="#ref-CallawaySantAnna2018" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="Borusyaketal2024">Borusyak, Jaravel, and Spiess (<a href="#ref-Borusyaketal2024" role="doc-biblioref">2024</a>)</span> as well as the estimator of <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span> seen previously. While in code call-out 4.3(a) we focused on showing each step of <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>, in this code call-out we simply focus on the comparison of each of the aforementioned estimators and their confidence intervals. Unlike the previous call out where we worked with 10 leads and 15 lags, here we will consider only 6 leads and 15 lags to avoid losing focus given large CIs at longer (pre-treatment) leads.</p>
 <p>To begin we load the data from <span class="citation" data-cites="StevensonWolfers2006">Stevenson and Wolfers (<a href="#ref-StevensonWolfers2006" role="doc-biblioref">2006</a>)</span> which we worked with above and we destring the cohort variable:</p>
-<div id="1a467da6" class="cell" data-execution_count="66">
+<div id="c3726623" class="cell" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Stevenson_Wolfers_2006.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="abrahamsun2018s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="abrahamsun2018s-event-study-analogue"><span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>’s Event Study Analogue</h2>
 <p>We will begin by using <code>interactionweighted_eventstudy</code> to implement <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>’s interaction weighted estimator. As we have explored this previously, we will do this below simply implementing what we did previously, however noting that (as above) we need to generate the full set of leads and lags of interest, and this will require using a range of helper functions incorporated with the <code>paneleventstudy</code> library:</p>
-<div id="35415bb6" class="cell" data-execution_count="67">
+<div id="19364952" class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paneleventstudy</span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5587,7 +5587,7 @@ Returns a list of columns that are linearly dependent, and should be dropped
 Intercept label given; intercept column will be given precedence
 Transforming input matrix into reduced row echelon form
 The following columns were dropped due to linear dependence:
-C(reltime)[T.-21]:C(cohort)[8], C(reltime)[T.9]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[20], C(reltime)[T.-16]:C(cohort)[11], C(reltime)[T.18]:C(cohort)[16], C(reltime)[T.24]:C(cohort)[13], C(reltime)[T.-21]:C(cohort)[20], C(reltime)[T.-14]:C(cohort)[6], C(cohort)[T.5], C(reltime)[T.16]:C(cohort)[21], C(reltime)[T.-18]:C(cohort)[12], C(reltime)[T.-10]:C(cohort)[7], C(reltime)[T.-18]:C(cohort)[-1], C(reltime)[T.-13]:C(cohort)[12], C(reltime)[T.-10]:C(cohort)[5], C(reltime)[T.24]:C(cohort)[16], C(reltime)[T.26]:C(cohort)[8], C(reltime)[T.-19]:C(cohort)[10], C(reltime)[T.15]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[9], C(reltime)[T.23]:C(cohort)[10], C(reltime)[T.-8]:C(cohort)[6], C(reltime)[T.-17]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[7], C(reltime)[T.19]:C(cohort)[20], C(reltime)[T.23]:C(cohort)[16], C(reltime)[T.23]:C(cohort)[12], C(reltime)[T.13]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[7], C(reltime)[T.-10]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[13], C(reltime)[T.-9]:C(cohort)[-1], C(reltime)[T.-6]:C(cohort)[-1], C(reltime)[T.-9]:C(cohort)[6], C(reltime)[T.-13]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[12], C(reltime)[T.24]:C(cohort)[11], C(reltime)[T.2]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[10], C(reltime)[T.-2]:C(cohort)[-1], C(reltime)[T.25]:C(cohort)[13], C(reltime)[T.-14]:C(cohort)[9], C(reltime)[T.26]:C(cohort)[-1], C(reltime)[T.-6]:C(cohort)[5], C(reltime)[T.-13]:C(cohort)[9], C(reltime)[T.-20]:C(cohort)[6], C(reltime)[T.-16]:C(cohort)[9], C(reltime)[T.-12]:C(cohort)[11], C(reltime)[T.21]:C(cohort)[16], C(reltime)[T.-14]:C(cohort)[8], C(reltime)[T.19]:C(cohort)[16], C(reltime)[T.1]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[16], C(reltime)[T.-12]:C(cohort)[6], C(reltime)[T.27]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[10], C(reltime)[T.-19]:C(cohort)[6], C(reltime)[T.-12]:C(cohort)[9], C(reltime)[T.18]:C(cohort)[20], C(reltime)[T.-15]:C(cohort)[9], C(reltime)[T.-16]:C(cohort)[6], C(reltime)[T.-13]:C(cohort)[10], C(reltime)[T.21]:C(cohort)[13], C(reltime)[T.-17]:C(cohort)[16], C(reltime)[T.-20]:C(cohort)[5], C(reltime)[T.-15]:C(cohort)[10], C(reltime)[T.3]:C(cohort)[-1], C(reltime)[T.-10]:C(cohort)[9], C(reltime)[T.21]:C(cohort)[20], C(reltime)[T.-19]:C(cohort)[5], C(reltime)[T.-13]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[8], C(reltime)[T.25]:C(cohort)[11], C(reltime)[T.-17]:C(cohort)[12], C(reltime)[T.-11]:C(cohort)[8], C(reltime)[T.-16]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[12], C(reltime)[T.-19]:C(cohort)[13], C(reltime)[T.-15]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[7], C(reltime)[T.-20]:C(cohort)[10], C(reltime)[T.-15]:C(cohort)[7], C(reltime)[T.11]:C(cohort)[-1], C(reltime)[T.20]:C(cohort)[16], C(reltime)[T.13]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[6], C(reltime)[T.-21]:C(cohort)[7], C(reltime)[T.-15]:C(cohort)[8], C(reltime)[T.-12]:C(cohort)[5], C(reltime)[T.17]:C(cohort)[20], C(reltime)[T.4]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[8], C(reltime)[T.-8]:C(cohort)[7], C(reltime)[T.19]:C(cohort)[21], C(reltime)[T.-14]:C(cohort)[11], C(reltime)[T.10]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[8], C(reltime)[T.22]:C(cohort)[12], C(reltime)[T.-20]:C(cohort)[-1], C(reltime)[T.21]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[9], C(reltime)[T.-5]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[11], C(reltime)[T.24]:C(cohort)[12], C(reltime)[T.-8]:C(cohort)[5], C(reltime)[T.-21]:C(cohort)[11], C(reltime)[T.-19]:C(cohort)[16], C(reltime)[T.27]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[20], C(reltime)[T.-17]:C(cohort)[5], C(reltime)[T.-7]:C(cohort)[-1], C(reltime)[T.-20]:C(cohort)[13], C(reltime)[T.-3]:C(cohort)[-1], C(reltime)[T.25]:C(cohort)[9], C(reltime)[T.-15]:C(cohort)[13], C(reltime)[T.-13]:C(cohort)[7], C(reltime)[T.-9]:C(cohort)[7], C(reltime)[T.-18]:C(cohort)[11], C(reltime)[T.23]:C(cohort)[21], C(reltime)[T.25]:C(cohort)[16], C(reltime)[T.-16]:C(cohort)[8], C(reltime)[T.-17]:C(cohort)[7], C(reltime)[T.14]:C(cohort)[20], C(reltime)[T.27]:C(cohort)[12], C(reltime)[T.-11]:C(cohort)[6], C(reltime)[T.22]:C(cohort)[21], C(reltime)[T.-16]:C(cohort)[10], C(reltime)[T.-14]:C(cohort)[5], C(reltime)[T.25]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[5], C(reltime)[T.-18]:C(cohort)[6], C(reltime)[T.7]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[7], C(reltime)[T.25]:C(cohort)[8], C(reltime)[T.27]:C(cohort)[20], C(reltime)[T.-10]:C(cohort)[8], C(reltime)[T.-12]:C(cohort)[7], C(reltime)[T.-4]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[12], C(reltime)[T.-12]:C(cohort)[8], C(reltime)[T.20]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[11], C(reltime)[T.-14]:C(cohort)[10], C(reltime)[T.25]:C(cohort)[21], C(reltime)[T.-10]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[10], C(reltime)[T.-11]:C(cohort)[5], C(reltime)[T.24]:C(cohort)[9], C(reltime)[T.-11]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[11], C(reltime)[T.-17]:C(cohort)[6], C(reltime)[T.26]:C(cohort)[16], C(reltime)[T.22]:C(cohort)[11], C(reltime)[T.16]:C(cohort)[20], C(reltime)[T.22]:C(cohort)[16], C(reltime)[T.12]:C(cohort)[21], C(reltime)[T.17]:C(cohort)[16], C(reltime)[T.24]:C(cohort)[10], C(reltime)[T.-21]:C(cohort)[6], C(reltime)[T.-21]:C(cohort)[13], C(reltime)[T.-20]:C(cohort)[12], C(reltime)[T.-12]:C(cohort)[10], C(reltime)[T.26]:C(cohort)[9], C(reltime)[T.-11]:C(cohort)[9], C(reltime)[T.21]:C(cohort)[21], C(reltime)[T.-8]:C(cohort)[-1], C(reltime)[T.-13]:C(cohort)[8], C(reltime)[T.-17]:C(cohort)[13], C(reltime)[T.13]:C(cohort)[20], C(reltime)[T.-9]:C(cohort)[8], C(reltime)[T.-19]:C(cohort)[9], C(reltime)[T.15]:C(cohort)[20], C(reltime)[T.23]:C(cohort)[20], C(reltime)[T.12]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[21], C(reltime)[T.-19]:C(cohort)[12], C(reltime)[T.16]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[5], C(reltime)[T.26]:C(cohort)[10], C(reltime)[T.19]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[-1], C(reltime)[T.-20]:C(cohort)[16], C(reltime)[T.17]:C(cohort)[21], C(reltime)[T.-14]:C(cohort)[13], C(reltime)[T.-13]:C(cohort)[11], C(reltime)[T.23]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[9], C(reltime)[T.-16]:C(cohort)[7], C(reltime)[T.-16]:C(cohort)[13], C(reltime)[T.-20]:C(cohort)[11], C(reltime)[T.-16]:C(cohort)[12], C(reltime)[T.-19]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[13], C(reltime)[T.24]:C(cohort)[21], C(reltime)[T.27]:C(cohort)[7], C(reltime)[T.-17]:C(cohort)[8], C(reltime)[T.14]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[12], C(reltime)[T.27]:C(cohort)[16], C(reltime)[T.27]:C(cohort)[13], C(reltime)[T.18]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[10], C(reltime)[T.27]:C(cohort)[21], C(reltime)[T.-7]:C(cohort)[6], C(reltime)[T.15]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[13], C(reltime)[T.5]:C(cohort)[-1], C(reltime)[T.-12]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[13], C(reltime)[T.18]:C(cohort)[21], C(reltime)[T.-15]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[5], C(reltime)[T.-7]:C(cohort)[5], C(reltime)[T.17]:C(cohort)[-1], C(reltime)[T.20]:C(cohort)[20], C(reltime)[T.-11]:C(cohort)[10], C(reltime)[T.-15]:C(cohort)[5], C(reltime)[T.-17]:C(cohort)[11], C(reltime)[T.20]:C(cohort)[13], C(reltime)[T.26]:C(cohort)[20], C(reltime)[T.-18]:C(cohort)[7], C(reltime)[T.-21]:C(cohort)[-1], C(reltime)[T.8]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[10], C(reltime)[T.-9]:C(cohort)[5], C(reltime)[T.6]:C(cohort)[-1], C(reltime)[T.14]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[8], C(reltime)[T.21]:C(cohort)[12], C(reltime)[T.-16]:C(cohort)[5], C(reltime)[T.-21]:C(cohort)[16], C(reltime)[T.-18]:C(cohort)[9], C(reltime)[T.-11]:C(cohort)[7], C(reltime)[T.26]:C(cohort)[12], C(reltime)[T.20]:C(cohort)[21]
+C(reltime)[T.-15]:C(cohort)[8], C(reltime)[T.25]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[13], C(reltime)[T.27]:C(cohort)[12], C(reltime)[T.26]:C(cohort)[-1], C(reltime)[T.14]:C(cohort)[21], C(reltime)[T.24]:C(cohort)[9], C(reltime)[T.1]:C(cohort)[-1], C(reltime)[T.-13]:C(cohort)[8], C(reltime)[T.25]:C(cohort)[10], C(reltime)[T.-12]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[7], C(reltime)[T.-20]:C(cohort)[5], C(reltime)[T.-21]:C(cohort)[9], C(reltime)[T.-12]:C(cohort)[6], C(reltime)[T.-20]:C(cohort)[6], C(reltime)[T.21]:C(cohort)[16], C(reltime)[T.13]:C(cohort)[21], C(reltime)[T.-20]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[6], C(reltime)[T.27]:C(cohort)[7], C(reltime)[T.-14]:C(cohort)[11], C(reltime)[T.25]:C(cohort)[21], C(reltime)[T.-21]:C(cohort)[16], C(reltime)[T.-17]:C(cohort)[9], C(reltime)[T.-12]:C(cohort)[5], C(reltime)[T.8]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[8], C(reltime)[T.-18]:C(cohort)[16], C(reltime)[T.2]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[16], C(reltime)[T.-12]:C(cohort)[8], C(reltime)[T.21]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[7], C(reltime)[T.13]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[-1], C(reltime)[T.-4]:C(cohort)[-1], C(reltime)[T.17]:C(cohort)[20], C(reltime)[T.-19]:C(cohort)[13], C(reltime)[T.23]:C(cohort)[-1], C(reltime)[T.-10]:C(cohort)[9], C(reltime)[T.21]:C(cohort)[12], C(reltime)[T.-19]:C(cohort)[5], C(reltime)[T.-16]:C(cohort)[5], C(reltime)[T.7]:C(cohort)[-1], C(reltime)[T.-8]:C(cohort)[5], C(reltime)[T.-13]:C(cohort)[5], C(reltime)[T.24]:C(cohort)[10], C(reltime)[T.-2]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[10], C(reltime)[T.5]:C(cohort)[-1], C(reltime)[T.26]:C(cohort)[20], C(reltime)[T.25]:C(cohort)[16], C(reltime)[T.23]:C(cohort)[16], C(reltime)[T.-5]:C(cohort)[-1], C(reltime)[T.-11]:C(cohort)[8], C(reltime)[T.-13]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[6], C(reltime)[T.-10]:C(cohort)[5], C(reltime)[T.-15]:C(cohort)[11], C(reltime)[T.27]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[12], C(reltime)[T.25]:C(cohort)[12], C(reltime)[T.-17]:C(cohort)[10], C(reltime)[T.-18]:C(cohort)[13], C(reltime)[T.-14]:C(cohort)[6], C(reltime)[T.18]:C(cohort)[21], C(reltime)[T.-13]:C(cohort)[12], C(reltime)[T.-9]:C(cohort)[6], C(reltime)[T.-20]:C(cohort)[16], C(reltime)[T.21]:C(cohort)[13], C(reltime)[T.-9]:C(cohort)[8], C(reltime)[T.16]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[9], C(reltime)[T.-21]:C(cohort)[12], C(reltime)[T.-21]:C(cohort)[6], C(reltime)[T.19]:C(cohort)[-1], C(reltime)[T.-12]:C(cohort)[11], C(reltime)[T.-21]:C(cohort)[20], C(reltime)[T.26]:C(cohort)[21], C(reltime)[T.-18]:C(cohort)[-1], C(reltime)[T.-3]:C(cohort)[-1], C(reltime)[T.21]:C(cohort)[-1], C(reltime)[T.-16]:C(cohort)[10], C(reltime)[T.-20]:C(cohort)[8], C(reltime)[T.17]:C(cohort)[16], C(reltime)[T.19]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[11], C(reltime)[T.26]:C(cohort)[8], C(reltime)[T.-9]:C(cohort)[5], C(reltime)[T.-10]:C(cohort)[7], C(reltime)[T.13]:C(cohort)[20], C(reltime)[T.9]:C(cohort)[-1], C(reltime)[T.-19]:C(cohort)[11], C(reltime)[T.-15]:C(cohort)[6], C(reltime)[T.-17]:C(cohort)[8], C(reltime)[T.-11]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[5], C(reltime)[T.-14]:C(cohort)[12], C(reltime)[T.22]:C(cohort)[12], C(reltime)[T.26]:C(cohort)[7], C(reltime)[T.-20]:C(cohort)[12], C(reltime)[T.20]:C(cohort)[16], C(reltime)[T.-11]:C(cohort)[5], C(reltime)[T.-14]:C(cohort)[5], C(reltime)[T.-7]:C(cohort)[6], C(reltime)[T.25]:C(cohort)[8], C(reltime)[T.27]:C(cohort)[16], C(reltime)[T.25]:C(cohort)[11], C(reltime)[T.-7]:C(cohort)[5], C(reltime)[T.-19]:C(cohort)[9], C(reltime)[T.26]:C(cohort)[9], C(reltime)[T.22]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[13], C(reltime)[T.-13]:C(cohort)[9], C(reltime)[T.-19]:C(cohort)[7], C(reltime)[T.-10]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[21], C(reltime)[T.18]:C(cohort)[16], C(reltime)[T.-11]:C(cohort)[7], C(reltime)[T.-19]:C(cohort)[10], C(reltime)[T.20]:C(cohort)[21], C(reltime)[T.26]:C(cohort)[10], C(reltime)[T.24]:C(cohort)[11], C(reltime)[T.17]:C(cohort)[-1], C(reltime)[T.11]:C(cohort)[-1], C(reltime)[T.-9]:C(cohort)[7], C(reltime)[T.-10]:C(cohort)[6], C(reltime)[T.-18]:C(cohort)[9], C(reltime)[T.-14]:C(cohort)[-1], C(reltime)[T.22]:C(cohort)[13], C(reltime)[T.-11]:C(cohort)[6], C(reltime)[T.-19]:C(cohort)[16], C(reltime)[T.27]:C(cohort)[10], C(reltime)[T.19]:C(cohort)[21], C(reltime)[T.-16]:C(cohort)[12], C(reltime)[T.-20]:C(cohort)[9], C(reltime)[T.-18]:C(cohort)[6], C(reltime)[T.-17]:C(cohort)[12], C(reltime)[T.-16]:C(cohort)[13], C(reltime)[T.-19]:C(cohort)[8], C(reltime)[T.-20]:C(cohort)[10], C(reltime)[T.14]:C(cohort)[20], C(reltime)[T.23]:C(cohort)[11], C(reltime)[T.20]:C(cohort)[13], C(reltime)[T.-12]:C(cohort)[10], C(reltime)[T.20]:C(cohort)[-1], C(reltime)[T.-16]:C(cohort)[11], C(reltime)[T.-20]:C(cohort)[11], C(reltime)[T.26]:C(cohort)[11], C(reltime)[T.-14]:C(cohort)[7], C(reltime)[T.-17]:C(cohort)[-1], C(reltime)[T.4]:C(cohort)[-1], C(reltime)[T.-11]:C(cohort)[10], C(reltime)[T.23]:C(cohort)[20], C(reltime)[T.-12]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[20], C(reltime)[T.22]:C(cohort)[16], C(reltime)[T.24]:C(cohort)[12], C(reltime)[T.14]:C(cohort)[-1], C(reltime)[T.-14]:C(cohort)[13], C(reltime)[T.-19]:C(cohort)[12], C(reltime)[T.22]:C(cohort)[11], C(reltime)[T.27]:C(cohort)[-1], C(reltime)[T.24]:C(cohort)[21], C(reltime)[T.-15]:C(cohort)[-1], C(reltime)[T.27]:C(cohort)[9], C(reltime)[T.-18]:C(cohort)[5], C(reltime)[T.-16]:C(cohort)[9], C(reltime)[T.-6]:C(cohort)[5], C(reltime)[T.-16]:C(cohort)[7], C(reltime)[T.25]:C(cohort)[13], C(reltime)[T.19]:C(cohort)[16], C(reltime)[T.-21]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[13], C(reltime)[T.27]:C(cohort)[21], C(reltime)[T.-13]:C(cohort)[6], C(reltime)[T.24]:C(cohort)[13], C(reltime)[T.-20]:C(cohort)[13], C(reltime)[T.16]:C(cohort)[21], C(reltime)[T.26]:C(cohort)[12], C(reltime)[T.18]:C(cohort)[-1], C(reltime)[T.-11]:C(cohort)[9], C(reltime)[T.-10]:C(cohort)[8], C(reltime)[T.10]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[5], C(reltime)[T.-15]:C(cohort)[7], C(reltime)[T.-12]:C(cohort)[7], C(reltime)[T.-7]:C(cohort)[-1], C(reltime)[T.-21]:C(cohort)[13], C(reltime)[T.-16]:C(cohort)[8], C(reltime)[T.-19]:C(cohort)[-1], C(reltime)[T.18]:C(cohort)[20], C(reltime)[T.27]:C(cohort)[8], C(reltime)[T.21]:C(cohort)[21], C(reltime)[T.26]:C(cohort)[16], C(reltime)[T.-21]:C(cohort)[7], C(reltime)[T.-9]:C(cohort)[-1], C(reltime)[T.-18]:C(cohort)[7], C(reltime)[T.-17]:C(cohort)[16], C(reltime)[T.15]:C(cohort)[21], C(reltime)[T.-21]:C(cohort)[8], C(reltime)[T.-21]:C(cohort)[10], C(reltime)[T.23]:C(cohort)[12], C(reltime)[T.-20]:C(cohort)[7], C(reltime)[T.16]:C(cohort)[20], C(reltime)[T.25]:C(cohort)[20], C(reltime)[T.17]:C(cohort)[21], C(reltime)[T.3]:C(cohort)[-1], C(reltime)[T.12]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[13], C(reltime)[T.26]:C(cohort)[13], C(reltime)[T.20]:C(cohort)[20], C(reltime)[T.-13]:C(cohort)[10], C(reltime)[T.12]:C(cohort)[21], C(reltime)[T.-21]:C(cohort)[11], C(reltime)[T.6]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[7], C(reltime)[T.23]:C(cohort)[21], C(reltime)[T.25]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[12], C(reltime)[T.-16]:C(cohort)[6], C(reltime)[T.-16]:C(cohort)[-1], C(reltime)[T.23]:C(cohort)[10], C(reltime)[T.-17]:C(cohort)[6], C(reltime)[T.24]:C(cohort)[-1], C(reltime)[T.-17]:C(cohort)[11], C(reltime)[T.-18]:C(cohort)[11], C(reltime)[T.-6]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[9], C(reltime)[T.27]:C(cohort)[6], C(reltime)[T.15]:C(cohort)[20], C(reltime)[T.22]:C(cohort)[20], C(reltime)[T.-18]:C(cohort)[8], C(reltime)[T.-14]:C(cohort)[10], C(cohort)[T.5], C(reltime)[T.24]:C(cohort)[20], C(reltime)[T.15]:C(cohort)[-1], C(reltime)[T.-15]:C(cohort)[10], C(reltime)[T.-15]:C(cohort)[5]
 
 Checks if RHS variables contained within the dataframe are collinear or invariant
 Will trim collinear (-1 / +1 in correlation matrix) or invariant (nan in correlation matrix) columns
@@ -5598,7 +5598,7 @@ The following columns were dropped due to collinearity or duplication:
 </div>
 </div>
 <p>We will visualise these effects after implementing the various estimators here, and so for now wish to store each of the grouped lag and lead terms and their standard errors. We do this below, noting that because period -1 is used as an omitted baseline reference period, we will store the series of 5 leads (-6 to -2), a 0 for period -1, and then 15 lags:</p>
-<div id="7dc62aee" class="cell" data-execution_count="68">
+<div id="ac49c527" class="cell" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store point estimates: leads -6 to -2, then 0 for period -1, then lags 0 to 15</span></span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>SA_b <span class="op">=</span> np.concatenate([IW.loc[<span class="op">-</span><span class="dv">6</span>:<span class="op">-</span><span class="dv">2</span>, <span class="st">'parameter'</span>].values,</span>
 <span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>                       [<span class="dv">0</span>],</span>
@@ -5615,7 +5615,7 @@ The following columns were dropped due to collinearity or duplication:
 <section id="dechaisemartindhaultfoeuille2019s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="dechaisemartindhaultfoeuille2019s-event-study-analogue"><span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>’s Event Study Analogue</h2>
 <p>We can implemente a similar dynamic model capturing lags and lead’s following <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>. At the time of writing of this code call-out, there was not a fully developed Python implementation of this method, but rather the authors suggest implementing the estimator in Python via their R library, <a href="https://github.com/chaisemartinPackages/did_multiplegt_dyn/blob/main/Python/README.md">see, here</a>. We follow this guideline below using the <code>rpy2</code> library to connect Python to R.</p>
-<div id="f14ec569" class="cell" data-execution_count="69">
+<div id="a0981ea3" class="cell" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2</span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.robjects <span class="im">as</span> robjects</span>
 <span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rpy2.robjects <span class="im">import</span> pandas2ri</span>
@@ -5642,7 +5642,7 @@ The following columns were dropped due to collinearity or duplication:
 <span id="cb107-24"><a href="#cb107-24" aria-hidden="true" tabindex="-1"></a>                                          dont_drop_larger_lower <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once again, we will examine output graphically below when considering all of the estimators together (though we see that handily, the command above provides us with a graph allowing us to easily visualise placebo and treatment effects), and so for now simply save each of the estimates and their variance turn for latter processing.</p>
-<div id="7c2ac29d" class="cell" data-execution_count="70">
+<div id="74b96160" class="cell" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>coef <span class="op">=</span> did.rx2(<span class="st">"coef"</span>)</span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>b    <span class="op">=</span> np.array(coef.rx2(<span class="st">"b"</span>))</span>
 <span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>vcov <span class="op">=</span> np.array(coef.rx2(<span class="st">"vcov"</span>))</span>
@@ -5672,7 +5672,7 @@ The following columns were dropped due to collinearity or duplication:
 <section id="callawaysantanna2018s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="callawaysantanna2018s-event-study-analogue"><span class="citation" data-cites="CallawaySantAnna2018">Callaway and Sant’Anna (<a href="#ref-CallawaySantAnna2018" role="doc-biblioref">2021</a>)</span>’s Event Study Analogue</h2>
 <p>We can implemente the estimator of <span class="citation" data-cites="CallawaySantAnna2018">Callaway and Sant’Anna (<a href="#ref-CallawaySantAnna2018" role="doc-biblioref">2021</a>)</span> using the <code>ATTgt</code> function from the <code>differences</code> library. As we will see below, this package allows for us to estimate each possible <span class="math inline">\(g,t\)</span> estimtate (ie an estimate for each adoption period at each time period.) In this sense, arriving to the dynamic ‘event study’ estimates requires aggregating these <span class="math inline">\(g,t\)</span> estimates using the post-estimation <code>aggregate</code> function.</p>
-<div id="7590453e" class="cell" data-execution_count="71">
+<div id="acb6ae22" class="cell" data-execution_count="71">
 <div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> differences <span class="im">import</span> ATTgt</span>
 <span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="co">#differences requires old np.NaN</span></span>
 <span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>np.NaN <span class="op">=</span> np.nan</span>
@@ -5684,7 +5684,7 @@ The following columns were dropped due to collinearity or duplication:
 <span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>CS <span class="op">=</span> att_gt.aggregate(<span class="st">'event'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once again, we can store the output of this command in a dataframe for processing below.</p>
-<div id="744e6b4e" class="cell" data-execution_count="72">
+<div id="c2fceb36" class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract for periods -6 to 15 (22 rows)</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>CS_b <span class="op">=</span> CS.loc[<span class="op">-</span><span class="dv">6</span>:<span class="dv">15</span>, (<span class="st">'EventAggregation'</span>, <span class="st">''</span>, <span class="st">'ATT'</span>)].values</span>
 <span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>CS_v <span class="op">=</span> CS.loc[<span class="op">-</span><span class="dv">6</span>:<span class="dv">15</span>, (<span class="st">'EventAggregation'</span>, <span class="st">'analytic'</span>, <span class="st">'std_error'</span>)].values<span class="op">**</span><span class="dv">2</span></span>
@@ -5695,7 +5695,7 @@ The following columns were dropped due to collinearity or duplication:
 <section id="borusyaketal2024s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="borusyaketal2024s-event-study-analogue"><span class="citation" data-cites="Borusyaketal2024">Borusyak, Jaravel, and Spiess (<a href="#ref-Borusyaketal2024" role="doc-biblioref">2024</a>)</span>’s Event Study Analogue</h2>
 <p>Finally, we implement <span class="citation" data-cites="Borusyaketal2024">Borusyak, Jaravel, and Spiess (<a href="#ref-Borusyaketal2024" role="doc-biblioref">2024</a>)</span>’s imputation estimator using the command written by the authors: <code>did_imputation</code>. However, as was the case above with <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>, at the time of writing, no native Python implementation of this imputation estimator exists. For this reason, and as above, we compute this estimator in Python through R, using the <code>R</code> package <code>didimputation</code>.</p>
-<div id="1d25ccd2" class="cell" data-execution_count="73">
+<div id="1477c54f" class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.robjects <span class="im">as</span> ro</span>
 <span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data: replace NaN with 5000 for never-treated units</span></span>
@@ -5718,7 +5718,7 @@ The following columns were dropped due to collinearity or duplication:
 <span id="cb111-20"><a href="#cb111-20" aria-hidden="true" tabindex="-1"></a>                                   pretrends <span class="op">=</span> ro.IntVector(<span class="bu">range</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">0</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We then save the resulting point estimates and variance terms in a dataframe for graphing below.</p>
-<div id="3201b0fe" class="cell" data-execution_count="74">
+<div id="d1d0dfdb" class="cell" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert output to pandas and extract estimates</span></span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> localconverter(pandas2ri.converter):</span>
 <span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    BJS_pd <span class="op">=</span> pandas2ri.rpy2py(BJS)</span>
@@ -5735,7 +5735,7 @@ The following columns were dropped due to collinearity or duplication:
 <section id="bringing-things-together-and-visualising-all-estimates" class="level2">
 <h2 class="anchored" data-anchor-id="bringing-things-together-and-visualising-all-estimates">Bringing things together and visualising all estimates</h2>
 <p>Finally we will plot all the resulting estimates and their confidence intervals on a single plot. Note that there are packages to do this if desired, however we can easily enough do it “by hand” as we see below. Here we first import each of the matrices with the point estimates and variance terms, and then generate the 95% CIs based on the variance terms. Finally, we plot these on a common axis, noting that in the interests of visualisation, we shift treat treatment time around the relevant period allowing for some separation between each estimate.</p>
-<div id="12940e48" class="cell" data-execution_count="75">
+<div id="02dc26b0" class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
@@ -5831,7 +5831,7 @@ The following columns were dropped due to collinearity or duplication:
 <h1>Code Call-out 4.4: Synthetic control, difference-in-differences, and synthetic difference-in-differences</h1>
 <p>In this code call out, we will explore the use of synthetic control methods as well as extensions into synthetic difference-in-differences with the data using in the original <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span> paper. In particular, these data provide a balanced sample from 39 states in the United States covering the period of 1970 to 2000. In particular, the interest in these methods is estimating the impact of the passage of Proposition 99, which was a reform to increase the sales tax paid per package of cigarettes sold in California.</p>
 <p>We will begin by opening the data used by <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span>, and checking the variables available. If we wished we could confirm that this is effectively a balanced panel by tabulating the variable year and state.</p>
-<div id="c832efd2" class="cell" data-execution_count="76">
+<div id="6c6d4677" class="cell" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/Abadie_et_al_2010.csv"</span>)</span>
 <span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5983,7 +5983,7 @@ The following columns were dropped due to collinearity or duplication:
 </div>
 </div>
 <p>Here our outcome of interest will be the variable <code>cigsale</code> which records the number of packages sold per capita in each state. The proposition 99 reform was passed in 1989, and we will thus consider 1970-1988 as the pre-period, while the period of 1989-2000 is the treatment period. While <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span> actually construct their synthetic control considering both certain pre-period realisations as well as control variables included in their data, we will follow suggestions from <span class="citation" data-cites="Fermanetal2020">Ferman, Pinto, and Possebom (<a href="#ref-Fermanetal2020" role="doc-biblioref">2020</a>)</span> and document a case where we simply use the full set of pre-treatment realisations of the outcome of interest to generate our synthetic control. We will do this below, using the <code>state_name</code> variable to indicate with <code>"California"</code> is the treated state. We will do this using the <code>Synth</code> and <code>Dataprep</code> routines from the <code>pysyncon</code> library.</p>
-<div id="9d9d3458" class="cell" data-fig-width="1in" data-execution_count="77">
+<div id="acdeac98" class="cell" data-fig-width="1in" data-execution_count="77">
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pysyncon <span class="im">import</span> Dataprep, Synth</span>
 <span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>dataprep <span class="op">=</span> Dataprep(</span>
@@ -6036,7 +6036,7 @@ The following columns were dropped due to collinearity or duplication:
 </div>
 </div>
 <p>You may note a number of things with the way that we have implemented <code>synth</code> above. The first is that the way we have entered the covariates on which to match (pre-treatment lags of the sales variable) is very cumbersome. It turns out that this is required if we do indeed wish to match on the variable at each pre-treatment period. While the syntax <code>("cigsale", [1970:1989], "mean")</code> would also be valid as part of the <code>special_predictors</code> list, it is <em>not</em> what we are after, as this would match on mean sales across the whole period, rather than sales in each pre-treatment period. A second is that we have explicitly requested a specific optimisation method (here, Nelder-Mead). This is, in fact, the default method, and if we wish to dig into the documentation (for example by typing <code>help(synth.fit)</code> we could see and explore alternatives, and we would see that weights are at times slightly sensitive to this (for example, if we instead request <code>BFGS</code>, while the final state weighting would result in identical states, the exact weights for each are slightly different) Finally, there is a quite easy way to generate graphical output comparing the treated state to its synthetic control. This graph is produced above. However, unlike in implementations in other languages, we do not see the state weights as default, and must request these. Fortunately, this is quite simple, and we do this below, seeing that (as in the case of <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span>), the synthetic control for California is constructed using a combination of Colorado, Connecticut, Montana, Nevada, New Hampshire, and Utah.</p>
-<div id="9cb3f677" class="cell" data-execution_count="78">
+<div id="92c8c072" class="cell" data-execution_count="78">
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>synth.weights()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="78">
 <pre><code>Alabama           0.000
@@ -6082,7 +6082,7 @@ Name: weights, dtype: float64</code></pre>
 </div>
 <p>Here we can see that (as expected) the synthetic control and California follow a very similar trend up to the period in which treatment is applied. This comes precisely from the optimisation procedure, which seeks to construct a synthetic control which minimises this distance. However, we observe that outcomes then diverge between California and the synthetic control in the post-reform period, with a substantially larger decline in California. If we wished to formally conduct hypothesis tests related to this synthetic control procedure, we could conduct the permutation inference procedures laid out in <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span> and discussed in Chapter 4. While we will not set this up here it is a worthwhile activity to understand the practicalities of inference. We <em>will</em> also consider below extensions of these methods into synthetic difference-in-differences, additionally documenting inference following permutation procedures.</p>
 <p>We will do this using the <code>synthdid</code> library. This implements the synthetic difference-in-differences estimator of <span class="citation" data-cites="Arkhangelskyetal2021">Arkhangelsky et al. (<a href="#ref-Arkhangelskyetal2021" role="doc-biblioref">2021</a>)</span>. In this case, using the same data as above, we can calculate the ATT which reports mean declines between treated and synthetic control units across all post-treatment periods based on a synthetic difference-in-differences comparison. We will see this below, where <code>sdid</code> is used with the outcome as the first argument, followed by group and period variables, and finally the treatment indicator. A number of graphing options are indicated, and <code>vce(placebo)</code> requests the permutation-style inference laid out in <span class="citation" data-cites="Arkhangelskyetal2021">Arkhangelsky et al. (<a href="#ref-Arkhangelskyetal2021" role="doc-biblioref">2021</a>)</span>. This permutation inference simply consists of recalculating the ATT for each alternative non-treated unit from among all other non-treated units, and calculates the standard error as the standard deviation of these ATTs (refer to further discussion in Section 4.6.1.3 of the book).</p>
-<div id="14e78012" class="cell" data-execution_count="79">
+<div id="2e28eb34" class="cell" data-execution_count="79">
 <div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> synthdid</span>
 <span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> synthdid.synthdid <span class="im">import</span> Synthdid</span>
 <span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -6092,7 +6092,7 @@ Name: weights, dtype: float64</code></pre>
 <span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Synthdid(df, <span class="st">"state_name"</span>, <span class="st">"year"</span>, <span class="st">"treated"</span>, <span class="st">"cigsale"</span>).fit().vcov().summary().summary2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        ATT  Std. Err.         t     P&gt;|t|
-0 -15.60383   7.051277 -2.212908  0.026904</code></pre>
+0 -15.60383   8.819567 -1.769229  0.076856</code></pre>
 </div>
 </div>
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>plt.show(Synthdid(df, <span class="st">"state_name"</span>, <span class="st">"year"</span>, <span class="st">"treated"</span>, <span class="st">"cigsale"</span>).fit().plot_outcomes())</span>

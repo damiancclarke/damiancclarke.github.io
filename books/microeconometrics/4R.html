@@ -732,17 +732,17 @@ F-statistic(proj model): 8.543 on 10 and 11 DF, p-value: 0.0007143 </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>   class_fe2 ag
 1         31 -1
-2          5  1
-3         30 -1
-4          1 -1
-5          3  1
-6          9 -1
-7          2  1
-8          6 -1
-9          4  1
-10         8 -1
+2          5 -1
+3         30  1
+4          1  1
+5          3 -1
+6          9  1
+7          2 -1
+8          6  1
+9          4 -1
+10         8  1
 11         7  1
-12        32 -1</code></pre>
+12        32  1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bsample <span class="ot">&lt;-</span> bsample <span class="sc">|&gt;</span> <span class="fu">left_join</span>(clusters, <span class="at">by =</span> <span class="st">"class_fe2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -780,29 +780,29 @@ Call:
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--0.96934 -0.09215  0.02979  0.08711  1.01843 
+-0.97710 -0.09426 -0.02259  0.08824  0.97647 
 
 Coefficients:
-                  Estimate Cluster s.e. t value Pr(&gt;|t|)    
-(Intercept)      0.6149722    0.1622214   3.791 0.000165 ***
-yr_2016          0.0266373    0.0262957   1.013 0.311461    
-treatment_class -0.0006804    0.0292205  -0.023 0.981430    
-treat2016        0.0174624    0.0335615   0.520 0.603034    
-female_prof      0.0386444    0.0254542   1.518 0.129479    
-instate          0.0358108    0.0287294   1.246 0.213061    
-freshman         0.0091195    0.0292303   0.312 0.755155    
-american        -0.3013681    0.0478592  -6.297 5.77e-10 ***
-ACumGPA         -0.1137312    0.0399432  -2.847 0.004556 ** 
-gradePrinciples  0.0419304    0.0191183   2.193 0.028665 *  
-small_class     -0.0802198    0.0216931  -3.698 0.000237 ***
+                 Estimate Cluster s.e. t value Pr(&gt;|t|)  
+(Intercept)      0.383709     0.158728   2.417   0.0159 *
+yr_2016         -0.041813     0.025638  -1.631   0.1034  
+treatment_class -0.009855     0.024903  -0.396   0.6924  
+treat2016        0.015052     0.031761   0.474   0.6357  
+female_prof      0.004721     0.026334   0.179   0.8578  
+instate         -0.016942     0.027692  -0.612   0.5409  
+freshman         0.017631     0.028682   0.615   0.5390  
+american        -0.103116     0.050001  -2.062   0.0396 *
+ACumGPA         -0.096616     0.040976  -2.358   0.0187 *
+gradePrinciples  0.045614     0.018848   2.420   0.0158 *
+small_class      0.019266     0.019215   1.003   0.3164  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.2919 on 616 degrees of freedom
-Multiple R-squared(full model): 0.1162   Adjusted R-squared: 0.1019 
-Multiple R-squared(proj model): 0.1162   Adjusted R-squared: 0.1019 
-F-statistic(full model, *iid*):8.101 on 10 and 616 DF, p-value: 2.32e-12 
-F-statistic(proj model): 104.3 on 10 and 11 DF, p-value: 2.005e-09 </code></pre>
+Residual standard error: 0.2918 on 616 degrees of freedom
+Multiple R-squared(full model): 0.02519   Adjusted R-squared: 0.009365 
+Multiple R-squared(proj model): 0.02519   Adjusted R-squared: 0.009365 
+F-statistic(full model, *iid*):1.592 on 10 and 616 DF, p-value: 0.105 
+F-statistic(proj model): 51.76 on 10 and 11 DF, p-value: 8.597e-08 </code></pre>
 </div>
 </div>
 <p>You will note here that the coefficient of interest (that on <code>treat2016</code>) is small and insignificant. This should not be surprising to us, as we have imposed that this coefficient should be zero in the process where we generated <code>beconmajor</code> previously. The idea of this process is that in this way we should have some idea of the variation we may expect in parameter estimates when the true parameter actually <em>is</em> zero. If we observe that our true estimate greatly exceeds these “null” estimates, we may be willing to conclude that the original effect is real. We store the relevant values from our regression model below to calculate a t-statistic from this bootstrap replicate.</p>

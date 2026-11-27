@@ -650,7 +650,7 @@ window.Quarto = {
 <section id="code-call-out-4.1-wild-cluster-bootstrap-implementation" class="level1">
 <h1>Code Call-out 4.1: Wild cluster bootstrap implementation</h1>
 <p>To see the difference between the wild cluster bootstrap described in Section 4.2.3.2 of the book and other clustering options such as standard cluster bootstrap or clustered standard errors we will set up an example by hand of the wild cluster bootstrap. We will do this with data provided by <span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span> who conducted a field experiment which sought to test whether student exposure to engaging and successful women instructors in early economics classes increases the likelihood that female students go on to major in economics. The dataset is provided as <code>Porter_Serra_2020.csv</code>, and we will open it below:</p>
-<div id="188dc7ca" class="cell" data-execution_count="1">
+<div id="a148e57b" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"data/Porter_Serra_2020.csv"</span>, <span class="kw">clear</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <style>div.jp-Notebook .datagrid-container {min-height: 448px; }</style>
@@ -662,7 +662,7 @@ window.Quarto = {
 </div>
 <p>Following <span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span> we will estimate the following linear probability model (LPM) <span class="math display">\[Y_{i} = \beta_0 + \beta_1 dt_i + \beta_2 dT_i + \beta_3 dt_i \times dT_i + \delta \mathbf{X}_i + \varepsilon_i\]</span> where we use identical notation from their paper. Treatment was randomly applied at the class level in 2016, and classes also existed in 2015, but no treatment was applied. Above, <span class="math inline">\(Y_i\)</span> is a student’s (binary) decision of whether or not to major in economics (<code>econmajor</code>), <span class="math inline">\(dt_i\)</span> (<code>yr_2016</code>) a dummy equal to one if she took the class in 2016 and zero if she took a class in 2015, and <span class="math inline">\(dT_i\)</span> (<code>treatment_class</code>) is a dummy equal to one if she is in a treatment class, and zero if she is in a control class. The interaction between these two dummies (<code>treat2016</code>) is the coefficient of interest and <span class="math inline">\(\mathbf{X}_i\)</span> is a vector of individual, demographic and class controls such as if the course was taught by a female professor (<code>female_prof</code>), if the student is an in-state student (<code>instate</code>), if the student is in freshman year (<code>freshman</code>), if the student is from the US (<code>american</code>), the student’s cumulative GPA (<code>acumgpa</code>), the student’s grade in their Principles of Economics course (<code>gradeprinciples</code>) and if the student take a class with a limit of 40 students (<code>small_class</code>). As treatment is assigned at the class level (<code>class_fe2</code>), and as there are few clusters (12 clusters), the authors proceed to conduct inference using a wild cluster bootstrap. We conduct this procedure below.</p>
 <p>Here in particular we are interested in the parameter <span class="math inline">\(\beta_3\)</span> which under difference-in-difference assumptions will identify the effect of female role models on future enrollment in an economics major. Before examining this process, we will estimate the LPM in order to get an estimate of the coefficient of interest <span class="math inline">\(\widehat{\beta}_3\)</span>, along with the (traditional) cluster-robust standard error <span class="math inline">\(se\left(\widehat{\beta}_3\right)\)</span>, and resulting <span class="math inline">\(t\)</span>-statistic for the test of a null effect: <span class="math inline">\(t=\left(\widehat{\beta}_3 - 0\right)/se\left(\widehat{\beta}_3\right)\)</span>:</p>
-<div id="1d13cf58" class="cell" data-execution_count="2">
+<div id="a075bee4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> female == 1</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> econmajor yr_2016 treatment_class treat2016 female_prof instate freshman american acumgpa gradeprinciples small_class, <span class="kw">cluster</span>(class_fe2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -694,14 +694,14 @@ gradeprinc~s |    .045543   .0197507     2.31   0.042     .0020721     .089014
 </div>
 </div>
 <p>We can see that the coefficient of interest is 0.0801 (as per column 4 of Table 4 of <span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span>) with a cluster-robust standard error of 0.0364 and a resulting t-statistic of 2.197. Below, we store these values along with the residuals of this unrestricte regression <span class="math inline">\(\widehat{\varepsilon}\)</span>:</p>
-<div id="e987d833" class="cell" data-execution_count="3">
+<div id="b1ef80a8" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> beta3_hat = _b[<span class="st">"treat2016"</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> se_beta3_hat = _se[<span class="st">"treat2016"</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> t_beta3_hat = _b[<span class="st">"treat2016"</span>] / _se[<span class="st">"treat2016"</span>]</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> eps_hat, <span class="kw">resid</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Because we are interested in considering the variation of data in a model where we assume the null hypothesis <span class="math inline">\(\beta_3=0\)</span> is true, we will now <em>impose</em> this hypothesis, and re-estimate our model. We do this below, imposing the restriction <span class="math inline">\(\beta_3 = 0\)</span> by simply omiting the <code>treat2016</code> variable from the model, storing the restricted residuals from this regression as <span class="math inline">\(\tilde{\varepsilon}\)</span>.</p>
-<div id="06726e05" class="cell" data-execution_count="4">
+<div id="519ddc62" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> econmajor yr_2016 treatment_class female_prof instate freshman american acumgpa gradeprinciples small_class, <span class="kw">cluster</span>(class_fe2)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> LPM_r = <span class="fu">e</span>(b)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> eps_tilde, <span class="kw">resid</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -733,7 +733,7 @@ gradeprinc~s |   .0435806   .0211112     2.06   0.063    -.0028849     .090046
 </div>
 <p>These restricted residuals <code>eps_tilde</code> above will be key in our wild cluster bootstrap procedure. For a given bootstrap replication, for each cluster we will assign a value of -1 or +1, and multiply the previous residuals by this (cluster-specific) value. This will maintain correlations between residuals fixed within each cluster, but allow correlations to vary between clusters. We will thus generate a new “sample” of data taking original data and updated residuals, resulting in a new outcome for <span class="math inline">\(Y_i\)</span>.</p>
 <p>Below we will initialise this wild cluster bootstrap procedure, setting some large amount of bootstrap replicates in a global macro (here 999), before storing the data we need as <code>b_sample</code> using <code>Stata</code>’s new feature <code>frames</code> to store multiple datasets in one session. We will then also incorporate the residuals from above into this dataframe, so <code>b_sample</code> contains all relevant covariates, as well as the restricted residuals. It is worth noting, that in practice, all we require from these covariates is the ability to form <span class="math inline">\(\widehat{Y}_i=\widehat\beta_0+\widehat\beta_1 dt_i + \widehat\beta_2 dT_i + \widehat\delta \mathbf{X}_i\)</span>, and we could actually just work with the quantity <span class="math inline">\(\widehat{Y}_i\)</span> below (you may wish to confirm this to yourself by editing the code below). However, for ease of exposition we will work with the full set of covariates in code below, even though this is somewhat less efficient.</p>
-<div id="d507e125" class="cell" data-execution_count="5">
+<div id="1aa4a75e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>* Global <span class="kw">macro</span> <span class="kw">for</span> setting <span class="kw">bootstrap</span> amount <span class="kw">of</span> replications</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> B = 999</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -748,7 +748,7 @@ gradeprinc~s |   .0435806   .0211112     2.06   0.063    -.0028849     .090046
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>frame put *, into(b_sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s see what each iteration of a wild cluster bootstrap looks like. As we will generate our new sample of data by (randomly) selecting values of -1 or 1 for each cluster to form “resampled” residuals, we will start by drawing these “Rademacher” weights for each cluster. Below we do this by first generating a cluster-specific draw for each cluster <span class="math inline">\(g\)</span> which assigns <span class="math inline">\(a_g = 1\)</span> or <span class="math inline">\(a_g = -1\)</span> with probability 0.5 (as seen in <code>clusters</code>). This value <span class="math inline">\(a_g\)</span> is joined into our main data:</p>
-<div id="bdb85974" class="cell" data-execution_count="6">
+<div id="bc455f15" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Keep cluster variable</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> class_fe2</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -782,15 +782,15 @@ Duplicates in terms of all variables
 </div>
 </div>
 <p>Now, based on this draw and the original errors from the restricted model, we will generate the new set of bootstrap errors, which below we call <code>berrors</code>:</p>
-<div id="798af2e1" class="cell" data-execution_count="7">
+<div id="31e537b9" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> berrors = eps_tilde * ag</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, below we will generate our new resampled outcome variable <code>beconmajor</code> from covariates, restricted regression estimates, and our resampled error term <code>berrors</code>.</p>
-<div id="e0f78eb5" class="cell" data-execution_count="8">
+<div id="3c466469" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> beconmajor = LPM_r[1, 10] + LPM_r[1, 1] * yr_2016 + LPM_r[1, 2] * treatment_class + LPM_r[1, 3] * female_prof + LPM_r[1, 4] * instate + LPM_r[1, 5] * freshman + LPM_r[1, 6] * american + LPM_r[1, 7] * acumgpa + LPM_r[1, 8] * gradeprinciples + LPM_r[1, 9] * small_class + berrors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With this data in hand, we estimate the non-restricted model exactly as we did so previously. Below, we estimate this model, and examine summary output:</p>
-<div id="6a37d796" class="cell" data-execution_count="9">
+<div id="94fbb75c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> beconmajor yr_2016 treatment_class treat2016 female_prof instate freshman american acumgpa gradeprinciples small_class, <span class="kw">cluster</span>(class_fe2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -820,13 +820,13 @@ gradeprinc~s |   .0254423   .0167198     1.52   0.156    -.0113577    .0622422
 </div>
 </div>
 <p>You will note here that the coefficient of interest (that on <code>treat2016</code>) is small and insignificant. This should not be surprising to us, as we have imposed that this coefficient should be zero in the process where we generated <code>beconmajor</code> previously. The idea of this process is that in this way we should have some idea of the variation we may expect in parameter estimates when the true parameter actually <em>is</em> zero. If we observe that our true estimate greatly exceeds these “null” estimates, we may be willing to conclude that the original effect is real. We store the relevant values from our regression model below to calculate a t-statistic from this bootstrap replicate.</p>
-<div id="8aa79f6b" class="cell" data-execution_count="10">
+<div id="33aab683" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="kw">define</span> WildClusterBootstrap[1,1] = _b[<span class="st">"treat2016"</span>]</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="kw">define</span> WildClusterBootstrap[1,2] = _se[<span class="st">"treat2016"</span>]</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="kw">define</span> WildClusterBootstrap[1,3] = _b[<span class="st">"treat2016"</span>] / _se[<span class="st">"treat2016"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We wish to see how extreme our original t-statistic is compared to many t-statistics generated in this way, where the null is imposed. Thus, we will now repeat the previous bootstrap replicate <span class="math inline">\(B-1\)</span> more times in a loop, so that we have <span class="math inline">\(B\)</span> t-statistics. Note we use <code>quietly</code> to omit all intermediate output.</p>
-<div id="e7589cf2" class="cell" data-execution_count="11">
+<div id="5c3d9329" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">forvalues</span> b = 2/<span class="ot">$B</span> {</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">quietly</span> {</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">drop</span> beconmajor berrors ag clusters</span>
@@ -851,7 +851,7 @@ gradeprinc~s |   .0254423   .0167198     1.52   0.156    -.0113577    .0622422
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see below what this “null distribution” of t-statistics looks like. It is not a surprise that these are centred around 0, because this is what our model has imposed. However, more interesting than this is to see they type of variation in t-statistics which we can expect in our data with null effects imposed. We can see, below, that this looks somewhat heavier-tailed than a standard t-distribution.</p>
-<div id="3c5dc28e" class="cell" data-execution_count="12">
+<div id="d5915f24" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">svmat</span> WildClusterBootstrap, names(col)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">histogram</span> t_stat, <span class="bn">bin</span>(20) <span class="dv">scheme</span>(plottig) <span class="kw">color</span>(<span class="bn">blue</span>*2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -871,7 +871,7 @@ Number of observations (_N) was 0, now 999.
 </div>
 </div>
 <p>From this distribution we can calculate a p-value by asking what proportion of t-statistics from the null distribution exceed our estimated t-statistic from the unrestricted model. We do this below, observing that the p-value is quite close to that reported in <span class="citation" data-cites="PorterSerra2020">Porter and Serra (<a href="#ref-PorterSerra2020" role="doc-biblioref">2020</a>)</span> (who report a p-value of 0.089), only differing due to random variation in draws of the Rademacher weights.</p>
-<div id="a1081709" class="cell" data-execution_count="13">
+<div id="6b2e8502" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> aux = <span class="fu">abs</span>(t_stat) &gt; <span class="fu">abs</span>(t_beta3_hat)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> aux</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> pval = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
@@ -885,7 +885,7 @@ The p-value is: .091</code></pre>
 </div>
 </div>
 <p>We also could repeat this exercise with the <code>boottest</code> function from the <code>boottest</code> user-written package developed by <span class="citation" data-cites="FischerRoodman2021">Fischer and Roodman (<a href="#ref-FischerRoodman2021" role="doc-biblioref">2021</a>)</span> and arrive to the same conclusion. This function works with the last estimated model, and conducts an identical procedure to that which we have done above “by hand”. Any difference in p-values is incidental, owing to different random draws.</p>
-<div id="49655944" class="cell" data-execution_count="14">
+<div id="abf35c45" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"data/Porter_Serra_2020.csv"</span>, <span class="kw">clear</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> female == 1</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> econmajor yr_2016 treatment_class treat2016 female_prof instate freshman american acumgpa gradeprinciples small_class, <span class="kw">cluster</span>(class_fe2)</span>
@@ -931,7 +931,7 @@ Wild bootstrap-t, null imposed, 999 replications, Wald test, bootstrap clusteri
 </div>
 <p>In principle, using such a library is likely the preferred way of conducting procedures such as the wild cluster bootstrap, however it is illustrative to see how it works in practice, as we do above. A nice element of user-written procedures such as that of <span class="citation" data-cites="Roodmanetal2019">Roodman et al. (<a href="#ref-Roodmanetal2019" role="doc-biblioref">2019</a>)</span> is that it also seamlessly returns other quantities of interest which we would have to generate ourselves above, such as confidence interval, which we can see above where these values correspond closely to the original 95% CIs reported in the paper of [-0.015; 0.160].</p>
 <p>Finally as a comparative exercise we may be interested in seeing how this procedure compares to a standard clustered bootstrap. While there are many ways we could do this – including quite easily by hand – we examine this below using Stata’s native bootstrap functionality as a part of the <code>vce()</code> option. It turns out that while the 95% CI on <code>treat2016</code> coming from clustered bootstrap is narrower than the 95% CI from the wild cluster bootstrap (as expected), the difference is not <em>so</em> substantial in this particular case.</p>
-<div id="b5ee8b0e" class="cell" data-execution_count="15">
+<div id="0468b997" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> econmajor yr_2016 treatment_class treat2016 female_prof instate freshman american acumgpa gradeprinciples small_class, <span class="kw">vce</span>(<span class="kw">bootstrap</span>, reps(999) <span class="kw">cluster</span>(class_fe2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(running regress on estimation sample)
@@ -991,7 +991,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 \tag{1}\]</span></span> where <span class="math inline">\(y_{st}\)</span> is the outcome variable, <span class="math inline">\(\gamma_s\)</span> and <span class="math inline">\(\lambda_t\)</span> are state (unit) and time fixed effects, <span class="math inline">\(w_{st}\)</span> is the binary treatment variable that takes the value of 1 if a state (unit) <span class="math inline">\(s\)</span> is treated at time <span class="math inline">\(t\)</span> and otherwise takes 0. We will work with a quite tractable example based on three units and 10 time periods, and will document how the approaches taken by <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> and by <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> to understand the two-way FE estimator compare.</p>
 <p>The results from <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> and those from <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> are similar, however they take quite different paths to get there. Goodman-Bacon’s (like that laid out in <span class="citation" data-cites="AtheyImbens2018">Athey and Imbens (<a href="#ref-AtheyImbens2018" role="doc-biblioref">2022</a>)</span>) is “mechanical” in that it is based on the underlying difference-in-differences comparisons between all groups. The result in <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> is based on a potential outcomes frame-work, and counterfactuals under parallel trend assumptions. Thus to examine how these methods work requires somewhat different frameworks. In the case of <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span>, we should consider all possible DD comparisons, while in the case of <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> we should consider the treatment effect for each unit and time period, which requires knowing the observed and counterfactual state. While the approaches the two papers take to understand the content of the estimator differ, they refer to the same estimator, so always recover the same parameter estimate. To examine this in a more applied way, we will look at a simulated example.</p>
 <p>To do this, let’s consider a panel of 3 states/areas over the 10 years (<span class="math inline">\(t\)</span>) of 2000 to 2009. One of these units is entirely untreated (<span class="math inline">\(unit = 1\)</span> or group <span class="math inline">\(U\)</span>), one is treated at an early time period, 2003, (<span class="math inline">\(unit = 2\)</span> or group <span class="math inline">\(k\)</span>), and the other is treated at a later time period, 2006, (<span class="math inline">\(unit = 3\)</span> or group <span class="math inline">\(l\)</span>). We will construct a general structure for this data below:</p>
-<div id="f7f92676" class="cell" data-execution_count="16">
+<div id="c39fd4ec" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 30</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">obs</span>  = <span class="dt">_n</span></span>
@@ -1013,7 +1013,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 </div>
 </div>
 <p>We will consider a simple-case where the actual data-generating process is known as: <span class="math display">\[y_{unit,t} = 2 + 0.2 \times (t - 2000) + 1 \times unit + \beta_1 \times post \times unit + \beta_2 \times post \times unit \times (t - treat).\]</span> Here <span class="math inline">\(unit\)</span> refers to the unit number listed above (1, 2 or 3), <span class="math inline">\(post\)</span> indicates that a unit is receiving treatment in the relevant time period <span class="math inline">\(t\)</span>, and <span class="math inline">\(treat\)</span> refers to the treatment period (2003 for unit 2, and 2006 for unit 3). Let’s generate treatment, time to treatment, and post-treatment variables in <code>Stata</code>:</p>
-<div id="0ae9cf78" class="cell" data-execution_count="17">
+<div id="45334f85" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> treat = 2006 <span class="kw">if</span> unit==2</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> treat = 2003 <span class="kw">if</span> unit==3</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> time = <span class="fu">year</span> - treat</span>
@@ -1042,7 +1042,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 </div>
 </div>
 <p>This specification allows for each unit to have its own fixed effect, given that <span class="math inline">\(unit\)</span> is multiplied by 1, and allows for a general time trend increasing by 0.2 units each period across the whole sample. These parameters are not so important, as what we care about are the treatment effects themselves. The impact of treatment comes from the units <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>. The first of these, <span class="math inline">\(\beta_1\)</span>, captures an immediate unit-specific jump when treatment is implemented which remains stable over time. The second of these, <span class="math inline">\(\beta_2\)</span>, implies a trend break occurring <em>only</em> for the treated units once treatment comes into place. We will consider 2 cases below. In the first case <span class="math inline">\(\beta_1 = 1\)</span> and <span class="math inline">\(\beta_2 = 0\)</span> (a simple case with a constant treatment effect per unit):</p>
-<div id="0c909ce5" class="cell" data-execution_count="18">
+<div id="f9dbfe58" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> y1 = 2 + (<span class="fu">year</span> - 2000) * 0.2 + 1 * unit + 1 * <span class="kw">post</span> * unit + 0 * <span class="kw">post</span> * unit * time</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> <span class="kw">in</span> 1/5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1059,7 +1059,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 </div>
 </div>
 <p>and in a second case <span class="math inline">\(\beta_1 = 1\)</span> and <span class="math inline">\(\beta_2 = 0.45\)</span>. This is a more complex case in which there are heterogeneous treatment effects over time:</p>
-<div id="2ab44848" class="cell" data-execution_count="19">
+<div id="5acfbe86" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> y2 = 2 + (<span class="fu">year</span> - 2000) * 0.2 + 1 * unit + 1 * <span class="kw">post</span> * unit + 0.45 * <span class="kw">post</span> * unit * time</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> <span class="kw">in</span> 1/5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1076,7 +1076,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 </div>
 </div>
 <p>These two cases are plotted next where the line with empty circles refers to group <span class="math inline">\(U\)</span>, the line with black filled circles refers to group <span class="math inline">\(k\)</span> and the line with squares refers to group <span class="math inline">\(l\)</span></p>
-<div id="343aaa9c" class="cell" data-execution_count="20">
+<div id="3307ce14" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> connected y1 <span class="fu">year</span> <span class="kw">if</span> unit == 1, <span class="bn">msymbol</span>(Oh) mcolor(<span class="bn">black</span>) lcolor(<span class="bn">black</span>) || connected y1 <span class="fu">year</span> <span class="kw">if</span> unit == 2, <span class="bn">msymbol</span>(O) mcolor(<span class="bn">black</span>) lcolor(<span class="bn">black</span>) || connected y1 <span class="fu">year</span> <span class="kw">if</span> unit == 3, <span class="bn">msymbol</span>(Sh) mcolor(<span class="bn">black</span>) lcolor(<span class="bn">black</span>) ||, <span class="bn">ytitle</span>(<span class="st">"Outcome Variable"</span>) <span class="bn">xtitle</span>(<span class="st">"Time"</span>) <span class="bn">title</span>(<span class="st">"(a) Simple Decomposition"</span>, <span class="bn">position</span>(6)) <span class="bn">legend</span>(<span class="kw">off</span>) <span class="dv">scheme</span>(plottig) <span class="bn">xline</span>(2002, lpattern(<span class="kw">dash</span>) lcolor(<span class="kw">red</span>)) <span class="bn">xline</span>(2005, lpattern(<span class="kw">dash</span>) lcolor(<span class="kw">red</span>)) <span class="bn">name</span>(PanelA, <span class="kw">replace</span>) <span class="bn">nodraw</span></span>
@@ -1095,7 +1095,7 @@ y_{st} = \gamma_s + \lambda_t + \tau w_{st} + \varepsilon_{st}
 <section id="the-two-way-fixed-effect-estimator" class="level2">
 <h2 class="anchored" data-anchor-id="the-two-way-fixed-effect-estimator">The Two-way Fixed Effect Estimator</h2>
 <p>First we will estimate the parameter by two-way fixed effects regression. This will provide us with the parameter estimate that both <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> and <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> will construct in a piece-wise fashion. This is done relatively simply in <code>Stata</code>. We simply estimate <a href="#eq-twfe" class="quarto-xref">Equation&nbsp;1</a> by linear regression using <code>regress</code> as laid out below:</p>
-<div id="aeb0a450" class="cell" data-execution_count="21">
+<div id="a130fc2e" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">reg</span> y1 i.unit i.<span class="fu">year</span> <span class="kw">post</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="kw">as</span> <span class="bn">text</span> <span class="st">"The parameter estimates by two-way fixed effects regression for the case 1 is: "</span> _b[<span class="kw">post</span>]</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">reg</span> y2 i.unit i.<span class="fu">year</span> <span class="kw">post</span></span>
@@ -1128,7 +1128,7 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 <section id="a-simple-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="a-simple-decomposition">(a) Simple Decomposition</h3>
 <p>In this case the <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> methodology estimate <span class="math inline">\(\widehat{\tau}\)</span> weighting the next four DD comparisons</p>
-<div id="c16c8cb1" class="cell" data-execution_count="22">
+<div id="8576d33a" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> connected y1 <span class="fu">year</span> <span class="kw">if</span> unit == 1, <span class="bn">msymbol</span>(Oh) mcolor(<span class="bn">black</span>) lcolor(<span class="bn">black</span>) || connected y1 <span class="fu">year</span> <span class="kw">if</span> unit == 2, <span class="bn">msymbol</span>(O) mcolor(<span class="bn">black</span>%20) lcolor(<span class="bn">black</span>%20) || connected y1 <span class="fu">year</span> <span class="kw">if</span> unit == 3, <span class="bn">msymbol</span>(Sh) mcolor(<span class="bn">black</span>) lcolor(<span class="bn">black</span>) ||, <span class="bn">ytitle</span>(<span class="st">"Outcome Variable"</span>) <span class="bn">xtitle</span>(<span class="st">"Time"</span>) <span class="bn">title</span>(<span class="st">"A. Early Group v/s Untreated Group"</span>) <span class="bn">legend</span>(<span class="kw">off</span>) <span class="dv">scheme</span>(plottig) <span class="bn">xline</span>(2002, lpattern(<span class="kw">dash</span>) lcolor(<span class="kw">red</span>)) <span class="bn">xline</span>(2005, lpattern(<span class="kw">dash</span>) lcolor(<span class="kw">red</span>)) <span class="bn">name</span>(PanelA, <span class="kw">replace</span>) <span class="bn">nodraw</span></span>
@@ -1150,7 +1150,7 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 <section id="a.-early-group-vs-untreated-group" class="level4">
 <h4 class="anchored" data-anchor-id="a.-early-group-vs-untreated-group">A. Early Group v/s Untreated Group</h4>
 <p>In order to calculate the effects we start making the simple DD comparison of the untreated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 1\)</span>) with the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) getting <span class="math inline">\(\widehat{\beta}^{2 \times 2}_{kU}\)</span> as <span class="math display">\[\widehat{\beta}^{2 \times 2}_{kU} = \left( \overline{y}_k^{Post(k)} - \overline{y}_k^{Pre(k)} \right) - \left( \overline{y}_U^{Post(k)} - \overline{y}_U^{Pre(k)} \right)\]</span> Where <span class="math inline">\(\overline{y}_k^{Post(k)}\)</span> is the mean of the outcome variable for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) posterior to treatment, from 2003, <span class="math inline">\(\overline{y}_k^{Pre(k)}\)</span> is the mean for of the outcome variable for the early treated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 3\)</span>) prior to treatment, (up until 2002), and <span class="math inline">\(\overline{y}_U^{Post(k)}, \overline{y}_U^{Post(k)}\)</span> are the analogous quantities for the untreated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 1\)</span>)</p>
-<div id="2d236b64" class="cell" data-execution_count="23">
+<div id="c3868c9d" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> y1 <span class="kw">if</span> unit == 3 &amp; <span class="kw">post</span> == 1</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> y1treatmeanpost = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> y1 <span class="kw">if</span> unit == 3 &amp; <span class="kw">post</span> == 0</span>
@@ -1167,7 +1167,7 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 </div>
 </div>
 <p>This result also can be obtained from the linear regression with the canonical DD formula <span class="math display">\[y_{unit,t} = \alpha_0 + \alpha_1 \times Post(k) + \alpha_2 \times \mathbf{1}(unit = 3) + \beta_{kU}^{2\times2} \times Post(k) \times \mathbf{1}(unit = 3) + \varepsilon_i\]</span> Where <span class="math inline">\(Post(k)\)</span> indicates that the year is equal or greater than the year where the group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) received the treatment (2003) and <span class="math inline">\(\mathbf{1}(unit = 3)\)</span> indicates if the observation is from the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>)</p>
-<div id="4b0ee446" class="cell" data-execution_count="24">
+<div id="f1824828" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> post2003 = (<span class="fu">year</span> &gt;= 2003)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> y1 i.post2003 i.unit i.post2003#i.unit <span class="kw">if</span> unit != 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1194,7 +1194,7 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 </div>
 </div>
 <p>A third way to obtain this is from the next linear regression <span class="math display">\[y_{unit,t} = \alpha_0 + \beta_{kU}^{2 \times 2} \times Post + \sum_{i = 2001}^{2009} \alpha_{i-2000} \times \mathbf{1}(year = i) + \alpha_{10} \times \mathbf{1}(unit = 3) + \varepsilon_i\]</span> Where in this case <span class="math inline">\(Post\)</span> indicates if the unit is treated (note for group <span class="math inline">\(U\)</span> this will be always 0), <span class="math inline">\(\mathbf{1}(year = i)\)</span> indicates if the observation is in period <span class="math inline">\(i \in \{2001, \ldots, 2009\}\)</span> and <span class="math inline">\(\mathbf{1}(unit = 3)\)</span> keep its meaning</p>
-<div id="6689a9f0" class="cell" data-execution_count="25">
+<div id="a4a4a69d" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> y1 <span class="kw">post</span> i.<span class="fu">year</span> i.unit <span class="kw">if</span> unit != 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1227,14 +1227,14 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 </div>
 </div>
 <p>Now we store this result for posterior use</p>
-<div id="4fa4d24d" class="cell" data-execution_count="26">
+<div id="0c5666df" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> bku = _b[<span class="kw">post</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="b.-later-group-vs-untreated-group" class="level4">
 <h4 class="anchored" data-anchor-id="b.-later-group-vs-untreated-group">B. Later Group v/s Untreated Group</h4>
 <p>The next DD comparison we calculate is that which compares the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>) with the untreated group <span class="math inline">\(U\)</span> (<span class="math inline">\(unit = 1\)</span>), resulting in <span class="math inline">\(\widehat{\beta}^{2 \times 2}_{lU}\)</span>. As above, we can generate this DD estimate in a number of ways (most simply by double-differencing with means), and this will then be stored.</p>
-<div id="ddf9f027" class="cell" data-execution_count="27">
+<div id="b88859c5" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> y1 <span class="kw">if</span> unit == 2 &amp; <span class="kw">post</span> == 1</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> y1treatmeanpost = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> y1 <span class="kw">if</span> unit == 2 &amp; <span class="kw">post</span> == 0</span>
@@ -1255,7 +1255,7 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 <section id="c.-early-group-vs-later-group-before-2006" class="level4">
 <h4 class="anchored" data-anchor-id="c.-early-group-vs-later-group-before-2006">C. Early Group v/s Later Group Before 2006</h4>
 <p>Next we calculate the effects from the DD comparisons of early and later treated groups, up until the later treated group receives treatment (2006). This is: <span class="math display">\[\widehat{\beta}^{2 \times 2, k}_{kl} \equiv \left( \overline{y}^{Mid(k,l)}_{k} - \overline{y}^{Pre(k)}_{k} \right) - \left( \overline{y}^{Mid(k,l)}_{l} - \overline{y}^{Pre(k)}_{l} \right)\]</span> where <span class="math inline">\(\overline{y}^{Mid(k,l)}_{k}\)</span> is the mean of the outcome variable for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) in the period between the treatment for the group <span class="math inline">\(k\)</span> and the group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>), from 2003 to 2005, <span class="math inline">\(\overline{y}^{Pre(k)}_{k}\)</span> is the mean for of the outcome variable for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) previous to treatment, until 2002, and <span class="math inline">\(\overline{y}^{Mid(k,l)}_{l}, \overline{y}^{Pre(k)}_{l}\)</span> are the analogous for the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>)</p>
-<div id="7e2a99a6" class="cell" data-execution_count="28">
+<div id="bf9435ae" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> y1 <span class="kw">post</span> i.<span class="fu">year</span> i.unit <span class="kw">if</span> unit != 1 &amp; <span class="fu">year</span> &lt; 2006</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> bklk = _b[<span class="kw">post</span>]</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="fu">round</span>(bklk, 0.01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1290,7 +1290,7 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 <section id="d.-early-group-vs-later-group-after-2003" class="level4">
 <h4 class="anchored" data-anchor-id="d.-early-group-vs-later-group-after-2003">D. Early Group v/s Later Group After 2003</h4>
 <p>The last DD comparison is for early and later treated groups, starting from 2006 <span class="math display">\[\widehat{\beta}^{2 \times 2, l}_{kl} \equiv \left( \overline{y}^{Post(l)}_{l} - \overline{y}^{Mid(k,l)}_{l} \right) - \left( \overline{y}^{Post(l)}_{k} - \overline{y}^{Mid(k,l)}_{k} \right)\]</span> Where <span class="math inline">\(\overline{y}^{Post(l)}_{l}\)</span> is the mean of the outcome variable for the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>) in the period after this group received the treatment, from 2006, <span class="math inline">\(\overline{y}^{Mid(k,l)}_{l}\)</span> is the mean for of the outcome variable for the later treated group <span class="math inline">\(l\)</span> (<span class="math inline">\(unit = 2\)</span>) in the period between the treatment for the group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>) and the group <span class="math inline">\(l\)</span>, from 2003 to 2005, and <span class="math inline">\(\overline{y}^{Post(l)}_{k}, \overline{y}^{Mid(k,l)}_{k}\)</span> are the analogous quantities for the early treated group <span class="math inline">\(k\)</span> (<span class="math inline">\(unit = 3\)</span>). We can generate and save this quantity as we have previously:</p>
-<div id="758411bb" class="cell" data-execution_count="29">
+<div id="1dc4fee4" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> y1 <span class="kw">post</span> i.<span class="fu">year</span> i.unit <span class="kw">if</span> unit != 1 &amp; <span class="fu">year</span> &gt; 2002</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> bkll = _b[<span class="kw">post</span>]</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="fu">round</span>(bkll, 0.01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1330,20 +1330,20 @@ The parameter estimates by two-way fixed effects regression for the case 2 is:
 W_{kU} &amp; = \frac{(n_k + n_U)^2\widehat{V}^D_{kU}}{\widehat{V}^D} \quad &amp;  \quad W_{lU} &amp; = \frac{(n_l + n_U)^2\widehat{V}^D_{lU}}{\widehat{V}^D} \\
 W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}}{\widehat{V}^D} \quad &amp;  \quad W_{kl}^l &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_k)]^2\widehat{V}^{D,l}_{kl}}{\widehat{V}^D}
 \end{align*}\]</span> Where <span class="math inline">\(n\)</span> refers to the sample share of the group</p>
-<div id="6b240bc2" class="cell" data-execution_count="30">
+<div id="369f26e9" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> nk = 1/3</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> <span class="kw">nl</span> = 1/3</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> nu = 1/3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math inline">\(\overline{D}\)</span> referes to the share of time the group is treated</p>
-<div id="41ed8009" class="cell" data-execution_count="31">
+<div id="a291a199" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> <span class="kw">post</span> <span class="kw">if</span> unit == 3</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> Dk = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> <span class="kw">post</span> <span class="kw">if</span> unit == 2</span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> Dl = <span class="fu">r</span>(<span class="kw">mean</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and <span class="math inline">\(\widehat{V}\)</span> refers to how much treatment varies</p>
-<div id="49308498" class="cell" data-execution_count="32">
+<div id="5268e01f" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> <span class="kw">post</span> <span class="kw">if</span> unit == 3</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> Dk = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> <span class="kw">post</span> <span class="kw">if</span> unit == 2</span>
@@ -1359,7 +1359,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> VD = <span class="fu">r</span>(<span class="kw">mean</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The weights are thus the following:</p>
-<div id="877b07e0" class="cell" data-execution_count="33">
+<div id="f6a2cf13" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> wkU = ((nk + nu)^2*VkU)/VD</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> wkU</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> wlU = ((<span class="kw">nl</span> + nu)^2*VlU)/VD</span>
@@ -1376,7 +1376,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>With this in mind the <span class="math inline">\(\tau\)</span> estimate is</p>
-<div id="32ae6572" class="cell" data-execution_count="34">
+<div id="b02f9f75" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> tau = wkU * bku + wlU * blu + wklk * bklk + wkll * bkll</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> tau</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1389,7 +1389,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <section id="b-decomposition-with-trends" class="level3">
 <h3 class="anchored" data-anchor-id="b-decomposition-with-trends">(b) Decomposition with trends</h3>
 <p>In this case the <span class="citation" data-cites="GoodmanBacon2018">Goodman-Bacon (<a href="#ref-GoodmanBacon2018" role="doc-biblioref">2021</a>)</span> decomposition follows as above generating the treatment effect as follows:</p>
-<div id="37bcfd8f" class="cell" data-execution_count="35">
+<div id="50d2168e" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> connected y2 <span class="fu">year</span> <span class="kw">if</span> unit == 1, <span class="bn">msymbol</span>(Oh) mcolor(<span class="bn">black</span>) lcolor(<span class="bn">black</span>) || connected y2 <span class="fu">year</span> <span class="kw">if</span> unit == 2, <span class="bn">msymbol</span>(O) mcolor(<span class="bn">black</span>%20) lcolor(<span class="bn">black</span>%20) || connected y2 <span class="fu">year</span> <span class="kw">if</span> unit == 3, <span class="bn">msymbol</span>(Sh) mcolor(<span class="bn">black</span>) lcolor(<span class="bn">black</span>) ||, <span class="bn">ytitle</span>(<span class="st">"Outcome Variable"</span>) <span class="bn">xtitle</span>(<span class="st">"Time"</span>) <span class="bn">title</span>(<span class="st">"A. Early Group v/s Untreated Group"</span>) <span class="bn">legend</span>(<span class="kw">off</span>) <span class="dv">scheme</span>(plottig) <span class="bn">xline</span>(2002, lpattern(<span class="kw">dash</span>) lcolor(<span class="kw">red</span>)) <span class="bn">xline</span>(2005, lpattern(<span class="kw">dash</span>) lcolor(<span class="kw">red</span>)) <span class="bn">name</span>(PanelA, <span class="kw">replace</span>) <span class="bn">nodraw</span></span>
@@ -1408,7 +1408,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>As seen in the plots, in the decomposition with trends these effects are no longer constants of 3 and 2 for early and later treated units given that the “treatment effect” is no longer simply <span class="math inline">\(1 \times unit\)</span> in each case.</p>
-<div id="52c054b9" class="cell" data-execution_count="36">
+<div id="f0d6eecd" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">drop</span> residuals residuals2</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>* 2x2 DD Regressions <span class="kw">for</span> betas</span>
@@ -1467,11 +1467,11 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 <p>Now, we will show that the procedures described in <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>, despite arriving to the estimator in a different way, also let us understand how the regression weights the two-way fixed effect estimator. In this case, rather than considering each treatment-control comparison pair, the authors note that the two-way fixed estimator can be conceived as a weighted sum of each single group by time period in any post-treatment group.</p>
 <p>The authors define <span class="math inline">\(\widehat{\beta}_{fe}\)</span> as the coefficient estimated in the following (standard) two-way fixed effects regression: <span class="math display">\[y_{i,s,t} = \beta_0 + \beta_{fe} D_{s,t} + \mu_s + \lambda_t + \varepsilon_{s,t}\]</span> Where <span class="math inline">\(D_{s,t}\)</span> is the mean over <span class="math inline">\(i\)</span> of a binary indicator variable that takes value of 1 if the unit <span class="math inline">\(i\)</span> in state <span class="math inline">\(s\)</span> is treated at period <span class="math inline">\(t\)</span> and 0 otherwise, in our case as we have one observartion per state <span class="math inline">\(D_{s,t} = post_{s,t}\)</span>, meanwhile <span class="math inline">\(\mu_s\)</span> and <span class="math inline">\(\lambda_t\)</span> are state and time fixed effects. This is, of course, precisely the same model as we have estimated in <a href="#eq-twfe" class="quarto-xref">Equation&nbsp;1</a>, implying that <span class="math inline">\(\beta_{fe}=2.4545\)</span> in cases without post-treatment trends (<code>y1</code>), or <span class="math inline">\(\beta_{fe}=3.8045\)</span> in cases with post-treatment dynamics (<code>y2</code>).</p>
 <p><span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> define the ATE for any (<span class="math inline">\(s,t\)</span>) cell as: <span class="math display">\[\Delta_{s,t} = \frac{1}{N_{s,t}} \sum_{i = 1}^{N_{s,t}}[Y_{i,s,t}(1) - Y_{i,s,t}(0)].\]</span> You will note that here we require an unobserved counterfactual <span class="math inline">\(Y_{i,s,t}(0)\)</span>. If we impose a parallel trend assumption, such a counterfactual can be inferred from unit-specific fixed effects, time-specific fixed effects, and the constant term. Because in this case we <em>know</em> our data generating process, we can simply generate this counterfactual as the data generating process, absent any effect of treatment. Below we generate such a counterfactual, where you will note that we impose that this is an ‘untreated’ counterfactual by setting the treatment effects to 0 in the generation of <code>y1_c</code> below:</p>
-<div id="923beb47" class="cell" data-execution_count="37">
+<div id="7b341b17" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> y1_c = 2 + (<span class="fu">year</span> - 2000) * 0.2 + 1 * unit + 0 * <span class="kw">post</span> * unit + 0 * <span class="kw">post</span> * unit * (time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is likely useful to confirm to ourselves that graphically we are indeed generating the untreated counterfactual in this way.</p>
-<div id="de84ab8b" class="cell" data-execution_count="38">
+<div id="fd8e8236" class="cell" data-execution_count="38">
 <details class="code-fold">
 <summary>Show the plot code</summary>
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">line</span> y1 y1_c <span class="fu">year</span> <span class="kw">if</span> unit == 2, <span class="dv">scheme</span>(plottig) <span class="bn">ytitle</span>(<span class="st">"Y"</span>) <span class="bn">xtitle</span>(<span class="st">"Year"</span>) lwidth(thick thick) lpattern(solid <span class="kw">dash</span>) lcolor(<span class="bn">blue</span> <span class="kw">red</span>) <span class="bn">legend</span>(<span class="kw">off</span>) <span class="bn">text</span>(7 2007 <span class="st">"Y(1)"</span> 5 2007 <span class="st">"Y(0)"</span>) <span class="bn">title</span>(<span class="st">"(a) Unit 2 Outcome and Counterfactual"</span>, <span class="bn">position</span>(6)) <span class="bn">name</span>(unit2, <span class="kw">replace</span>) <span class="bn">nodraw</span></span>
@@ -1488,7 +1488,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>This allows us to calculate a state- and time-period specific treatment effect (<span class="math inline">\(\Delta_{s,t}\)</span>) for each treated unit. We do so, calculating this quantity for all units in which treatment exists:</p>
-<div id="a4080c29" class="cell" data-execution_count="39">
+<div id="457c53e9" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> Delta_st = y1 - y1_c <span class="kw">if</span> <span class="kw">post</span> == 1</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> y1 y1_c unit <span class="fu">year</span> Delta_st <span class="kw">if</span> <span class="kw">post</span> == 1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1514,7 +1514,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>Unsurprisingly, given the data generating process we have defined, we see that each treatment effect is 2 for unit 2, and 3 for unit 3. If we were to calculate a mean treatment effect by hand, we may wish to simply take an average over all periods and units. However, one of the key results of <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> is to show that under a series of standard assumptions <span class="math display">\[\beta_{fe} = E \left[ \sum_{s,t:D_{s,t}=1}\frac{N_{s,t}}{N_1}w_{s,t}\Delta_{s,t} \right]\]</span> Where <span class="math inline">\(N_1\)</span> refers to the sum of all treated observations and <span class="math display">\[w_{s,t} = \frac{\varepsilon_{s,t}}{\sum_{s,t:D_{s,t}=1}\frac{N_{s,t}}{N_1}\varepsilon_{s,t}}\]</span> Where <span class="math inline">\(\varepsilon_{s,t}\)</span> is the residual from a regression of <span class="math inline">\(D_{s,t}\)</span> on state and time fixed-effects. To confirm this in our data, we will estimate these regression residuals and add them into the dataframe:</p>
-<div id="ea8a32ea" class="cell" data-execution_count="40">
+<div id="90fa93dc" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">quietly</span>{</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">post</span> i.unit i.<span class="fu">year</span></span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> eps_st, residuals</span>
@@ -1545,7 +1545,7 @@ W_{kl}^k &amp; = \frac{[(n_k + n_l)(1 - \overline{D}_l)]^2\widehat{V}^{D,k}_{kl}
 </div>
 </div>
 <p>Note here that after generating <span class="math inline">\(w_{s,t}\)</span> we print this out using the round function to avoid very small digits appearing which are only different to zero given machine precision. The key thing that we can see is that the effective weighting of treatment effects which occurs in regression is quite different to what we would expect. Indeed, four periods are given 0 weights! Finally, we can confirm that this decomposition gives us the two-way fixed effect estimate by multiplying <span class="math inline">\(\Delta_{s,t}\)</span> and <span class="math inline">\(w_{s,t}\)</span> and summing:</p>
-<div id="46dd5d64" class="cell" data-execution_count="41">
+<div id="938eb9e5" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> Delta_times_w = Delta_st * w_st</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> Delta_times_w</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="st">"de Chaisemartin and D'Haultfoeuille's decomposition returns an estimates of: "</span> <span class="fu">r</span>(<span class="kw">sum</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1561,7 +1561,7 @@ de Chaisemartin and D'Haultfoeuille's decomposition returns an estimates of: 2.
 </div>
 <p>We can see that correctly, this decomposition also returns the two-way fixed effect estimate of 2.4545.</p>
 <p>We can follow precisely the same series of steps to see the case of the decomposition where treatment exposition also results in a trend-break. To see this, we conduct each of the above steps below, however here we have not produced similar graphs (though you may wish to do so to confirm that counterfactuals make sense):</p>
-<div id="5ecce49a" class="cell" data-execution_count="42">
+<div id="6f517c0c" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> y2_c = 2 + (<span class="fu">year</span> - 2000) * 0.2 + 1 * unit + 0 * <span class="kw">post</span> * unit + 0 * <span class="kw">post</span> * unit * (time)</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> Delta_st2 = y2 - y2_c <span class="kw">if</span> <span class="kw">post</span> == 1</span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> y2 y2_c unit <span class="fu">year</span> Delta_st2 w_st <span class="kw">if</span> <span class="kw">post</span> == 1, sepby(unit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1587,7 +1587,7 @@ de Chaisemartin and D'Haultfoeuille's decomposition returns an estimates of: 2.
 </div>
 </div>
 <p>Because there is no difference in the structure of the treatment indicator or the unit and time fixed effects, the residuals <span class="math inline">\(w_{s,t}\)</span> are identical, though of course the treatment effects themselves, <span class="math inline">\(\Delta_{s,t}\)</span> are not. Thus, once again we see that later treatment effects for unit 3 (precisely those units for which treatment effects are largest), are given zero weights. Finally, again we can calculate the two-way fixed effect estimate following this decomposition by summing across units, capturing the estimate we have previously observed in regression models of 3.804545.</p>
-<div id="ab1950f8" class="cell" data-execution_count="43">
+<div id="4bea4917" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> Delta_times_w2 = Delta_st2 * w_st</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> Delta_times_w2</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="st">"de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates of: "</span> <span class="fu">r</span>(<span class="kw">sum</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1607,7 +1607,7 @@ de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates
 <section id="code-call-out-4.3a-event-study-and-interaction-weighted-estimators" class="level1">
 <h1>Code call-out 4.3(a): Event study and Interaction-weighted Estimators</h1>
 <p>To understand the equivalence between the panel event study model described in Section 4.4.2.1 of the book and the “Interaction-weighted (IW) estimator” proposed by <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span> we work with data from <span class="citation" data-cites="StevensonWolfers2006">Stevenson and Wolfers (<a href="#ref-StevensonWolfers2006" role="doc-biblioref">2006</a>)</span> which examines the effect of the staggered adoption of no-default divorce reforms (<code>_nfd</code>) and female suicide (<code>asmrs</code>) in United States for 49 states (<code>stfips</code>) from 1964 to 1996. We begin by loading the data below, and confirming that it effectively consists of a balanced sample of 49 states (we will denote using <span class="math inline">\(s\)</span> below) over 33 years (denoted as <span class="math inline">\(t\)</span>):</p>
-<div id="60f5c85e" class="cell" data-execution_count="44">
+<div id="3031da96" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"data/Stevenson_Wolfers_2006.csv"</span>, <span class="kw">clear</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> <span class="kw">in</span> 1/5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1658,7 +1658,7 @@ de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates
 </div>
 </div>
 <p>In order to prepare our dataset we note that the variable <code>_nfd</code> contains the year a state adopts a law (<span class="math inline">\(Event_s\)</span>) as a string, and define a variable <code>timeToTreat</code> as the difference between year <span class="math inline">\(t\)</span> and <span class="math inline">\(Event_s\)</span> after converting <code>_nfd</code> to numeric:</p>
-<div id="22b792e0" class="cell" data-execution_count="45">
+<div id="d4ade454" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> timeToTreat = <span class="fu">year</span> - _nfd</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> <span class="fu">year</span> _nfd timeToTreat <span class="kw">in</span> 1/10, sep(10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1685,7 +1685,7 @@ de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates
 <h2 class="anchored" data-anchor-id="panel-event-study-model">Panel Event Study Model</h2>
 <p>We will begin by estimating a standard event study, defined as follows, or as equation 4.38 in the book: <span class="math display">\[asmrs_{st} = \alpha + \sum_{j=2}^{J} \beta_j (Lead \ j)_{st} + \sum_{k = 0}^{K} \gamma_{k} (Lag \ k)_{st} + \mu_s + \lambda_t + X_{st}^\prime \Gamma + \varepsilon_{st}\]</span> Here <span class="math inline">\(asmrs_{st}\)</span> refers to the female suicide rate for all women of state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span>, <span class="math inline">\((Lead \ j)_{st}\)</span> a dummy variable that takes 1 if the state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span> is <span class="math inline">\(j\)</span> periods pre-treatment, <span class="math inline">\((Lag \ k)_{st}\)</span> a dummy variable that takes 1 if the state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span> is <span class="math inline">\(k\)</span> periods post-treatment, <span class="math inline">\(\mu_s\)</span> and <span class="math inline">\(\lambda_t\)</span> are state and time fixed effects respectively and <span class="math inline">\(X^\prime_{st}\)</span> a vector of covariates for state <span class="math inline">\(s\)</span> at period <span class="math inline">\(t\)</span> such as per-capita income <span class="math inline">\(pcinc_{st}\)</span>, homicide mortality <span class="math inline">\(asmrh_{st}\)</span> and the aid to families with dependent children (AFDC) rate for a family of four <span class="math inline">\(cases_{st}\)</span>.</p>
 <p>Thus, we wish to include a single binary variable for each lead and lag observed in our data (arbritarily omitting lead 1). If we inspect the values of <code>timeToTreat</code> below, we can see how there are <span class="math inline">\(J = 21\)</span> binary <span class="math inline">\(Lead\)</span> variables and <span class="math inline">\(K = 27\)</span> <span class="math inline">\(Lag\)</span> variable to include:</p>
-<div id="4c9d8505" class="cell" data-execution_count="46">
+<div id="60b69880" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="kw">levelsof</span> timeToTreat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>-21 -20 -19 -18 -17 -16 -15 -14 -13 -12 -11 -10 -9 -8 -7 -6 -5 -4 -3 -2 -1 0 1 
@@ -1693,7 +1693,7 @@ de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates
 </div>
 </div>
 <p>A natural option to generate lags and leads may seem to use <code>tab</code> with the <code>generate</code> option. However, we have 49 values of <code>timeToTreat</code> and the names of each dummy that <code>tab</code> creates will assign names from 1 to 49 that isn’t very informative. One possible solution is to manually create all the binary variables as below, looping through each level of <code>timeToTreat</code>. The resulting set of lags and leads will take a value of 1 if <code>timeToTreat</code> is equal to the period of interest, and 0 otherwise. While we could likely do this in fewer lines, it is useful to see explicitly how lags and leads are coded.</p>
-<div id="61850cd5" class="cell" data-execution_count="47">
+<div id="2a153dc5" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="kw">levelsof</span> timeToTreat, <span class="kw">local</span>(RelTimes)</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> i <span class="kw">of</span> <span class="kw">local</span> RelTimes{</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="ot">`i'</span> &lt; 0 <span class="kw">local</span> num = <span class="fu">abs</span>(<span class="ot">`i'</span>)</span>
@@ -1706,7 +1706,7 @@ de Chaisemartin and Xavier D'Haultfoeuille's decomposition returns an estimates
 </div>
 </div>
 <p>Next we can estimate the event study by standard OLS using the <code>reghdfe</code> command from the homonymous package. Note that we omit <code>Lead1</code> as a reference base level. The usage of this function includes two special options that we specify: the first one determine the fixed effects (in this case year and state fixed effects), the second one is for clustered standard errors.</p>
-<div id="465a76d9" class="cell" data-execution_count="48">
+<div id="484a74ba" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>reghdfe asmrs Lead21-Lead2 Lag* pcinc asmrh cases, absorb(stfips <span class="fu">year</span>) <span class="kw">vce</span>(<span class="kw">cluster</span> stfips)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(MWFE estimator converged in 2 iterations)
@@ -1791,7 +1791,7 @@ Absorbed degrees of freedom:
 </div>
 </div>
 <p>Once we have estimated this regression, we can visualise point estimates and standard errors in the traditional event study style, as laid out below. To do this, we will “pre-populate” a data frame with all missing values, <code>.</code>, and then incorporate the parameters we need from our regression, which are saved in <code>Stata</code>’s internal memory. Finally, we will plot an event study using <code>serrbar</code>:</p>
-<div id="f87d4844" class="cell" data-execution_count="49">
+<div id="ebff5b3f" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Create matrix to store estimates</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> params = <span class="fu">J</span>(49, 3, .)</span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">colnames</span> params = <span class="st">"Time"</span> <span class="st">"Estimate"</span> <span class="st">"SE"</span></span>
@@ -1853,7 +1853,7 @@ Number of observations (_N) was 0, now 49.</code></pre>
 <li>Estimate the IW estimator following equation (<a href="#eq-IWEstimator" class="quarto-xref">Equation&nbsp;2</a>).</li>
 </ol>
 <p>To fix ideas and get a hold on notation, in our example <span class="math inline">\(g = \{-21 , -20 , \cdots , 27\}\)</span>, as we are considering the full set of lags and leads <span class="math inline">\(\ell\)</span> as part of <span class="math inline">\(g\)</span>. The years which a no fault divorce law was passed (<span class="math inline">\(e\)</span>) are <span class="math inline">\(e \in \{1969 , 1970 , 1971 , 1972 , 1973 , 1974 , 1975 , 1976 , 1977 , 1980 , 1984 , 1985\}\)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. We will start by building a series of indicator variables for <span class="math inline">\(E_i\)</span> as follows:</p>
-<div id="306709a6" class="cell" data-execution_count="50">
+<div id="bdd70a1b" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>frame change <span class="kw">default</span></span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="kw">levelsof</span> _nfd, <span class="kw">local</span>(Cohorts)</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> i <span class="kw">of</span> <span class="kw">local</span> Cohorts{</span>
@@ -1865,7 +1865,7 @@ Number of observations (_N) was 0, now 49.</code></pre>
 </div>
 <p>You may wish to confirm each <code>E1969</code> generated in this loop above contains a vector of 1s for all units which were first exposed to the policy in 1969, and so forth for other indicators.</p>
 <p>If we return to (<a href="#eq-IWEstimator" class="quarto-xref">Equation&nbsp;2</a>), we can see that we are interested in estimating a full set of lags and leads for each adoption period <span class="math inline">\(e\)</span>. With this particular setup, we have 12 indicator variables drawn from <span class="math inline">\(e\)</span>, and if we consider all lags and leads in <span class="math inline">\(g\)</span>, we have 48 indicator variables<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Thus, from <span class="math inline">\(\displaystyle\sum_{e\neq C}\sum_{\ell\neq-1}\delta_{e, \ell} (\mathbf{1}\{ E_i = e\} \cdot D_{i,t}^{\ell})\)</span> we have 576 indicator variables! To ilustrate this we build all the indicator variables for <span class="math inline">\(CATT_{e,\ell}\)</span> with the respective name in order to make it clearer when we go forward where we will store each of the outputs of interest.</p>
-<div id="8739b249" class="cell" data-execution_count="51">
+<div id="14f38451" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="fu">e</span> <span class="kw">of</span> <span class="kw">varlist</span> E* {</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">foreach</span> <span class="ot">l</span> <span class="kw">of</span> <span class="kw">varlist</span> Lead21-Lead2 Lag* {</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">gen</span> CATT_<span class="ot">`e'</span>_<span class="ot">`l'</span> = <span class="ot">`e'</span> * <span class="ot">`l'</span></span>
@@ -1873,18 +1873,18 @@ Number of observations (_N) was 0, now 49.</code></pre>
 <span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The variables <code>CATT_e_l</code> will consist of an indicator for each cohort and time to treatment, indicating whether an observation is in this particular group. Note, however, that some of these indicator variables will actually be entirely empty. This is because there are some cohorts that never experience some specific <span class="math inline">\(\ell\)</span> relative to the period of treatment (eg early treatment adopters won’t have enough data prior to treatment to observe very long leads, and late treatment adopters won’t have enough post-treatment data to observe very long lags). In order to delete these indicators which exist in our dataset but not in practice, we can simply remove from the data those columns with 0 mean:</p>
-<div id="094558c7" class="cell" data-execution_count="52">
+<div id="3352c9f7" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> CATT <span class="kw">of</span> <span class="kw">varlist</span> CATT* {</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">qui</span> <span class="kw">sum</span> <span class="ot">`CATT'</span></span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="fu">r</span>(<span class="kw">mean</span>) == 0 <span class="kw">drop</span> <span class="ot">`CATT'</span></span>
 <span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As we see here, we have now reduced the dimensionality of the indicator variables <span class="math inline">\(\displaystyle\sum_{e\neq C}\sum_{\ell\neq-1}\delta_{e, \ell} (\mathbf{1}\{ E_i = e\} \cdot D_{i,t}^{\ell})\)</span> from 576 to 384, which are the full observable lags and leads for each treatment cohort. Now we can actually go about the business of estimating <span class="math inline">\(\delta_{e,\ell}\)</span>!</p>
-<div id="9bdd3528" class="cell" data-execution_count="53">
+<div id="5e3ef5e8" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> reghdfe asmrs CATT* pcinc asmrh cases, absorb(stfips <span class="fu">year</span>) <span class="kw">vce</span>(<span class="kw">cluster</span> stfips)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This looks quite simple, and it is precisely because we have gone to all the work of generating all the dummies we need for our CATT groups. This, in essence, estimates an event study equivalent for each treatment adoption cohort. As there is many estimates here, we don’t show the full summary, but we can peruse the first 10 estimates for <span class="math inline">\(CATT_{e,\ell}\)</span>:</p>
-<div id="6fd8f1c5" class="cell" data-execution_count="54">
+<div id="41bcdd05" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> A = <span class="fu">r</span>(<span class="kw">table</span>)[1..9,1..5]</span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">list</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1903,7 +1903,7 @@ pvalue       .145917     .12916913      .0775623     .99140368     .65398775
 </div>
 </div>
 <p>To have a full idea of what we’ve just estimated here, we will re-organise these estimates to present the coefficient in the style of Table 3 of <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>. In particular, let’s display <span class="math inline">\(\ell\)</span> values (lags and leads) in rows and <span class="math inline">\(e\)</span> values in columns so we can observe our cohort-specific event studies in a column-wise fashion. We do this below, we first build a matrix <code>deltas</code> in which to store these estimates, then fill them in, before finally displaying the tabular output. Most of this code is actually relatively auxiliary, used to ensure that we can extract each lag and lead from regression results. To do this, we are using the command <code>capture</code>, as some of the combinations <span class="math inline">\(e,\ell\)</span> doesn’t exist. It is worth working through this code carefully to confirm that you can see that in this way we grab each coefficient <span class="math inline">\(\widehat\delta_{e,\ell}\)</span>.</p>
-<div id="6b11d529" class="cell" data-execution_count="55">
+<div id="1e827a57" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Get unique cohorts and relative times</span></span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="kw">levelsof</span> _nfd, <span class="kw">local</span>(Cohorts)</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> n_cohorts = <span class="fu">r</span>(<span class="fu">r</span>)</span>
@@ -2041,7 +2041,7 @@ pvalue       .145917     .12916913      .0775623     .99140368     .65398775
 </div>
 </div>
 <p>Now, with <span class="math inline">\(\widehat\delta_{e,\ell}\)</span> in hand, the only other thing we need are the weights of each cohort at the respective relative period. We could do this “by hand”, calculating from observations in our data, but it is likely easier to get these by regressing each cohort indicator variable <span class="math inline">\(\mathbf{1} \{ E_i = e \}\)</span> on all the relative period indicator variables <span class="math inline">\(D^\ell_{i,t}\)</span>. This regression will just tell us the proportion of a specific lead or lag which are made up of observations from a particular cohort. We will do this below, storing weights in a matrix called <code>w1</code>:</p>
-<div id="46a325bd" class="cell" data-execution_count="56">
+<div id="0cb6f9ba" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Get unique cohorts and relative times</span></span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="kw">levelsof</span> _nfd, <span class="kw">local</span>(Cohorts)</span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> n_cohorts = <span class="fu">r</span>(<span class="fu">r</span>)</span>
@@ -2075,7 +2075,7 @@ pvalue       .145917     .12916913      .0775623     .99140368     .65398775
 </div>
 </div>
 <p>We can display these weights in the same was as we documented the quantities <span class="math inline">\(\widehat\delta_{e,\ell}\)</span> previously:</p>
-<div id="2d3c1534" class="cell" data-execution_count="57">
+<div id="e42ddb0f" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> ws = w1</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="kw">matlist</span> ws, <span class="kw">format</span>(%4.2f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2186,7 +2186,7 @@ pvalue       .145917     .12916913      .0775623     .99140368     .65398775
 </div>
 </div>
 <p>Now, finally, we can generate <span class="math inline">\(\widehat{v}_{\ell}\)</span> for <span class="math inline">\(\ell = -21, \ldots, 27\)</span> and compare this with the results of the standard Panel Event Study Model we documented above.</p>
-<div id="935f06c0" class="cell" data-execution_count="58">
+<div id="6cfd0d33" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Get unique cohorts and time to treatment</span></span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="kw">levelsof</span> timeToTreat, <span class="kw">local</span>(RelTimes)</span>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> n_reltime = <span class="fu">r</span>(<span class="fu">r</span>)</span>
@@ -2280,7 +2280,7 @@ pvalue       .145917     .12916913      .0775623     .99140368     .65398775
   &amp; + \sum_{e_j \in h^\ell} \sum_{e_k \in h^\ell , e_k \neq e_j} 2 \widehat{\delta}_{e_j,\ell}  \widehat{\delta}_{e_k,\ell} Cov \left( \widehat{Pr}\{ E_i = e_j | e_j \in h^\ell \} , \widehat{Pr}\{ E_i = e_k | e_k \in h^\ell \} \right)
 \end{align*}\]</span> Where <span class="math inline">\(h^\ell\)</span> is the set of cohorts that experience the relative period <span class="math inline">\(\ell\)</span>, variance and covariance of the <span class="math inline">\(CATT_{e,\ell}\)</span> come from estimates of step 1 and, variance and covariance of the weights <span class="math inline">\(\widehat{Pr} \{ E_i = e | e \in h^\ell \}\)</span> come from the regressions of <span class="math inline">\(\mathbf{1} \{ E_i = e \}\)</span> on <span class="math inline">\(D^\ell_{i,t}\)</span>.</p>
 <p>The key thing to see is that we could estimate this manually with the pieces we have already put together, and indeed, with the use of seemingly unrelated regression techniques it is possible to estimate the variance of <span class="math inline">\(\widehat{Pr}(\cdot)\)</span> and <span class="math inline">\(\widehat\delta_{e\ell}\)</span> in a single step. However, in practice we will likely prefer to use a canned routine which allows for the estimation of the interaction weighted estimator, as well as the corresponding variance-covariance matrix. To see that our process of “manually” buidling up Sun and Abraham’s estimator from its composite parts, and to additionally conduct inference in a direct way, we can use estimation routines such as <code>eventstudyinteract</code> command from the homonymous package in <code>Stata</code> (note that this package must be installed from the SSC, and also requires the package <code>avar</code> from the SSC). Below we do this, showing the point estimates recovered are identical to what we have done.</p>
-<div id="4793011b" class="cell" data-execution_count="59">
+<div id="4f92eda0" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Control units indicator variable</span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> control = (_nfd == .)</span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2412,7 +2412,7 @@ Absorbing 2 HDFE groups                                F(387, 48)    =       .
 </div>
 </div>
 <p>Finally, we plot the output along with its 95% confidence intervals to compare this with our original event study.</p>
-<div id="fe2772db" class="cell" data-execution_count="60">
+<div id="5c6260e0" class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Data frame for plot</span></span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>frame change plot_df</span>
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2458,7 +2458,7 @@ Absorbing 2 HDFE groups                                F(387, 48)    =       .
 <h1>Code Call-Out 4.3(b): Alternative time-varying treatment effects</h1>
 <p>In this code call-out we return to the previous example in code call-out 4.3(a) where we review the interaction weighted estimator from <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>. However here, we now consider a range of frequently-used estimators which are used to estimate treatment effects in this setting, and which have desirable properties even in cases with heterogeneous treatment effects and staggered adoption designs. In particular, we will see how we can use packages provided by the authors or other developors to implement the treatment effects estimators proposed by <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>, <span class="citation" data-cites="CallawaySantAnna2018">Callaway and Sant’Anna (<a href="#ref-CallawaySantAnna2018" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="Borusyaketal2024">Borusyak, Jaravel, and Spiess (<a href="#ref-Borusyaketal2024" role="doc-biblioref">2024</a>)</span> as well as the estimator of <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span> seen previously. While in code call-out 4.3(a) we focused on showing each step of <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>, in this code call-out we simply focus on the comparison of each of the aforementioned estimators and their confidence intervals. Unlike the previous call out where we worked with 10 leads and 15 lags, here we will consider only 6 leads and 15 lags to avoid losing focus given large CIs at longer (pre-treatment) leads.</p>
 <p>To begin we load the data from <span class="citation" data-cites="StevensonWolfers2006">Stevenson and Wolfers (<a href="#ref-StevensonWolfers2006" role="doc-biblioref">2006</a>)</span> which we worked with above and we destring the cohort variable:</p>
-<div id="ef4bd92c" class="cell" data-execution_count="61">
+<div id="24437465" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"data/Stevenson_Wolfers_2006.csv"</span>, <span class="kw">clear</span></span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="kw">destring</span> _nfd, <span class="kw">replace</span> <span class="kw">force</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2470,7 +2470,7 @@ _nfd already numeric; no replace</code></pre>
 <section id="abrahamsun2018s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="abrahamsun2018s-event-study-analogue"><span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>’s Event Study Analogue</h2>
 <p>We will begin by using <code>eventstudyinteract</code> to implement <span class="citation" data-cites="AbrahamSun2018">Sun and Abraham (<a href="#ref-AbrahamSun2018" role="doc-biblioref">2021</a>)</span>’s interaction weighted estimator. As we have explored this previously, we will do this below simply implementing what we did previously, however noting that (as above) we need to generate the full set of leads and lags of interest, and we will generate our lags and leads to accumulate leads of greater than 6, and lags of greater than 15:</p>
-<div id="bb8940e5" class="cell" data-execution_count="62">
+<div id="3277845f" class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate relative time to treatment</span></span>
 <span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> timeToTreat = <span class="fu">year</span> - _nfd</span>
 <span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2496,7 +2496,7 @@ _nfd already numeric; no replace</code></pre>
 </div>
 </div>
 <p>We will visualise these effects after implementing the various estimators here, and so for now wish to store each of the grouped lag and lead terms and their standard errors. We do this below, noting that because period -1 is used as an omitted baseline reference period, we will store the series of 5 leads (-6 to -2), a 0 for period -1, and then 15 lags:</p>
-<div id="ff45e955" class="cell" data-execution_count="63">
+<div id="7d9488bd" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>* Store <span class="kw">estimates</span></span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> SA_b = (<span class="fu">e</span>(b_iw)[1,1..5], 0, <span class="fu">e</span>(b_iw)[1,6..21])'</span>
 <span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> SA_v = (<span class="fu">vecdiag</span>(<span class="fu">e</span>(V_iw)[1..5,1..5]), 0, <span class="fu">vecdiag</span>(<span class="fu">e</span>(V_iw)[6..21,6..21]))'</span>
@@ -2507,7 +2507,7 @@ _nfd already numeric; no replace</code></pre>
 <section id="dechaisemartindhaultfoeuille2019s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="dechaisemartindhaultfoeuille2019s-event-study-analogue"><span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span>’s Event Study Analogue</h2>
 <p>We can implemente a similar dynamic model capturing lags and lead’s following <span class="citation" data-cites="deChaisemartinDhaultfoeuille2019">Chaisemartin and D’Haultfœuille (<a href="#ref-deChaisemartinDhaultfoeuille2019" role="doc-biblioref">2020</a>)</span> using the command <code>did_multiplegt_dyn</code>, released by the authors along with a number of others. Note that here, the implementation is such that rather than indicating treatment cohorts, we simply indicate the variable which registers groups (in this case, states), as well as time periods (in this case, years), along with an indicator for the moment in which treatment switches on (<code>post</code> below).</p>
-<div id="14f8b9df" class="cell" data-execution_count="64">
+<div id="4c86c157" class="cell" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Estimate</span></span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>did_multiplegt_dyn asmrs stfips <span class="fu">year</span> <span class="kw">post</span>, <span class="kw">effects</span>(15) placebo(6) <span class="co">///</span></span>
 <span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">cluster</span>(stfips)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2619,7 +2619,7 @@ The development of this package was funded by the European Union (ERC, REALLYCR
 </div>
 </div>
 <p>Once again, we will examine output graphically below when considering all of the estimators together (though we see that handily, the command above provides us with a graph allowing us to easily visualise placebo and treatment effects), and so for now we simply save each of the estimates and their variance for latter processing.</p>
-<div id="a92bc1dd" class="cell" data-execution_count="65">
+<div id="a4562f94" class="cell" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Store</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> dCDH = <span class="fu">J</span>(22, 2, .)</span>
 <span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">colnames</span> dCDH = <span class="st">"dCDH_b"</span> <span class="st">"dCDH_v"</span></span>
@@ -2636,7 +2636,7 @@ The development of this package was funded by the European Union (ERC, REALLYCR
 <section id="callawaysantanna2018s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="callawaysantanna2018s-event-study-analogue"><span class="citation" data-cites="CallawaySantAnna2018">Callaway and Sant’Anna (<a href="#ref-CallawaySantAnna2018" role="doc-biblioref">2021</a>)</span>’s Event Study Analogue</h2>
 <p>We can implemente the estimator of <span class="citation" data-cites="CallawaySantAnna2018">Callaway and Sant’Anna (<a href="#ref-CallawaySantAnna2018" role="doc-biblioref">2021</a>)</span> using the <code>csdid</code> package. As we will see below, this package allows for us to estimate each possible <span class="math inline">\(g,t\)</span> estimtate (ie an estimate for each adoption period at each time period.) In this sense, arriving to the dynamic ‘event study’ estimates requires aggregating these <span class="math inline">\(g,t\)</span> estimates using the post-estimation command <code>estat event</code>, which is designed to interact with <code>csdid</code>. Note here we create <code>_nfd2</code> as <code>csdid</code> require never treated group have value of 0 instead of missing</p>
-<div id="67f6efc9" class="cell" data-execution_count="66">
+<div id="d5ccb438" class="cell" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb111"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Prepare data</span></span>
 <span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> _nfd2 = _nfd</span>
 <span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> _nfd2 = 0 <span class="kw">if</span> _nfd == .</span>
@@ -3109,7 +3109,7 @@ Event Study:Dynamic effects
 </div>
 </div>
 <p>Once again, we can store the output of this command in a matrix for processing below.</p>
-<div id="fb94b1ad" class="cell" data-execution_count="67">
+<div id="e5a079cc" class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> CS_b = <span class="fu">r</span>(bb)'</span>
 <span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> CS_v = <span class="fu">vecdiag</span>(<span class="fu">r</span>(vv))'</span>
 <span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> CS = (CS_b, CS_v)</span>
@@ -3119,7 +3119,7 @@ Event Study:Dynamic effects
 <section id="borusyaketal2024s-event-study-analogue" class="level2">
 <h2 class="anchored" data-anchor-id="borusyaketal2024s-event-study-analogue"><span class="citation" data-cites="Borusyaketal2024">Borusyak, Jaravel, and Spiess (<a href="#ref-Borusyaketal2024" role="doc-biblioref">2024</a>)</span>’s Event Study Analogue</h2>
 <p>Finally, we implement <span class="citation" data-cites="Borusyaketal2024">Borusyak, Jaravel, and Spiess (<a href="#ref-Borusyaketal2024" role="doc-biblioref">2024</a>)</span>’s imputation estimator using the command written by the authors: <code>did_imputation</code>. This requires the original group adoption variable <code>_nfd</code> with missing data for never treated groups, and we indicate post treatment periods with the <code>horizons</code> option, and placebo estimates described in <span class="citation" data-cites="Borusyaketal2024">Borusyak, Jaravel, and Spiess (<a href="#ref-Borusyaketal2024" role="doc-biblioref">2024</a>)</span> with <code>pretrends</code>.</p>
-<div id="37759e7a" class="cell" data-execution_count="68">
+<div id="545a9afa" class="cell" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb114"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Estimate</span></span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>did_imputation asmrs stfips <span class="fu">year</span> _nfd, horizons(0/15) pretrends(6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3154,7 +3154,7 @@ Event Study:Dynamic effects
 </div>
 </div>
 <p>We then save the resulting point estimates and variance terms in a matrix for graphing below.</p>
-<div id="7bd78c6a" class="cell" data-execution_count="69">
+<div id="170ac15a" class="cell" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb116"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>* Store</span>
 <span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> BJS = <span class="fu">J</span>(22, 2, .)</span>
 <span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">colnames</span> BJS = <span class="st">"BJS_b"</span> <span class="st">"BJS_v"</span></span>
@@ -3171,7 +3171,7 @@ Event Study:Dynamic effects
 <section id="bringing-things-together-and-visualising-all-estimates" class="level2">
 <h2 class="anchored" data-anchor-id="bringing-things-together-and-visualising-all-estimates">Bringing things together and visualising all estimates</h2>
 <p>Finally we will plot all the resulting estimates and their confidence intervals on a single plot. Note that there are packages to do this if desired, however we can easily enough do it “by hand” as we see below. Here we first import each of the matrices with the point estimates and variance terms, and then generate the 95% CIs based on the variance terms. Finally, we plot these on a common axis, noting that in the interests of visualisation, we shift treat treatment time around the relevant period allowing for some separation between each estimate.</p>
-<div id="d26ff51e" class="cell" data-execution_count="70">
+<div id="c6c498f8" class="cell" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Clear Memory</span></span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span></span>
 <span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3232,7 +3232,7 @@ Event Study:Dynamic effects
 <h1>Code call-out 4.4: Synthetic control, difference-in-differences, and synthetic difference-in-differences</h1>
 <p>In this code call out, we will explore the use of synthetic control methods as well as extensions into synthetic difference-in-differences with the data using in the original <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span> paper. In particular, these data provide a balanced sample from 39 states in the United States covering the period of 1970 to 2000. In particular, the interest in these methods is estimating the impact of the passage of Proposition 99, which was a reform to increase the sales tax paid per package of cigarettes sold in California.</p>
 <p>We will begin by opening the data used by <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span>, and checking the variables available. If we wished we could confirm that this is effectively a balanced panel by tabulating (<code>tab</code>) the variable year and state.</p>
-<div id="77d20c54" class="cell" data-execution_count="71">
+<div id="6ab5bac1" class="cell" data-execution_count="71">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"data/Abadie_et_al_2010.dta"</span>, <span class="kw">clear</span></span>
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="kw">describe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -3259,7 +3259,7 @@ Sorted by: year</code></pre>
 </div>
 </div>
 <p>Here our outcome of interest will be the variable <code>cigsale</code> which records the number of packages sold per capita in each state. The proposition 99 reform was passed in 1989, and we will thus consider 1970-1988 as the pre-period, while the period of 1989-2000 is the treatment period. While <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span> actually construct their synthetic control considering both certain pre-period realisations as well as control variables included in their data, we will follow suggestions from <span class="citation" data-cites="Fermanetal2020">Ferman, Pinto, and Possebom (<a href="#ref-Fermanetal2020" role="doc-biblioref">2020</a>)</span> and document a case where we simply use the full set of pre-treatment realisations of the outcome of interest to generate our synthetic control. We will do this below, noting that the <code>state</code> variable in these data uses Stata FIPS codes, and so California corresponds to state 3. The below code assumes that the <code>synth</code> routine is installed, which is available from Stata’s SSC.</p>
-<div id="2552c388" class="cell" data-execution_count="72">
+<div id="27f8b6ba" class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Set the data as panel data with 'state' as the panel unit and 'year' as the time variable</span></span>
 <span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="kw">tsset</span> state <span class="fu">year</span></span>
 <span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3403,7 +3403,7 @@ Predictor Balance:
 </div>
 </div>
 <p>You may note a number of things with the way that we have implemented <code>synth</code> above. The first is that the way we have entered the covariates on which to match (pre-treatment lags of the sales variable) is very cumbersome. It turns out that this is required if we do indeed wish to match on the variable at each pre-treatment period. While the syntax <code>cigsale(1970(1)1988)</code> would also be valid, it is <em>not</em> what we are after, as this would match on mean sales across the whole period, rather than sales in each pre-treatment period. A second thing to note is that there is substantial output both in terms of the data setup, the root mean square prediction error across all variables used in the match, and the resulting weights and predictor balances. From this we can see (for example), that the synthetic control for California is constructed using a combination of Colorado, Connecticut, Montana, Nevada, New Hampshire, and Utah. In the above implementation we have saved a dataset called <code>synth_results</code> which we can use to consider how the resulting synthetic control compares with California. The nature of the variables generated in this dataset are contained in the help file from <code>synth</code>. We will generate this graphical output below, starting with the <code>synth_results</code> dataset.</p>
-<div id="3c72784d" class="cell" data-execution_count="73">
+<div id="878e699b" class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> synth_results.dta, <span class="kw">clear</span></span>
 <span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="kw">tsset</span> _time</span>
 <span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3429,7 +3429,7 @@ Time variable: _time, 1970 to 2000
 </div>
 <p>Here we can see that (as expected) the synthetic control and California follow a very similar trend up to the period in which treatment is applied. This comes precisely from the optimisation procedure, which seeks to construct a synthetic control which minimises this distance. However, we observe that outcomes then diverge between California and the synthetic control in the post-reform period, with a substantially larger decline in California. If we wished to formally conduct hypothesis tests related to this synthetic control procedure, we could conduct the permutation inference procedures laid out in <span class="citation" data-cites="Abadieetal2010">Abadie, Diamond, and Hainmueller (<a href="#ref-Abadieetal2010" role="doc-biblioref">2010</a>)</span> and discussed in Chapter 4. While we will not set this up here it is a worthwhile activity to understand the practicalities of inference. We <em>will</em> also consider below extensions of these methods into synthetic difference-in-differences, additionally documenting inference following permutation procedures.</p>
 <p>We will do this using the <code>sdid</code> library. This implements the synthetic difference-in-differences estimator of <span class="citation" data-cites="Arkhangelskyetal2021">Arkhangelsky et al. (<a href="#ref-Arkhangelskyetal2021" role="doc-biblioref">2021</a>)</span>. In this case, using the same data as above, we can calculate the ATT which reports mean declines between treated and synthetic control units across all post-treatment periods based on a synthetic difference-in-differences comparison. We will see this below, where <code>sdid</code> is used with the outcome as the first argument, followed by group and period variables, and finally the treatment indicator. A number of graphing options are indicated, and <code>vce(placebo)</code> requests the permutation-style inference laid out in <span class="citation" data-cites="Arkhangelskyetal2021">Arkhangelsky et al. (<a href="#ref-Arkhangelskyetal2021" role="doc-biblioref">2021</a>)</span>. This permutation inference simply consists of recalculating the ATT for each alternative non-treated unit from among all other non-treated units, and calculates the standard error as the standard deviation of these ATTs (refer to further discussion in Section 4.6.1.3 of the book).</p>
-<div id="a851aeea" class="cell" data-execution_count="74">
+<div id="33bbfe25" class="cell" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> treated = state==3&amp;<span class="fu">year</span>&gt;=1989</span>
 <span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="kw">decode</span> state, <span class="kw">gen</span>(statename)</span>
 <span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">scheme</span> plotplainblind</span>
@@ -3489,7 +3489,7 @@ Figure&nbsp;1: Synthetic difference-in-differences: Unit weights, time weights, 
 </div>
 <p>The standard output of this command is presented above, where we first see the ATT estimate (-15.6) and standard error (8.05). To see how this estimator is constructed, we can refer to <a href="#fig-sdid" class="quarto-xref">Figure&nbsp;1</a>. In the left-hand panel, we see the outcome of California (red line) and the synthetic unit constructed using weights as laid out in Section 4.6.2 of the book. We additionally see the weights indicated as <span class="math inline">\(\lambda_t\)</span> in Section 4.6.2 which assign time-specific weights in calculating the ATT. Specifically, we calculate a DID estimate comparing California to its synthetic control in the pre versus post-treatment period, where the pre-treatment period is generated from the weights indicated in the shaded green area (in this case, 1987, 1988 and 1989). In the right-hand panel, we additionally observe the unit specific weights, <span class="math inline">\(\omega_t\)</span> in <span class="citation" data-cites="Arkhangelskyetal2021">Arkhangelsky et al. (<a href="#ref-Arkhangelskyetal2021" role="doc-biblioref">2021</a>)</span> and Section 4.6.2 of the book, documenting that a range of units are drawn on to generate the synthetic control. The weights of each unit is indicated by the size of points, and unit-specific DID estimates comparing California to each potential donor state are indicated as “Difference” on the vertical axis.</p>
 <p>A nice feature of this method is that by removing the calculation of time-specific weights and by eliminating the unit-specific difference permissible in SDID, one can simply return a standard synthetic control analysis also. This is conducted below using <code>sdid</code>, where the only difference is to incorporate the <code>method(sc)</code> option. Here, identical output is reported, which simply replicates the procedure from <code>synth</code> documented above. In particular, in <a href="#fig-sc" class="quarto-xref">Figure&nbsp;2</a> we note the clear overlap of trends in the pre-treatment period in the synthetic control analysis, as well as the greater sparsity in unit weights, with most units receiving zero weight in the synthetic control.</p>
-<div id="acc501e6" class="cell" data-execution_count="75">
+<div id="fb30089e" class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>sdid cigsale statename <span class="fu">year</span> treated, method(<span class="kw">sc</span>) <span class="kw">vce</span>(placebo) <span class="co">///</span></span>
 <span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="kw">graph</span> g1on g1_opt(<span class="kw">ylabel</span>(-110(20)50) <span class="bn">xtitle</span>(<span class="st">""</span>)) <span class="co">///</span></span>
 <span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>g2_opt(<span class="kw">ylabel</span>(0(25)150) <span class="bn">ytitle</span>(<span class="st">"Packs per capita"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3543,7 +3543,7 @@ Figure&nbsp;2: Synthetic Control: Unit weights, time weights, trends and differe
 </figure>
 </div>
 <p>Finally, in the interests of completion, we can also conduct a standard difference-in-differences analysis in the same way, where in this case units are not given any differential weight, implying that trends will simply capture aggregate differences between the two groups. To do this, identical procedures are followed as above, simply indicating <code>method(did)</code>. In this case, documented below, we note a clear divergence in trends starting in the earliest years of the panel, explaining why the treatment effect reported here is much larger than the effects reported with SDID (or SC). The fact that California was clearly trending in a more negative way to the mean of the donor pools suggest that parallel trends is unlikely to be a reasonable assumption. Instead, we may believe that trends may have continued to be more negative in California than in the average across control units, suggesting the DID assumptions should be avoided, in favour of synthetic methods, or some type of alternative strategy which <em>does not</em> rely on parallel trends assumptions.</p>
-<div id="d84166af" class="cell" data-execution_count="76">
+<div id="0bb9ec42" class="cell" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb129"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>sdid cigsale statename <span class="fu">year</span> treated, method(did) <span class="kw">vce</span>(placebo) <span class="co">///</span></span>
 <span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="kw">graph</span> g1on g1_opt(<span class="kw">ylabel</span>(-110(20)50) <span class="bn">xtitle</span>(<span class="st">""</span>)) <span class="co">///</span></span>
 <span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a>g2_opt(<span class="kw">ylabel</span>(0(25)150) <span class="bn">ytitle</span>(<span class="st">"Packs per capita"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

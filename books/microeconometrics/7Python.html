@@ -823,7 +823,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 (1-\beta)=\Phi\left(\frac{\tau}{\sqrt{\sigma^2\left[\frac{1+(N_{c0}-1)\rho}{N_{c0}c_{0}}+\frac{1+(N_{c1}-1)\rho}{N_{c1}c_{1}}\right]}}-\Phi^{-1}(1-\alpha/2)\right),
 \tag{1}\]</span></span> where <span class="math inline">\(N_{c0}\)</span> and <span class="math inline">\(N_{c1}\)</span> refer to the number of units per control and treated cluster respectively, <span class="math inline">\(c_0\)</span> and <span class="math inline">\(c_1\)</span> refer to the number of control and treated clusters, and <span class="math inline">\(\rho\)</span> refers to the intra-cluster correlation.</p>
 <p>Let’s confirm that this all makes sense, by conindering a specific row from the table above. Below we can confirm that based on their assumptions, the authors do indeed have 80% power to detect the reported MDE in row 1 (0.571). We do this below, seeing that indeed, the reported effect of 0.571 can be detected with the stated level of power.</p>
-<div id="314c4581" class="cell" data-execution_count="1">
+<div id="913cd8e1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -852,7 +852,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 <p>It is also easy enough for us to see how we can arrive at this minimum detectable effect directly. In this case, rather than having an effect of interest <span class="math inline">\(\tau\)</span> in (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>) and wishing to find the power, we wish to find the minimum detectable effect is power is set to 0.8. It is easy enough to see that if we apply an inverse normal transformation to each side of (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>) and re-arrange, we can calculate our MDE (<span class="math inline">\(\tau\)</span>) as: <span class="math display">\[
 \tau = \left[\Phi^{-1}\left(1-\beta\right) + \Phi^{-1}\left(1-\alpha/2\right)\right]\times SE,
 \]</span> where SE is simply the standard error term in the denominator of (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>). We do this below, seeing how we can arrive to the value of 0.571 (approximately) below:</p>
-<div id="a5e0b056" class="cell" data-execution_count="2">
+<div id="c6f66de9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>target_power <span class="op">=</span> <span class="fl">0.80</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> (norm.ppf(target_power) <span class="op">+</span> norm.ppf(<span class="dv">1</span> <span class="op">-</span> alpha<span class="op">/</span><span class="dv">2</span>)) <span class="op">*</span> SE</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"MDE:"</span>, threshold)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -861,7 +861,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 </div>
 <p>More generally, instead of working with a specific effect to achieve a desired power, we could generate power curves to plot the power to detect an effect if the true effect were indeed some specific value. This in essence maps the formula in (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>) to a series of effects <span class="math inline">\(\tau\)</span>, plotting the resulting power. Below we will generate and plot such a power curve. We do so for effects ranging from 0 to 0.7:</p>
-<div id="e9d6dc95" class="cell" data-execution_count="3">
+<div id="3340beab" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">51</span>)</span>
@@ -883,7 +883,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 <p>Upon doing this, we see the standard features of a power curve with an ‘upside-down’ normal shape, and see that this reaches the commonly employed 80% power threshold at the value indicated above (0.571), approximately reaching 100% power at effect sizes of 1.</p>
 <p>Of course, the power in this setting depends upon a number of quantities, and not the true effect. We can see this by considering the power curve corresponding to each outcome laid out in Table <a href="#tbl-MDE" class="quarto-xref">Table&nbsp;1</a>. Below we loop through each of the outcomes from the table taking their assumed standard deviation (<code>SDs</code>) and intra-cluster correlation (<code>ICCs</code>), calculating the resulting standard error, and then calculating the power curve at the values for <code>effect</code> defined above. Rather than looping sequentially, Python handles the simultaneous iteration over SDs and ICCs through NumPy’s vectorised operations, computing all 12 standard errors and power curves at once by treating both as arrays.</p>
-<div id="5e6e64cc" class="cell" data-execution_count="4">
+<div id="546ab987" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard deviations and ICCs</span></span>
@@ -910,7 +910,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                  columns<span class="op">=</span>[<span class="st">"effect"</span>] <span class="op">+</span> [<span class="ss">f"power_y</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(SEs))])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now plot these power curves for each of the outcomes, where we clearly see that the power to detect specific effects varies considerably by outcomes, as laid out in Table <a href="#tbl-MDE" class="quarto-xref">Table&nbsp;1</a>.</p>
-<div id="5d2f8fd2" class="cell" data-execution_count="5">
+<div id="aeaa25a7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>outcome_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> df.columns <span class="cf">if</span> c.startswith(<span class="st">"power_y"</span>)]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Long format</span></span>
@@ -954,7 +954,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 </div>
 <p>The above assumes clustered randomisation. Of course if we were working with unit-level randomisation we could proceed similarly, but in this case our standard error calculation is far simpler, and we would be very likely be more powered given the larger effective sample size.</p>
-<div id="7f2345b6" class="cell" data-execution_count="6">
+<div id="7ddaff31" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Individual-randomization standard error</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>SD <span class="op">=</span> <span class="fl">2.456</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>N_total <span class="op">=</span> <span class="dv">22750</span></span>
@@ -983,7 +983,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 </div>
 <p>Finally note that if instead of asking what the MDE is for a given case we would rather determine the minimum required sample size to determine an effect, we can do so by applying (7.12) in the book. Let’s see this for a power of 0.8:</p>
-<div id="9ab3c2e4" class="cell" data-execution_count="7">
+<div id="20cdc31b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Critical values</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>z80  <span class="op">=</span> norm.ppf(<span class="fl">0.8</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>z975 <span class="op">=</span> norm.ppf(<span class="fl">0.975</span>)</span>
@@ -1007,7 +1007,7 @@ N for effect 0.1: 18937.576091716277</code></pre>
 </div>
 </div>
 <p>Let’s confirm that if we use those sample sizes we do indeed see such minimum detectable effect sizes.</p>
-<div id="9796f612" class="cell" data-execution_count="8">
+<div id="c77ea463" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Effects grid</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">51</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1061,7 +1061,7 @@ N for effect 0.1: 18937.576091716277</code></pre>
 <section id="code-call-out-7.2-bonferronni-holm-and-romano-wolf-procedures" class="level1">
 <h1>Code call-out 7.2: Bonferronni, Holm and Romano-Wolf Procedures</h1>
 <p>We are interested in examining a number of corrections for multiple hypothesis tests which provide control of the family-wise error rate of tests. To do so, we will use data from <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span>. In their paper, they examine whether a group of individuals who receive an incentive to exercise are observed to have greater improvements in a number of markers of health compared with individuals who are not incentivised to go to the gym. Below we load the data from their “Experiment 2”, which has be most complete set of health and biometric measures, make a small number of changes to correct for a missing value, and remove a variable which we will regenerate ourselves below:</p>
-<div id="a4110d26" class="cell" data-execution_count="9">
+<div id="415b388c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1081,7 +1081,7 @@ N for effect 0.1: 18937.576091716277</code></pre>
 </div>
 <p>In the last step, we have dropped all observations flagged as having <code>one==1</code>. <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span> actually consider two treatments: one in which individuals are given one reminder and one in which they are given eight reminders, as well as a control condition. In the interests of simplicity here we consider only those treated more intensively with eight reminders (<code>eight==1</code>), though if we wished, we could reproduce the entire analysis below by comparing those treated with one reminder to the control condition.</p>
 <p>Here we will consider the tests documented in Table III of <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span> in which changes in biometric measures of treated individuals (<code>eight==1</code>) are compared with measures among untreated individuals (<code>eight==0</code>). Below we will define a local which contains each of the variables studied, and then we generate an outcome which captures the change in these measures over time for each individual. This is based on differences between the third measure taken (a follow-up wave), and a baseline measure.</p>
-<div id="72fe84d5" class="cell" data-execution_count="10">
+<div id="4d0e104b" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>vars_ <span class="op">=</span> [<span class="st">"bodyfat"</span>, <span class="st">"pulse"</span>, <span class="st">"weight"</span>, <span class="st">"bmi"</span>, <span class="st">"waist"</span>, <span class="st">"sbp"</span>, <span class="st">"dbp"</span>]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create *_diff variables as var1 - var3</span></span>
@@ -1089,7 +1089,7 @@ N for effect 0.1: 18937.576091716277</code></pre>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    df[<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">_diff"</span>] <span class="op">=</span> df[<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">1"</span>] <span class="op">-</span> df[<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">3"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will seek to calculate 4 p-values for each test. Specifically, we will calculate p-values not considering the fact that we are conducting multiple tests, and we will generate p-values correcting for multiple testing by applying the procedures of Bonferroni, Holm, and Romano and Wolf. We will start by simply generating an empty matrix which we will fill out with each procedure below:</p>
-<div id="db30b092" class="cell" data-execution_count="11">
+<div id="ebd10d04" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize DataFrame of p-values with NaN</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pvalues <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>np.nan,</span>
@@ -1110,7 +1110,7 @@ dbp              NaN         NaN   NaN          NaN</code></pre>
 </div>
 </div>
 <p>Let’s start by simply running the regression which essentially replicates the results of <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span>. Specifically, we will regress each differenced measure on treatment receipt, which, given random assignment, should allow us to calculate an ATT. In practice, <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span> document these differences in a more extended manner in their Table III, but if we compare the output of the below regressions to this Table, we can see that estimated effects line up very well.</p>
-<div id="ebc4ec84" class="cell" data-execution_count="12">
+<div id="09716a49" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.sandwich_covariance <span class="im">import</span> cov_hc1</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm </span>
@@ -1126,8 +1126,8 @@ dbp              NaN         NaN   NaN          NaN</code></pre>
 Dep. Variable:                      y   R-squared:                       0.216
 Model:                            OLS   Adj. R-squared:                  0.208
 Method:                 Least Squares   F-statistic:                     22.17
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):           8.30e-06
-Time:                        03:47:58   Log-Likelihood:                -211.02
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):           8.30e-06
+Time:                        10:34:46   Log-Likelihood:                -211.02
 No. Observations:                  99   AIC:                             426.0
 Df Residuals:                      97   BIC:                             431.2
 Df Model:                           1                                         
@@ -1151,8 +1151,8 @@ Notes:
 Dep. Variable:                      y   R-squared:                       0.034
 Model:                            OLS   Adj. R-squared:                  0.024
 Method:                 Least Squares   F-statistic:                     3.529
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):             0.0633
-Time:                        03:47:58   Log-Likelihood:                -397.18
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):             0.0633
+Time:                        10:34:46   Log-Likelihood:                -397.18
 No. Observations:                  99   AIC:                             798.4
 Df Residuals:                      97   BIC:                             803.5
 Df Model:                           1                                         
@@ -1176,8 +1176,8 @@ Notes:
 Dep. Variable:                      y   R-squared:                       0.029
 Model:                            OLS   Adj. R-squared:                  0.019
 Method:                 Least Squares   F-statistic:                     2.311
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):              0.132
-Time:                        03:47:58   Log-Likelihood:                -234.86
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):              0.132
+Time:                        10:34:46   Log-Likelihood:                -234.86
 No. Observations:                  99   AIC:                             473.7
 Df Residuals:                      97   BIC:                             478.9
 Df Model:                           1                                         
@@ -1201,8 +1201,8 @@ Notes:
 Dep. Variable:                      y   R-squared:                       0.034
 Model:                            OLS   Adj. R-squared:                  0.024
 Method:                 Least Squares   F-statistic:                     2.807
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):             0.0971
-Time:                        03:47:58   Log-Likelihood:                -132.47
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):             0.0971
+Time:                        10:34:46   Log-Likelihood:                -132.47
 No. Observations:                  99   AIC:                             268.9
 Df Residuals:                      97   BIC:                             274.1
 Df Model:                           1                                         
@@ -1226,8 +1226,8 @@ Notes:
 Dep. Variable:                      y   R-squared:                       0.038
 Model:                            OLS   Adj. R-squared:                  0.029
 Method:                 Least Squares   F-statistic:                     3.508
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):             0.0641
-Time:                        03:47:58   Log-Likelihood:                -206.45
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):             0.0641
+Time:                        10:34:46   Log-Likelihood:                -206.45
 No. Observations:                  99   AIC:                             416.9
 Df Residuals:                      97   BIC:                             422.1
 Df Model:                           1                                         
@@ -1251,8 +1251,8 @@ Notes:
 Dep. Variable:                      y   R-squared:                       0.015
 Model:                            OLS   Adj. R-squared:                  0.005
 Method:                 Least Squares   F-statistic:                     1.733
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):              0.191
-Time:                        03:47:58   Log-Likelihood:                -398.82
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):              0.191
+Time:                        10:34:46   Log-Likelihood:                -398.82
 No. Observations:                  99   AIC:                             801.6
 Df Residuals:                      97   BIC:                             806.8
 Df Model:                           1                                         
@@ -1276,8 +1276,8 @@ Notes:
 Dep. Variable:                      y   R-squared:                       0.000
 Model:                            OLS   Adj. R-squared:                 -0.010
 Method:                 Least Squares   F-statistic:                   0.02560
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):              0.873
-Time:                        03:47:58   Log-Likelihood:                -360.60
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):              0.873
+Time:                        10:34:46   Log-Likelihood:                -360.60
 No. Observations:                  99   AIC:                             725.2
 Df Residuals:                      97   BIC:                             730.4
 Df Model:                           1                                         
@@ -1299,11 +1299,11 @@ Notes:
 </div>
 </div>
 <p>Because in certain multiple-hypothesis correction procedures below we will wish to work from the most to least significant hypothesis, below we we-order our variable list in terms of their statistical significance, ie in ordered from lowest p-value to highest.</p>
-<div id="0b044e06" class="cell" data-execution_count="13">
+<div id="51321db1" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>vars_order <span class="op">=</span> [<span class="st">"bodyfat"</span>, <span class="st">"pulse"</span>, <span class="st">"waist"</span>, <span class="st">"bmi"</span>, <span class="st">"weight"</span>, <span class="st">"sbp"</span>, <span class="st">"dbp"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, let’s actually start to examine p-values corresponding to each test. Below we will consider the most simple case where no correction is implemented at all. Below, we simply iterate through variables, running the regression with each outcome as a dependent variable, and saving the resulting p-value in the <code>pvalues</code> matrix. You may note that by usign <code>pvalues.loc</code>, we can simply save resulting p-values based on the name of the variable in the <code>pvalues</code> DataFrame we generated previously.</p>
-<div id="17881bda" class="cell" data-execution_count="14">
+<div id="91db450d" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v <span class="kw">in</span> vars_:</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> df[<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">_diff"</span>].to_numpy()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> sm.add_constant(df[<span class="st">"eight"</span>].to_numpy())</span>
@@ -1334,7 +1334,7 @@ dbp         0.872875         NaN   NaN          NaN</code></pre>
 <section id="bonferronis-correction" class="level2">
 <h2 class="anchored" data-anchor-id="bonferronis-correction">Bonferroni’s correction</h2>
 <p>Let’s now implement the Bonferroni correction. As laid out in Section 7.3.2.1 of the book, this is a relatively simple procedure in which we simply multiply all p-values by the total number of tests (the logic of this is discussed in the chapter itself). We do this below, noting just one specific point of care, which is that we want to ensure that p-values are capped at 1, and so we use the <code>clip()</code> function below.</p>
-<div id="87e5c96c" class="cell" data-execution_count="15">
+<div id="e3916688" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="bu">len</span>(vars_order)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pvalues[<span class="st">"Bonferroni"</span>] <span class="op">=</span> (pvalues[<span class="st">"uncorrected"</span>] <span class="op">*</span> m).clip(upper<span class="op">=</span><span class="fl">1.0</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1356,7 +1356,7 @@ dbp         0.872875    1.000000   NaN          NaN</code></pre>
 <h2 class="anchored" data-anchor-id="holms-correction">Holm’s correction</h2>
 <p>As we saw in the book, we can gain power while still maintaining the familywise error rate by following step-wise techniques. A first of these is Holm’s correction (see section 7.3.2). We implement this below, where the key point to note is that here instead of multiplying all p-values by 7, we mutliply the first (lowest) p-value by 7, then the second lowest by 6, and so on and so forth until the final p-value is simply returned as is.</p>
 <p>Perhaps the only important thing to note in this procedure is that now we must ensure that we enforce monotonicity. Monotonicity simply implies that if we have some original p-value ordering from lowest to highest, our resulting corrected p-values should still maintain this ordering. For this reason, if some variable with a higher uncorrected p-value returns a lower corrected p-value, we simply replace the corrected p-value with the value of the p-value observed in the preceding variable. This is implemented below on the lines following the comment <code># enforce monotonicity</code>.</p>
-<div id="dbfef86e" class="cell" data-execution_count="16">
+<div id="403e59af" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>prev <span class="op">=</span> <span class="fl">0.0</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(pvalues)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1389,7 +1389,7 @@ dbp         0.872875    1.000000  0.872875          NaN</code></pre>
 <h2 class="anchored" data-anchor-id="romano-wolf">Romano-Wolf</h2>
 <p>While Holm offers benefits over Bonferroni in terms of power, this is still based on the “worst-case scenario” that all test statistics are entirely independent. As laid out in Romano and Wolf, We can improve on this using bootstrap-based procedures which directly estimate the dependence among tests. A full description of this test and its logic can be found at the end of Section 7.3.2.1 of the book.</p>
 <p>Here we will implement this procedure “by hand”. To do so, we must estimate many bootstrap replicates of each model, and in each case save the resulting test-statistic of each test once the null hypothesis (in this case of a 0 effect) has been imposed. We will begin this procedure by setting up a new frame with a large number of observations to store the test statistic from each bootstrap replicate, and in this frame we will generate a variable to store the statistic corresponding to each variable:</p>
-<div id="069574ae" class="cell" data-execution_count="17">
+<div id="bd8206e2" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of bootstrap replications</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="dv">5000</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1400,7 +1400,7 @@ dbp         0.872875    1.000000  0.872875          NaN</code></pre>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, before we actually go about implementing the bootstrap procedure, we will just re-estimate each of our true regressions, saving the estimated point estimate and t-statistic for use below.</p>
-<div id="1bb80b51" class="cell" data-execution_count="18">
+<div id="c7ecf34c" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> {}</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>tstat <span class="op">=</span> {}</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1429,7 +1429,7 @@ tstat: {'bodyfat': 4.708760283748018, 'pulse': 1.8785602265991588, 'weight': 1.5
 t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 \]</span> where <span class="math inline">\(\widehat\tau^{*b}\)</span> and <span class="math inline">\(\widehat\sigma^{*b}\)</span> refer to the bootstrap estimate and standard error respectively, and <span class="math inline">\(\widehat\tau\)</span> the original estimate. The idea of this is that on average this quantity will be centred around 0 across all bootstraps, but it will correctly capture the variation inherent in our data.</p>
 <p>We do this below, iterating through each our B boostrap replicates, and within each replicate, estimate each of our outcomes and the resulting set of t-statistics. We take the absolute value of these as below we will be interested in considering whether our original t-statistic is extreme (either high or low) compared to our bootstrap t-statistics, and this can easily be done by just taking absolute values of each, and comparing the absolute values. We then store each t-statistic in our data frame called <code>bstraps</code> which we will return to use below.</p>
-<div id="6f663250" class="cell" data-execution_count="19">
+<div id="67ff249f" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap loop </span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">len</span>(df)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng() </span>
@@ -1447,7 +1447,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>        bstraps.loc[b, v] <span class="op">=</span> t_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To see what we have done so far, let’s examine the distribution of the bootstrap replicates for one of the variables:</p>
-<div id="cb5ea206" class="cell" data-execution_count="20">
+<div id="4437578a" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plt.hist(bstraps[<span class="st">"bodyfat"</span>].dropna(), bins<span class="op">=</span><span class="bu">int</span>((bstraps[<span class="st">"bodyfat"</span>].<span class="bu">max</span>() <span class="op">-</span> bstraps[<span class="st">"bodyfat"</span>].<span class="bu">min</span>())<span class="op">/</span><span class="fl">0.1</span>), density<span class="op">=</span><span class="va">True</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Bootstrap null |t-statistic|"</span>)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
@@ -1455,7 +1455,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Chapter7Python_files/figure-html/cell-21-output-1.png" width="590" height="430" class="figure-img"></p>
+<p><img src="Chapter7Python_files/figure-html/cell-21-output-1.png" width="589" height="430" class="figure-img"></p>
 <figcaption>A null distribution (body fat)</figcaption>
 </figure>
 </div>
@@ -1463,7 +1463,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 </div>
 <p>Here we see that this is effectively a <a href="https://en.wikipedia.org/wiki/Half-normal_distribution">half normal</a> distribution, as we would expect given that we have centred this around 0 and standardised. This in essence provides us a null distribution for a single test: if we observe that our true t-value is extreme when compared to this null distribution, we can view this as strong evidence against a null of a zero effect.</p>
 <p>However, in Romano-Wolf, what we want is not to consider the single test, but to correct for multiple testing. And here we follow a step-wise procedure in which for our most significant variable, we compare our test-statistic with the maximum t-value <em>across all hypotheses tested</em>, for our second most significant, consider only the next 6 variables, and so on and so forth. We will generate these comparison distributions for each test below:</p>
-<div id="3a299266" class="cell" data-execution_count="21">
+<div id="50a230c2" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step-down null distributions</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>bstraps <span class="op">=</span> bstraps.assign(</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    null_bodyfat <span class="op">=</span> bstraps[[<span class="st">"bodyfat"</span>,<span class="st">"pulse"</span>,<span class="st">"waist"</span>,<span class="st">"bmi"</span>,<span class="st">"weight"</span>,<span class="st">"sbp"</span>,<span class="st">"dbp"</span>]].<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>),</span>
@@ -1493,7 +1493,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 <span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>bstraps_long[<span class="st">"variable"</span>] <span class="op">=</span> bstraps_long[<span class="st">"variable"</span>].<span class="bu">map</span>(labels_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This very much follows the logic of Holm, and indeed, if each variable is entirely independent, this will essentially revert to the same logic as Holm’s correction. <em>However</em>, if the variables are not independent among themselves, our null distributions here will account for this dependence, and generally offer a less demanding null distribution (and more powerful test). We can see how our null distributions get progressively less demanding as the p-value of the original test rises by plotting these null distributions below:</p>
-<div id="990f23df" class="cell" data-execution_count="22">
+<div id="cda9f293" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, grp <span class="kw">in</span> bstraps_long.groupby(<span class="st">"variable"</span>):</span>
@@ -1514,7 +1514,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 </div>
 </div>
 <p>Now, finally, let’s just calculate our Romano-Wolf p-values. Here–and as laid out in the book–we simply wish to compare our original t-values with those in the null distribution in each case. If our original t-values are extreme compared to the null distribution, this results in a low p-value (and strong evidence against the null), while if our original t-values appear likely to occur when the null is true, we will have little evidence to reject the null. We calculate our p-values below, where as above, we enforce monotonocity to avoid unordered p-values in final tests:</p>
-<div id="e3603c58" class="cell" data-execution_count="23">
+<div id="2d6f115f" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>prev <span class="op">=</span> <span class="fl">0.0</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>null_cols <span class="op">=</span> [<span class="ss">f"null_</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> v <span class="kw">in</span> vars_]</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1528,18 +1528,18 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 <span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pvalues)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         uncorrected  Bonferroni      Holm  Romano-Wolf
-bodyfat     0.000002    0.000017  0.000017       0.0002
-pulse       0.060305    0.422132  0.361827       0.2880
-weight      0.128442    0.899097  0.385327       0.3622
-bmi         0.093877    0.657141  0.375509       0.3622
-waist       0.061084    0.427586  0.361827       0.3622
-sbp         0.188071    1.000000  0.385327       0.3622
-dbp         0.872875    1.000000  0.872875       0.8666</code></pre>
+bodyfat     0.000002    0.000017  0.000017       0.0004
+pulse       0.060305    0.422132  0.361827       0.2936
+weight      0.128442    0.899097  0.385327       0.3628
+bmi         0.093877    0.657141  0.375509       0.3628
+waist       0.061084    0.427586  0.361827       0.3628
+sbp         0.188071    1.000000  0.385327       0.3628
+dbp         0.872875    1.000000  0.872875       0.8714</code></pre>
 </div>
 </div>
 <p>Here we see that as expected, Romano-Wolf p-values are lower, and at times substantially lower, to the values from Holm. We also see that for the final test, these p-values are the same (subject to some minor bootstrap variance), as the uncorrected p-values. In general, we see here the benefits in terms of power which we may expect in this case.</p>
 <p>Finally note, that while it is very useful to see that we can calculate such p-values by hand, there are also libraries available which implement these automatically. Below we use the the <code>rwolf</code> function from the <code>pyfixest</code> library which automates the procedure we have conducted above, returning to us the Romano-Wolf p-values, along uncorrected p-values and Bonferroni p-values for comparison. These values (for <code>rwolf</code>) are essentially identical (subject to bootstrap variation) to what we calculated by hand ourselves.</p>
-<div id="546b4290" class="cell" data-execution_count="24">
+<div id="5060ccf4" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyfixest <span class="im">as</span> pf</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit all 7 models using pyfixest's feols</span></span>
@@ -1600,7 +1600,7 @@ Bonferroni Pr(&gt;|t|)  1.000000  1.000000  </code></pre>
 y_i^k=\alpha + \tau^k Treat_i + \varepsilon_i^k \forall k\in\{1,\ldots,K\}.
 \]</span> Here we use the super-index <span class="math inline">\(k\)</span> to indicate that these are different outcome variables (in particular <span class="math inline">\(K\)</span> different outcome variables), and these are regressed on a single treatment value. Let’s conduct some simulations where the true treatment effect for each of these models <span class="math inline">\(\tau^k\)</span> is indeed 0. Let’s also simulate a treatment variable for 100 observations such that half of the population is randomly assigned treatment, and the other half is not assigned treatment. We will simulate each <span class="math inline">\(\varepsilon_i\sim\mathcal{N}(0,1)\)</span>. Then, let’s estimate the effect <span class="math inline">\(\tau^k\)</span> in each case, and see if we reject the (true) null hypothesis that <span class="math inline">\(\tau^k=0\)</span>.</p>
 <p>We can do this quite simply below, where we first set 100 observations and then generate a single treatment variable as <code>treat</code>. We will then simulate for <span class="math inline">\(K=10\)</span> outcomes where the treatment effect is indeed 0, and run the regression of each outcome on treatment one at a time:</p>
-<div id="a934d58b" class="cell" data-execution_count="25">
+<div id="3dc818cf" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -1642,7 +1642,7 @@ p-value of test 10 is: 0.770806</code></pre>
 </div>
 <p>In this particular example, we can see that of these 10 simulated outcomes where the treatment has no effect on each outcome <span class="math inline">\(y^k\)</span>, we correctly fail to reject the null hypothesis that the effect is 0 based on the 10 p-values resulting from the regression above if a critical value of <span class="math inline">\(\alpha=0.05\)</span> is used. Of course, this is entirely dependent upon the particular simulation which we define with the random seed using in <code>set seed</code>. For this reason, to see the concerns about multiple testing more generally, we will repeat this process 5000 times, observing in each of the 5000 cases whether we (falsely) reject at least one hypothesis within our <span class="math inline">\(K\)</span> hypotheses, or falsely reject at least two hypotheses within our <span class="math inline">\(K\)</span> tests.</p>
 <p>We do this below, where we have essentially replicated the above block of code, but we now repeat the test <span class="math inline">\(S=5000\)</span> times and in each case we determine whether any hypotheses are rejected, saving these in a series variables. Finally, we can calculate the quantity of rejected hypotheses of the null of a zero effect (which, from our DGP, we know to be true), as well as the proportion of times we reject at least 1 null hypothesis and at least 2 null hypotheses within our class of <span class="math inline">\(K\)</span> tests.</p>
-<div id="287cac70" class="cell" data-execution_count="26">
+<div id="05927941" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1213</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> <span class="dv">5000</span></span>
@@ -1694,7 +1694,7 @@ Proportion ≥2 rejections:  0.089</code></pre>
 </div>
 <p>In this case, we see that (as expected), while only 5% of all hypotheses are rejected (or, to be exact, 5.4%), when we consider the number of times that at least 1 hypothesis is rejected, this is much higher, at 41.8%. What’s more, if we consider cases with at least 2 rejections, we see that this is also far higher that 5%, at around 9.4%.</p>
 <p>Of course, the degree to which such overrejections occurs will depend upon the number of false null hypotheses considered. Below we can see this where we simply replicate the above analysis, however here instead of doing this just for <span class="math inline">\(K=10\)</span> variables, we do it for a range of values. This simply adds an outer loop around the procedure above, considering <span class="math inline">\(K=1, 2, \ldots, 20\)</span> variables within a family of tests, where in each case there is no effect of treatment on any of the variables considered.</p>
-<div id="3e14dcca" class="cell" data-execution_count="27">
+<div id="b657dc04" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1213</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> <span class="dv">5000</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1756,7 +1756,7 @@ Proportion ≥2 rejections:  0.089</code></pre>
 </div>
 </div>
 <p>Finally, to view the output, we can simply plot the rate of rejections of all hypotheses considered by the number of hypotheses tested, as well as the proportion of times that at least 1 hypothesis is rejected. We do this in the graph below:</p>
-<div id="2bfc44d3" class="cell" data-execution_count="28">
+<div id="6b3332c8" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># reshape to long format</span></span>
@@ -1810,7 +1810,7 @@ Proportion ≥2 rejections:  0.089</code></pre>
 y_i^k = \tau^k Treat_i + \varepsilon^k_i
 \]</span></p>
 <p>Below we will set up such a simulation based on 1,000 observations. In this simulation we will consider <span class="math inline">\(K=10\)</span> strongly correlated variables (setting <span class="math inline">\(\rho=0.9\)</span>), and additionally simulate one variable which is entirely uncorrelated with other variables. For 9 of the 10 uncorrelated variables we will set <span class="math inline">\(\tau^{k}=0\)</span>, while for the tenth variable, as well as the uncorrelated variable, we will set <span class="math inline">\(\tau=0.5\)</span>:</p>
-<div id="a342da26" class="cell" data-execution_count="29">
+<div id="45151604" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1213</span>)</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1000</span></span>
@@ -1831,7 +1831,7 @@ y_i^k = \tau^k Treat_i + \varepsilon^k_i
 <span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"y11"</span>] <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> df[<span class="st">"treat"</span>] <span class="op">+</span> np.random.normal(size<span class="op">=</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now with these variables in hand, let’s consider three of the potential indexes discussed in the book. These are Anderson’s index which overweights variables which bring independent variation, a principal-components based index, and a simple summary index. Be we generate these below, we define our own function to implement the index described by <span class="citation" data-cites="Anderson2008">Anderson (<a href="#ref-Anderson2008" role="doc-biblioref">2008</a>)</span>, and which takes as arguments a DataFrame, a series of variables to be used in the index, and an indicator of which observations are control units.</p>
-<div id="0cc3120a" class="cell" data-execution_count="30">
+<div id="e4fd46e7" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> anderson_index(df, y_vars, control_indicator):</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Compute Anderson's (2008) inverse-covariance weighted index.</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -1860,7 +1860,7 @@ y_i^k = \tau^k Treat_i + \varepsilon^k_i
 <span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(index, index<span class="op">=</span>df.index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we generate our three indexes, and examine whether we detect any effect of treatment on each of the aggregate indexes using a simple OLS regression:</p>
-<div id="86c47a3d" class="cell" data-execution_count="31">
+<div id="dc25baa2" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>y_vars <span class="op">=</span> [<span class="ss">f"y</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)]</span>
@@ -1904,7 +1904,7 @@ treat          0.2214      0.191      1.158      0.247      -0.154       0.596
 </div>
 </div>
 <p>In this case, where there is a single true effect, we observe that if we consult the summary index or the principal components index we find some evidence of significant effect of treatment on aggregate outcomes. On the other hand, if we consult the Anderson index we observe very little evidence of a significant effect. However, below we consider precisely the same setting, but now instead of examining an index based on the 10 correlated variables (with one true effect), we consider 9 correlated variables (with no effects), and 1 uncorrelated variable with a true effect.</p>
-<div id="3ce36e3c" class="cell" data-execution_count="32">
+<div id="68c15f65" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>vars2 <span class="op">=</span> [<span class="ss">f"y</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">10</span>)] <span class="op">+</span> [<span class="st">"y11"</span>]</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"AndersonIndex2"</span>] <span class="op">=</span> anderson_index(df, vars2, control)</span>
@@ -1941,7 +1941,7 @@ treat          0.0716      0.181      0.397      0.692      -0.283       0.426
 </div>
 <p>In this case we see that our conclusion is very different. Now the Anderson index strongly suggests some statistically significant treatment effect, while the principal components based index suggests little evidence of a statistically significant effect. Of course this should not surprise us if we consider what the indexes do “under the hood”: Anderson’s index overweights variables which bring independent variation, while principal components seeks to pick up underlying signals, and hence will downweight variables if they are quite unrelated to others within the class.</p>
 <p>To see that this is not a statisical curio with this specific simulation, below we can generalise this, running <span class="math inline">\(S=500\)</span> simulations. In each simulation we will consider these three types of indexes: the Anderson index, principal components, and a summary index. We will also consider 4 specific cases. A first case where there are no significant treatment effects for any of the variables, a second case where there is one significant treatment effect from a correlated variable, a third case where there is one significant treatment effect from an <em>uncorrelated</em> variable, and a fourth case where there is a significant treatment effect on all of the 10 variables considered. We will then examine the distribution of t-statistics from each of the simulations and each of the index types. We set up these simulations below:</p>
-<div id="4ca7d927" class="cell" data-execution_count="33">
+<div id="05e3566b" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1213</span>)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> <span class="dv">500</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1000</span></span>
@@ -2009,7 +2009,7 @@ treat          0.0716      0.181      0.397      0.692      -0.283       0.426
 <span id="cb49-65"><a href="#cb49-65" aria-hidden="true" tabindex="-1"></a>    results.iloc[s, :] <span class="op">=</span> tvals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This results in a series of variables which contain the t-statistics of resulting tests, and we can plot these to see how each index performs. We do this below, starting with the Anderson Index:</p>
-<div id="3c3c15a8" class="cell" data-execution_count="35">
+<div id="2850e4d5" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>vars_Anderson <span class="op">=</span> [<span class="st">"AndersonA_t"</span>,<span class="st">"AndersonB_t"</span>,<span class="st">"AndersonC_t"</span>,<span class="st">"AndersonD_t"</span>]</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>xlims <span class="op">=</span> (<span class="op">-</span><span class="dv">3</span>, <span class="dv">11</span>)</span>
@@ -2082,7 +2082,7 @@ Figure&nbsp;1: Anderson’s Index: Distribution of t-statistics by outcomes cons
 </div>
 <p>In this case we see that – as we may hope – the distribution of t-statistics we observe in panel (a), based on pure null effects, lines up nearly perfectly with a normal distribution centred around 0 (ie consistent with zero effects). This is clearly different in panel (b) where all non-zero effects are considered, with t-statistics based on an Anderson Index all suggestive of non-zero effects. Panel (c), based on a single true effect which is highly correlated with all zero effects suggests relatively little evidence to reject null hypotheses of zero effects. However, panel (d), which is based on the same structure as panel (c) but now with an <em>un</em>correlated effect shows clear evidence against the null of zero effects.</p>
 <p>Below we compare this to the case where we consider a principal components analysis. We build identical graphs based on principal components instead of the Anderson Index:</p>
-<div id="dc38db40" class="cell" data-execution_count="36">
+<div id="c4205624" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>vars_pc <span class="op">=</span> [<span class="st">"PCA_t"</span>, <span class="st">"PCB_t"</span>, <span class="st">"PCC_t"</span>, <span class="st">"PCD_t"</span>]</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> vars_pc:</span>
@@ -2151,7 +2151,7 @@ Figure&nbsp;2: Principal Component Index: Distribution of t-statistics by outcom
 </div>
 <p>Now we see quite different patterns in panel (c) and (d). While panels (a) and (b) are virtually identical, in cases where only certain effects are observed, our conclusions appear to be quite different. While there is <em>some</em> evidence that t-statistics are slightly shifted in the case of a single correlated effect, we see no evidence at all to reject the null where our single effect is independent of other variables, as documented in panel (d).</p>
 <p>If we consider the simply summary index we observe a case between the Anderson Index and the Principal Components index. In this case the t-statistics in both panels (c) and (d) appear to be slightly shifted, though this is not as extreme as the cases above which (respectively) mechanically give more weight to the uncorrelated non-zero effect and correlated non-zero effect.</p>
-<div id="b2487b54" class="cell" data-execution_count="37">
+<div id="419e5100" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"SumA_t"</span>, <span class="st">"SumB_t"</span>, <span class="st">"SumC_t"</span>, <span class="st">"SumD_t"</span>]:</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> results[var].dropna()</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>

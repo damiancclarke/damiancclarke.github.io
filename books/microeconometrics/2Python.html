@@ -636,7 +636,7 @@ window.Quarto = {
 <section id="equivalence-between-regression-and-comparison-of-means" class="level2">
 <h2 class="anchored" data-anchor-id="equivalence-between-regression-and-comparison-of-means">Equivalence between regression and comparison of means</h2>
 <p>To understand the equivalence between regression analysis and the comparison of means in a binary regression set-up, we will first open the data from <span class="citation" data-cites="Barietal2024">Bari et al. (<a href="#ref-Barietal2024" role="doc-biblioref">2024</a>)</span> and run a basic regression such as that documented in Table 4 of their paper:</p>
-<div id="17af1f7e" class="cell" data-execution_count="1">
+<div id="24f1dc81" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -654,8 +654,8 @@ window.Quarto = {
 Dep. Variable:                 biz_ta   R-squared:                       0.019
 Model:                            OLS   Adj. R-squared:                  0.018
 Method:                 Least Squares   F-statistic:                     14.27
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):           0.000171
-Time:                        03:45:46   Log-Likelihood:                -6550.0
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):           0.000171
+Time:                        10:30:55   Log-Likelihood:                -6550.0
 No. Observations:                 739   AIC:                         1.310e+04
 Df Residuals:                     737   BIC:                         1.311e+04
 Df Model:                           1                                         
@@ -679,7 +679,7 @@ Notes:
 </div>
 <p>Here <code>biz_ta</code> is an outcome measuring total business assets, and this is measured at wave 1 (ie the wave in data immediately after treatment was first provided).</p>
 <p>To confirm that this is–by definition–simply equivalent to a difference in means we can consider the quantities which would be observed if we substituted <span class="math inline">\(A=1\)</span> and <span class="math inline">\(A=0\)</span> into the above equation. In this case we can see that the regression consists of a constant term: <span class="math inline">\(E[Y_i|Treat_i=0]\)</span>, and a second term which capture the difference between units receiving treatment and those not receiving treatment: <span class="math inline">\(E[Y_i|Treat_i=1]-E[Y_i|Treat_i=0]\)</span>. This latter is just the treatment effect of interest. Below we confirm that the coefficient on <span class="math inline">\(A\)</span> above is equivalent to the difference in means.</p>
-<div id="b5ce930a" class="cell" data-execution_count="2">
+<div id="824c9adc" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mean_treatment <span class="op">=</span> data_wave1.loc[data_wave1[<span class="st">'A'</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">'biz_ta'</span>].mean()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mean_control <span class="op">=</span> data_wave1.loc[data_wave1[<span class="st">'A'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'biz_ta'</span>].mean()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>diff_means <span class="op">=</span> mean_treatment <span class="op">-</span> mean_control</span>
@@ -698,7 +698,7 @@ The coefficient from the regression should be equal to the difference in means t
 <section id="heterogeneity-by-a-baseline-covariate-x" class="level2">
 <h2 class="anchored" data-anchor-id="heterogeneity-by-a-baseline-covariate-x">Heterogeneity by a baseline covariate <span class="math inline">\(X\)</span></h2>
 <p>Let’s now consider the incorporation of a covariate into this regression and confirm that we can also quite simply break down (linear) heterogeneity, as discussed in (2.10) of the book. Here we will consider a variable which measures the management capacity of the small businesses in the sample. We will consider this management capacity at baseline, which below we generate, standardise so that it is mean zero, and then interact with treatment:</p>
-<div id="0957410d" class="cell" data-execution_count="3">
+<div id="989ff3b7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'temp'</span>] <span class="op">=</span> np.where(data[<span class="st">'wave'</span>] <span class="op">==</span> <span class="dv">0</span>, data[<span class="st">'mpall'</span>], np.nan)</span>
@@ -719,7 +719,7 @@ Name: Amanage, dtype: float64</code></pre>
 </div>
 </div>
 <p>We can now consider whether there are differential treatment effects by a firm’s management capacity. To do so, we estimate the interacted regression below which allows for (a) a differential intercept for treated and untreated groups by the inclusion of the treatment dummy and a constant, and (b) a differential slope by management capacity, by including both a control for management capacity, as well as an interaction with treatment:</p>
-<div id="a845c034" class="cell" data-execution_count="4">
+<div id="0d82670c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"biz_ta ~ A + manage + Amanage"</span>, data<span class="op">=</span>data[data[<span class="st">"wave"</span>] <span class="op">==</span> <span class="dv">1</span>]).fit(cov_type<span class="op">=</span><span class="st">"HC2"</span>)</span>
@@ -730,8 +730,8 @@ Name: Amanage, dtype: float64</code></pre>
 Dep. Variable:                 biz_ta   R-squared:                       0.035
 Model:                            OLS   Adj. R-squared:                  0.031
 Method:                 Least Squares   F-statistic:                     10.87
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):           5.45e-07
-Time:                        03:45:46   Log-Likelihood:                -6543.8
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):           5.45e-07
+Time:                        10:30:55   Log-Likelihood:                -6543.8
 No. Observations:                 739   AIC:                         1.310e+04
 Df Residuals:                     735   BIC:                         1.311e+04
 Df Model:                           3                                         
@@ -755,7 +755,7 @@ Notes:
 </div>
 </div>
 <p>Above we eastimate this regression, and observe that while in general business with higher management capacity at baseline have much higher business assets, there is not (at least in wave 1) a statistically significantly different return to management among treated and untreated individuals. There is, however, a quite large negative effect on the interaction, weakly suggestive of smaller treatment effects among firms with higher management capacity. We can visualise this as in Figure 2.1 of the book. There are many ways we can do this, and you may wish to explore alternative ways of setting this up by considering marginal effects, or by confirming that the four quantities estimated in the regression above correspond to the two intercepts and two slopes of the lines plotted below which can be similarly plotted “by hand” based on these values. However, below we can see that it is sufficient to plot the predicted effect among treated and control units across the range of the <code>manage</code> variable. We do this in the code block below, first generating this predicted effect from the regression, and then plotting resulting curves for treated and control units.</p>
-<div id="efb02041" class="cell" data-execution_count="5">
+<div id="eaf0a451" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1011,7 +1011,7 @@ Notes:
 </tbody>
 </table>
 <p>While this is so simple that we can set it up by hand, it is also useful to see how we can compute this in Python. First, we will load our “data”:</p>
-<div id="758dbb90" class="cell" data-execution_count="6">
+<div id="d8b7b53c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
@@ -1020,7 +1020,7 @@ Notes:
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and then calculate a comparison of means estimator of the ATT:</p>
-<div id="3376b14a" class="cell" data-execution_count="7">
+<div id="964e4ae0" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mean_Y1 <span class="op">=</span> data.loc[data[<span class="st">'W'</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">'Y'</span>].mean()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mean_Y0 <span class="op">=</span> data.loc[data[<span class="st">'W'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'Y'</span>].mean()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>tau_hat <span class="op">=</span> mean_Y1 <span class="op">-</span> mean_Y0</span>
@@ -1030,7 +1030,7 @@ Notes:
 </div>
 </div>
 <p>Now let’s generate our p-value by permuting all possible treatment combinations. While there are many ways we could consider doing this, a simple way is to use tools explicitly for permutation (such as Python’s <code>itertools.combinations</code>) which will provide us each of the 20 possible combinations corresponding to this 6 choose 3 setting. Below we begin by preparing a new frame of data in which to store our resulting treatment effects:</p>
-<div id="e3e96b2f" class="cell" data-execution_count="8">
+<div id="4382865c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>permutations <span class="op">=</span> pd.DataFrame({</span>
@@ -1063,7 +1063,7 @@ Notes:
 </div>
 </div>
 <p>This is simply a frame containing 20 lines where <code>permutation</code> increases from 1 to 20, with an empty variable <code>effect</code> that we can fill in with our effects. Now, let’s begin permuting our effect, where we will generate a variable <code>Wperm</code> which indicates treatment assignment for each permutation. Rather than iterating manually through nested loops as in Stata, Python’s <code>itertools.combinations</code> function generates all possible combinations of 3 treated units drawn from 6 directly. We loop over each combination, assign treatment to the selected units, estimate the permuted treatment effect via regression, and store it in our <code>permutations</code> frame. In each iteration we also print out which units are receiving treatment so that we can convince ourselves that we are indeed seeing the 20 treatment combinations mentioned in the table above.</p>
-<div id="fb9f26a0" class="cell" data-execution_count="9">
+<div id="67c5e3a3" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate all 20 permutations and compute effects</span></span>
@@ -1105,7 +1105,7 @@ Treated units are: [3, 4, 5]</code></pre>
 </div>
 </div>
 <p>In the code above, within each loop we have estimated our permuted treatment effect, and placed it in the permutations frame. We can now open up this frame, and compare these permutation-based effects to the original effect (which is the first effect stored in our data), and calculate the one-sided and two-sided p-values. We do this below.</p>
-<div id="af8f8edd" class="cell" data-execution_count="10">
+<div id="5d7d1086" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute effect1 and p-values</span></span>
@@ -1142,7 +1142,7 @@ Two sided p-value: 0.05</code></pre>
 <h2 class="anchored" data-anchor-id="a-real-example">A Real Example</h2>
 <p>It turns out, that to translate this to a case with real data, we do not need to add many additional elements. In this section, we work with data from a randomized control trial that examines asset transfers to poor households in India, as discussed in the paper by <span class="citation" data-cites="Banerjeeetal2021">Banerjee, Duflo, and Sharma (<a href="#ref-Banerjeeetal2021" role="doc-biblioref">2021</a>)</span>. Here we will consider the impact of receipt of asset transfers on two outcomes: a financial index <code>ind_fin_el1</code> and an asset index <code>asset_ind_tot_el1</code>.</p>
 <p>Before we explore randomisation inference, let’s open these data and estimate a simple regression, considering the effect of treatment receipt on the asset index:</p>
-<div id="d6f23bc0" class="cell" data-execution_count="11">
+<div id="79bcf316" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Banerjee_et_al_2021.csv"</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"asset_ind_tot_el1 ~ treatment"</span>, data<span class="op">=</span>data).fit()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>robust_res <span class="op">=</span> model.get_robustcov_results(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
@@ -1155,8 +1155,8 @@ Two sided p-value: 0.05</code></pre>
 Dep. Variable:      asset_ind_tot_el1   R-squared:                       0.017
 Model:                            OLS   Adj. R-squared:                  0.016
 Method:                 Least Squares   F-statistic:                     11.94
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):           0.000582
-Time:                        03:45:47   Log-Likelihood:                -1257.3
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):           0.000582
+Time:                        10:30:55   Log-Likelihood:                -1257.3
 No. Observations:                 682   AIC:                             2519.
 Df Residuals:                     680   BIC:                             2528.
 Df Model:                           1                                         
@@ -1180,7 +1180,7 @@ Notes:
 </div>
 <p>From the summary we can note that <span class="math inline">\(\widehat{\tau}_{ATE} = 0.408\)</span> and its standard error equals 0.118. This suggests a p-value of around 0.0005. We have saved the original estimated effect in a local (<code>assetEffect</code>) which we will use below.</p>
 <p>We can similarly consider the financial index:</p>
-<div id="f48c10df" class="cell" data-execution_count="12">
+<div id="6d642a7c" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_fin <span class="op">=</span> smf.ols(<span class="st">"ind_fin_el1 ~ treatment"</span>, data<span class="op">=</span>data).fit()</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>robust_fin <span class="op">=</span> model_fin.get_robustcov_results(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(robust_fin.summary())</span>
@@ -1192,8 +1192,8 @@ Notes:
 Dep. Variable:            ind_fin_el1   R-squared:                       0.000
 Model:                            OLS   Adj. R-squared:                 -0.001
 Method:                 Least Squares   F-statistic:                   0.05335
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):              0.817
-Time:                        03:45:47   Log-Likelihood:                -729.69
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):              0.817
+Time:                        10:30:55   Log-Likelihood:                -729.69
 No. Observations:                 815   AIC:                             1463.
 Df Residuals:                     813   BIC:                             1473.
 Df Model:                           1                                         
@@ -1217,7 +1217,7 @@ Notes:
 </div>
 <p>where we observe a point estimate quite close to zero, and p-value of 0.817.</p>
 <p>Let’s now consider how we conduct permutation inference in this particular case where there are too many permutations of treatment to feasibly consider them all. Here, rather than considering all possible permutations, we will consider randomly assigned permutations of treatment which respect the original treatment assignment structure. Namely, if we inspect these data, we can see that there are 991 units, 525 of whom receive treatment. We can thus conduct a single permutation by randomly re-assigning treatment to 525 units, and control to the remaning units. We do this below, estimating the correspnding effect.</p>
-<div id="746bb4e1" class="cell" data-execution_count="13">
+<div id="d32de794" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data[<span class="st">'treatment'</span>].value_counts())</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
@@ -1241,8 +1241,8 @@ Name: count, dtype: int64
 Dep. Variable:      asset_ind_tot_el1   R-squared:                       0.001
 Model:                            OLS   Adj. R-squared:                 -0.001
 Method:                 Least Squares   F-statistic:                    0.3872
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):              0.534
-Time:                        03:45:47   Log-Likelihood:                -1263.1
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):              0.534
+Time:                        10:30:55   Log-Likelihood:                -1263.1
 No. Observations:                 682   AIC:                             2530.
 Df Residuals:                     680   BIC:                             2539.
 Df Model:                           1                                         
@@ -1265,7 +1265,7 @@ Notes:
 </div>
 <p>Here we see that, perhaps unsurprisingly, our randomly assigned treatment results in a small estimated “effect”, of 0.082, which is substantially smaller than the original treatment effect itself.</p>
 <p>To estimate a permutation-based p-value all we need to do is repeat this procedure a large number of times (below 10,000 times), and count the proportion of permuted effects which are <em>larger</em> than our estimated treatment effect. We set this up below, incrementing <code>pval</code> by one any time the absolute value of the permuted effect exceeds the absolute value of our observed treatment effect:</p>
-<div id="665d7e05" class="cell" data-execution_count="14">
+<div id="2ffed29d" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Npermut <span class="op">=</span> <span class="dv">10000</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>pval <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1295,7 +1295,7 @@ Notes:
 </div>
 <p>Here we see that among all of our 10,000 placebos, only 8 effects were larger than the effect we actually observed in our data, suggesting a p-value of 8/10000, or 0.0008.</p>
 <p>We can generalise this idea below (for this specific data set-up), and below we do this defining a program which we call <code>randomisation_inference</code>. This program takes a single argument, which is the outcome we wish to consider, and packages the procedure we have explored above, finally printing the p-value and a number of other pieces of information. While we could further optimise this program, for example to automatically infer how to permute the treatment assignment and to return resulting p-values to users, the below is sufficient for our interests here of estimating a randomisation-based p-value.</p>
-<div id="02e89938" class="cell" data-execution_count="15">
+<div id="5faa1d83" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> randomisation_inference(varname, data, Npermut<span class="op">=</span><span class="dv">10000</span>):</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    np.random.seed(<span class="dv">121316</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Observed effect</span></span>
@@ -1322,7 +1322,7 @@ Notes:
 <span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"The observed effect of </span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss"> is </span><span class="sc">{</span>obs_effect<span class="sc">}</span><span class="ss"> and its p-value is </span><span class="sc">{</span>p_value<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we can run this program, simply passing as an argument the two variables we have examined above. We do this below:</p>
-<div id="005565bb" class="cell" data-execution_count="16">
+<div id="4a3f77ae" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>randomisation_inference(<span class="st">"ind_fin_el1"</span>, data)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>randomisation_inference(<span class="st">"asset_ind_tot_el1"</span>, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1336,7 +1336,7 @@ The observed effect of asset_ind_tot_el1 is 0.4077528208202771 and its p-value i
 <section id="code-call-out-2.3-bootstrap" class="level1">
 <h1>Code Call-out 2.3: Bootstrap</h1>
 <p>For an introduction to the bootstrap, refer to Section 2.4.4 of the book. Here we will examine a computational implementation of a bootstrap standard error and confidence intervals, using data from <span class="citation" data-cites="Chongetal2016">Chong et al. (<a href="#ref-Chongetal2016" role="doc-biblioref">2016</a>)</span>. First we will consider the main regression <span class="math display">\[Y_i = \mu + \tau_{ATE}W_i + \varepsilon_i.\]</span> Here we will work with the data <code>Chong_et_al_2016</code>, and examine the total cognitive score (<code>wii_total</code>) as our outcome measure <span class="math inline">\(Y_i\)</span>. We can load the data and examine selected variables on the first few lines of this dataset, before estimating the treatment effect via regression below.</p>
-<div id="48bf5eb2" class="cell" data-execution_count="17">
+<div id="d969b5b0" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -1359,8 +1359,8 @@ The observed effect of asset_ind_tot_el1 is 0.4077528208202771 and its p-value i
 Dep. Variable:              wii_total   R-squared:                       0.025
 Model:                            OLS   Adj. R-squared:                  0.020
 Method:                 Least Squares   F-statistic:                     5.174
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):             0.0240
-Time:                        03:47:14   Log-Likelihood:                -1365.7
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):             0.0240
+Time:                        10:33:41   Log-Likelihood:                -1365.7
 No. Observations:                 208   AIC:                             2735.
 Df Residuals:                     206   BIC:                             2742.
 Df Model:                           1                                         
@@ -1382,7 +1382,7 @@ Notes:
 </div>
 </div>
 <p>From the summary we can note that <span class="math inline">\(\widehat{\tau}_{ATE} = 57.46\)</span> and its standard error equals 25.26. This suggests a p-value of 0.024, and 95% confidence intervals of [7.66;107.267]. In this case the standard errors are computed via the standard OLS variance estimator, assuming homoscedastic errors, although heteroscedasticity-robust standard errors can be requested quite simply using the <code>get_robustcov_results</code> function from <code>statsmodels</code>. This is shown below, resulting in slight variations to the reported standard error (and correspondingly, p-value and resulting confidence intervals).</p>
-<div id="baff4365" class="cell" data-execution_count="18">
+<div id="9a13a521" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"wii_total ~ treat"</span>, data<span class="op">=</span>data_clean).fit()</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>robust_res <span class="op">=</span> model.get_robustcov_results(cov_type<span class="op">=</span><span class="st">"HC2"</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(robust_res.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1392,8 +1392,8 @@ Notes:
 Dep. Variable:              wii_total   R-squared:                       0.025
 Model:                            OLS   Adj. R-squared:                  0.020
 Method:                 Least Squares   F-statistic:                     5.642
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):             0.0185
-Time:                        03:47:14   Log-Likelihood:                -1365.7
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):             0.0185
+Time:                        10:33:41   Log-Likelihood:                -1365.7
 No. Observations:                 208   AIC:                             2735.
 Df Residuals:                     206   BIC:                             2742.
 Df Model:                           1                                         
@@ -1415,7 +1415,7 @@ Notes:
 </div>
 </div>
 <p>An alternative to these closed-form methods for variance estimation is to use bootstrap resampling methods. There are multiple ways a bootstrap can be implemented, but the simplest here will be to simply conduct a paired bootstrap, which is also robust to heteroscedasticity. The pairs bootstrap consists of, first, sampling with replacement the ordered pairs <span class="math inline">\(\left\{(y_i,w_i)\right\}_{i=1}^{N} = \left\{(y_1,w_1),\ldots,(y_N,w_N)\right\}\)</span> from original data, obtaining a “new” dataset of <span class="math inline">\(N\)</span> resampled pairs <span class="math inline">\(\left\{(y_i^*,w_i^*)\right\}_{i=1}^{N} = \left\{(y_1^*,w_1^*),\ldots,(y_N^*,w_N^*)\right\}\)</span>. The new dataset thus simply consists of (potentially repeated) randomly selected rows of the original data. Let’s see what this looks like with a single bootstrap replicate. First, we will generate a vector of size <span class="math inline">\(N\)</span>, drawn with replacement. We do this below, having a look at the first 10 rows of the vector.</p>
-<div id="d8f89da0" class="cell" data-execution_count="19">
+<div id="0aadeed4" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data_bootstrap <span class="op">=</span> data_clean.sample(n<span class="op">=</span><span class="bu">len</span>(data_clean), replace<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">121316</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data_bootstrap[[<span class="st">'student_id'</span>, <span class="st">'hhid'</span>, <span class="st">'treat'</span>]].head(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1428,7 +1428,7 @@ Notes:
 </div>
 </div>
 <p>With this bootstrap sample we estimate again the coefficient of interest with standard OLS procedure:</p>
-<div id="b9e03d84" class="cell" data-execution_count="20">
+<div id="9ee91d02" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model_bootstrap <span class="op">=</span> smf.ols(<span class="st">"wii_total ~ treat"</span>, data<span class="op">=</span>data_bootstrap).fit()</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_bootstrap.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1437,8 +1437,8 @@ Notes:
 Dep. Variable:              wii_total   R-squared:                       0.043
 Model:                            OLS   Adj. R-squared:                  0.038
 Method:                 Least Squares   F-statistic:                     9.243
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):            0.00267
-Time:                        03:47:14   Log-Likelihood:                -1350.4
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):            0.00267
+Time:                        10:33:41   Log-Likelihood:                -1350.4
 No. Observations:                 208   AIC:                             2705.
 Df Residuals:                     206   BIC:                             2711.
 Df Model:                           1                                         
@@ -1460,7 +1460,7 @@ Notes:
 </div>
 </div>
 <p>With this sample, we have obtained an estimate of <span class="math inline">\(\widehat{\tau}_{ATE}^* =23.41\)</span>; a different value to the original value, in line with variation in the sample used for estimation. If we want some idea of how much estimates vary as the sample changes (ie the sampling variation of our estimate), the next step simply consists of repeating this bootstrap process <span class="math inline">\(B\)</span> times, resulting in <span class="math inline">\(B\)</span> estimates of <span class="math inline">\(\widehat{\tau}_{ATE,(b)}^*\)</span> with <span class="math inline">\(b\in\{1,\ldots,B\}\)</span>. Let’s set <span class="math inline">\(B=1,000\)</span>, and do this:</p>
-<div id="def9f244" class="cell" data-execution_count="21">
+<div id="fe96d077" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>taus <span class="op">=</span> np.empty(<span class="dv">1000</span>)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>):</span>
@@ -1469,11 +1469,11 @@ Notes:
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    taus[i] <span class="op">=</span> model.params[<span class="st">"treat"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You may wish to step through each of the lines in this loop to ensure that you can see what is going on, but the end product of this code is a array called <code>taus</code> which has been filled in with <span class="math inline">\(B\)</span> estimates of <span class="math inline">\(\tau\)</span>, <span class="math inline">\(\left\{\widehat{\tau}^{(b)}\right\}_{b=1}^{B}\)</span>. The next step is to convert this column matrix into a variable in our dataset</p>
-<div id="24ff5f29" class="cell" data-execution_count="22">
+<div id="cd611f1f" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>taus_df <span class="op">=</span> pd.DataFrame({<span class="st">'taus'</span>: taus})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can have a look at the entire empirical distribution of these estimates as follows:</p>
-<div id="f149b3a1" class="cell" data-execution_count="23">
+<div id="3530f631" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gaussian_kde</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1507,7 +1507,7 @@ Notes:
 </div>
 </div>
 <p>As we can see, this empirical distribution is close to centred on the original estimate (in the limit, they will be exactly the same, which is something you may wish to confirm by using a larger value for <span class="math inline">\(B\)</span>), while also giving us some idea of the variation of the estimate over alternative resamples. We additionally plot the empirical 2.5<sup>th</sup> and 97.5<sup>th</sup> quantiles of the distribution, which provides a 95% confidence interval for <span class="math inline">\(\widehat\tau\)</span>. Clearly, and in line with the regression results observed above, we can reject the null that <span class="math inline">\(\tau=0\)</span> with some certainty. Using these values <span class="math inline">\(\left\{\widehat{\tau}^{(b)}\right\}_{b=1}^{B}\)</span>, finally we display the estimate’s standard error as the standard deviation of the bootstrap estimates, and the confidence intervals can be generated from empirical quantiles. <!-- Similarly, if we wish to calculate a p-value, we can do so, asking how many values of the empirical distribution are more extreme than the estimate of interest.    --> We illustrate this below:</p>
-<div id="33d1fbdd" class="cell" data-execution_count="24">
+<div id="daf1dd76" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>var_estimate <span class="op">=</span> taus_df[<span class="st">'taus'</span>].var()</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>sd_estimate <span class="op">=</span> taus_df[<span class="st">'taus'</span>].std()</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>ci <span class="op">=</span> taus_df[<span class="st">'taus'</span>].quantile([<span class="fl">0.025</span>, <span class="fl">0.975</span>])</span>

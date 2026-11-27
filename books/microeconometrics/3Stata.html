@@ -660,7 +660,7 @@ window.Quarto = {
 </figure>
 </div>
 <p>Below we will open the data provided by <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span> and begin working with it. These data actually consist of both the NSW experimental implementation (marked as <code>data_id="Dehejia-Wahba Sample"</code>), as well as the survey data (marked as <code>data_id="CPS1"</code>). Among the NSW sample, there will be both treated and control units (indicated by <code>treat</code>), whereas among the CPS data, there will be no treated units. Our goal will then be to discard the control units from the NSW sample, and seek to generate a control group using propensity score matching. Along with information on individuals’ participation in the program (treat), the dataset contains information about their earnings in 1978 (re78) which follows program participation (in the case of treated observations), and several other covariates such as age, education, race, marital status, and earnings in 1974 and 1975 (pre-treatment outcomes). Below we will open these data, and generate two samples: the original “experimental” sample based on the NSW, and the new sample consisting of both treated units, and survey data which we will use to try to generate our matched controls:</p>
-<div id="fb7e843e" class="cell" data-execution_count="1">
+<div id="5c9310ea" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -684,7 +684,7 @@ window.Quarto = {
 </div>
 <p>Along with these two samples which we have indicated as <code>experimental</code> (experimental sample) and <code>observational</code> (observational) above, we have also generated a number of additional variables based on those available in the data which were used in <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>’s calculation of the propensity score.</p>
 <p>Now, using the observational data above, we will estimate the propensity score. We will do this using the same variables and procedure described in the note to Table 2 from <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>, which results in the variable <code>pscore</code> below. As we are only doing this with the observational data, we are using the <code>observational</code> sample below. Finally, we examine the propensity score by the actual treatment value below.</p>
-<div id="ed004bdb" class="cell" data-execution_count="2">
+<div id="e9607b50" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Estimate logit model and Pr(X)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">logit</span> treat age age2 age3 education educ2 <span class="co">///</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      married nodegree <span class="bn">black</span> hispanic re74 <span class="co">///</span></span>
@@ -759,7 +759,7 @@ Note: 546 failures and 0 successes completely determined.
 </div>
 </div>
 <p>Unsurprisingly, we see that there is substantial mass at 0 among the untreated units. While it is somewhat difficult to observe overlap fully given that there are many more observations in the CPS than in the NSW experiment, we could explore more, for example looking at densities outside the very lowest values to ensure that effectively there are values of the propensity score in the CPS which are similar to those among (treated) NSW units, which suggests a more reasonable overlap, though, of course, there is relatively less mass at the upper end of the propensity score distribution among control units to match to treated units.</p>
-<div id="464e1755" class="cell" data-execution_count="3">
+<div id="0ab1f894" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Graph propensity score</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">kdensity</span> pscore <span class="kw">if</span> treat==1&amp;pscore&gt;0.1, bw(0.02) <span class="co">///</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> ||    <span class="kw">kdensity</span> pscore <span class="kw">if</span> treat==0&amp;pscore&gt;0.1, bw(0.02) <span class="co">///</span></span>
@@ -777,7 +777,7 @@ Note: 546 failures and 0 successes completely determined.
 <section id="nearest-neighbour-matching-without-replacement" class="level2">
 <h2 class="anchored" data-anchor-id="nearest-neighbour-matching-without-replacement">Nearest Neighbour Matching without Replacement</h2>
 <p>We will now get into the business of matching to generate the ATT based on this propensity score. We will start by considering nearest neighbour matching without replacement. While we could seek to do this with Stata’s native <code>teffects</code> command, we will see here how we can do this “by hand” to fully explore the mechanics of such matching procedures. In particular, we will consider the propensity score of each treated unit, and iterate through each treated unit finding the nearest match. While there are many ways that we could do this, we will do this below by using Stata’s frames which allow us to store just the treated units and their match in a specific data frame. We’ll start this process by setting up a frame and generating empty variables for the outcome of interest as well as each unit’s treatment status and covariates which we can then fill in as we generate our matches. Because in this procedure we will find a single match for each treated unit, we will set the number of observations for this frame as <span class="math inline">\(N_t\times 2\)</span>:</p>
-<div id="f454ce3e" class="cell" data-execution_count="4">
+<div id="2148c323" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Set local for all predictor variables</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> xvars age age2 age3 education educ2 <span class="co">///</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>     married nodegree <span class="bn">black</span> hispanic re74 <span class="co">///</span></span>
@@ -802,7 +802,7 @@ Number of observations (_N) was 0, now 370.</code></pre>
 </div>
 <p>Now, we will conduct the match procedure itself. Before doing so, we will sort the units based on their propensity score, first with treated units and then with untreated units. This sort order is imporant, as when we iteate through the propensity scores for matching, we will do so from the lowest to the highest. Note that when we sort the propensity score, we are doing so with <code>sort</code> in a way which places treated units first. While we could use <code>gsort</code> to do this more directly, we require the <code>stable</code> option of <code>sort</code> to precisely replicate the results from <span class="citation" data-cites="DeheijaWahba1999">Dehejia and Wahba (<a href="#ref-DeheijaWahba1999" role="doc-biblioref">1999</a>)</span>, given that a number of propensity scores are exactly the same, and we want to work in the same order which they (presumably) did in their code.</p>
 <p>The process of matching itself occurs in the loop where we iterate through the first 185 observations (the treated units). Within that loop, we seek the unit which has the minimum distance between the treated unit’s propensity score and its own propensity score, which we generate in <code>pscore_diff</code>. We then store a rnage of details related to each treated unit and its nearest neighbour in the frame <code>NN</code>. It is worth looking carefully through this code as there are various moving partsy, and running it to ensure it is clear what is occurring in each line.</p>
-<div id="dc37f475" class="cell" data-execution_count="5">
+<div id="fa5165a4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Preserve data to begin matching (sort by match order)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">preserve</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> treatAlt = treat==0</span>
@@ -849,7 +849,7 @@ Number of observations (_N) was 0, now 370.</code></pre>
 <span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="kw">restore</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, with the match in hand we can change to the frame <code>NN</code>, and confirm that the difference in means does indeed correspond to the estimate reported by <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>:</p>
-<div id="4f1e640f" class="cell" data-execution_count="6">
+<div id="fc527a12" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cwf NN</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> re78 <span class="kw">if</span> treat==1</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> ytreat = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
@@ -872,7 +872,7 @@ Difference in means is: 1604.7307</code></pre>
 </div>
 </div>
 <p>We can follow effectively the same procedures for nearest neighbour matching with an ascending propensity score, or by nearest neighbour matching based on random ordering. Because these codes are so similar (only differing in the lines which order the propensity score), they are left hidden below, however you can click to reveal to confirm that everything makes sense here. First, we can consider nearest neighbour matching with an ascending propensity score:</p>
-<div id="13fc15fc" class="cell" data-execution_count="7">
+<div id="9c52fdcd" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code (Nearest neighbour ascending)</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> xvars age age2 age3 education educ2 <span class="co">///</span></span>
@@ -938,7 +938,7 @@ Difference in means is: 1604.7307</code></pre>
 </details>
 </div>
 <p>and again calculate our matching estimate:</p>
-<div id="dfc5a178" class="cell" data-execution_count="8">
+<div id="2ede26c0" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cwf NN_a</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> re78 <span class="kw">if</span> treat==1</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> ytreat = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
@@ -961,7 +961,7 @@ Difference in means is: 1559.1608</code></pre>
 </div>
 </div>
 <p>In this case we see that we can replicate the estimate of 1,559 reported in the table above. We can also consider how things would look with a random ordering (expand code for additional details):</p>
-<div id="c777bb00" class="cell" data-execution_count="9">
+<div id="1999c07d" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code (Nearest neighbour random)</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Set local for all predictor variables</span></span>
@@ -1028,7 +1028,7 @@ Difference in means is: 1559.1608</code></pre>
 </details>
 </div>
 <p>following the similar procedure to arrive to our estimate:</p>
-<div id="a7be1f88" class="cell" data-execution_count="10">
+<div id="0447f739" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cwf NN_r</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> re78 <span class="kw">if</span> treat==1</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> ytreat = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
@@ -1055,7 +1055,7 @@ Difference in means is: 1533.3046</code></pre>
 <section id="nearest-neighbour-matching-with-replacement" class="level2">
 <h2 class="anchored" data-anchor-id="nearest-neighbour-matching-with-replacement">Nearest Neighbour Matching with Replacement</h2>
 <p>Above we have calculated the values exactly as reported in <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span> for nearest neighbour matching without replacement, but the table also documents results matching with replacement, and using calipers. Given what we have already done it is, in fact, quite trivial to implement the same procedure with replacement. Previously, we had been removing controls from the donor pool once they had been matched, and so to conduct a procedure with replacement, we can simply remove these lines from the code! In practice, because we are repeating much of the code with just small tweaks, we may like to make these procedures into a simple program which can depend upon arguments that control how propensity scores are sorted, whether replacement is used, and so forth (and indeed, you may prefer to explore this). However, in the interests of simplicity here we will just replicate the procedures we have followed previously, stripping out the line that makes this occur without replacement. Below, we see how we can replicate our matching procedure now permitting replacement of control units.</p>
-<div id="d93cb58b" class="cell" data-execution_count="11">
+<div id="907b25e6" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Set local for all predictor variables</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> xvars age age2 age3 education educ2 <span class="co">///</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     married nodegree <span class="bn">black</span> hispanic re74 <span class="co">///</span></span>
@@ -1118,7 +1118,7 @@ Difference in means is: 1533.3046</code></pre>
 <span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a><span class="kw">restore</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As above, we can now change to our matched dataframe and generate a simple comparison of means:</p>
-<div id="59de9c1b" class="cell" data-execution_count="12">
+<div id="391931c2" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cwf NN_rep</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> re78 <span class="kw">if</span> treat==1</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> ytreat = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
@@ -1145,7 +1145,7 @@ Difference in means is: 1359.5878</code></pre>
 <section id="caliper-matching" class="level2">
 <h2 class="anchored" data-anchor-id="caliper-matching">Caliper Matching</h2>
 <p>Finally, we need to implement a caliper matching procedure. In <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>, this procedure consists of matching all observations within some “caliper” surrounding each treated unit’s propensity score. Within that caliper, each treated unit is matched to the mean outcome among all controls. Note that in a standard caliper match one would generally remove units for which no observation is found within the given caliper, however in <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span> footnote 10 it is noted that in cases such as this, each treated unit is matched with its nearest neighbour (outside of the caliper). This is done within the matching below using the <code>else:</code> condition. You may note that below (after sorting order observations so that we can work with all treated units), we are interating through each caliper size indicated in the Table (0.00001, 0.00005, and 0.0001). Within each calpier size, our inner loop (<code>forvalues i=1/185</code>), then finds the match or average of all matches for each treated unit.</p>
-<div id="98575e5d" class="cell" data-execution_count="13">
+<div id="502fafe8" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Preserve data to begin matching (sort by dataset order)</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> treatAlt = treat==0</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">sort</span> treatAlt, stable</span>
@@ -1216,7 +1216,7 @@ Working with caliper .0001</code></pre>
 </div>
 </div>
 <p>Finally, we can loop through each of the resulting frames generated, and calculate the difference of means quantity. If we compare the values below to those in the Table above, we will see that they are all identical.</p>
-<div id="2b4f7e78" class="cell" data-execution_count="14">
+<div id="7f6c9633" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> cal <span class="kw">in</span> 1 5 10 {</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    dis <span class="st">"Caliper"</span> <span class="ot">`cal'</span>/100000</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    cwf caliper_<span class="ot">`cal'</span></span>
@@ -1242,7 +1242,7 @@ Difference in means is: 1121.7551</code></pre>
 <section id="bringing-things-together" class="level2">
 <h2 class="anchored" data-anchor-id="bringing-things-together">Bringing things together</h2>
 <p>Let’s now bring this all together and provide a final summary table like <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>. To do this, we will first need to generate the simple unmatched difference in means and experimental estimate which are reported in the first two rows of the Table. This is done quite easily by just taking the difference of means (or a regression) with the full set of CPS data (<code>observational</code>) and the full set of experimental data (<code>experimental</code>), and we do this below, taking care to save the full set of covariate means and this estimated effect in separate frames for processing below.</p>
-<div id="cdc9b50c" class="cell" data-execution_count="15">
+<div id="aa59ebfa" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">//Generate means and effect for experimental sample</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>frame create NSW</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>frame NSW: <span class="kw">set</span> <span class="kw">obs</span> 1</span>
@@ -1299,7 +1299,7 @@ Number of observations (_N) was 0, now 1.
 </div>
 </div>
 <p>Now, based on all this we can summarise the effects and mean characteristics of controls to generate a comparable table to Table 2 above. We do this below:</p>
-<div id="db1c6899" class="cell" data-execution_count="16">
+<div id="99fc600e" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> titles NSW CPS Rand LtH HtL NN C1 C5 C10</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">tokenize</span> <span class="ot">`titles'</span></span>
@@ -1379,7 +1379,7 @@ graph box re78, over(treat)
 <p>Maternal smoking during pregnancy has been a subject of extensive study due to its potential impact on infant health outcomes, such as birth weight. However, simply comparing the birth weights of infants born to smokers versus non-smokers may not account for confounding factors that influence both the likelihood of smoking and birth outcomes. In this code call-out, we will work with data from <span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span> which consists of a child’s birthweight, an indicator of whether their mother smoked during pregnancy, and a number of covariates.</p>
 <p>In their paper, <span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span> conduct a propensity score matching procedure in which mothers who smoked and mothers who did not were matched based on a rich array of covariates, and differences in birthweight were examined between mothers who smoked and matched non-smokers. We will examine these data and procedures here. In particular, in this code call-out we will examine a number of issues which arise when implementing propensity score matching in practice: a first consideration is related to overlap and trimming, and a second consideration is related to tests of balance of variable when matching on the propensity score. Thus, while the code call-out above focused on the technology of matching conditional on a given sample to match, here we will work through some of the practicalities related to thinking about <em>which</em> samples to match, and ways to evaluate matches.</p>
 <p>We will now load the data used in <span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span>. In their paper, they consider a range of key variables, including: “mother’s and father’s age, education, and race, marital status, number of previous live births and terminations, prenatal care usage, months since last birth, immigrant status, county of birth, indicators for previous births over 4000 grams or LBW, indicators for alcohol use, and indicators for medical risk factors.” We will work with the majority of these, with the exception of a small number of measures which are not avaialable in public data, and the county of birth given the many counties, and the fact that we do not have a logical measure apart from a series of dummies for each county for this measure. We define the local <code>covariates</code> below which contains the full set of variables.</p>
-<div id="74f07266" class="cell" data-execution_count="17">
+<div id="c42c7ec2" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1396,7 +1396,7 @@ graph box re78, over(treat)
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                 fhisp foreign <span class="kw">order</span> prenatal deadkids lbweight</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s now go about estimating the propensity score. We will seek to estimate the likelihood that a mother smokes before birth (<code>mbsmoke</code>) based on the covariates indicated above.</p>
-<div id="c34c1cbb" class="cell" data-execution_count="18">
+<div id="8d711e37" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">logit</span> mbsmoke_num <span class="ot">`covariates'</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> pscore, pr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1434,7 +1434,7 @@ mmarried_num |  -1.096615   .1051827   -10.43   0.000    -1.302769   -.8904609
 </div>
 </div>
 <p>This will result in a propensity score which is strictly between 0 and 1 given the logit model estimated. If we wish, we can plot the cumulative density function to ensure to ourselves that we are satisfied that this is the case, as we see below:</p>
-<div id="8412f7e5" class="cell" data-execution_count="19">
+<div id="f40cc4c2" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sort</span> pscore</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> cdf = <span class="dt">_n</span>/_N</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1450,7 +1450,7 @@ mmarried_num |  -1.096615   .1051827   -10.43   0.000    -1.302769   -.8904609
 </div>
 </div>
 <p>As a final preliminary step, we will follow an identical procedure to that which we followed above in call-out 3.1 to conduct nearest neighbour matching. Because we have discussed these matching procedures at some length above, we will not go into this in much depth here. As we have seen previously, our procedure below finds a match for each treated unit (without replacement), and our matched units and controls will be stored in their own frame called <code>matched_data</code>.</p>
-<div id="529b6623" class="cell" data-execution_count="20">
+<div id="66f64673" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate frame for our matched data</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>frame create matched_data</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>frame matched_data {</span>
@@ -1513,7 +1513,7 @@ mmarried_num |  -1.096615   .1051827   -10.43   0.000    -1.302769   -.8904609
 
 Number of observations (_N) was 0, now 1,728.</code></pre>
 <p>If we wish to be sure that this has worked, we can change to our new data frame (using <code>cwf</code>) and confirm that we effectively generate a matched unit for each treated unit. We do this below seeing that initially these data consist of 864 smokers and 3,778 non-smokers, while after matching the data consist of 864 of each group. We then change back to our original data frame.</p>
-<div id="17f47bac" class="cell" data-execution_count="21">
+<div id="e5afdb4d" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Check sample sizes (should be 864 and 864)</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>cwf matched_data</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> mbsmoke_num == 1</span>
@@ -1550,7 +1550,7 @@ Figure&nbsp;1: Propensity Score Overlap in Full Treated and Matched Sample
 </div>
 </div>
 <p>Indeed, we can ensure that our visual inspection above is correct. Let’s check below whether there are <em>any</em> treated units with a propensity score that is more extreme than potential donors:</p>
-<div id="e1504590" class="cell" data-execution_count="23">
+<div id="9d2ed56b" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>* Separate treated and control groups based <span class="kw">on</span> the defined labels</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"Overlap Check for Propensity Scores:"</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1569,7 +1569,7 @@ Smoking status No (Control): min pscore = .00971731 max pscore = .86040491</code
 <section id="minima-and-maxima-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="minima-and-maxima-comparison">Minima and Maxima Comparison</h3>
 <p>The minima and maxima comparison involves deleting observations whose propensity scores are smaller than the minimum or larger than the maximum in the opposite group. This ensures that we only keep observations within the common support region. Below we generate a variable which marks the sample based on the common support among groups. This simply indicates observations for which a common support exists based on the treatment indicator, and propensity score measure:</p>
-<div id="8018ef73" class="cell" data-execution_count="24">
+<div id="b7e6246d" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>* Get <span class="fu">min</span> and <span class="fu">max</span> <span class="kw">of</span> the propensity <span class="kw">score</span> <span class="kw">by</span> <span class="fu">group</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">summarize</span> pscore <span class="kw">if</span> mbsmoke_num == 1</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> min_treat = <span class="fu">r</span>(<span class="fu">min</span>)</span>
@@ -1618,7 +1618,7 @@ Control kept:
 </div>
 </div>
 <p>We visualize the propensity score overlap after implementing the trimming procedure, where we see that only a few observations are trimmed at the upper and lower end when compared to <strong>?@fig-allmatchedStata</strong>.</p>
-<div id="3ebbaff9" class="cell" data-execution_count="25">
+<div id="647489a2" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>* Visualization: Histogram <span class="kw">of</span> overlap after trimming</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="co">///</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">histogram</span> pscore <span class="kw">if</span> mbsmoke_num==0&amp;in_support==1, <span class="co">///</span></span>
@@ -1640,7 +1640,7 @@ Control kept:
 <section id="trimming-based-on-the-support-region" class="level3">
 <h3 class="anchored" data-anchor-id="trimming-based-on-the-support-region">Trimming based on the support region</h3>
 <p>Another procedure, discussed formally in <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span>, is to only consider units with a non-zero density of the propensity score, at the same time discarding propensity scores where there is a very low density of observations in either group. In particular, this requires estimating densities of the propensity score for both treated and control units <span class="math inline">\(\hat{f}(P \mid D = 1)\)</span> and <span class="math inline">\(\hat{f}(P \mid D = 0)\)</span>. <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span> suggest estimating these densities use a kernel density estimator, and they suggest doing this with a bandwidth parameter for constructing the kernel as laid out by <span class="citation" data-cites="Silverman1986">Silverman (<a href="#ref-Silverman1986" role="doc-biblioref">1986</a>)</span>, which is to define the bandwidth as <span class="math inline">\(h = \sigma \times N^{1/5}\)</span>, where <span class="math inline">\(\sigma\)</span> refers to the standard deviation of data. Fortunately, by default, Stata employs Silverman’s rule of thumb to select bandwidths in kernel densities. We estimate these densities as belwo, employing a Gaussian kernel.</p>
-<div id="66fb66e4" class="cell" data-execution_count="26">
+<div id="bb1ab123" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>* Kernel density plot</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="co">///</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">kdensity</span> pscore <span class="kw">if</span> mbsmoke_num==1, kernel(gaussian) lcolor(<span class="bn">blue</span>) lwidth(<span class="bn">medthick</span>)) <span class="co">///</span></span>
@@ -1663,7 +1663,7 @@ P:\ \hat{f}(P \mid D = 1) &gt; c_q \ \text{and}\ \hat{f}(P \mid D = 0) &gt; c_q
 \]</span></p>
 <p>where <span class="math inline">\(c_q\)</span> is set such that some fixed low proportion of data is removed.</p>
 <p>This definition requires calculating the density a propensity score would be observed with based on the distributions for <span class="math inline">\(D=1\)</span> and <span class="math inline">\(D=0\)</span>. Below we estimate each of these density functions, and then apply them to the entire dataset which allows us to see the density of a given <span class="math inline">\(P\)</span> in both groups:</p>
-<div id="a7852ee0" class="cell" data-execution_count="27">
+<div id="fcd9e3d0" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">kdensity</span> pscore <span class="kw">if</span> mbsmoke_num==0, <span class="fu">at</span>(pscore) <span class="kw">gen</span>(pscorefit0 density0) kernel(gaussian)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">kdensity</span> pscore <span class="kw">if</span> mbsmoke_num==1, <span class="fu">at</span>(pscore) <span class="kw">gen</span>(pscorefit1 density1) kernel(gaussian)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1675,7 +1675,7 @@ P:\ \hat{f}(P \mid D = 1) &gt; c_q \ \text{and}\ \hat{f}(P \mid D = 0) &gt; c_q
 </div>
 </div>
 <p>Now, based on the quantities <code>density1</code> and <code>density0</code>, we can set some value <span class="math inline">\(c_q\)</span> as a criteria for keeping observations. For example, below we can see that if we use some very low density value like 0.05, we will keep the vast majority of observations (&gt;99%):</p>
-<div id="587d9e2e" class="cell" data-execution_count="28">
+<div id="ac3c4fda" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> cq = 0.05</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> density1&gt;<span class="ot">`cq'</span> &amp; density0&gt;<span class="ot">`cq'</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> nkeep = <span class="fu">r</span>(<span class="kw">N</span>)</span>
@@ -1691,7 +1691,7 @@ Setting density at .05 results in 99.396812% of data being kept</code></pre>
 </div>
 </div>
 <p>while if we use a higher density value, we will trim more observations from our value:</p>
-<div id="f1610dff" class="cell" data-execution_count="29">
+<div id="c53bb2ff" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> cq = 0.25</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> (density1 &gt; <span class="ot">`cq'</span> &amp; density0 &gt; <span class="ot">`cq'</span>)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> nkeep = <span class="fu">r</span>(<span class="kw">N</span>)</span>
@@ -1704,7 +1704,7 @@ Setting density at .25 results in 95.583800% of data kept</code></pre>
 </div>
 </div>
 <p>The proposal of <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span> is that we should set the value of <span class="math inline">\(c_q\)</span> to trim some small proportion of observations, and they suggest this should be 2% of the data. Below we can do this by trying small values of <span class="math inline">\(c_q\)</span>, gradually increasing until we iterate onto the value which results in a trim proportion of 2%:</p>
-<div id="29ae8470" class="cell" data-execution_count="30">
+<div id="1464c20f" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Finding optimal density cutoff to keep 98% of data (trim 2%)...</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> pkeep = 100</span>
@@ -1740,7 +1740,7 @@ Resulting in a final dataset of 4549 observations
 This represents 97.997% of data</code></pre>
 </div>
 </div>
-<div id="c1a3ff52" class="cell" data-execution_count="31">
+<div id="5e4afa52" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Filter the dataset with the values that meet the final threshold</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> smith_todd_keep = (density1 &gt; <span class="ot">`cq'</span> &amp; density0 &gt; <span class="ot">`cq'</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1759,7 +1759,7 @@ mbsmoke_num |      Freq.     Percent        Cum.
 </div>
 </div>
 <p>Finally, we can see the resulting propensity score distributions based on this procedure, which makes clear that we have trimmed observations with high propensity scores which had very low densities.</p>
-<div id="4b651800" class="cell" data-execution_count="32">
+<div id="635c3065" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="co">///</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">histogram</span> pscore <span class="kw">if</span> mbsmoke_num==0 &amp; smith_todd_keep==1, <span class="co">///</span></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">percent</span> <span class="kw">color</span>(<span class="bn">blue</span>%40) lcolor(<span class="bn">black</span>) <span class="bn">bin</span>(30)) <span class="co">///</span></span>
@@ -1785,7 +1785,7 @@ mbsmoke_num |      Freq.     Percent        Cum.
 <section id="t-tests-of-balance" class="level3">
 <h3 class="anchored" data-anchor-id="t-tests-of-balance">t-Tests of Balance</h3>
 <p>A first consideration is to simply conduct t-tests of balance across the treated and the matched sample. Below, we use <code>ttest</code> to implement t-tests for equality of means across groups.</p>
-<div id="73b2624d" class="cell" data-execution_count="33">
+<div id="81cdd2fe" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>* IMPORTANT: Define the <span class="ot">list</span> <span class="kw">of</span> covariates first</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="kw">global</span> covariates <span class="st">"mmarried_num mage fage mrace frace medu fbaby_num monthslb fhisp foreign order prenatal deadkids lbweight"</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1813,7 +1813,7 @@ mbsmoke_num |      Freq.     Percent        Cum.
 <span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can examine balance with our original data, resulting in a test of balance suggesting substantial misbalance, suggesting that individuals who smoke and who do not smoke during pregnancy are different in all observable characteristics considered:</p>
-<div id="a0bc7482" class="cell" data-execution_count="34">
+<div id="ee546892" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"Balance before matching (t-test)"</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">list</span> balance_before, <span class="kw">format</span>(%9.6f)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1838,7 +1838,7 @@ Low_Birth_~t    -5.438906     0.000000     1.000000</code></pre>
 </div>
 </div>
 <p>However, if we now consider the matched sample based on the nearest neighbour procedure implemented above, we see a quite different result. Once matching on propensity score, we observe balance on all observables, suggesting that at least for these measures, the balancing property of the propensity score is clear.</p>
-<div id="20b0bf32" class="cell" data-execution_count="35">
+<div id="d264a56b" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Evaluate after matching</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>cwf matched_data</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1898,7 +1898,7 @@ SB_{before}= 100 \cdot\frac{\bar{X}_1 - \bar{X}_0}{\sqrt{0.5 \cdot \left( V_1(X)
 SB_{after}= 100 \cdot\frac{\bar{X}_{1M} - \bar{X}_{0M}}{\sqrt{0.5 \cdot \left( V_{1M}(X) + V_{0M}(X) \right)}}
 \]</span> Here <span class="math inline">\(\bar{X}\)</span> refers to means, <span class="math inline">\(V(X)\)</span> refers to the variance, subsets refer to treated or control (1 vs 0) or matched versus unmatched samples (M or nothing).</p>
 <p>We define a simple program below which calculates these standardised differences, returning a scalar containing the standardised bias for each covariate considered.</p>
-<div id="23d9f8d2" class="cell" data-execution_count="36">
+<div id="10a39fc6" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">capture</span> <span class="kw">program</span> <span class="kw">drop</span> calc_smd</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="kw">program</span> <span class="kw">define</span> calc_smd, rclass</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">syntax</span> varname, treat(varname)</span>
@@ -1921,7 +1921,7 @@ SB_{after}= 100 \cdot\frac{\bar{X}_{1M} - \bar{X}_{0M}}{\sqrt{0.5 \cdot \left( V
 </div>
 </div>
 <p>We can now apply this both based on original and matched data. Ultimately, we will generate a matrix containing each covariate’s name, as well as the unadjusted and adjusted SB.</p>
-<div id="f1150323" class="cell" data-execution_count="37">
+<div id="2881b65a" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>* Calculate standardized <span class="kw">mean</span> differences before and after matching</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> smd_results = <span class="fu">J</span>(14, 2, .)</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">rownames</span> smd_results = <span class="st">"Married"</span> <span class="st">"Mother_Age"</span> <span class="st">"Father_Age"</span> <span class="st">"Mother_Race"</span> <span class="co">///</span></span>
@@ -2035,7 +2035,7 @@ Figure&nbsp;2: Covariate balance before and after matching
 <section id="comparing-covariate-balance-before-and-after-trimming" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-covariate-balance-before-and-after-trimming">Comparing Covariate Balance Before and After Trimming</h2>
 <p>Finally, noting that the previous process worked with the matched data in the untrimmed sample, we can also consider how things look using the trimming procedure suggested by <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span>. In general, because we observe quite good overlap in this setting, we may expect that no major differences will be observed, but for the sake of completeness we examine this below. We can do this based on our previously defined functions, and using the trimmed data:</p>
-<div id="a5168937" class="cell" data-execution_count="39">
+<div id="42e83ac3" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate match based on trimmed data</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> smith_todd_keep==1</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2242,7 +2242,7 @@ Figure&nbsp;3: Covariate balance after trimming and matching
 <h1>Code Call-out 3.3 - Inverse Propensity Score Weighting, Regression and Matching</h1>
 <p>In this code call-out, we will consider different procedures one may employ when maintaining a conditional unconfoundedness assumption. To illustrate alternative procedures – namely regression, inverse propensity score weighting and matching, we will work with an example laid out in <span class="citation" data-cites="MillimetTchernis2009">Millimet and Tchernis (<a href="#ref-MillimetTchernis2009" role="doc-biblioref">2009</a>)</span> and re-examined in <span class="citation" data-cites="CallawaySong2019">Sant’Anna and Song (<a href="#ref-CallawaySong2019" role="doc-biblioref">2019</a>)</span>. In this case, the authors consider the impact of membership in a trade agreement such as GAT and WTO on a country’s measures of environmental sustainability. We will work with the data originally from <span class="citation" data-cites="MillimetTchernis2009">Millimet and Tchernis (<a href="#ref-MillimetTchernis2009" role="doc-biblioref">2009</a>)</span>, in particular focusing on one of multiple outcomes, which is CO<span class="math inline">\(_2\)</span> emissions per capita. Below we will explore the implementation of matching strategies, regression strategies, and re-weighting strategies, setting up each of these procedures in turn, documenting both the estimation of an ATE, as well as an ATT in each case.</p>
 <p>Prior to getting into the mechanics of each, let’s load our data and generate a number of key variables. We do this below:</p>
-<div id="51e315dc" class="cell" data-execution_count="41">
+<div id="e2b90c35" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>* Load the dataset</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"data/Millimet_Tchernis_2009.csv"</span>, <span class="kw">clear</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2269,7 +2269,7 @@ variable rgdpch was long now double
 <section id="matching-based-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="matching-based-estimation">Matching-based estimation</h2>
 <p>Because we have already considered matching-based procedures above, let’s begin by re-implementing such procedures here. To do this, we will first need to estimate a propensity score, which we do below using a Logit specification, and the covariates mentioned above. In practice we should consider sensitivity to such choices as discussed in code call-out 3.2 above, but here in the interests of simplicity, we will simply follow <span class="citation" data-cites="MillimetTchernis2009">Millimet and Tchernis (<a href="#ref-MillimetTchernis2009" role="doc-biblioref">2009</a>)</span> and <span class="citation" data-cites="CallawaySong2019">Sant’Anna and Song (<a href="#ref-CallawaySong2019" role="doc-biblioref">2019</a>)</span> to trim our estimated propensity score at 0.05 and 0.95.</p>
-<div id="be38c5fe" class="cell" data-execution_count="42">
+<div id="82acc3ab" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">logit</span> <span class="ot">`treatment'</span> <span class="ot">`covariates'</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> pscore, pr</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2303,7 +2303,7 @@ areapXpolity |   .0003681    .000497     0.74   0.459    -.0006059    .0013422
 </div>
 </div>
 <p>Let’s now move on to implementing a propensity score matching estimator. We have seen this <em>extensively</em> in code call-out 3.1, so below we will simply consider one specific example, which is to do nearest neighbour matching with matches completed in random order. We will use the <code>teffects</code> programs, in particular <code>teffects psmatch</code>:</p>
-<div id="5c24e433" class="cell" data-execution_count="43">
+<div id="8ff7d3be" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>teffects psmatch (<span class="ot">`outcome'</span>) (<span class="ot">`treatment'</span> <span class="ot">`covariates'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2321,7 +2321,7 @@ ATE          |
 ------------------------------------------------------------------------------</code></pre>
 </div>
 </div>
-<div id="b3694149" class="cell" data-execution_count="44">
+<div id="fc904413" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>teffects psmatch (<span class="ot">`outcome'</span>) (<span class="ot">`treatment'</span> <span class="ot">`covariates'</span>), atet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -2344,7 +2344,7 @@ ATET         |
 <section id="regression-based-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="regression-based-estimation">Regression-based estimation</h2>
 <p>Let’s begin by considering our standard OLS regression model, as laid out in equation 3.31 of the text. Because we wish to allow separate effects of covariates on outcomes among treated and untreated individuals, we will first create a full set of interactions between each covariate and the treatment indicator, and define a set of locals containing covariates (<code>covariates</code>), the interaction with the treatment indicator (<code>interaction_terms</code>), and the treatment indicator itself for estimation:</p>
-<div id="455259fe" class="cell" data-execution_count="45">
+<div id="4dc1269b" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>* Create covariate × treatment interaction terms (</span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>* Re-<span class="kw">scale</span> <span class="ot">all</span> variables so that they have <span class="kw">mean</span> <span class="bn">zero</span> </span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="kw">var</span> <span class="kw">of</span> <span class="kw">local</span> covariates {</span>
@@ -2464,7 +2464,7 @@ areapXpolity |        180   -13.85168    543.9845  -3543.258   1484.788
 </div>
 </div>
 <p>You will note that we have built our local <code>iteration_terms</code> up iteratively, so that in each iteration of the loop above we incorporate an additional interaction term. With the series of locals in hand, we can now estimate a simple regression where out outcome (CO<span class="math inline">\(_2\)</span> emissions per capita) is regressed on our treatment of interest (trade organisation membership) as well as the full set of interactive controls:</p>
-<div id="55e5fa2f" class="cell" data-execution_count="46">
+<div id="191ddec4" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>* Regression-based estimation</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="ot">`outcome'</span> <span class="ot">`covariates'</span> <span class="ot">`interaction_terms'</span> <span class="ot">`treatment'</span></span>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2501,7 +2501,7 @@ Treatment coefficient (gattwto): -.57956749</code></pre>
 </div>
 </div>
 <p>Here, because all controls are mean 0, we can understand the estimated effect on <code>gattwto</code> as referring to the mean effect in our sample. Now, let’s consider the implementation described in Equation 3.32 of the text. We can see that this is indeed equivalent to the regression implementation above. First, let’s generate <span class="math inline">\(\hat{\mu}_i(0)\)</span> . This is done by estimating the regression <em>only</em> among individuals who are un-treated, and then predicting outcomes among <em>all</em> individuals based on the paramters estimated in the un-treated group. We do this below.</p>
-<div id="6d546e62" class="cell" data-execution_count="47">
+<div id="0ede48b1" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>* Regression <span class="kw">for</span> untreated individuals only</span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="ot">`outcome'</span> <span class="ot">`covariates'</span> <span class="kw">if</span> <span class="ot">`treatment'</span> == 0</span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2530,7 +2530,7 @@ areapXpolity |  -.0015781    .001268    -1.24   0.220    -.0041352    .0009791
 </div>
 </div>
 <p>You can note in the regression summary that this just provides identical output from the un-interacted regression parameters we estimated previously given that in our prior model we could separately model the effect of the controls on outcomes both in the untreated and the treated goup. Now, let’s do the same thing to generate <span class="math inline">\(\hat{\mu}_i(1)\)</span>:</p>
-<div id="7b8aea67" class="cell" data-execution_count="48">
+<div id="8e120bd4" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>* Regression <span class="kw">for</span> treated individuals only</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> <span class="ot">`outcome'</span> <span class="ot">`covariates'</span> <span class="kw">if</span> <span class="ot">`treatment'</span> == 1</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2559,7 +2559,7 @@ areapXpolity |   -.000302   .0003673    -0.82   0.413    -.0010291    .0004251
 </div>
 </div>
 <p>Here regression parameters pick up the relationship between the outcome and covariates for treated units only, whereas in the fully interacted models the interaction terms pick up differential effects between groups. As such, the parameters above are directly interpretable as the sum of both parameters in the previous model. Now, finally, let’s see that we can indeed replicate the regression estimand from these imputed quantities. One way to do so is simply take the difference between counterfactuals for each unit:</p>
-<div id="7b891203" class="cell" data-execution_count="49">
+<div id="9b613f43" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> tau_i = Y1hat - Y0hat</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> tau_i</span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"ATT (mean tau_i) = "</span> <span class="fu">r</span>(<span class="kw">mean</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2572,7 +2572,7 @@ ATT (mean tau_i) = -.57956753</code></pre>
 </div>
 </div>
 <p>An alternative way, as shown in the second line of 3.32 is to compare relevant counterfactuals for each group with their true outcome:</p>
-<div id="728aed5c" class="cell" data-execution_count="50">
+<div id="b61b5705" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> tau_ii = <span class="ot">`treatment'</span> * (<span class="ot">`outcome'</span> - Y0hat) + (1 - <span class="ot">`treatment'</span>) * (Y1hat - <span class="ot">`outcome'</span>)</span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> tau_ii</span>
@@ -2587,7 +2587,7 @@ Mean tau_i = -.57956751</code></pre>
 </div>
 <p>In both cases, we see that regression parameters are identical to those estimated previously.</p>
 <p>A nice thing about this latter procedure is that it immediately suggests to us a way to calculate an ATT rather than an ATE. We simply do the same as above, however now only consider the counterfactual comparison for treated units only. This is:</p>
-<div id="b0fc6a6e" class="cell" data-execution_count="51">
+<div id="2a10ddcd" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>summ tau_i <span class="kw">if</span> <span class="ot">`treatment'</span> == 1</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="kw">display</span> <span class="st">"ATT from Regression = "</span> <span class="fu">r</span>(<span class="kw">mean</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2603,7 +2603,7 @@ ATT from Regression = -.42639687</code></pre>
 <section id="inverse-propensity-score-weighting" class="level2">
 <h2 class="anchored" data-anchor-id="inverse-propensity-score-weighting">Inverse Propensity Score Weighting</h2>
 <p>Finally, we can examine propensity score weighting methods. We have of course already estimated our propensity score previously, so all we need to do is convert this into weights whereby treated units are weighted as <span class="math inline">\(\frac{1}{\left(\widehat{P}(X)\right)}\)</span>, and untreated units are weighted as <span class="math inline">\(\frac{1}{\left(1 - \widehat{P}(X)\right)}\)</span>. We will generate these weights below, and have a look at what this means graphically:</p>
-<div id="8660acad" class="cell" data-execution_count="52">
+<div id="84f5592c" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> weights = .</span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> weights = 1/pscore     <span class="kw">if</span> <span class="ot">`treatment'</span> == 1</span>
 <span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> weights = 1/(1-pscore) <span class="kw">if</span> <span class="ot">`treatment'</span> == 0</span>
@@ -2642,7 +2642,7 @@ ATT from Regression = -.42639687</code></pre>
 <p>Now we can simply estimate our propensity-score re-weighted estimators. it is useful to see that there is a number of ways to simply arrive at this quantity. The first, and perhaps most cumbersome is to calculate this quantity by hand. Nevertheless, this is quite simple as just take the formulae laid out in Chapter 3 to code. In the case of the ATE, remember that the quantity we wish to calculate is:</p>
 <p><span class="math display">\[\widehat\tau^{IPW}_{ATE}=\left(\frac{\frac{1}{N}\sum_{i=1}^N\frac{Y_iW_i}{\widehat{P}(X_i)}}{\frac{1}{N}\sum_{i=1}^N\frac{W_i}{\widehat{P}(X_i)}}\right)-\left(\frac{\frac{(1-W_i)Y_i}{1-\widehat{P}(X_i)}}{\frac{1}{N}\sum_{i=1}^N\frac{1-W_i}{1-\widehat{P}(X_i)}}\right).\]</span></p>
 <p>Below, we will calculate the numerator and denominator of each term, before using these to calculate the ATE:</p>
-<div id="37f4def7" class="cell" data-execution_count="53">
+<div id="fca90915" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> outcome co2perc</span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> treatment gattwto</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2699,7 +2699,7 @@ The ATE is: -1.0176269</code></pre>
 </div>
 </div>
 <p>We could of course have used the quantity <code>weight</code> which we calculated above in place of <code>W_w</code>, however we regenerate this so we can see the similarity with the previous line all in one place. Doing this, we calculate an IPW ATE of -1.01, similar, though slightly higher than the regression and nearest neighbour matched quantity. What is perhaps interesting to see is that this quantity can be calculated directly using a weighted regression, where the weights we calculated are used. We do this below:</p>
-<div id="23d3f906" class="cell" data-execution_count="54">
+<div id="665b7d2a" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> outcome co2perc</span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> treatment gattwto</span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2723,7 +2723,7 @@ The ATE is: -1.0176269</code></pre>
 </div>
 </div>
 <p>As expected, we calculate an identical quantity for the IPW ATE of -1.01. Note finally that we can also do this by simply taking weighted averages of the outcome in each group, and subtracting the weighted control group avarege from the weighted treated group average. We will do this below using a weighted summation:</p>
-<div id="b5c49975" class="cell" data-execution_count="55">
+<div id="3a683998" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> outcome co2perc</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> treatment gattwto</span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2756,7 +2756,7 @@ ATE is -1.0176269</code></pre>
 </div>
 <p>It is useful to see that these are all numerically equivalent ways to calculate an IPW estimate, and that we can simply select that which we prefer to arrive to point estimates.</p>
 <p>Finally, note that we can also generate the ATT in this way, simply replacing the weights above with the weights which correspond to an IPW ATT estimator (refer to equation 3.30 of the book):</p>
-<div id="4e1af215" class="cell" data-execution_count="56">
+<div id="1090e1c2" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> outcome co2perc</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> treatment gattwto</span>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2814,7 +2814,7 @@ The ATT is:  -0.99706</code></pre>
 </div>
 </div>
 <p>Once again, this can also be replicated directly via weighted regression (which provides us valid point estimates, though not standard errors), as we see below:</p>
-<div id="c39ee376" class="cell" data-execution_count="57">
+<div id="bf19c099" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> outcome co2perc</span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> treatment gattwto</span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a></span>

@@ -657,7 +657,7 @@ window.Quarto = {
 </figure>
 </div>
 <p>Below we will open the data provided by <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span> and begin working with it. These data actually consist of both the NSW experimental implementation (marked as <code>data_id="Dehejia-Wahba Sample"</code>), as well as the survey data (marked as <code>data_id="CPS1"</code>). Among the NSW sample, there will be both treated and control units (indicated by <code>treat</code>), whereas among the CPS data, there will be no treated units. Our goal will then be to discard the control units from the NSW sample, and seek to generate a control group using propensity score matching. Along with information on individuals’ participation in the program (treat), the dataset contains information about their earnings in 1978 (re78) which follows program participation (in the case of treated observations), and several other covariates such as age, education, race, marital status, and earnings in 1974 and 1975 (pre-treatment outcomes). Below we will open these data, and generate two samples: the original “experimental” sample based on the NSW, and the new sample consisting of both treated units, and survey data which we will use to try to generate our matched controls:</p>
-<div id="bd64f39a" class="cell" data-execution_count="1">
+<div id="2e2ee4cd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -683,7 +683,7 @@ window.Quarto = {
 </div>
 <p>Along with these two samples which we have generated as <code>exp</code> (experimental) and <code>obs</code> (observational) above, we have also generated a number of additional variables based on those available in the data which were used in <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>’s calculation of the propensity score.</p>
 <p>Now, using the observational data above, we will estimate the propensity score. We will do this using the same variables and procedure described in the note to Table 2 from <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>, which results in the variable <code>pscore</code> below. As we are only doing this with the observational data, we are using the <code>obs</code> dataframe below. Finally, we examine the propensity score by the actual treatment value below.</p>
-<div id="5e2f4239" class="cell" data-execution_count="2">
+<div id="f44ed8d0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -724,7 +724,7 @@ Name: pscore, dtype: float64</code></pre>
 </div>
 </div>
 <p>Unsurprisingly, we see that there is substantial mass at 0 among the untreated units. While it is somewhat difficult to observe overlap fully given that there are many more observations in the CPS than in the NSW experiment, we could explore more, for example looking at densities outside the very lowest values to ensure that effectively there are values of the propensity score in the CPS which are similar to those among (treated) NSW units, which suggests a more reasonable overlap, though, of course, there is relatively less mass at the upper end of the propensity score distribution among control units to match to treated units.</p>
-<div id="655336cd" class="cell" data-execution_count="3">
+<div id="cf4c0a3b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data<span class="op">=</span>obs[obs.pscore<span class="op">&gt;</span><span class="fl">0.1</span>], x<span class="op">=</span><span class="st">'pscore'</span>, hue<span class="op">=</span><span class="st">'treat'</span>,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            fill<span class="op">=</span><span class="va">True</span>, common_norm<span class="op">=</span><span class="va">False</span>,bw_adjust<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -738,7 +738,7 @@ Name: pscore, dtype: float64</code></pre>
 <section id="nearest-neighbour-matching-without-replacement" class="level2">
 <h2 class="anchored" data-anchor-id="nearest-neighbour-matching-without-replacement">Nearest Neighbour Matching without Replacement</h2>
 <p>We will now get into the business of matching to generate the ATT based on this propensity score. We will start by considering nearest neighbour matching without replacement. Below we will generate a function <code>nearest_neighbour</code> which accepts as arguments a dataframe, as well as a variable indicating whether units are treated or control, and finally a variable indicating the values of the propensity score. This function will iterate through each treated unit, and will find the nearest match. It will work with the dataset in the order that the data is provided, and once a control has been used, it will remove this control from the list of potential future matched controls. Finally, it will return the dataset consisting only of treated units and their matched controls. It is worth working through this function carefully to ensure that it is clear what is being done in each step. This could of course be written in alternative ways, but it should work to do what we are after.</p>
-<div id="cda855d8" class="cell" data-execution_count="4">
+<div id="3a999028" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nearest_neighbour(df, treat_col, pscore_col):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    This function returns a matched control for each unit with treat_col==1.  </span></span>
@@ -787,7 +787,7 @@ Name: pscore, dtype: float64</code></pre>
 </div>
 </div>
 <p>Above we have tried running an implementation of this function with a version of our observational data where the propensity score is ordered from lowest to highest (ordered ascendingly). This returns to us a dataframe we have called <code>matched_df</code>, and in the final lines we calculate average values for the outcome among treated and control units. We then calculate the ATT. If we examine Table 2 of <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>, we can see that the estimated ATT for nearest neighbour replacement without replacement ordered from low to high is reported as 1605. When we examine our ATT (1604.73), we can see that we have been able to replicate this result. As we wish to generate both the ATTs as well as the characteristics of matched controls, we will write a small function that works with the matched dataframe returning just the details we need.</p>
-<div id="793b1957" class="cell" data-execution_count="5">
+<div id="b5d201a6" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarise_data(df, treat, y, avg_cols):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the difference of means for a specified column and the average </span></span>
@@ -820,7 +820,7 @@ Name: pscore, dtype: float64</code></pre>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can confirm that this does what we hope, first conducting our nearest neighbour matching procedure with the controls ordered from highest to lowest, and then summarising the resulting dataset to calculate the difference of means estimator as well as the mean characteristics of the matched group. This is saved below as <code>resultsHL</code>, and when we examine these we can see that these are identical to those values displayed in the fifth row of <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>’s Table 2.</p>
-<div id="30bb9fbd" class="cell" data-execution_count="6">
+<div id="fcc34284" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sumvars <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'education'</span>, <span class="st">'married'</span>, <span class="st">'nodegree'</span>, <span class="st">'black'</span>,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">'hispanic'</span>, <span class="st">'re74'</span>, <span class="st">'re75'</span>, <span class="st">'unemp74'</span>, <span class="st">'unemp75'</span>]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>matched_df <span class="op">=</span> nearest_neighbour(obs.sort_values([<span class="st">'treat'</span>,<span class="st">'pscore'</span>],</span>
@@ -834,7 +834,7 @@ Name: pscore, dtype: float64</code></pre>
 </div>
 </div>
 <p>We conduct identical processes below for nearest neighbour matching without replacement ordering controls from low to high (<code>resultsLH</code>), and ordering the dataset randomly (<code>resultsR</code>). If we wish, we can inspect these values and will see that they are identical to those displayed in <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>.</p>
-<div id="c24a46a7" class="cell" data-execution_count="7">
+<div id="0279c822" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>matched_df <span class="op">=</span> nearest_neighbour(obs.sort_values([<span class="st">'treat'</span>,<span class="st">'pscore'</span>],</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                               ascending<span class="op">=</span>[<span class="va">False</span>,<span class="va">True</span>]),<span class="st">'treat'</span>,<span class="st">'pscore'</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>resultsLH <span class="op">=</span> summarise_data(matched_df,<span class="st">'treat'</span>,<span class="st">'re78'</span>,sumvars)</span>
@@ -846,7 +846,7 @@ Name: pscore, dtype: float64</code></pre>
 <section id="nearest-neighbour-matching-with-replacement" class="level2">
 <h2 class="anchored" data-anchor-id="nearest-neighbour-matching-with-replacement">Nearest Neighbour Matching with Replacement</h2>
 <p>Above we have calculated the values exactly as reported in <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span> for nearest neighbour matching without replacement, but the table also documents results matching with replacement, and using calipers. Given what we have already done it is, in fact, quite trivial to implement the same procedure with replacement. Previously in the <code>nearest_neighbour</code> function we had been removing controls from the donor pool once they had been matched, and so to conduct a procedure with replacement, we can simply remove these lines from the function! In practice, we would probably make our original function take an argument so that we could simply request whether matching should occur with replacement or not (and indeed, you may very much prefer to do this yourself by returning to the function above), but in the interests of simplicity here, we will just redefine a new function below which strips out the comments and the “without replacement” line of the previous function. In a real code we would, of course, never remove the comments, but because we are simply taking the function from above and simplifying, you can refer to all comments there to ensure that you can follow each step in the procedure. Below, we generate this nearest neighbour without replacement function, and then pass the function the <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span> data as we have done previously.</p>
-<div id="ede052a0" class="cell" data-execution_count="8">
+<div id="95bad5b9" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nearest_neighbour_replacement(df, treat_col, pscore_col):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    treated <span class="op">=</span> df[df[treat_col] <span class="op">==</span> <span class="dv">1</span>].copy()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    control <span class="op">=</span> df[df[treat_col] <span class="op">==</span> <span class="dv">0</span>].copy()</span>
@@ -885,7 +885,7 @@ Name: pscore, dtype: float64</code></pre>
 <section id="caliper-matching" class="level2">
 <h2 class="anchored" data-anchor-id="caliper-matching">Caliper Matching</h2>
 <p>Finally, we need to implement a caliper matching procedure. In <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>, this procedure consists of matching all observations within some “caliper” surrounding each treated unit’s propensity score. Within that caliper, each treated unit is matched to the mean outcome among all controls. Note that in a standard caliper match one would generally remove units for which no observation is found within the given caliper, however in <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span> footnote 10 it is noted that in cases such as this, each treated unit is matched with its nearest neighbour (outside of the caliper). This is done within the matching below the <code>else:</code> condition. After we have generated this function we conduct the match with the three different caliper values indicated in the Table (0.00001, 0.00005, and 0.0001).</p>
-<div id="0ba28adb" class="cell" data-execution_count="9">
+<div id="87227185" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> caliper_match(df, treat_col, pscore_col, caliper):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    treated <span class="op">=</span> df[df[treat_col] <span class="op">==</span> <span class="dv">1</span>].copy()</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    control <span class="op">=</span> df[df[treat_col] <span class="op">==</span> <span class="dv">0</span>].copy()</span>
@@ -941,13 +941,13 @@ Name: pscore, dtype: float64</code></pre>
 <section id="bringing-things-together" class="level2">
 <h2 class="anchored" data-anchor-id="bringing-things-together">Bringing things together</h2>
 <p>Let’s now bring this all together and provide a final summary table like <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>. To do this, we will first need to generate the simple unmatched difference in means and experimental estimate which are reported in the first two rows of the Table. This is done quite easily by just taking the difference of means with the full set of NSW data (<code>obs</code>) and the full set of experimental data (<code>exp</code>), and we do this below.</p>
-<div id="75999866" class="cell" data-execution_count="10">
+<div id="cccd1ba9" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize unmatched difference in means and experimental estimate</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>resultsNC <span class="op">=</span> summarise_data(obs, <span class="st">'treat'</span>, <span class="st">'re78'</span>, sumvars)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>resultsExp <span class="op">=</span> summarise_data(exp, <span class="st">'treat'</span>, <span class="st">'re78'</span>, sumvars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, based on all this we can summarise the effects, observation numbers, and mean characteristics of controls to generate a comparable table to Table 2 above. We do this below:</p>
-<div id="e3c61d89" class="cell" data-execution_count="11">
+<div id="75f03fcd" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the DataFrame with the specified row and column labels</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>row_labels <span class="op">=</span> [<span class="st">"NSW"</span>, <span class="st">"CPS"</span>, <span class="st">"Low-to-High"</span>, <span class="st">"High-to-Low"</span>, <span class="st">"Random"</span>, </span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Caliper 0.00001"</span>, <span class="st">"Caliper 0.00005"</span>, <span class="st">"Caliper 0.0001"</span>, <span class="st">"NN Replacement"</span>]</span>
@@ -1062,7 +1062,7 @@ Name: pscore, dtype: float64</code></pre>
 <td>0.205405</td>
 <td>2200.238185</td>
 <td>1609.632476</td>
-<td>1334.802012</td>
+<td>1539.207529</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Caliper 0.00001</td>
@@ -1125,7 +1125,7 @@ Name: pscore, dtype: float64</code></pre>
 <p>Maternal smoking during pregnancy has been a subject of extensive study due to its potential impact on infant health outcomes, such as birth weight. However, simply comparing the birth weights of infants born to smokers versus non-smokers may not account for confounding factors that influence both the likelihood of smoking and birth outcomes. In this code call-out, we will work with data from <span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span> which consists of a child’s birthweight, an indicator of whether their mother smoked during pregnancy, and a number of covariates.</p>
 <p>In their paper, <span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span> conduct a propensity score matching procedure in which mothers who smoked and mothers who did not were matched based on a rich array of covariates, and differences in birthweight were examined between mothers who smoked and matched non-smokers. We will examine these data and procedures here. In particular, in this code call-out we will examine a number of issues which arise when implementing propensity score matching in practice: a first consideration is related to overlap and trimming, and a second consideration is related to tests of balance of variable when matching on the propensity score. Thus, while the code call-out above focused on the technology of matching conditional on a given sample to match, here we will work through some of the practicalities related to thinking about <em>which</em> samples to match, and ways to evaluate matches.</p>
 <p>We will begin by loading the libraries we will need throughout this code call-out. As standard, we will use Pandas for data management, and matplotlib for plotting. We will also require a number of estimation procedures which we will access as part of the statsmodels libraries (in particular, we will use the <code>sm.Logit()</code> model for estimating propensity scores).</p>
-<div id="7b9f0336" class="cell" data-execution_count="12">
+<div id="fc5f42b5" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1136,7 +1136,7 @@ Name: pscore, dtype: float64</code></pre>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> distance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will now load the data used in <span class="citation" data-cites="Almondetal2005">Almond, Chay, and Lee (<a href="#ref-Almondetal2005" role="doc-biblioref">2005</a>)</span>. In their paper, they consider a range of key variables, including: “mother’s and father’s age, education, and race, marital status, number of previous live births and terminations, prenatal care usage, months since last birth, immigrant status, county of birth, indicators for previous births over 4000 grams or LBW, indicators for alcohol use, and indicators for medical risk factors.” We will work with the majority of these, with the exception of a small number of measures which are not avaialable in public data, and the county of birth given the many counties, and the fact that we do not have a logical measure apart from a series of dummies for each county for this measure. We save key input variables as <code>covariates</code> below after opening data and transforming a number of variables to binary indicators.</p>
-<div id="d7192b09" class="cell" data-execution_count="13">
+<div id="86e39c52" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the dataset</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>birth_weight <span class="op">=</span> pd.read_csv(<span class="st">"data/Almond_et_al_2005.csv"</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(birth_weight.columns)</span>
@@ -1184,7 +1184,7 @@ Name: pscore, dtype: float64</code></pre>
 </div>
 </div>
 <p>Let’s now go about estimating the propensity score. We will seek to estimate the likelihood that a mother smokes before birth (<code>mbsmoke</code>) based on the covariates indicated above.</p>
-<div id="33192455" class="cell" data-execution_count="14">
+<div id="7aedda58" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate Propensity Scores using logistic regression</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(birth_weight[covariates])</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> birth_weight[<span class="st">'mbsmoke'</span>]</span>
@@ -1197,7 +1197,7 @@ Name: pscore, dtype: float64</code></pre>
 </div>
 </div>
 <p>This will result in a propensity score which is strictly between 0 and 1 given the logit model estimated. If we wish, we can plot the cumulative density function to ensure to ourselves that we are satisfied that this is the case, as we see below:</p>
-<div id="555e87fa" class="cell" data-execution_count="15">
+<div id="319698d0" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Sort values from lowest to highest</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sorted_values <span class="op">=</span> np.sort(birth_weight[<span class="st">'pscore'</span>])</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1219,7 +1219,7 @@ Name: pscore, dtype: float64</code></pre>
 </div>
 </div>
 <p>As a final preliminary step, let’s just redefine a function for nearest neighbour matching as we have done in code call-out 3.1. Because we have discussed these matching functions at some length above, we will not go into this in much depth here. Just note that this function will accept an unmatched data frame, and returned a matched dataframe where each treated unit is matched to its nearest neighbour, and this will be conducted without replacement.</p>
-<div id="ca1449e9" class="cell" data-execution_count="16">
+<div id="fe56f2fa" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nearest_neighbour(df, treat_col, pscore_col):</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">    This function returns a matched control for each unit with treat_col==1.  </span></span>
@@ -1258,7 +1258,7 @@ Name: pscore, dtype: float64</code></pre>
 <span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> matched_units_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we wish to be sure that this has worked, we can apply this function to our raw data, and confirm that we effectively generate a matched unit for each treated unit. We do this below seeing that initially these data consist of 864 smokers and 3,778 non-smokers, while after matching the data consist of 864 of each group.</p>
-<div id="7f568139" class="cell" data-execution_count="17">
+<div id="1b3b81b1" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>matched_data <span class="op">=</span> nearest_neighbour(birth_weight, <span class="st">'mbsmoke'</span>, <span class="st">'pscore'</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>N_orig   <span class="op">=</span> birth_weight[<span class="st">'mbsmoke'</span>].value_counts() </span>
@@ -1308,7 +1308,7 @@ Figure&nbsp;1: Propensity Score Overlap in Full Treated and Matched Sample
 </div>
 </div>
 <p>Indeed, we can ensure that our visual inspection above is correct. Let’s check below whether there are <em>any</em> treated units with a propensity score that is more extreme than potential donors:</p>
-<div id="cb109f2a" class="cell" data-execution_count="19">
+<div id="361a6547" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate treated and control groups based on the defined labels</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>treated <span class="op">=</span> birth_weight[birth_weight[<span class="st">'mbsmoke'</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>control <span class="op">=</span> birth_weight[birth_weight[<span class="st">'mbsmoke'</span>] <span class="op">==</span> <span class="dv">0</span>]</span>
@@ -1330,7 +1330,7 @@ Mother Smoked: No   0.024743  0.859415</code></pre>
 <section id="minima-and-maxima-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="minima-and-maxima-comparison">Minima and Maxima Comparison</h3>
 <p>The minima and maxima comparison involves deleting observations whose propensity scores are smaller than the minimum or larger than the maximum in the opposite group. This ensures that we only keep observations within the common support region. Below we define a function which trims based on the common support among groups. This simply takes a data frame along with an indicator of treatment and the propensity score, and returns the sub-set of data for which a common support exists:</p>
-<div id="ee7b980a" class="cell" data-execution_count="20">
+<div id="a1c5773f" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define function to implement minima and maxima comparison</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> minima_maxima_trimming(df, treat_col, pscore_col):</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    treated <span class="op">=</span> df[df[treat_col] <span class="op">==</span> <span class="dv">1</span>]</span>
@@ -1348,7 +1348,7 @@ Mother Smoked: No   0.024743  0.859415</code></pre>
 <span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> trimmed_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We visualize the propensity score overlap after implementing the trimming procedure, where we see that only a few observations are trimmed at the upper and lower end when compared to <a href="#fig-all-matched" class="quarto-xref">Figure&nbsp;1</a>.</p>
-<div id="f3acecd6" class="cell" data-execution_count="21">
+<div id="d01338b9" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization of Propensity Score overlap after trimming</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>trimmed_birth_weight <span class="op">=</span> minima_maxima_trimming(birth_weight, <span class="st">'mbsmoke'</span>, <span class="st">'pscore'</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -1375,7 +1375,7 @@ Mother Smoked: No   0.024743  0.859415</code></pre>
 <section id="trimming-based-on-the-support-region" class="level3">
 <h3 class="anchored" data-anchor-id="trimming-based-on-the-support-region">Trimming based on the support region</h3>
 <p>Another procedure, discussed formally in <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span>, is to only consider units with a non-zero density of the propensity score, at the same time discarding propensity scores where there is a very low density of observations in either group. In particular, this requires estimating densities of the propensity score for both treated and control units <span class="math inline">\(\widehat{f}(P|D=1)\)</span> and <span class="math inline">\(\widehat{f}(P|D=0)\)</span>. <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span> suggest estimating these densities use a kernel density estimator, and they suggest doing this with a bandwidth parameter for constructing the kernel as laid out by <span class="citation" data-cites="Silverman1986">Silverman (<a href="#ref-Silverman1986" role="doc-biblioref">1986</a>)</span>, which is to define the bandwidth as <span class="math inline">\(h=\sigma \times N^{1/5}\)</span>, where <span class="math inline">\(\sigma\)</span> refers to the standard deviation of data. Fortunately, by default, Python employs Silverman’s rule of thumb to select bandwidths in kernel densities when implemented using Seaborn’s <code>kdeplot</code>. We estimate these densities as belwo, employing a Gaussian kernel.</p>
-<div id="7faef313" class="cell" data-execution_count="22">
+<div id="f7aae15a" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gaussian_kde</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot kernel density estimates</span></span>
@@ -1393,7 +1393,7 @@ Mother Smoked: No   0.024743  0.859415</code></pre>
 P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 \]</span> where <span class="math inline">\(c_q\)</span> is set such that some fixed low proportion of data is removed.</p>
 <p>This definition requires calculating the density a propensity score would be observed with based on the distributions for <span class="math inline">\(D=1\)</span> and <span class="math inline">\(D=0\)</span>. Below we estimate each of these density functions, and then apply them to the entire dataset which allows us to see the density of a given <span class="math inline">\(P\)</span> in both groups:</p>
-<div id="969b9485" class="cell" data-execution_count="23">
+<div id="9042ba95" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df            <span class="op">=</span> birth_weight </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>treatment_col <span class="op">=</span> <span class="st">'mbsmoke'</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>pscore_col    <span class="op">=</span> <span class="st">'pscore'</span></span>
@@ -1411,7 +1411,7 @@ P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 <span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'density0'</span>] <span class="op">=</span> kde_control(df[pscore_col])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, based on the quantities <code>density1</code> and <code>density0</code>, we can set some value <span class="math inline">\(c_q\)</span> as a criteria for keeping observations. For example, below we can see that if we use some very low density value like 0.05, we will keep the vast majority of observations (&gt;99%):</p>
-<div id="95f87955" class="cell" data-execution_count="24">
+<div id="82369a91" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count observations for which density1 &gt; 0.05 and density2 &gt; 0.05</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>cq <span class="op">=</span> <span class="fl">0.05</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>nkeep <span class="op">=</span> <span class="bu">len</span>(df[(df[<span class="st">'density1'</span>] <span class="op">&gt;</span> cq) <span class="op">&amp;</span> (df[<span class="st">'density0'</span>] <span class="op">&gt;</span> cq)])</span>
@@ -1423,7 +1423,7 @@ P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 </div>
 </div>
 <p>while if we use a higher density value, we will trim more observations from our value:</p>
-<div id="9aaf71bc" class="cell" data-execution_count="25">
+<div id="1b7f7e5d" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>cq <span class="op">=</span> <span class="fl">0.25</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>nkeep <span class="op">=</span> <span class="bu">len</span>(df[(df[<span class="st">'density1'</span>] <span class="op">&gt;</span> cq) <span class="op">&amp;</span> (df[<span class="st">'density0'</span>] <span class="op">&gt;</span> cq)])</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>pkeep <span class="op">=</span> nkeep<span class="op">/</span><span class="bu">len</span>(df) </span>
@@ -1434,7 +1434,7 @@ P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 </div>
 </div>
 <p>The proposal of <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span> is that we should set the valuf of <span class="math inline">\(c_q\)</span> to trim some small proportion of observations, and they suggest this should be 2% of the data. Below we can do this by trying small values of <span class="math inline">\(c_q\)</span>, gradually increasing until we iterate onto the value which results in a trim proportion of 2%:</p>
-<div id="7ace0836" class="cell" data-execution_count="26">
+<div id="648a6d66" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pkeep <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>cq    <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> <span class="fl">0.0001</span></span>
@@ -1451,7 +1451,7 @@ P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 </div>
 </div>
 <p>Finally, we can see the resulting propensity score distributions based on this procedure, which makes clear that we have trimmed observations with high propensity scores which had very low densities.</p>
-<div id="fd855f22" class="cell" data-execution_count="27">
+<div id="abbe0576" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the overlap after trimming</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, df_group <span class="kw">in</span> trimmed_data.groupby(<span class="st">'mbsmoke'</span>):</span>
@@ -1476,7 +1476,7 @@ P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 <section id="t-tests-of-balance" class="level4">
 <h4 class="anchored" data-anchor-id="t-tests-of-balance">t-Tests of Balance</h4>
 <p>A first consideration is to simply conduct t-tests of balance across the treated and the matched sample. Below, we use <code>ttest_ind</code> from the <code>scipy.stats</code> library to implement t-tests for equality of means across groups.</p>
-<div id="0f2aca70" class="cell" data-execution_count="28">
+<div id="0849523b" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> balance_table_ttest(data, columns, group, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">    This function calculates the balance of covariates between groups using t-tests,</span></span>
@@ -1496,7 +1496,7 @@ P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 <span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(balance_results).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can apply this with our original data, resulting in a test of balance suggesting substantial misbalance, suggesting that individuals who smoke and who do not smoke during pregnancy are different in all observable characteristics considered:</p>
-<div id="59fe5a1f" class="cell" data-execution_count="29">
+<div id="e4cb3703" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the significance level</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1612,7 +1612,7 @@ P: \widehat{f}(P|D=1)&gt;c_q \text{ and } \widehat{f}(P|D=0)&gt;c_q
 </div>
 </div>
 <p>However, if we now consider the matched sample based on the nearest neighbour procedure implemented above, we see a quite different story. Once matching on propensity score, we observe balance on all observables, suggesting that at least for these measures, the balancing property of the propensity score is clear.</p>
-<div id="9d88aa4d" class="cell" data-execution_count="30">
+<div id="fd7a6834" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check balance after matching</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Balance after matching (t-test)"</span>)</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>balance_after <span class="op">=</span> balance_table_ttest(matched_data, covariates, <span class="st">'mbsmoke'</span>, alpha)</span>
@@ -1734,7 +1734,7 @@ SB_{before}=100\cdot \frac{\bar{X}_{1}-\bar{X}_{0}}{\sqrt{0.5\cdot (V_{1}(X)+V_{
 SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V_{0M}(X))}}
 \]</span> Here <span class="math inline">\(\bar{X}\)</span> refers to means, <span class="math inline">\(V(X)\)</span> refers to the variance, subsets refer to treated or control (1 vs 0) or matched versus unmatched samples (M or nothing).</p>
 <p>We define a function below which calculates these standardised differences, returning a dictionary containing the standardised bias for each covariate considered.</p>
-<div id="b151b512" class="cell" data-execution_count="31">
+<div id="4a4a21fd" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate standardized mean differences</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> standardized_mean_differences(df, treatment, covariates):</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    treated <span class="op">=</span> df[df[treatment] <span class="op">==</span> <span class="dv">1</span>]</span>
@@ -1750,7 +1750,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 <span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> smd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now apply this both based on original and matched data. Ultimately, we will generate a dataframe containing each covariate’s name, as well as the unadjusted and adjusted SB.</p>
-<div id="bc9610bf" class="cell" data-execution_count="32">
+<div id="13d552bb" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate standardized mean differences before and after matching</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>smd_unadjusted <span class="op">=</span> standardized_mean_differences(birth_weight, <span class="st">'mbsmoke'</span>, covariates)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>smd_adjusted <span class="op">=</span> standardized_mean_differences(matched_data, <span class="st">'mbsmoke'</span>, covariates)</span>
@@ -1867,7 +1867,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 </div>
 </div>
 <p>Finally, we can plot this, observing the sharp difference in standardised bias between adjusted and unadjusted groups. In this case, we observe that all values of <span class="math inline">\(SB\)</span> for the matched group are less than 0.1. While no formal definition exists for what is a “good” match, <span class="citation" data-cites="CaliendoKopeinig2008">Caliendo and Kopeinig (<a href="#ref-CaliendoKopeinig2008" role="doc-biblioref">2008</a>)</span> suggest that “in most empirical studies an SB below 3% or 5% after matching is seen as sufficient”. In general we observe this to hold, though in the case of prenatal care (-5.22%), this is at the limit and may suggest further refinements to the matching process.</p>
-<div id="ece23347" class="cell" data-execution_count="33">
+<div id="377a4891" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt the DataFrame for easier plotting</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>smd_melted <span class="op">=</span> smd_df.melt(id_vars<span class="op">=</span><span class="st">'Covariate'</span>, var_name<span class="op">=</span><span class="st">'Sample'</span>, value_name<span class="op">=</span><span class="st">'Mean Differences'</span>)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1895,7 +1895,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 <section id="comparing-covariate-balance-before-and-after-trimming" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-covariate-balance-before-and-after-trimming">Comparing Covariate Balance Before and After Trimming</h2>
 <p>Finally, noting that the previous process worked with the matched data in the untrimmed sample, we can also consider how things look using the trimming procedure suggested by <span class="citation" data-cites="SmithTodd2005">Smith and Todd (<a href="#ref-SmithTodd2005" role="doc-biblioref">2005</a>)</span>. In general, because we observe quite good overlap in this setting, we may expect that no major differences will be observed, but for the sake of completeness we examine this below. We can do this based on our previously defined functions, and using the trimmed data:</p>
-<div id="2aa27bee" class="cell" data-execution_count="34">
+<div id="a9b3b652" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate match based on trimmed data</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>matched_trimmed_data <span class="op">=</span> nearest_neighbour(trimmed_data, <span class="st">'mbsmoke'</span>, <span class="st">'pscore'</span>)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2015,7 +2015,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 </div>
 </div>
 <p>Comparing the standardised bias here and above, we observe very little difference, and indeed, the SB on prenatal care usage becomes slightly worse. In this case, we may wish to consider a richer specification for the propensity score, potentially including interactions and higher order terms for covariates, and reconsidering the match quality.</p>
-<div id="f50c2b1a" class="cell" data-execution_count="35">
+<div id="416dd9d2" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt the DataFrame for easier plotting</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>smd_melted_trimmed <span class="op">=</span> smd_df_trimmed.melt(id_vars<span class="op">=</span><span class="st">'Covariate'</span>, var_name<span class="op">=</span><span class="st">'Sample'</span>, value_name<span class="op">=</span><span class="st">'Mean Differences'</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2044,7 +2044,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 <h1>Code Call-out 3.3 - Inverse Propensity Score Weighting, Regression and Matching</h1>
 <p>In this code call-out, we will consider different procedures one may employ when maintaining a conditional unconfoundedness assumption. To illustrate alternative procedures – namely regression, inverse propensity score weighting and matching, we will work with an example laid out in <span class="citation" data-cites="MillimetTchernis2009">Millimet and Tchernis (<a href="#ref-MillimetTchernis2009" role="doc-biblioref">2009</a>)</span> and re-examined in <span class="citation" data-cites="CallawaySong2019">Sant’Anna and Song (<a href="#ref-CallawaySong2019" role="doc-biblioref">2019</a>)</span>. In this case, the authors consider the impact of membership in a trade agreement such as GAT and WTO on a country’s measures of environmental sustainability. We will work with the data originally from <span class="citation" data-cites="MillimetTchernis2009">Millimet and Tchernis (<a href="#ref-MillimetTchernis2009" role="doc-biblioref">2009</a>)</span>, in particular focusing on one of multiple outcomes, which is CO<span class="math inline">\(_2\)</span> emissions per capita. Below we will explore the implementation of matching strategies, regression strategies, and re-weighting strategies, setting up each of these procedures in turn, documenting both the estimation of an ATE, as well as an ATT in each case.</p>
 <p>Prior to getting into the mechanics of each, let’s load the required libraries used below, load our data and generate a number of key variables. We do this below:</p>
-<div id="9205b61d" class="cell" data-execution_count="36">
+<div id="d250f1ff" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -2072,7 +2072,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 <section id="matching-based-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="matching-based-estimation">Matching-based estimation</h2>
 <p>Because we have already considered matching-based procedures above, let’s begin by re-implementing such procedures here. To do this, we will first need to estimate a propensity score, which we do below using a Logit specification, and the covariates mentioned above. In practice we should consider sensitivity to such choices as discussed in code call-out 3.2 above, but here in the interests of simplicity, we will simply follow <span class="citation" data-cites="MillimetTchernis2009">Millimet and Tchernis (<a href="#ref-MillimetTchernis2009" role="doc-biblioref">2009</a>)</span> and <span class="citation" data-cites="CallawaySong2019">Sant’Anna and Song (<a href="#ref-CallawaySong2019" role="doc-biblioref">2019</a>)</span> to trim our estimated propensity score at 0.05 and 0.95.</p>
-<div id="fe793bec" class="cell" data-execution_count="37">
+<div id="9d29478b" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.discrete.discrete_model <span class="im">import</span> Logit</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2091,7 +2091,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 </div>
 </div>
 <p>Let’s now move on to implementing a propensity score matching estimator. We have seen this <em>extensively</em> in code call-out 3.1, so below we will simply consider one specific example, which is to do nearest neighbour matching with matches completed in random order. We could write a new function to do this, but it turns out that it is sufficient to use the <code>nearest_neighbour_replacement</code> function we previously defined (in code call-outs 3.1 and 3.2) to do this. If you have not previously run these code call-outs, you should define the <code>nearest_neighbour_replacement</code> function from the above code prior to proceeding. Assuming this has been done, we will use this and match all the treated units, such that we generate an ATT by matching on the propensity score:</p>
-<div id="7e50d885" class="cell" data-execution_count="38">
+<div id="41a53639" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>matched_df_ATT <span class="op">=</span> nearest_neighbour_replacement(df, treatment, <span class="st">'pscore'</span>)</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>ATT_match <span class="op">=</span> matched_df_ATT[matched_df_ATT[treatment] <span class="op">==</span> <span class="dv">1</span>][outcome].mean() <span class="op">-</span> matched_df_ATT[matched_df_ATT[treatment] <span class="op">==</span> <span class="dv">0</span>][outcome].mean()</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>ATT_match</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2100,7 +2100,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 </div>
 </div>
 <p>We can similarly estimate an average treatment effect on the <em>untreated</em> by conducting a similar match, however this time using non-treated individuals.</p>
-<div id="b5da8ba8" class="cell" data-execution_count="39">
+<div id="e1935fd9" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'untreat'</span>] <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> df[treatment]</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>matched_df_ATU <span class="op">=</span> nearest_neighbour_replacement(df, <span class="st">'untreat'</span>, <span class="st">'pscore'</span>)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>matched_df_ATE <span class="op">=</span> pd.concat([matched_df_ATT, matched_df_ATU], axis<span class="op">=</span><span class="dv">0</span>)</span>
@@ -2115,7 +2115,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 <section id="regression-based-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="regression-based-estimation">Regression-based estimation</h2>
 <p>Let’s begin by considering our standard OLS regression model, as laid out in equation 3.31 of the text. Because we wish to allow separate effects of covariates <span class="math inline">\(X\)</span> on outcomes <span class="math inline">\(Y\)</span> among treated and untreated individuals, we will first create a full set of interactions between each covariate and the treatment indicator, before including both covariates, the interaction with the treatment indicator, and the treatment indicator itself in a data frame for estimation:</p>
-<div id="1a52acef" class="cell" data-execution_count="40">
+<div id="a9653d78" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-scale all variables so that they are mean-zero</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> covariates:</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    df[column] <span class="op">=</span> (df[column] <span class="op">-</span> df[column].mean())</span>
@@ -2259,7 +2259,7 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 </div>
 <p>Above we have done this in a quite efficient way, but a way which might not look entirely straightforward if you have not seen it before. We have done this using a “list comprehension”. This has been to first generate list of variables called <code>interaction_terms</code> which for each variable in the covariate list generates a name like <code>age_T</code>, and then immediately below, generates the variable interacted with the treatment indicator. We can see that this generates the full set of interactions in the resulting data frame above.</p>
 <p>Let’s now look at a simple regression where out outcome (CO<span class="math inline">\(_2\)</span> emissions per capita) is regressed on our treatment of interest (trade organisation membership) as well as the full set of interactive controls:</p>
-<div id="4663ca9a" class="cell" data-execution_count="41">
+<div id="cb87f70d" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data for regression</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[covariates <span class="op">+</span> interaction_terms <span class="op">+</span> [treatment]]</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(X)</span>
@@ -2278,8 +2278,8 @@ SB_{after}=100\cdot \frac{\bar{X}_{1M}-\bar{X}_{0M}}{\sqrt{0.5\cdot (V_{1M}(X)+V
 Dep. Variable:                co2perc   R-squared:                       0.731
 Model:                            OLS   Adj. R-squared:                  0.710
 Method:                 Least Squares   F-statistic:                     34.68
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):           1.35e-40
-Time:                        01:33:49   Log-Likelihood:                -349.74
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):           1.35e-40
+Time:                        08:00:13   Log-Likelihood:                -349.74
 No. Observations:                 180   AIC:                             727.5
 Df Residuals:                     166   BIC:                             772.2
 Df Model:                          13                                         
@@ -2315,7 +2315,7 @@ strong multicollinearity or other numerical problems.</code></pre>
 </div>
 </div>
 <p>Here, because all controls are mean 0, we can understand the estimated effect on <code>gattwto</code> as referring to the mean effect in our sample. Now, let’s consider the implementation described in Equation 3.32 of the text. We can see that this is indeed equivalent to the regression implementation above. First, let’s generate <span class="math inline">\(\widehat\mu_i(0)\)</span>. This is done by estimating the regression <em>only</em> among individuals who are un-treated, and then predicting outcomes among <em>all</em> individuals based on the paramters estimated in the un-treated group. We do this below.</p>
-<div id="bfb78527" class="cell" data-execution_count="42">
+<div id="d36e2a65" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the data for regression</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df_control <span class="op">=</span> df[df[treatment] <span class="op">==</span> <span class="dv">0</span>]</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>X_control <span class="op">=</span> df_control[covariates]</span>
@@ -2334,8 +2334,8 @@ strong multicollinearity or other numerical problems.</code></pre>
 Dep. Variable:                co2perc   R-squared:                       0.688
 Model:                            OLS   Adj. R-squared:                  0.645
 Method:                 Least Squares   F-statistic:                     15.83
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):           1.70e-09
-Time:                        01:33:49   Log-Likelihood:                -98.733
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):           1.70e-09
+Time:                        08:00:13   Log-Likelihood:                -98.733
 No. Observations:                  50   AIC:                             211.5
 Df Residuals:                      43   BIC:                             224.9
 Df Model:                           6                                         
@@ -2362,7 +2362,7 @@ Notes:
 </div>
 </div>
 <p>You can note in the regression summary that this just provides identical output from the un-interacted regression parameters we estimated previously given that in our prior model we could separately model the effect of the controls on outcomes both in the untreated and the treated goup. Now, let’s do the same thing to generate <span class="math inline">\(\widehat\mu_i(1)\)</span>:</p>
-<div id="a08d5728" class="cell" data-execution_count="43">
+<div id="f0190f2f" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>df_treat <span class="op">=</span> df[df[treatment] <span class="op">==</span> <span class="dv">1</span>]</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>X_treat <span class="op">=</span> df_treat[covariates]</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>X_treat <span class="op">=</span> sm.add_constant(X_treat)</span>
@@ -2377,8 +2377,8 @@ Notes:
 Dep. Variable:                co2perc   R-squared:                       0.744
 Model:                            OLS   Adj. R-squared:                  0.731
 Method:                 Least Squares   F-statistic:                     59.55
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):           4.60e-34
-Time:                        01:33:49   Log-Likelihood:                -250.93
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):           4.60e-34
+Time:                        08:00:13   Log-Likelihood:                -250.93
 No. Observations:                 130   AIC:                             515.9
 Df Residuals:                     123   BIC:                             535.9
 Df Model:                           6                                         
@@ -2405,7 +2405,7 @@ Notes:
 </div>
 </div>
 <p>Here regression parameters pick up the relationship between <span class="math inline">\(y\)</span> and covariates for treated units only, whereas in the fully interacted models the interaction terms pick up differential effects between groups. As such, the parameters above are directly interpretable as the sum of both parameters in the previous model. Now, finally, let’s see that we can indeed replicate the regression estimand from these imputed quantities. One way to do so is simply take the difference between counterfactuals for each unit:</p>
-<div id="e3f77fcf" class="cell" data-execution_count="44">
+<div id="2e508294" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'tau_i'</span>] <span class="op">=</span> df[<span class="st">'Y1hat'</span>]<span class="op">-</span>df[<span class="st">'Y0hat'</span>]</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'tau_i'</span>].mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2413,7 +2413,7 @@ Notes:
 </div>
 </div>
 <p>An alternative way, as shown in the second line of 3.32 is to compare relevant counterfactuals for each group with their true outcome:</p>
-<div id="7c8a4f5b" class="cell" data-execution_count="45">
+<div id="5e0bde22" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'tau_ii'</span>] <span class="op">=</span> df[treatment] <span class="op">*</span>(df[outcome]<span class="op">-</span>df[<span class="st">'Y0hat'</span>]) <span class="op">+</span> (<span class="dv">1</span><span class="op">-</span>df[treatment])<span class="op">*</span>(df[<span class="st">'Y1hat'</span>]<span class="op">-</span>df[outcome])</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'tau_ii'</span>].mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2422,7 +2422,7 @@ Notes:
 </div>
 <p>In both cases, we see that regression parameters are identical to those estimated previously.</p>
 <p>A nice thing about this latter procedure is that it immediately suggests to us a way to calculate an ATT rather than an ATE. We simply do the same as above, however now only consider the counterfactual comparison for treated units only. This is:</p>
-<div id="7558d6f4" class="cell" data-execution_count="46">
+<div id="7d52a237" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>att_reg <span class="op">=</span> df[<span class="st">'tau_i'</span>][df[treatment]<span class="op">==</span><span class="dv">1</span>].mean()</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"ATT from Regression: </span><span class="sc">{</span>att_reg<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2434,7 +2434,7 @@ Notes:
 <section id="inverse-propensity-score-weighting" class="level2">
 <h2 class="anchored" data-anchor-id="inverse-propensity-score-weighting">Inverse Propensity Score Weighting</h2>
 <p>Finally, we can examine propensity score weighting methods. We have of course already estimated our propensity score previously, so all we need to do is convert this into weights whereby treated units are weighted as <span class="math inline">\(\frac{1}{\widehat{P(X)}}\)</span>, and untreated units are weighted as <span class="math inline">\(\frac{1}{(1-\widehat{P(X)})}\)</span>. We will generate these weights below, and have a look at what this means graphically:</p>
-<div id="e8008257" class="cell" data-execution_count="47">
+<div id="a64b6466" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'weights'</span>] <span class="op">=</span> np.where(df[treatment] <span class="op">==</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span> df[<span class="st">'pscore'</span>], <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> df[<span class="st">'pscore'</span>]))</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>sns.set_palette(<span class="st">"Set1"</span>, <span class="dv">2</span>)</span>
@@ -2450,7 +2450,7 @@ Notes:
 </div>
 </div>
 <p>The scatterplot above plots our outcome of interest against estimated propensity scores, scaling each unit by the weight it receives. As we expect, we can see that untreated units with high propensity scores are given high weights because we wish to scale up these observations given their greater similarity to treated units. Similarly, treated units with low propensity scores are given relatively higher weights. In the plot above it is slightly difficult to see the variation in weights among treated units given that there are more treated units, and hence their weights are generally lower. Hoewever, if we plot these separately we can clearly see the inverse pattern in weights by examining the size of the points (as below):</p>
-<div id="0b5a5fe7" class="cell" data-execution_count="48">
+<div id="89f6fc96" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span><span class="st">"pscore"</span>, y<span class="op">=</span>outcome, data<span class="op">=</span>df[df[<span class="st">'gattwto'</span>] <span class="op">==</span> <span class="dv">1</span>], size<span class="op">=</span><span class="st">"weights"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span><span class="st">"pscore"</span>, y<span class="op">=</span>outcome, data<span class="op">=</span>df[df[<span class="st">'gattwto'</span>] <span class="op">==</span> <span class="dv">0</span>], size<span class="op">=</span><span class="st">"weights"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -2466,7 +2466,7 @@ Notes:
 <p>Now we can simply estimate our propensity-score re-weighted estimators. it is useful to see that there is a number of ways to simply arrive at this quantity. The first, and perhaps most cumbersome is to calculate this quantity by hand. Nevertheless, this is quite simple as just take the formulae laid out in Chapter 3 to code. In the case of the ATE, remember that the quantity we wish to calculate is: <span class="math display">\[
 \widehat\tau^{IPW}_{ATE}=\left(\frac{\frac{1}{N}\sum_{i=1}^N\frac{Y_iW_i}{\widehat{P}(X_i)}}{\frac{1}{N}\sum_{i=1}^N\frac{W_i}{\widehat{P}(X_i)}}\right)-\left(\frac{\frac{(1-W_i)Y_i}{1-\widehat{P}(X_i)}}{\frac{1}{N}\sum_{i=1}^N\frac{1-W_i}{1-\widehat{P}(X_i)}}\right).
 \]</span> Below, we will calculate the numerator and denominator of each term, before using these to calculate the ATE:</p>
-<div id="152b9737" class="cell" data-execution_count="49">
+<div id="92ddfe48" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[outcome]</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Y_w'</span>] <span class="op">=</span> np.where(df[treatment] <span class="op">==</span> <span class="dv">1</span>, y <span class="op">/</span> df[<span class="st">'pscore'</span>], y <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> df[<span class="st">'pscore'</span>]))</span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'W_w'</span>] <span class="op">=</span> np.where(df[treatment] <span class="op">==</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span> df[<span class="st">'pscore'</span>], <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> df[<span class="st">'pscore'</span>]))</span>
@@ -2483,7 +2483,7 @@ Notes:
 </div>
 </div>
 <p>We could of course have used the quantity <code>weight</code> which we calculated above in place of <code>W_w</code>, however we regenerate this so we can see the similarity with the previous line all in one place. Doing this, we calculate an IPW ATE of -1.01, similar, though slightly higher than the regression and nearest neighbour matched quantity. What is perhaps interesting to see is that this quantity can be calculated directly using a weighted regression, where the weights we calculated are used. We do this below:</p>
-<div id="233b628b" class="cell" data-execution_count="50">
+<div id="753294e9" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[outcome]</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[treatment]]</span>
@@ -2498,8 +2498,8 @@ Notes:
 Dep. Variable:                co2perc   R-squared:                       0.023
 Model:                            WLS   Adj. R-squared:                  0.018
 Method:                 Least Squares   F-statistic:                     4.224
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):             0.0413
-Time:                        01:33:49   Log-Likelihood:                -482.03
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):             0.0413
+Time:                        08:00:14   Log-Likelihood:                -482.03
 No. Observations:                 180   AIC:                             968.1
 Df Residuals:                     178   BIC:                             974.4
 Df Model:                           1                                         
@@ -2521,7 +2521,7 @@ Notes:
 </div>
 </div>
 <p>As expected, we calculate an identical quantity for the IPW ATE of -1.01. Note finally that we can also do this by simply taking weighted averages of the outcome in each group, and subtracting the weighted control group avarege from the weighted treated group average. We will do this below using <code>numpy</code>s average function:</p>
-<div id="ca175b3d" class="cell" data-execution_count="51">
+<div id="ec09ff75" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>Y1_df <span class="op">=</span> df[df[treatment]<span class="op">==</span><span class="dv">1</span>]</span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>Y0_df <span class="op">=</span> df[df[treatment]<span class="op">==</span><span class="dv">0</span>]</span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2535,7 +2535,7 @@ Notes:
 </div>
 <p>It is useful to see that these are all numerically equivalent ways to calculate an IPW estimate, and that we can simply select that which we prefer to arrive to point estimates.</p>
 <p>Finally, note that we can also generate the ATT in this way, simply replacing the weights above with the weights which correspond to an IPW ATT estimator (refer to equation 3.30 of the book):</p>
-<div id="14a2ebc8" class="cell" data-execution_count="52">
+<div id="46f2d698" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'weightsATT'</span>] <span class="op">=</span> np.where(df[treatment] <span class="op">==</span> <span class="dv">1</span>, <span class="dv">1</span>,   df[<span class="st">'pscore'</span>] <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> df[<span class="st">'pscore'</span>]))</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Y_w'</span>]        <span class="op">=</span> np.where(df[treatment] <span class="op">==</span> <span class="dv">1</span>, y, y<span class="op">*</span>df[<span class="st">'pscore'</span>] <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> df[<span class="st">'pscore'</span>]))</span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2551,7 +2551,7 @@ Notes:
 </div>
 </div>
 <p>Once again, this can also be replicated directly via weighted regression (which provides us valid point estimates, though not standard errors), as we see below:</p>
-<div id="d43f25a7" class="cell" data-execution_count="53">
+<div id="dc983364" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>reg_model <span class="op">=</span> sm.WLS(y, X, weights<span class="op">=</span>df[<span class="st">'weightsATT'</span>]).fit()</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(reg_model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2560,8 +2560,8 @@ Notes:
 Dep. Variable:                co2perc   R-squared:                       0.021
 Model:                            WLS   Adj. R-squared:                  0.016
 Method:                 Least Squares   F-statistic:                     3.837
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):             0.0517
-Time:                        01:33:49   Log-Likelihood:                -487.66
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):             0.0517
+Time:                        08:00:14   Log-Likelihood:                -487.66
 No. Observations:                 180   AIC:                             979.3
 Df Residuals:                     178   BIC:                             985.7
 Df Model:                           1                                         

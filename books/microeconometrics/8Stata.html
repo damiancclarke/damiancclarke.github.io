@@ -653,7 +653,7 @@ window.Quarto = {
 <section id="estimating-qtes-with-experimental-interventions" class="level2">
 <h2 class="anchored" data-anchor-id="estimating-qtes-with-experimental-interventions">Estimating QTEs with Experimental Interventions</h2>
 <p>We will begin by exploring QTEs when treatment assignment is random, and does not require the incorporation of any controls. In these cases, at least for the estimates themselves, it is sufficient to simply directly calculate quantiles of the outcome among the treated and control units to arrive to QTEs. Let’s first load these data, and ensure that we know which our outcome and treatment variables are:</p>
-<div id="b4862e03" class="cell" data-execution_count="1">
+<div id="26656816" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -723,7 +723,7 @@ Sorted by:
 </div>
 </div>
 <p>Above we have kep the data corresponding to the “Dehejia-Wahba Sample” which is the original 445 treatment and control observations in the experimental implementation discussed in <span class="citation" data-cites="DeheijaWahba1999">Dehejia and Wahba (<a href="#ref-DeheijaWahba1999" role="doc-biblioref">1999</a>)</span>. We can also exmaine the density of outcomes for both treatment and control units below:</p>
-<div id="4f7e9fa2" class="cell" data-execution_count="2">
+<div id="4795237a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Kernel density plot to visualize distribution</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">kdensity</span> re78 <span class="kw">if</span> treat == 1, lcolor(<span class="bn">blue</span>) lwidth(thick) <span class="co">///</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ||   <span class="kw">kdensity</span> re78 <span class="kw">if</span> treat == 0, lcolor(<span class="kw">red</span>) lwidth(thick) <span class="co">///</span></span>
@@ -738,7 +738,7 @@ Sorted by:
 </div>
 </div>
 <p>With these experimental data, let’s calculate some QTE. In particular, let’s calculate the quantity <span class="math inline">\(\tau_{QTE(0.8)}\)</span>, which is the effect at quantile 80. We can do this simply by calculating the quantiles in each group:</p>
-<div id="5c587bb2" class="cell" data-execution_count="3">
+<div id="964216fd" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Compute the 80th percentile for the treated group</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>_pctile re78 <span class="kw">if</span> treat == 1, <span class="kw">p</span>(80)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> q80_treated = <span class="fu">r</span>(r1)</span>
@@ -754,7 +754,7 @@ Sorted by:
 </div>
 </div>
 <p>Of course, we are not limited to doing this at the 80<sup>th</sup> quantile. We can examine QTEs at multiple points of the distribution, below examining quantiles 25, 50 and 75 (and comparing these to ATEs themselves):</p>
-<div id="ab064c22" class="cell" data-execution_count="4">
+<div id="176f64a7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>_pctile re78 <span class="kw">if</span> treat==1, <span class="kw">p</span>(25, 50, 75)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> FY1_25 = <span class="fu">r</span>(r1)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> FY1_50 = <span class="fu">r</span>(r2)</span>
@@ -793,7 +793,7 @@ ATE is: 1794.3424</code></pre>
 </div>
 </div>
 <p>If we inspect these QTEs and compare them to the values reported in the Supplementary Table II of <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>, we can see that they are very similar, with some marginal differences at certain quantiles likely owing to differences in manners of estimating quantiles (there are a number of ways to estimate quantiles, including different way with dealing with ties, interpolations, and so forth). We can go also further, and inspect effects across the entire distribution, which we do below at each centile:</p>
-<div id="c5ef0fec" class="cell" data-execution_count="5">
+<div id="b71c18b1" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> FY1      = .</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> FY0      = .</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">quantile</span> = .</span>
@@ -826,7 +826,7 @@ ATE is: 1794.3424</code></pre>
 </div>
 </div>
 </div>
-<div id="35b89087" class="cell" data-execution_count="6">
+<div id="f09f039d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Plot QTEs</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> <span class="fu">diff</span> <span class="kw">quantile</span>, lpattern(solid) lwidth(thick) <span class="co">///</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bn">ytitle</span>(<span class="st">"QTE"</span>) <span class="bn">xtitle</span>(<span class="st">"Quantile"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -840,7 +840,7 @@ ATE is: 1794.3424</code></pre>
 </div>
 </div>
 <p>Typically, inference on quantile treatment effects will proceed using a bootstrap. However, we can also estimate these quantile treatment effects (along with standard errors) using quantile regression <strong>in this case with unconditional unconfoundedness</strong>. It is important to note, however, that we may see minor differences between quantile regression and quantile treatment effects as calculated “by hand” above depending on the way that percentiles are calculated. We can see this below where we estimate a simple quantile regression at the 80<sup>th</sup> percentile:</p>
-<div id="5b362940" class="cell" data-execution_count="7">
+<div id="9b0e1490" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qreg</span> re78 treat, <span class="kw">quantile</span>(0.8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -864,7 +864,7 @@ Iteration 3:  Sum of abs. weighted deviations =   891414.9
 </div>
 </div>
 <p>Here, while similar, this value of 2336 is different to the unconditional QTE of 2258 reported above. However, if we dig and explore this particular case, we can see that this simply owes to the fact that in our control group, there is an even number of units, and the 80<sup>th</sup> percentile happens to fall between two units, and in these cases Stata’s <code>_pctile</code> command will interpolate, while regression will not. We can confirm to ourselves that there is indeed equivalence between these two settings provided that quantiles are smooth if we simply remove one observation so that percentiles in each group now fall precisely on a specific unit for the values below:</p>
-<div id="1755ae17" class="cell" data-execution_count="8">
+<div id="681365b3" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sort</span> treat re78</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">//drop one unit (with re78=0)</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">in</span> 1</span>
@@ -946,7 +946,7 @@ effect: 1795.188</code></pre>
 <section id="estimating-qtes-and-qtts-with-non-experimental-interventions" class="level2">
 <h2 class="anchored" data-anchor-id="estimating-qtes-and-qtts-with-non-experimental-interventions">Estimating QTEs and QTTs with non-Experimental Interventions</h2>
 <p>If, rather than believing that unconditional unconfoundedness hold, we instead believe that <em>conditional</em> unconfoundedness is the appropriate assumption, there are two potential ways forward. To look at this, we will use the same <span class="citation" data-cites="Lalonde1986">LaLonde (<a href="#ref-Lalonde1986" role="doc-biblioref">1986</a>)</span> data, but now with the experimental treatment sample, and the non-experimental subsample as potential control units. We will control for the same factors we have discussed in code call-outs in Chapter 3. Let’s begin by loading the requisite data, which is the observational (CPS) subsample, along with treated units, and generating a number of required covariates:</p>
-<div id="f46cfb3a" class="cell" data-execution_count="9">
+<div id="f1e68015" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"data/Dehejia_Wahba_2002.dta"</span>, <span class="kw">clear</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> data_id==<span class="st">"CPS1"</span>|treat==1</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -965,7 +965,7 @@ effect: 1795.188</code></pre>
 <section id="conditional-qtes" class="level3">
 <h3 class="anchored" data-anchor-id="conditional-qtes">Conditional QTEs</h3>
 <p>Let’s start by examining how we estimate QTEs in this observational setting. A first, simpler, case exists if we are happy to report conditional QTEs. We discuss the potential drawbacks of such QTEs in the book, but for now we can just note that <em>if</em> we are happy to report such conditional QTEs and invoke the required assumptions discussed in Section 8.2.2.1, we can do this very simply, by just estimating a quantile regression with covariates. We do this below (with an identical group of covariates to those used in code call out 3.1), reporting conditional quantile effects at the 25<sup>th</sup>, 50<sup>th</sup>, 75<sup>th</sup>, and 80<sup>th</sup> quantiles:</p>
-<div id="24dab1b1" class="cell" data-execution_count="10">
+<div id="4642b40a" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Estimate CQTEs at selected quantiles (10th, 25th, 50th, 75th, 80th)</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sqreg</span> re78 treat <span class="ot">`xvars'</span>, <span class="kw">quantile</span>(0.25 0.5 0.75 0.8) reps(100)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1056,7 +1056,7 @@ q80          |
 </div>
 </div>
 <p>The above covariate structure is slightly different to that described in the Supplementary Materials of <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>, but is useful in providing an identical comparison to previous covariate specifications. We can also examine this over the entire distribution of (conditional) quantiles. Below we loop through quantiles 20-95 (ie quantiles where we observed non-zero salaries in the experimental case). We do this as a simple loop, in each iteration saving the estimated quantile treatment effect.</p>
-<div id="54cc2af9" class="cell" data-execution_count="11">
+<div id="c7f14cfa" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>* Create a <span class="kw">new</span> frame </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>frame create qte_cond</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>frame change qte_cond</span>
@@ -1088,7 +1088,7 @@ q80          |
 </div>
 </div>
 <p>Finally, we can plot the resulting distribution of quantile treatment effects. We do this below, and note that we see a reasonable correspondence with the experimentally estimated QTEs laid out previously, however with some important differences particularly at the upper end of the distribution.</p>
-<div id="fd4d9e6b" class="cell" data-execution_count="12">
+<div id="4a1978f7" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>frame change qte_cond</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Compute confidence intervals</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> qte_upper = qte + <span class="fu">invnormal</span>(0.975) * qte_se</span>
@@ -1115,7 +1115,7 @@ q80          |
 </div>
 </div>
 <p>This can also be estimated using the user-written <code>ivqte</code> package of <span class="citation" data-cites="FrolichMelly2010">Frölich and Melly (<a href="#ref-FrolichMelly2010" role="doc-biblioref">2010</a>)</span>, which similarly permits for heteroscedastic standard errors, and various other useful extensions. We will not examine this in great depth here, but can easily see the equivalence below, where we note the comparison of the point estimate at three specific points to those estimated in the original call to quantile regression above.</p>
-<div id="ff228ee1" class="cell" data-execution_count="13">
+<div id="cff2e33e" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span><span class="al">NOTE</span><span class="co">: Requires a number of user-written programmes</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">//net install ivqte, from("https://raw.githubusercontent.com/bmelly/Stata/main/")</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">//ssc install moremata</span></span>
@@ -1224,7 +1224,7 @@ Number of observations:      16177
 <h3 class="anchored" data-anchor-id="unconditional-qtes">Unconditional QTEs</h3>
 <p>While the previously implemented methods allow for the calculation of conditional quantile effects, we can use these tools, and in particular the <code>ivqte</code> package, to calculate <em>unconditional</em> QTEs. Below, we implement <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>’s methods which implements these weighting-based estimators, along with their standard errors.</p>
 <p>We will do this with the same covariate set, noting that this simply requires for the same <code>ivqte</code> command to be invoked as above, but now covariates should be passed as arguments in <code>continuous</code> and <code>dummy</code>, and <code>ivqte</code> will infer that <span class="citation" data-cites="Firpo2007">Firpo (<a href="#ref-Firpo2007" role="doc-biblioref">2007</a>)</span>’s reweighting method should be used.</p>
-<div id="46a5c831" class="cell" data-execution_count="14">
+<div id="eac18124" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>* Conditional</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ivqte re78 (treat), quantiles(0.25 0.5 0.75 0.8) continuous(age age2 age3 education educ2 re74 re75  edure74) dummy(<span class="bn">black</span> hisp marr u74 u75) <span class="kw">variance</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1260,7 +1260,7 @@ Variance estimated using local logit regression with h = infinity and lambda =
 </div>
 </div>
 <p>In this case, we see that the estimator performs quite poorly, suggesting that the conditional unconfoundedness assumption is likely unreasonable when considering all observations. In practice, this procedure trims very high and very low propensity scores, and we can see that if we do not trim such propensity scores, we observe estimates which are even further from their experimental counterparts:</p>
-<div id="cf039406" class="cell" data-execution_count="15">
+<div id="ea08b216" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ivqte re78 (treat), quantiles(0.25 0.5 0.75 0.8) continuous(age age2 age3 education educ2 re74 re75  edure74) dummy(<span class="bn">black</span> hisp marr u74 u75) <span class="kw">trim</span>(0) <span class="kw">variance</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1290,7 +1290,7 @@ Variance estimated using local logit regression with h = infinity and lambda =
 </div>
 </div>
 <p>However, when using more judicious trimming, we observe estimates which are at least broadly positive, though still quite different to those documented in the experimental sample.</p>
-<div id="cf4c36b7" class="cell" data-execution_count="16">
+<div id="88312e13" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ivqte re78 (treat), quantiles(0.25 0.5 0.75 0.8) continuous(age age2 age3 education educ2 re74 re75  edure74) dummy(<span class="bn">black</span> hisp marr u74 u75) <span class="kw">trim</span>(0.05) <span class="kw">variance</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>15606 observations have been trimmed. 571 observations are left after trimming.
@@ -1331,7 +1331,7 @@ Variance estimated using local logit regression with h = infinity and lambda =
 <section id="confirming-discontinuities-in-treatment-eligility" class="level2">
 <h2 class="anchored" data-anchor-id="confirming-discontinuities-in-treatment-eligility">Confirming Discontinuities in Treatment Eligility</h2>
 <p>To see the broad context of the study, we will begin by confirming that there is a discontinuity in financial aid eligibility rates around the test score cut-off. We begin by opening the data from <span class="citation" data-cites="LondonoVelezetal2020">Londoño-Vélez, Rodríguez, and Fabio Sánchez (<a href="#ref-LondonoVelezetal2020" role="doc-biblioref">2020</a>)</span> and working with the sample they use in the paper. Specifically here, we will also impose the restriction <code>eligible_saber11==1</code> which implies that all individuals in the sample meet educational criteria for financial aid, and so the only discontinuity which exists is that owing to the wealth eligibility criteria:</p>
-<div id="a961473b" class="cell" data-execution_count="17">
+<div id="c87b0c3f" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="kw">data</span>/LondonoVelez_et_al_2020, <span class="kw">clear</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> icfes_per==20142</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> eligible_saber11==1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1341,7 +1341,7 @@ Variance estimated using local logit regression with h = infinity and lambda =
 </div>
 </div>
 <p>Now let’s visualise the discontinuity in eligibility in the entire sample. Here we will work with a re-centred running variable which for each individual defines their distance to the area-specific eligigility threshold which applied to them. In order to set up a simple visualisation we will use an arbitrary definition setting bins from 50 points below the threshold up to 50 points above the threshold, in increments of 2 points. For a discussion of optimal bins in this setting refer to the discussion in Chapter 6 of the book. Within each bin, we will generate average scores as <code>bin</code>, and will plot a single point for each average score. We will then overlay a linear fit on either side of the cut-off using the original data.</p>
-<div id="406488f5" class="cell" data-execution_count="18">
+<div id="e69c1224" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">egen</span> <span class="fu">cut</span> = <span class="fu">cut</span>(running_sisben), <span class="fu">at</span>(-50(2)50)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">egen</span> mean_include = <span class="fu">tag</span>(<span class="fu">cut</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">bysort</span> <span class="fu">cut</span>: <span class="kw">egen</span> <span class="bn">bin</span> =  <span class="kw">mean</span>(beneficiary_spp)</span>
@@ -1370,7 +1370,7 @@ Variance estimated using local logit regression with h = infinity and lambda =
 <h2 class="anchored" data-anchor-id="visualising-multiple-treatment-cut-offs">Visualising Multiple Treatment Cut-offs</h2>
 <p>Before we consider the process of extrapolating across cut-offs, let’s begin by confirming that we do indeed see multiple cut-offs owing to the differential treatment thresholds. We do this below, using the <code>sisben_area</code> variable, which takes 1 for large metropolitan areas which have a cut-off of 57.21 points, and 3 for rural areas with a cut-off of 40.75 points. There is actually also a third group (other urban areas) which takes a value of 2 and has a cut-off of 56.32 points, but because this is very close to group 1, we will only focus on rural and metropolitan areas.</p>
 <p>We will generate two graphs, simply seeking to confirm that we see a sharp cut-off for each group at the point where, theoretically, such a cut-off should appear. We will do this with the precise score on the wealth index (<code>sisben_score</code>).</p>
-<div id="d60558d6" class="cell" data-execution_count="19">
+<div id="d9c92b4c" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">//Low cut-off</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">egen</span> cut_low = <span class="fu">cut</span>(sisben_score) <span class="kw">if</span> sisben_area==3, <span class="fu">at</span>(0(2)100)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">egen</span> mean_include_low = <span class="fu">tag</span>(cut_low)</span>
@@ -1408,7 +1408,7 @@ file high.gph saved</code></pre>
 </div>
 <p>These graphs above are really only used to show descriptive patters, as we have built bins in average of 2 points, and so the final bin on the right hand side will be slightly contaminated with above-threshold points, but we can correct this by generating different cut-points easily enough, and the graphs above make clear that there are clear discontinuities at the points which correspond to the specific wealth cut-off which binds for each group.</p>
 <p>Let’s now consider some outcome of interest, and the extrapolation of treatment effects which we seek to achieve. In particular, let’s work with the variable <code>spadies_any</code> which indicates whether an individual studies any type of post-secondary education. And let’s visualise the mean outcome and a local polynomial fit of the outcomes for each group. Below we do this in a single graph. To do so we generate two variables which we can use to generate means (<code>round1</code> and <code>round3</code>, which are centered on the cut-off), and which we arbitrarily set in terms of 2 point bins. We then use <code>egen ... mean()</code> to generate mean scores in each of these groups simultaneously, before plotting these means as well as local polynomial fits on each side. Note that we generate group means without collapsing so that we can generate local polynomial fits based on the original microdata, rather than collapsed means.</p>
-<div id="33a2d726" class="cell" data-execution_count="20">
+<div id="d2ca917b" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> round1=<span class="fu">floor</span>(running_sisben/2) <span class="kw">if</span> sisben_area ==1</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> round3=<span class="fu">floor</span>(running_sisben/2) <span class="kw">if</span> sisben_area ==3</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1444,7 +1444,7 @@ file high.gph saved</code></pre>
 \widehat\tau_\ell(\bar{x})=\widehat\mu_{1,\ell}(\bar{x}) -[\widehat\mu_{0,h}(\bar{x})+\widehat\mu_{0,\ell}(\ell)-\widehat\mu_{0,h}(\ell)].
 \]</span></p>
 <p>Let’s do this below, using `lprobust’ to generate key quantities. We will also take the variance at each point, allowing us to calculate the standard error of the extrapolated treatment effect as the square root of the total variance. Note that because we are jointly estimating <span class="math inline">\(\mu_{0,h}(\ell)\)</span> and <span class="math inline">\(\mu_{0,h}(\bar{x})\)</span> and then wish to calculate the variance of <span class="math inline">\(\mu_{0,h}(\bar{x})-\mu_{0,h}(\ell)\)</span>, this is <span class="math inline">\(Var(\mu_{0,h}(\bar{x})-\mu_{0,h}(\ell))=Var(\mu_{0,h}(\bar{x})+Var(\mu_{0,h}(\ell))-2\times Cov(\mu_{0,h}(\bar{x}),\mu_{0,h}(\ell))\)</span>; see for example the calculation in the authors’ original materials <a href="https://github.com/rdpackages-replication/CKTV_2021_JASA">here</a>.</p>
-<div id="85d76f87" class="cell" data-execution_count="21">
+<div id="c1b12935" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">//net install nprobust, from(https://raw.githubusercontent.com/nppackages/nprobust/master/stata) replace</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> c0 = 40.75 <span class="kw">in</span> 1</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>lprobust spadies_any sisben_score <span class="kw">if</span> sisben_area==3&amp;sisben_score &lt; 40.75, eval(c0)</span>
@@ -1618,7 +1618,7 @@ Figure&nbsp;1: Non-parametric fits with multiple cut-offs
 <h1>Code Call-out 8.3: Marginal Treatment Effects</h1>
 <p>In this code call-out we consider a number of elements related to the estimation of marginal treatment effects (MTEs). To do so, we work with data from <span class="citation" data-cites="Carneiroetal2017">Carneiro, Lokshin, and Umapathi (<a href="#ref-Carneiroetal2017" role="doc-biblioref">2017</a>)</span>, who estimate the returns to upper secondary schooling in Indonesia and examine how those returns vary across individuals with different likelihoods of enrolling. This setting is well-suited to consider the MTE framework. If individuals sort into schooling partly based on their own anticipated returns, then the returns among those who enrol only when schooling is made more accessible (the compliers of any given instrument) may differ substantially from returns among those who would always enrol regardless. The MTE surface we consider here traces out exactly this variation.</p>
 <p>Following <span class="citation" data-cites="Carneiroetal2017">Carneiro, Lokshin, and Umapathi (<a href="#ref-Carneiroetal2017" role="doc-biblioref">2017</a>)</span>, data from the 2000 wave of the Indonesia Family Life Survey (IFLS) is used, restricted to men aged 25-60 who are employed and report non-missing wages and schooling, along with non-missing information on an instrument, key covariates used for calculating a propensity score. This yields a sample of 2,608 working-age males. We load these data below and subset to observations with non missing observations, examining summary statistics for log earnings, the key outcome in the estimation sample.</p>
-<div id="fc40cc9c" class="cell" data-execution_count="23">
+<div id="470647e2" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"data/Carneiro_et_al_2017.dta"</span>, <span class="kw">clear</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> X age age2 r_protest r_cathol r_other elem_f jsec_f edumiss_f elem_m jsec_m edumiss_m rural kmsd prov_*</span>
@@ -1642,7 +1642,7 @@ Figure&nbsp;1: Non-parametric fits with multiple cut-offs
 <section id="propensity-score-estimation-and-common-support" class="level2">
 <h2 class="anchored" data-anchor-id="propensity-score-estimation-and-common-support">Propensity Score Estimation and Common Support</h2>
 <p>Given the central nature of the propensity score in the MTE framework, we begin with its estimation. We estimate the propensity score using a logit model where the binary treatment indicator <code>dschool</code> is regressed on the full set of covariates (which will be included in models below), along with the instrument. Specifically, the specification includes the distance to the nearest secondary school (<code>kmsmp</code>), all interaction terms of covariates with the instrument (<code>INT_*</code>), and the baseline set of individual and household characteristics contained in the vector <code>X</code> defined above (age and age squared, parental education indicators, religious affiliation, rural status, distance to the closest health post, and province fixed effects). Below we estimate the logit, and then generate each indiviudal’s predicted probability of schooling, ie the propensity score.</p>
-<div id="a4f16e9d" class="cell" data-execution_count="24">
+<div id="d5f540f3" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">logit</span> dschool kmsmp INT_* <span class="ot">`X'</span> </span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> ps_manual</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1746,7 +1746,7 @@ Figure&nbsp;2: Propensity score by treatment status
 <p>“If all we are willing to assume is that (<span class="math inline">\(U_0\)</span>, <span class="math inline">\(U_1\)</span>,V) is independent of <span class="math inline">\(Z\)</span> given <span class="math inline">\(X\)</span>, then it is only possible to estimate the MTE over the support of <span class="math inline">\(P\)</span> conditional on <span class="math inline">\(X\)</span>.” (<span class="citation" data-cites="Carneiroetal2011">Carneiro, Heckman, and Vytlacil (<a href="#ref-Carneiroetal2011" role="doc-biblioref">2011</a>)</span>, p.&nbsp;2768)</p>
 </blockquote>
 <p>To consider the relevance of this, we can follow <span class="citation" data-cites="Carneiroetal2011">Carneiro, Heckman, and Vytlacil (<a href="#ref-Carneiroetal2011" role="doc-biblioref">2011</a>)</span> in plotting the marginal distribution of <span class="math inline">\(P|X\)</span>. However, given that <span class="math inline">\(X\)</span> is multidimensional, this is considered over an index <span class="math inline">\(X(\delta_1 - \delta_0)\)</span>. To do this, we estimate separate outcome equations for individuals with and without upper secondary schooling, obtain the coefficient vectors <span class="math inline">\(\hat{\delta}_1\)</span> and <span class="math inline">\(\hat{\delta}_0\)</span>, and take their difference. Multiplying this difference by each individual’s covariates yields the index <span class="math inline">\(X(\hat{\delta}_1 - \hat{\delta}_0)\)</span>, which summarizes the observable component of the return to schooling. We generate this index below:</p>
-<div id="7b6fa1b9" class="cell" data-execution_count="26">
+<div id="4a2759dc" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> learnhr00 <span class="ot">`X'</span> <span class="kw">if</span> dschool==1</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> delta1_hat = <span class="fu">e</span>(b)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1840,7 +1840,7 @@ Figure&nbsp;2: Propensity score by treatment status
 </div>
 </div>
 <p>With this index, we estimate a conditional density <span class="math inline">\(f(P \mid X)\)</span>, which is the density of the propensity score <span class="math inline">\(P\)</span> at each point of the index. We do this nonparametrically by dividing the covariate support into 50 bins and estimating the propensity score density separately within each bin. We do this by dividing the covariate index into 50 equal-frequency bins using quantiles, and within each bin estimating the kernel density of the propensity score over a fine grid of 50 equally-spaced points. The resulting density values are then normalised within each bin so that they sum to one, giving an estimate of <span class="math inline">\(f(P \mid X = x)\)</span> for each bin’s representative value of <span class="math inline">\(x\)</span>. In essence, this simply builds densities locally within small sections of the data. This yields a dataset of triplets <span class="math inline">\((x, P, \hat{f}(P \mid x))\)</span> across the joint support of <span class="math inline">\(X\)</span> and <span class="math inline">\(P\)</span>, which can be visualised as a surface showing how the distribution of the propensity scores shifts as the covariate index changes. Below we do this generating a frame called <code>results</code> to accumulate all results, appending in estimated densities bit by bit (this requires the <code>frameappend</code> program from the SSC).</p>
-<div id="2d81823e" class="cell" data-execution_count="27">
+<div id="0982270d" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">xtile</span> xbin = index_X, n(50)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Create a frame to accumulate results</span></span>
@@ -1928,7 +1928,7 @@ Figure&nbsp;2: Propensity score by treatment status
 </div>
 </div>
 <p>Once we have this triplet of points of the X grid, the propensity score, and the density, we can plot these in a 3-d surface. We do this below using the <code>surface</code> command, which must be installed from the SSC.</p>
-<div id="bb992b7a" class="cell" data-execution_count="28">
+<div id="b119f1a9" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>surface xgrid pgrid f_cond, <span class="bn">xtitle</span>(<span class="st">"X"</span>) <span class="bn">ytitle</span>(<span class="st">"Propensity score"</span>) ztitle(<span class="st">"f(P|X)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1940,7 +1940,7 @@ Figure&nbsp;2: Propensity score by treatment status
 </div>
 <p>Inspecting the resulting surface, we can see that while there is a positive density at many points of support of the observable index <span class="math inline">\(X\)</span>, there are also areas with essentially no covarage, namely areas with quite high values of the index and high propensity scores. Given this lack of full support over all values of <span class="math inline">\(X\)</span>, typically assumptions are invoked such that all we require is common support of the propensity score across treatment and untreated units. Assumptions such as additive separability allow for this, which implies assuming <span class="math inline">\(E(U_D|V,X)=E(U_D|V)\)</span>, or that the slope of the MTE is independent of <span class="math inline">\(X\)</span>.</p>
 <p>If invoking this assumption, all we need to consider is the common support of <span class="math inline">\(P\)</span> across treatment regimes. In Figure <strong>?@fig-supportStata</strong> we observe quite broad common support, however below we generate a variable which indicates whether observations are in the region of common support considering maximum and minimum propensity scores in each group. We will limit our analysis by removing the relatively small subset of observations (around 1%) for which there is no overlap.</p>
-<div id="4c402215" class="cell" data-execution_count="29">
+<div id="3dfff133" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>frame change <span class="kw">default</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> ps_manual <span class="kw">if</span> dschool==1, <span class="kw">meanonly</span></span>
@@ -1975,7 +1975,7 @@ Figure&nbsp;2: Propensity score by treatment status
 <section id="a-parametric-approach" class="level3">
 <h3 class="anchored" data-anchor-id="a-parametric-approach">A Parametric Approach</h3>
 <p>There are multiple ways in which we can implement MTEs, and at times these can be quite computationally challenging. A simple and very illustrative way to estimate MTEs is through a parametric approach. In essence, all this requires is for us to model <span class="math inline">\(E[Y \mid P]\)</span> as a flexible polynomial or spline (in terms of <span class="math inline">\(P\)</span>), along with all relevant covariates. Then MTE is then the derivative of <span class="math inline">\(E[Y \mid P]\)</span> with respect to <span class="math inline">\(P\)</span> across all points of support of the propensity score. Consider the below “manual” implementation of such a parametric approach. Here we include the propensity score in a linear way along with 3 higher polynomial terms. We also include all controls both in levels, as well as interacted with the propensity score. This latter term allows us to consider whether returns to individual characteristics themselves depend on the likelihood of being treated.</p>
-<div id="738b37bc" class="cell" data-execution_count="30">
+<div id="fb0b749d" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> v <span class="kw">of</span> <span class="kw">varlist</span> <span class="ot">`X'</span> {</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">gen</span> PX_<span class="ot">`v'</span> = ps_manual * <span class="ot">`v'</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -2332,7 +2332,7 @@ Figure&nbsp;3: Marginal Treatment Effects Under a Polynomical Specification
 </div>
 <p><strong>?@fig-MTEparametricStata</strong> plots the MTE as a function of the propensity score. The MTE measures the marginal return to upper secondary schooling for individuals with a given probability of enrolling. The figure reveals individuals with a higher propensity to attend upper secondary school tend to experience higher marginal returns, while individuals with a lower propensity exhibit lower returns.</p>
 <p>While our approach here is quite manual, we can see that it is in very close agreement to libraries which implement this in a fully-fledged way. Below we compare our approach to <span class="citation" data-cites="Andresen2018">Andresen (<a href="#ref-Andresen2018" role="doc-biblioref">2018</a>)</span>’s <code>mtefe</code> package available from the SSC (which also requires the installation of <code>nearmrg</code> and <code>moremata</code>).</p>
-<div id="c1964751" class="cell" data-execution_count="32">
+<div id="9d97e671" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>mtefe learnhr00 <span class="ot">`X'</span> <span class="co">///</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    (dschool = kmsmp INT_* <span class="ot">`X'</span>), <span class="co">///</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">link</span>(<span class="kw">logit</span>) <span class="co">///</span></span>
@@ -2570,7 +2570,7 @@ standard errors.
 <section id="semi-parametric-local-iv-methods" class="level3">
 <h3 class="anchored" data-anchor-id="semi-parametric-local-iv-methods">Semi-parametric (Local IV) methods</h3>
 <p>In contrast with the parametric approach we can estimate <span class="math inline">\(E[Y∣P]\)</span> flexibly and compute the MTE as its local slope. One way to do this is using <code>npregress</code> (non-parametric regression) to run a local linear regression and request the gradient (derivative) with respect to <span class="math inline">\(P\)</span>. Below we do this with default options, noting that our key element of interest here is the non-parametric relationship between the outcome of interest and the propensity score. Given requirements of <code>npregress</code> we include all binary covariates with Stata’s <code>i.</code> syntax, so that these are understood to be discrete.</p>
-<div id="bef53f51" class="cell" data-execution_count="33">
+<div id="dbb15bf5" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> covs i.r_protest i.r_cathol i.r_other i.elem_f i.jsec_f   <span class="co">///</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>           i.edumiss_f i.elem_m i.jsec_m i.edumiss_m i.rural    <span class="co">///</span></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>           i.prov_NSUM i.prov_WSUM i.prov_SSUM i.prov_LAMP      <span class="co">///</span></span>
@@ -2580,12 +2580,12 @@ standard errors.
 <span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="co">//npregress kernel learnhr00 ps_manual `covs'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our particular interest here is actually the change in the outcome <span class="math inline">\(Y\)</span> given a marginal change in <span class="math inline">\(P\)</span> (i.e.&nbsp;the MTE), and we can compute this quantity at various margins using Stata’s <code>margins</code> command. We do this below, before finally plotting the output with <code>marginsplot</code>. Given the demanding nature of non-parametric estimation, we do this with only 50 bootstraps, though would want to use more replicates for more precise confidence intervals.</p>
-<div id="a44a2fcf" class="cell" data-execution_count="34">
+<div id="cea7493a" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co">//margins, dydx(ps_manual) at(ps_manual=(0.1(0.1)0.9)) reps(5) asbalanced</span></span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="co">//marginsplot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The approach taken above estimates the non-parametric relationship between the outcome and the propensity score while also controlling (non-paramtrically) for each other relevant covariate. Alternative approaches which also allow for a non-parametric relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(P\)</span>, after first concentrating out the effects of covariates. Such methods are semi-parametric, in that they allow for a non-parametric relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(P\)</span> after controlling parametrically for covariates. A discussion of the computational implementation of such methods can be found in <span class="citation" data-cites="Andresen2018">Andresen (<a href="#ref-Andresen2018" role="doc-biblioref">2018</a>)</span>. A precise implementation of this semi-parametric method using the routines from <span class="citation" data-cites="Andresen2018">Andresen (<a href="#ref-Andresen2018" role="doc-biblioref">2018</a>)</span> is provided in the <code>mtefe</code> command along with the <code>semiparametric</code> option:</p>
-<div id="6864b2bf" class="cell" data-execution_count="35">
+<div id="fb43fc04" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>mtefe learnhr00 <span class="ot">`X'</span> <span class="co">///</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    (dschool = kmsmp INT_* <span class="ot">`X'</span>), <span class="co">///</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">link</span>(<span class="kw">logit</span>) <span class="co">///</span></span>
@@ -2704,7 +2704,7 @@ rescaled so that the treatment effect parameters weights sum to 1 within suppor
 <h2 class="anchored" data-anchor-id="policy-relevant-treatment-effects">Policy Relevant Treatment Effects</h2>
 <p>As discussed in the Book, given the availability of estimated marginal treatment effects, we can use these as building blocks to estimate a large number of quantities of interest. To see a rough idea of this we can consider what our ATEs, ATTs, ATUs as well as a PRTE under a specific alternative policy might look like. We will do this manually to have an idea of the mechanics, though note that more formal ways about how to do this with weighting are used in practice; see <span class="citation" data-cites="Andresen2018">Andresen (<a href="#ref-Andresen2018" role="doc-biblioref">2018</a>)</span> for a computational discussion. To gain a rough idea of how we can use these MTEs to calculate marginal PRTEs, we essentially can consider the effect of policies which shift certain individuals into treatment. To build intuition for this, consider two stylised policies applied to currently untreated individuals. The first targets those with low propensity scores (<span class="math inline">\(P \in [0.05, 0.20]\)</span>); i.e.&nbsp;individuals who are relatively willing to enrol (low propensity score, or low aversion to treatment) but currently not enrolled. These are the “easy shifters”: a modest policy change would be enough to tip them into treatment. The second targets individuals with high propensity scores among the untreated (<span class="math inline">\(P \in [0.55, 0.70]\)</span>) these are “harder shifters”, or more resistant individuals who would only enrol under a strong intervention.</p>
 <p>Based on the MTEs we have estimated above, we can consider what this would imply for the individuals in this setting. To illustrate this, we will use the MTEs we have previously calculated based on the parametric approach. If you refer above, you will remember that we generated a file called <code>mte_grid</code> with the marginal treatment effect for each binned propensity score from 0 to 1 in increments of 0.01. Below, we will merge these marginal treatment effects back into the original estimated propensity scores, allowing us to observe, for each individual (and hence propensity score), our estimate of their MTE. Of course, this will be a simple approximation as we are using a coarse grid of propensity scores.</p>
-<div id="26d7db4e" class="cell" data-execution_count="36">
+<div id="6f7a5d05" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">_at</span> = <span class="fu">round</span>(ps_manual*100)+1</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="kw">merge</span> <span class="fu">m</span>:1 <span class="kw">_at</span> <span class="kw">using</span> mte_grid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2720,7 +2720,7 @@ rescaled so that the treatment effect parameters weights sum to 1 within suppor
 </div>
 </div>
 <p>However, we can now consider the two movements of individuals into treatment we discussed above.</p>
-<div id="08f60bce" class="cell" data-execution_count="37">
+<div id="6d8fe2e0" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Consider movement of low treatment resistence</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> _margin <span class="kw">if</span> ps_manual&gt;=0.05 &amp; ps_manual&lt;0.2 &amp; dschool==0</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2739,7 +2739,7 @@ rescaled so that the treatment effect parameters weights sum to 1 within suppor
 </div>
 <p>We can see that in these two cases, the mean treatment effect is very different, with very high positive returns in the first case, and negative returns in the latter case. The contrast between these two quantities illustrates on of the central message of the MTE framework: the return to a policy depends not just on whether it shifts people into treatment, but on <em>who</em> it shifts. Given positive selection on gains such as those estimated here, policies reaching more willing individuals, i.e.&nbsp;those with low resistance, yield higher average returns than those requiring a more intensive intervention.</p>
 <p>However, less abstractly, we can consider specific policy interventions, and how they would map into treatment effects. The idea of a PRTE is to consider an alternative policy <span class="math inline">\(P(Z')\)</span>. In this case, imagine an alternative policy in which distances to schools (the instrument considered above) are reduced, presumably via some sort of school construction program. Using the ideas of PRTEs, we can ask what such a movement in terms of the instrument implies, and for which individuals will such a movement be sufficient to shift them into treatment. Concretely, imagine a policy which reduced distance to secondary schooling for each individual by 0.1km. Because the instrument enters the propensity score via the estimated logit, we can translate this distance reduction directly into a counterfactual propensity score <span class="math inline">\(P'(Z)\)</span> for each individual, and identify those untreated individuals whose counterfactual propensity score exceeds their original one. These are the compliers of the policy, and the PRTE is their average MTE. We do this below, re-estimating our original logit and “mapping” our new policy into a <span class="math inline">\(P(Z')\)</span>.</p>
-<div id="1b9cbb7d" class="cell" data-execution_count="38">
+<div id="c70e2d02" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Re-estimate logit from above</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="kw">logit</span> dschool kmsmp INT_* <span class="ot">`X'</span></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>

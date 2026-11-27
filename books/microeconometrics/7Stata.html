@@ -826,7 +826,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 (1-\beta)=\Phi\left(\frac{\tau}{\sqrt{\sigma^2\left[\frac{1+(N_{c0}-1)\rho}{N_{c0}c_{0}}+\frac{1+(N_{c1}-1)\rho}{N_{c1}c_{1}}\right]}}-\Phi^{-1}(1-\alpha/2)\right),
 \tag{1}\]</span></span> where <span class="math inline">\(N_{c0}\)</span> and <span class="math inline">\(N_{c1}\)</span> refer to the number of units per control and treated cluster respectively, <span class="math inline">\(c_0\)</span> and <span class="math inline">\(c_1\)</span> refer to the number of control and treated clusters, and <span class="math inline">\(\rho\)</span> refers to the intra-cluster correlation.</p>
 <p>Let’s confirm that this all makes sense, by conindering a specific row from the table above. Below we can confirm that based on their assumptions, the authors do indeed have 80% power to detect the reported MDE in row 1 (0.571). We do this below, seeing that indeed, the reported effect of 0.571 can be detected with the stated level of power.</p>
-<div id="2b8c8b3a" class="cell" data-execution_count="1">
+<div id="1037da6d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//Calculate standard error</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> s1=(1+(350-1)*0.109)/(32*350)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> s0=(1+(350-1)*0.109)/(33*350)</span>
@@ -845,14 +845,14 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 <p>It is also easy enough for us to see how we can arrive at this minimum detectable effect directly. In this case, rather than having an effect of interest <span class="math inline">\(\tau\)</span> in (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>) and wishing to find the power, we wish to find the minimum detectable effect is power is set to 0.8. It is easy enough to see that if we apply an inverse normal transformation to each side of (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>) and re-arrange, we can calculate our MDE (<span class="math inline">\(\tau\)</span>) as: <span class="math display">\[
 \tau = \left[\Phi^{-1}\left(1-\beta\right) + \Phi^{-1}\left(1-\alpha/2\right)\right]\times SE,
 \]</span> where SE is simply the standard error term in the denominator of (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>). We do this below, seeing how we can arrive to the value of 0.571 (approximately) below:</p>
-<div id="481015ff" class="cell" data-execution_count="2">
+<div id="3d076546" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dis (<span class="fu">invnormal</span>(0.8)+<span class="fu">invnormal</span>(0.975))*<span class="ot">`SE'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>.57014243</code></pre>
 </div>
 </div>
 <p>More generally, instead of working with a specific effect to achieve a desired power, we could generate power curves to plot the power to detect an effect if the true effect were indeed some specific value. This in essence maps the formula in (<a href="#eq-power" class="quarto-xref">Equation&nbsp;1</a>) to a series of effects <span class="math inline">\(\tau\)</span>, plotting the resulting power. Below we will generate and plot such a power curve. We do so for effects ranging from 0 to 0.7:</p>
-<div id="60c1de29" class="cell" data-execution_count="3">
+<div id="c05053ec" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 51</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> effect = (<span class="dt">_n</span>-1)/50</span>
@@ -877,7 +877,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 <p>Upon doing this, we see the standard features of a power curve with an ‘upside-down’ normal shape, and see that this reaches the commonly employed 80% power threshold at the value indicated above (0.571), approximately reaching 100% power at effect sizes of 1.</p>
 <p>Of course, the power in this setting depends upon a number of quantities, and not the true effect. We can see this by considering the power curve corresponding to each outcome laid out in Table <a href="#tbl-MDE" class="quarto-xref">Table&nbsp;1</a>. Below we loop through each of the outcomes from the table taking their assumed standard deviation (<code>SDs</code>) and intra-cluster correlation (<code>ICC</code>), calculating the resulting standard error, and then calculating the power curve at the values for <code>effect</code> defined above. Note that while much of this code probably feels standard with a <code>foreach</code> loop, in Stata to loop through two lists simultaneously we use the tokenize commands, which allows us to store elements in numerical positions (<code>1',</code>2’, and so forth), and the <code>macro shift</code> command in each loop, which moves the required ICC into a quantity called `1’ in each loop.</p>
-<div id="5dc0b934" class="cell" data-execution_count="4">
+<div id="a106b9db" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> SDs 2.456 2.372 0.499 0.500 0.881 0.542 0.570 0.659 0.524 0.660 0.581 2.613</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> ICC 0.109 0.103 0.016 0.015 0.021 0.035 0.005 0.049 0.015 0.019 0.014 0.033</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -895,7 +895,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now plot these power curves for each of the outcomes, where we of course see that the power to detect specific effects varies considerably by outcomes, as laid out in Table <a href="#tbl-MDE" class="quarto-xref">Table&nbsp;1</a>.</p>
-<div id="d195c877" class="cell" data-execution_count="5">
+<div id="f0575925" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>#delimit ;</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> connected power_y1  effect <span class="kw">if</span> effect&lt;0.6 </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>||     connected power_y2  effect <span class="kw">if</span> effect&lt;0.6 </span>
@@ -929,7 +929,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 </div>
 <p>The above assumes clustered randomisation. Of course if we were working with unit-level randomisation we could proceed similarly, but in this case our standard error calculation is far simpler, and we would be very likely be more powered given the larger effective sample size.</p>
-<div id="4e60cac0" class="cell" data-execution_count="6">
+<div id="90dd5d66" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> SEind = <span class="fu">sqrt</span>(2.456^2/22750)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> powerNoCluster = <span class="fu">normal</span>(effect/<span class="ot">`SEind'</span>-<span class="fu">invnormal</span>(0.975))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -947,7 +947,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 </div>
 <p>Finally note that if instead of asking what the MDE is for a given case we would rather determine the minimum required sample size to determine an effect, we can do so by applying (7.12) in the book. Let’s see this for a power of 0.8:</p>
-<div id="9c9960fb" class="cell" data-execution_count="7">
+<div id="79f69036" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dis 4*(<span class="fu">invnormal</span>(0.8)+<span class="fu">invnormal</span>(0.975))^2/(0.4^2/2.456^2)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dis 4*(<span class="fu">invnormal</span>(0.8)+<span class="fu">invnormal</span>(0.975))^2/(0.3^2/2.456^2)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dis 4*(<span class="fu">invnormal</span>(0.8)+<span class="fu">invnormal</span>(0.975))^2/(0.2^2/2.456^2)</span>
@@ -960,7 +960,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 </div>
 <p>Let’s confirm that if we use those sample sizes we do indeed see such minimum detectable effect sizes.</p>
-<div id="f56ba912" class="cell" data-execution_count="8">
+<div id="03b310a8" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> SE_04 = <span class="fu">sqrt</span>(2.456^2/1184)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> SE_03 = <span class="fu">sqrt</span>(2.456^2/2104)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> SE_02 = <span class="fu">sqrt</span>(2.456^2/4734)</span>
@@ -994,7 +994,7 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 <section id="code-call-out-7.2-bonferronni-holm-and-romano-wolf-procedures" class="level1">
 <h1>Code Call-out 7.2: Bonferronni, Holm and Romano-Wolf Procedures</h1>
 <p>We are interested in examining a number of corrections for multiple hypothesis tests which provide control of the family-wise error rate of tests. To do so, we will use data from <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span>. In their paper, they examine whether a group of individuals who receive an incentive to exercise are observed to have greater improvements in a number of markers of health compared with individuals who are not incentivised to go to the gym. Below we load the data from their “Experiment 2”, which has be most complete set of health and biometric measures, make a small number of changes to correct for a missing value, and remove a variable which we will regenerate ourselves below:</p>
-<div id="a3fafa9c" class="cell" data-execution_count="9">
+<div id="c66e7c30" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="kw">data</span>/Charness_Gneezy_2009, <span class="kw">clear</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">replace</span> bmi2 = . <span class="kw">if</span> bmi2==0</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">drop</span> bmi_diff</span>
@@ -1008,14 +1008,14 @@ Table&nbsp;1: Power and Minimum Detectable Effects with Clustering
 </div>
 <p>In the last step, we have dropped all observations flagged as having <code>one==1</code>. <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span> actually consider two treatments: one in which individuals are given one reminder and one in which they are given eight reminders, as well as a control condition. In the interests of simplicity here we consider only those treated more intensively with eight reminders (<code>eight==1</code>), though if we wished, we could reproduce the entire analysis below by comparing those treated with one reminder to the control condition.</p>
 <p>Here we will consider the tests documented in Table III of <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span> in which changes in biometric measures of treated individuals (<code>eight==1</code>) are compared with measures among untreated individuals (<code>eight==0</code>). Below we will define a local which contains each of the variables studied, and then we generate an outcome which captures the change in these measures over time for each individual. This is based on differences between the third measure taken (a follow-up wave), and a baseline measure.</p>
-<div id="69df22aa" class="cell" data-execution_count="10">
+<div id="1312c4b3" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> vars bodyfat pulse <span class="kw">weight</span> bmi waist sbp dbp</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="kw">var</span> <span class="kw">in</span> <span class="ot">`vars'</span> {</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">gen</span> <span class="ot">`var'</span>_diff = <span class="ot">`var'</span>1-<span class="ot">`var'</span>3</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will seek to calculate 4 p-values for each test. Specifically, we will calculate p-values not considering the fact that we are conducting multiple tests, and we will generate p-values correcting for multiple testing by applying the procedures of Bonferroni, Holm, and Romano and Wolf. We will start by simply generating an empty matrix which we will fill out with each procedure below:</p>
-<div id="17918223" class="cell" data-execution_count="11">
+<div id="18012d09" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> pvalues = <span class="fu">J</span>(7,4,.)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">colnames</span> pvalues = uncorrected Bonferroni Holm Romano-Wolf</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">list</span> pvalues</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1033,7 +1033,7 @@ r7            .            .            .            .</code></pre>
 </div>
 </div>
 <p>Let’s start by simply running the regression which essentially replicates the results of <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span>. Specifically, we will regress each differenced measure on treatment receipt, which, given random assignment, should allow us to calculate an ATT. In practice, <span class="citation" data-cites="CharnessGneezy2009">Charness and Gneezy (<a href="#ref-CharnessGneezy2009" role="doc-biblioref">2009</a>)</span> document these differences in a more extended manner in their Table III, but if we compare the below to this Table, we can see that estimated effects line up very well.</p>
-<div id="3fcb84aa" class="cell" data-execution_count="12">
+<div id="a8af8d6a" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="kw">var</span> <span class="kw">in</span> <span class="ot">`vars'</span> {</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">reg</span> <span class="ot">`var'</span>_diff eight, <span class="kw">robust</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1139,12 +1139,12 @@ Linear regression                               Number of obs     =         99
 </div>
 </div>
 <p>Because in certain multiple-hypothesis correction procedures below we will wish to work from the most to least significant hypothesis, below we we-order our variable list in terms of their statistical significance, ie in ordered from lowest p-value to highest.</p>
-<div id="c1a2a2e0" class="cell" data-execution_count="13">
+<div id="3dafe507" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> vars bodyfat pulse waist bmi <span class="kw">weight</span> sbp dbp</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">rownames</span> pvalues = <span class="ot">`vars'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, let’s actually start to examine p-values corresponding to each test. Below we will consider the most simple case where no correction is implemented at all. Below, we simply iterate through variables, running the regression with each outcome as a dependent variable, and saving the resulting p-value in the <code>pvalues</code> matrix. You may note that by setting a local <code>j</code> which we increase in each loop, we can loop through both the variables, as well as maintain a counter to save resulting p-values in the matrix of interest.</p>
-<div id="5af2e1e2" class="cell" data-execution_count="14">
+<div id="47407396" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> j = 1</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="kw">var</span> <span class="kw">in</span> <span class="ot">`vars'</span> {</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">qui</span> <span class="kw">reg</span> <span class="ot">`var'</span>_diff eight, <span class="kw">robust</span></span>
@@ -1177,7 +1177,7 @@ bodyfat    8.300e-06            .            .            .
 <section id="bonferronis-correction" class="level2">
 <h2 class="anchored" data-anchor-id="bonferronis-correction">Bonferroni’s correction</h2>
 <p>Let’s now implement the Bonferroni correction. As laid out in Section 7.3.2.1 of the book, this is a relatively simple procedure in which we simply multiply all p-values by the total number of tests (the logic of this is discussed in the chapter itself). We do this below, noting just one specific point of care, which is that we want to ensure that p-values are capped at 1, and so we use the <code>min()</code> function below.</p>
-<div id="60c9984f" class="cell" data-execution_count="15">
+<div id="3106f494" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> num <span class="kw">of</span> numlist 1(1)7 {</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">matrix</span> pvalues[<span class="ot">`num'</span>,2]=<span class="fu">min</span>(pvalues[<span class="ot">`num'</span>,1]*7,1)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> current = pvalues[<span class="ot">`num'</span>,2]</span>
@@ -1202,7 +1202,7 @@ bodyfat    8.300e-06     .0000581            .            .
 <h2 class="anchored" data-anchor-id="holms-correction">Holm’s correction</h2>
 <p>As we saw in the book, we can gain power while still maintaining the familywise error rate by following step-wise techniques. A first of these is Holm’s correction (see section 7.3.2). We implement this below, where the key point to note is that here instead of multiplying all p-values by 7, we mutliply the first (lowest) p-valuy by 7, then the second lowest by 6, and so on and so forth until the final p-value is simply returned as is.</p>
 <p>Perhaps the only important thing to note in this procedure is that now we must ensure that we enforce monotonicity. Monotonicity simply implies that if we have some original p-value ordering from lowest to highest, our resulting corrected p-values should still maintain this ordering. For this reason, if some variable with a higher uncorrected p-value returns a lower corrected p-value, we simply replace the corrected p-value with the value of the p-value observed in the preceding variable. This is implemented below on the lines following the comment <code>//enforce monotonocity</code>.</p>
-<div id="cb1f9a92" class="cell" data-execution_count="16">
+<div id="f9a0d7eb" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> prev = 0</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> num <span class="kw">of</span> numlist 1(1)7 {</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 8 refer to number of tests + 1, so this goes from 7, 6, ..., 1</span></span>
@@ -1240,7 +1240,7 @@ bodyfat    8.300e-06     .0000581     .0000581            .
 <h2 class="anchored" data-anchor-id="romano-wolf">Romano-Wolf</h2>
 <p>While Holm offers benefits over Bonferroni in terms of power, this is still based on the “worst-case scenario” that all test statistics are entirely independent. As laid out in Romano and Wolf, We can improve on this using bootstrap-based procedures which directly estimate the dependence among tests. A full description of this test and its logic can be found at the end of Section 7.3.2.1 of the book.</p>
 <p>Here we will implement this procedure “by hand”. To do so, we must estimate many bootstrap replicates of each model, and in each case save the resulting test-statistic of each test once the null hypothesis (in this case of a 0 effect) has been imposed. We will begin this procedure by setting up a new frame with a large number of observations to store the test statistic from each bootstrap replicate, and in this frame we will generate a variable to store the statistic corresponding to each variable:</p>
-<div id="081763a5" class="cell" data-execution_count="17">
+<div id="13e8812d" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> B=5000</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>frame create bstraps</span>
@@ -1259,7 +1259,7 @@ bodyfat    8.300e-06     .0000581     .0000581            .
 </div>
 </div>
 <p>Now, before we actually go about implementing the bootstrap procedure, we will just re-estimate each of our true regressions, saving the estimated point estimate and t-statistic for use below.</p>
-<div id="ab66b1d9" class="cell" data-execution_count="18">
+<div id="1904071c" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="kw">var</span> <span class="kw">in</span> <span class="ot">`vars'</span> {</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">qui</span> <span class="kw">reg</span> <span class="ot">`var'</span>_diff eight, <span class="kw">robust</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> beta_<span class="ot">`var'</span> = _b[eight]</span>
@@ -1270,7 +1270,7 @@ bodyfat    8.300e-06     .0000581     .0000581            .
 t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 \]</span> where <span class="math inline">\(\widehat\tau^{*b}\)</span> and <span class="math inline">\(\widehat\sigma^{*b}\)</span> refer to the bootstrap estimate and standard error respectively, and <span class="math inline">\(\widehat\tau\)</span> the original estimate. The idea of this is that on average this quantity will be centred around 0 across all bootstraps, but it will correctly capture the variation inherent in our data.</p>
 <p>We do this below, iterating through each our B boostrap replicates, and within each replicate, estimate each of our outcomes and the resulting set of t-statistics. We take the absolute value of these as below we will be interested in considering whether our original t-statistic is extreme (either high or low) compared to our bootstrap t-statistics, and this can easily be done by just taking absolute values of each, and comparing the absolute values. We then store each t-statistic in our data frame called <code>bstraps</code> which we will return to use below.</p>
-<div id="e83bc47e" class="cell" data-execution_count="19">
+<div id="ce3469f4" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">forvalues</span> b=1/<span class="ot">`B'</span> {</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">quietly</span> {</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Save original data, and then take a bootstrap resample</span></span>
@@ -1288,7 +1288,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To see what we have done so far, let’s change into the frame where we have our bootstrap replicates, and examine the distribution of these for one variable:</p>
-<div id="ff634097" class="cell" data-execution_count="20">
+<div id="44eedbe3" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cwf bstraps</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">hist</span> bodyfat, <span class="bn">xtitle</span>(<span class="st">"Bootstrap null |t-statistic|"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1305,7 +1305,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 </div>
 <p>Here we see that this is effectively a <a href="https://en.wikipedia.org/wiki/Half-normal_distribution">half normal</a> distribution, as we would expect given that we have centred this around 0 and standardised. This in essence provides us a null distribution for a single test: if we observe that our true t-value is extreme when compared to this null distribution, we can view this as strong evidence against a null of a zero effect.</p>
 <p>However, in Romano-Wolf, what we want is not to consider the single test, but to correct for multiple testing. And here we follow a step-wise procedure in which for our most significant variable, we compare our test-statistic with the maximum t-value <em>across all hypotheses tested</em>, for our second most significant, consider only the next 6 variables, and so on and so forth. We will generate these comparison distributions for each test below:</p>
-<div id="620605a7" class="cell" data-execution_count="21">
+<div id="17a14478" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">egen</span> null_bodyfat = <span class="fu">rowmax</span>(bodyfat pulse waist bmi <span class="kw">weight</span> sbp dbp)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">egen</span> null_pulse   = <span class="fu">rowmax</span>(pulse waist bmi <span class="kw">weight</span> sbp dbp)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">egen</span> null_waist   = <span class="fu">rowmax</span>(waist bmi <span class="kw">weight</span> sbp dbp)</span>
@@ -1315,7 +1315,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> null_dbp      = dbp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This very much follows the logic of Holm, and indeed, if each variable is entirely independent, this will essentially revert to the same logic as Holm’s correction. <em>However</em>, if the variables are not independent among themselves, our null distributions here will account for this dependence, and generally offer a less demanding null distribution (and more powerful test). We can see how our null distributions get progressively less demanding as the p-value of the original test rises by plotting these null distributions below:</p>
-<div id="761f0171" class="cell" data-execution_count="22">
+<div id="7a373576" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>#delimit ;</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">kdensity</span> null_bodyfat</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>   ||  <span class="kw">kdensity</span> null_pulse </span>
@@ -1337,7 +1337,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 </div>
 </div>
 <p>Now, finally, let’s just calculate our Romano-Wolf p-values. Here–and as laid out in the book–we simply wish to compare our original t-values with those in the null distribution in each case. If our original t-values are extreme compared to the null distribution, this results in a low p-value (and strong evidence against the null), while if our original t-values appear likely to occur when the null is true, we will have little evidence to reject the null. We calculate our p-values below, where as above, we enforce monotonocity to avoid unordered p-values in final tests:</p>
-<div id="5ab80b64" class="cell" data-execution_count="23">
+<div id="80e88d68" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> prev = 0</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> j = 1</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">foreach</span> <span class="kw">var</span> <span class="kw">in</span> <span class="ot">`vars'</span> {</span>
@@ -1364,7 +1364,7 @@ t = \frac{\widehat\tau^{*b}-\widehat\tau}{\widehat\sigma^{*b}},
 </div>
 </div>
 <p>Now finally, we can inspect these p-values:</p>
-<div id="09ed5bfd" class="cell" data-execution_count="24">
+<div id="85b71ee4" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">matlist</span> pvalues, border(<span class="bn">rows</span>) rowtitle(variables) left(2) <span class="kw">format</span>(%06.5f) <span class="bn">title</span>(<span class="st">"Original and FWER corrected p-values"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1385,7 +1385,7 @@ Original and FWER corrected p-values
 </div>
 <p>Here we see that as expected, Romano-Wolf p-values are lower, and at times substantially lower, to the values from Holm. We also see that for the final test, these p-values are the same (subject to some minor bootstrap variance), as the uncorrected p-values. In general, we see here the benefits in terms of power which we may expect in this case.</p>
 <p>Finally note, that while it is very useful to see that we can calculate such p-values by hand, there are also libraries available which implement these automatically. Below we use the <code>rwolf2</code> library which automates the procedure we have conducted above, returning to us the Romano-Wolf p-values, along with Holm and uncorrected p-values and the null distributions generated to calculate Romano-Wolf p-values. These values are essentially identical (subject to bootstrap variation) to what we calculated by hand ourselves.</p>
-<div id="58a99f98" class="cell" data-execution_count="25">
+<div id="77bf6e50" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>cwf <span class="kw">default</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>rwolf2 (<span class="kw">reg</span> bodyfat_diff eight, <span class="fu">r</span>) <span class="co">///</span></span>
@@ -1452,7 +1452,7 @@ dbp_diff        |
 y_i^k=\alpha + \tau^k Treat_i + \varepsilon_i^k \forall k\in\{1,\ldots,K\}.
 \]</span> Here we use the super-index <span class="math inline">\(k\)</span> to indicate that these are different outcome variables (in particular <span class="math inline">\(K\)</span> different outcome variables), and these are regressed on a single treatment value. Let’s conduct some simulations where the true treatment effect for each of these models <span class="math inline">\(\tau^k\)</span> is indeed 0. Let’s also simulate a treatment variable for 100 observations such that half of the population is randomly assigned treatment, and the other half is not assigned treatment. We will simulate each <span class="math inline">\(\varepsilon_i\sim\mathcal{N}(0,1)\)</span>. Then, let’s estimate the effect <span class="math inline">\(\tau^k\)</span> in each case, and see if we reject the (true) null hypothesis that <span class="math inline">\(\tau^k=0\)</span>.</p>
 <p>We can do this quite simply below, where we first set 100 observations and then generate a single treatment variable as <code>treat</code>. We will then simulate for <span class="math inline">\(K=10\)</span> outcomes where the treatment effect is indeed 0, and run the regression of each outcome on treatment one at a time:</p>
-<div id="b419963a" class="cell" data-execution_count="26">
+<div id="5b9a2c0c" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 121316</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">// Consider K=10 depdendent variables</span></span>
@@ -1480,7 +1480,7 @@ p-value of test 10 is: .71651237</code></pre>
 </div>
 <p>In this particular example, we can see that of these 10 simulated outcomes where the treatment has no effect on each outcome <span class="math inline">\(y^k\)</span>, we correctly fail to reject the null hypothesis that the effect is 0 based on the 10 p-values resulting from the regression above if a critical value of <span class="math inline">\(\alpha=0.05\)</span> is used. Of course, this is entirely dependent upon the particular simulation which we define with the random seed using in <code>set seed</code>. For this reason, to see the concerns about multiple testing more generally, we will repeat this process 5000 times, observing in each of the 5000 cases whether we (falsely) reject at least one hypothesis within our <span class="math inline">\(K\)</span> hypotheses, or falsely reject at least two hypotheses within our <span class="math inline">\(K\)</span> tests.</p>
 <p>We do this below, where we have essentially replicated the above block of code, but we now repeat the test <span class="math inline">\(S=5000\)</span> times and in each case we determine whether any hypotheses are rejected, saving these in a series of local variables. Finally, we can calculate the quantity of rejected hypotheses of the null of a zero effect (which, from our DGP, we know to be true), as well as the proportion of times we reject at least 1 null hypothesis and at least 2 null hypotheses within our class of <span class="math inline">\(K\)</span> tests.</p>
-<div id="9a71dc25" class="cell" data-execution_count="27">
+<div id="b9a41f36" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 1213</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1529,7 +1529,7 @@ Proprtion 2 or more rejections: 0.097</code></pre>
 </div>
 <p>In this case, we see that (as expected), while only 5% of all hypotheses are rejected (or, to be exact, 5.3%), when we consider the number of times that at least 1 hypothesis is rejected, this is much higher, at 41.8%. What’s more, if we consider cases with at least 2 rejections, we see that this is also far higher that 5%, at around 9.4%.</p>
 <p>Of course, the degree to which such overrejections occurs will depende upon the number of false null hypotheses considered. Below we can see this where we simply replicate the above analysis, however here instead of doing this just for <span class="math inline">\(K=10\)</span> variables, we do it for a range of values. This simply adds an outer loop around the procedure above, considering <span class="math inline">\(K=1, 2, \ldots, 20\)</span> variables within a family of tests, where in each case there is no effect of treatment on any of the variables considered.</p>
-<div id="ede44919" class="cell" data-execution_count="28">
+<div id="8586ea60" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 1213</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1576,7 +1576,7 @@ Proprtion 2 or more rejections: 0.097</code></pre>
 </div>
 </div>
 <p>Finally, to view the output, we can simply plot the rate of rejections of all hypotheses considered by the number of hypotheses tested, as well as the proportion of times that at least 1 hypothesis is rejected. We do this in the graph below:</p>
-<div id="a25207cd" class="cell" data-execution_count="29">
+<div id="ae743747" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> connected propreject numvars <span class="co">///</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  ||   connected prejectAny numvars, <span class="co">///</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="bn">ytitle</span>(<span class="st">"Proportion rejected hypotheses"</span>) <span class="co">///</span></span>
@@ -1608,7 +1608,7 @@ Proprtion 2 or more rejections: 0.097</code></pre>
 y_i^k = \tau^k Treat_i + \varepsilon^k_i
 \]</span></p>
 <p>Below we will set up such a simulation based on 1,000 observations. In this simulation we will consider <span class="math inline">\(K=10\)</span> strongly correlated variables (setting <span class="math inline">\(\rho=0.9\)</span>), and additionally simulate one variable which is entirely uncorrelated with other variables. For 9 of the 10 uncorrelated variables we will set <span class="math inline">\(\tau^{k}=0\)</span>, while for the tenth variable, as well as the uncorrelated variable, we will set <span class="math inline">\(\tau=0.5\)</span>:</p>
-<div id="313396e5" class="cell" data-execution_count="30">
+<div id="b773cfd9" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 1213</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 1000</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> <span class="fu">r</span> = 0.9</span>
@@ -1639,7 +1639,7 @@ y_i^k = \tau^k Treat_i + \varepsilon^k_i
 </div>
 </div>
 <p>Now with these variables in hand, let’s consider three of the potential indexes discussed in the book. These are Anderson’s index which overweights variables which bring independent variation, a principal-components based index, and a simple summary index. We generate these below, in the case of <span class="citation" data-cites="Anderson2008">Anderson (<a href="#ref-Anderson2008" role="doc-biblioref">2008</a>)</span> using the user-written <code>swindex</code> command. Finally, we examine whether we detect any effect of treatment on each of the aggregate indexes using a simple OLS regression.</p>
-<div id="7c149933" class="cell" data-execution_count="31">
+<div id="3dbfc3bf" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate Anderson's Index</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> control = Treat==0</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>swindex y1 y2 y3 y4 y5 y6 y7 y8 y9 y10, normby(control) <span class="kw">generate</span>(AndersonIndex)</span>
@@ -1786,7 +1786,7 @@ Linear regression                               Number of obs     =      1,000
 </div>
 </div>
 <p>In this case, where there is a single true effect, we observe that if we consult the summary index or the principal components index we find some evidence of significant effect of treatment on aggregate outcomes. On the other hand, if we consult the Anderson index we observe very little evidence of a significant effect. However, below we consider precisely the same setting, but now instead of examining an index based on the 10 correlated variables (with one true effect), we consider 9 correlated variables (with no effects), and 1 uncorrelated variable with a true effect.</p>
-<div id="f516a899" class="cell" data-execution_count="32">
+<div id="444fbbb3" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate Anderson's Index</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>swindex y1 y2 y3 y4 y5 y6 y7 y8 y9 y11, normby(control) <span class="kw">generate</span>(AndersonIndex2)</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1933,7 +1933,7 @@ AndersonIn~2 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval
 </div>
 <p>In this case we see that our conclusion is very different. Now the Anderson index strongly suggests some statistically significant treatment effect, while the principal components based index suggests little evidence of a statistically significant effect. Of course this should not surprise us if we consider what the indexes do “under the hood”: Anderson’s index overweights variables which bring independent variation, while principal components seeks to pick up underlying signals, and hence will downweight variables if they are quite unrelated to others within the class.</p>
 <p>To see that this is not a statisical curio with this specific simulation, below we can generalise this, running <span class="math inline">\(S=500\)</span> simulations. In each simulation we will consider these three types of indexes: the Anderson index, principal components, and a summary index. We will also consider 4 specific cases. A first case where there are no significant treatment effects for any of the variables, a second case where there is one significant treatment effect from a correlated variable, a third case where there is one significant treatment effect from an <em>uncorrelated</em> variable, and a fourth case where there is a significant treatment effect on all of the 10 variables considered. We will then examine the distribution of t-statistics from each of the simulations and each of the index types. We set up these simulations below:</p>
-<div id="2536b587" class="cell" data-execution_count="33">
+<div id="d3683c79" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> S = 500</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> <span class="ot">`S'</span></span>
@@ -2034,7 +2034,7 @@ AndersonIn~2 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval
 </div>
 </div>
 <p>This results in a series of variables which contain the t-statistics of resulting tests, and we can plot these to see how each index performs. We do this below, starting with the Anderson Index:</p>
-<div id="831b5509" class="cell" data-execution_count="35">
+<div id="b387b0a8" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Set standard graphing options</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> hopts <span class="bn">xtitle</span>(<span class="st">"{it:t}-statistic"</span>) <span class="kw">ylabel</span>(, <span class="kw">format</span>(%3.1f)) </span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> fopts <span class="kw">range</span>(-3 3) lcolor(<span class="kw">red</span>) lpattern(solid) <span class="bn">legend</span>(<span class="kw">off</span>) <span class="kw">xlabel</span>(-3(1)11) </span>
@@ -2099,7 +2099,7 @@ Figure&nbsp;1: Anderson’s Index: Distribution of t-statistics by outcomes cons
 </div>
 <p>In this case we see that – as we may hope – the distribution of t-statistics we observe in panel (a), based on pure null effects, lines up nearly perfectly with a normal distribution centred around 0 (ie consistent with zero effects). This is clearly different in panel (b) where all non-zero effects are considered, with t-statistics based on an Anderson Index all suggestive of non-zero effects. Panel (c), based on a single true effect which is highly correlated with all zero effects suggests relatively little evidence to reject null hypotheses of zero effects. However, panel (d), which is based on the same structure as panel (c) but now with an <em>un</em>correlated effect shows clear evidence against the null of zero effects.</p>
 <p>Below we compare this to the case where we consider a principal components analysis. We build identical graphs based on principal components instead of the Anderson Index:</p>
-<div id="5f8ce631" class="cell" data-execution_count="36">
+<div id="173a36cc" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate graphs for principal components</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">hist</span> PCA_t, <span class="ot">`hopts'</span> <span class="co">///</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>|| <span class="kw">function</span> <span class="fu">y</span>=<span class="fu">normalden</span>(x), <span class="ot">`fopts'</span></span>
@@ -2160,7 +2160,7 @@ Figure&nbsp;2: Principal Component Index: Distribution of t-statistics by outcom
 </div>
 <p>Now we see quite different patterns in panel (c) and (d). While panels (a) and (b) are virtually identical, in cases where only certain effects are observed, our conclusions appear to be quite different. While there is <em>some</em> evidence that t-statistics are slightly shifted in the case of a single correlated effect, we see no evidence at all to reject the null where our single effect is independent of other variables, as documented in panel (d).</p>
 <p>If we consider the simply summary index we observe a case between the Anderson Index and the Principal Components index. In this case the t-statistics in both panels (c) and (d) appear to be slightly shifted, though this is not as extreme as the cases above which (respectively) mechanically give more weight to the uncorrelated non-zero effect and correlated non-zero effect.</p>
-<div id="e5d6b3da" class="cell" data-execution_count="37">
+<div id="4e7e1df5" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate graphs for summary index</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">hist</span> SumA_t, <span class="ot">`hopts'</span> <span class="co">///</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>|| <span class="kw">function</span> <span class="fu">y</span>=<span class="fu">normalden</span>(x), <span class="ot">`fopts'</span></span>

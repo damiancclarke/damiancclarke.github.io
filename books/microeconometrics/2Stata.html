@@ -639,7 +639,7 @@ window.Quarto = {
 <section id="equivalence-between-regression-and-comparison-of-means" class="level2">
 <h2 class="anchored" data-anchor-id="equivalence-between-regression-and-comparison-of-means">Equivalence between regression and comparison of means</h2>
 <p>To understand the equivalence between regression analysis and the comparison of means in a binary regression set-up, we will first open the data from <span class="citation" data-cites="Barietal2024">Bari et al. (<a href="#ref-Barietal2024" role="doc-biblioref">2024</a>)</span> and run a basic regression such as that documented in Table 4 of their paper:</p>
-<div id="ad4cb9fc" class="cell" data-execution_count="1">
+<div id="869fe2f1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">more</span> <span class="kw">off</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"data/Bari_et_al_2024.dta"</span>, <span class="kw">clear</span></span>
@@ -668,7 +668,7 @@ Linear regression                               Number of obs     =        739
 </div>
 <p>Here <code>biz_ta</code> is an outcome measuring total business assets, and this is measured at wave 1 (ie the wave in data immediately after treatment was first provided).</p>
 <p>To confirm that this is–by definition–simply equivalent to a difference in means we can consider the quantities which would be observed if we substituted <span class="math inline">\(A=1\)</span> and <span class="math inline">\(A=0\)</span> into the above equation. In this case we can see that the regression consists of a constant term: <span class="math inline">\(E[Y_i|Treat_i=0]\)</span>, and a second term which capture the difference between units receiving treatment and those not receiving treatment: <span class="math inline">\(E[Y_i|Treat_i=1]-E[Y_i|Treat_i=0]\)</span>. This latter is just the treatment effect of interest. Below we confirm that the coefficient on <span class="math inline">\(A\)</span> above is equivalent to the difference in means.</p>
-<div id="8d0aab55" class="cell" data-execution_count="2">
+<div id="a3659cf3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Calculate mean for the treatment group</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">summarize</span> biz_ta <span class="kw">if</span> A==1 &amp; wave==1</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scalar</span> mean_treatment = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
@@ -704,7 +704,7 @@ The coefficient from the regression should be equal to the difference in means
 <section id="heterogeneity-by-a-baseline-covariate-x" class="level2">
 <h2 class="anchored" data-anchor-id="heterogeneity-by-a-baseline-covariate-x">Heterogeneity by a baseline covariate <span class="math inline">\(X\)</span></h2>
 <p>Let’s now consider the incorporation of a covariate into this regression and confirm that we can also quite simply break down (linear) heterogeneity, as discussed in (2.10) of the book. Here we will consider a variable which measures the management capacity of the small businesses in the sample. We will consider this management capacity at baseline, which below we generate, standardise so that it is mean zero, and then interact with treatment:</p>
-<div id="aff48e92" class="cell" data-execution_count="3">
+<div id="592c83a0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">//Generate baseline value</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> temp = mpall <span class="kw">if</span> wave==0</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">bys</span> id: <span class="kw">egen</span> <span class="kw">manage</span> = <span class="kw">mean</span>(temp)</span>
@@ -725,7 +725,7 @@ The coefficient from the regression should be equal to the difference in means
 </div>
 </div>
 <p>We can now consider whether there are differential treatment effects by a firm’s management capacity. To do so, we estimate the interacted regression below which allows for (a) a differential intercept for treated and untreated groups by the inclusion of the treatment dummy and a constant, and (b) a differential slope by management capacity, by including both a control for management capacity, as well as an interaction with treatment:</p>
-<div id="59a20113" class="cell" data-execution_count="4">
+<div id="3ac1326a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> biz_ta A Amanage <span class="kw">manage</span> <span class="kw">if</span> wave==1, <span class="kw">robust</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -747,7 +747,7 @@ Linear regression                               Number of obs     =        739
 </div>
 </div>
 <p>Above we eastimate this regression, and observe that while in general business with higher management capacity at baseline have much higher business assets, there is not (at least in wave 1) a statistically significantly different return to management among treated and untreated individuals. There is, however, a quite large negative effect on the interaction, weakly suggestive of smaller treatment effects among firms with higher management capacity. We can visualise this as in Figure 2.1 of the book. There are many ways we can do this, and you may wish to explore alternative ways of setting this up by considering marginal effects, or by confirming that the four quantities estimated in the regression above correspond to the two intercepts and two slopes of the lines plotted below which can be similarly plotted “by hand” based on these values. However, below we can see that it is sufficient to plot the predicted effect among treated and control units across the range of the <code>manage</code> variable. We do this in the code block below, first generating this predicted effect from the regression, and then plotting resulting curves for treated and control units.</p>
-<div id="793e0ac2" class="cell" data-execution_count="5">
+<div id="6fff5f2f" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">predict</span> yhat <span class="kw">if</span> <span class="fu">e</span>(<span class="kw">sample</span>)==1, <span class="kw">xb</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> yhat <span class="kw">manage</span> <span class="kw">if</span> A==1, lcolor(<span class="kw">red</span>) lwidth(thick) <span class="co">///</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    || <span class="kw">line</span> yhat <span class="kw">manage</span> <span class="kw">if</span> A==0, lcolor(<span class="bn">blue</span>) lwidth(thick) lpattern(<span class="kw">dash</span>) <span class="co">///</span></span>
@@ -990,7 +990,7 @@ Linear regression                               Number of obs     =        739
 </tbody>
 </table>
 <p>While this is so simple that we can set it up by hand, it is also useful to see how we can compute this in Stata. First, we will load our “data”:</p>
-<div id="fb9bc772" class="cell" data-execution_count="6">
+<div id="b9eb2f6d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>input Y W</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>34 1</span>
@@ -1005,7 +1005,7 @@ Linear regression                               Number of obs     =        739
 </div>
 </div>
 <p>and then calculate a comparison of means estimator of the ATT:</p>
-<div id="ee341bba" class="cell" data-execution_count="7">
+<div id="48b174b9" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> Y <span class="kw">if</span> W == 1</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> mean_Y1 = <span class="fu">r</span>(<span class="kw">mean</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">sum</span> Y <span class="kw">if</span> W == 0</span>
@@ -1027,7 +1027,7 @@ Treatment effect is:11.333333</code></pre>
 </div>
 </div>
 <p>Now let’s generate our p-value by permuting all possible treatment combinations. While there are many ways we could consider doing this, one is to note that we could start our permutation by assigning units 1, 2 and 3 to treatment and the last three units to control, and subsequently increase the units assigned to treatment until we are assigning units 4, 5 and 6 to treatment, and the remaining units to control. Below we begin by preparing a new frame of data in which to store our resulting treatment effects:</p>
-<div id="b46706bc" class="cell" data-execution_count="8">
+<div id="c7faacca" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>frame create permutations</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cwf permutations</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 20</span>
@@ -1040,7 +1040,7 @@ Treatment effect is:11.333333</code></pre>
 </div>
 </div>
 <p>This is simply a frame containing 20 lines where <code>permutation</code> increases from 1 to 20, with an empty variable <code>effect</code> that we can fill in with our effects. Now, let’s begin permuting our effect, where we will generate a variable <code>Wperm</code> which is our new treated unit. The below code will iterate through the three possible units receiving treatment (<code>t1</code>, <code>t2</code> and <code>t3</code>), starting from units 1, 2 and 3, and going until these reach units 3, 4 and 5 respectively. It is worth reading through this code carefully given that this is done “manually”, but in each loop we will print out the units receiving treatment so that we can convince ourselves that we are indeed seeing the 20 treatment combinations mentioned in the table above.</p>
-<div id="7c22dcba" class="cell" data-execution_count="9">
+<div id="de0a8acd" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> Wperm = .</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> t1 = 1</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> t2 = 2</span>
@@ -1099,7 +1099,7 @@ Treated units are 4, 5, 6</code></pre>
 </div>
 </div>
 <p>In the code above, within each loop we have estimated our permuted treatment effect, and placed it in the permutations frame. We can now open up this frame, and compare these permutation-based effects to the original effect (which is the first effect stored in our data), and calculate the one-sided and two-sided p-values. We do this below.</p>
-<div id="103ece4f" class="cell" data-execution_count="10">
+<div id="4cb7f2ee" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Change to permutations frame</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>cwf permutations</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span></span>
@@ -1166,7 +1166,7 @@ Two sided p-value: .1
 <h2 class="anchored" data-anchor-id="a-real-example">A Real Example</h2>
 <p>It turns out, that to translate this to a case with real data, we do not need to add many additional elements. In this section, we work with data from a randomized control trial that examines asset transfers to poor households in India, as discussed in the paper by <span class="citation" data-cites="Banerjeeetal2021">Banerjee, Duflo, and Sharma (<a href="#ref-Banerjeeetal2021" role="doc-biblioref">2021</a>)</span>. Here we will consider the impact of receipt of asset transfers on two outcomes: a financial index <code>ind_fin_el1</code> and an asset index <code>asset_ind_tot_el1</code>.</p>
 <p>Before we explore randomisation inference, let’s open these data and estimate a simple regression, considering the effect of treatment receipt on the asset index:</p>
-<div id="8c627895" class="cell" data-execution_count="11">
+<div id="208ca554" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>import delimited <span class="st">"data/Banerjee_et_al_2021.csv"</span>, <span class="kw">clear</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">regress</span> asset_ind_tot_el1 treatment, <span class="kw">robust</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> assetEffect = _b[treatment]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1191,7 +1191,7 @@ asset_ind_~1 | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval
 </div>
 <p>From the summary we can note that <span class="math inline">\(\widehat{\tau}_{ATE} = 0.408\)</span> and its standard error equals 0.118. This suggests a p-value of around 0.0005. We have saved the original estimated effect in a local (<code>assetEffect</code>) which we will use below.</p>
 <p>We can similarly consider the financial index:</p>
-<div id="fa28bf00" class="cell" data-execution_count="12">
+<div id="b8dbcfcd" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">regress</span> ind_fin_el1 treatment, <span class="kw">robust</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> finEffect = _b[treatment]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1213,7 +1213,7 @@ Linear regression                               Number of obs     =        815
 </div>
 <p>where we observe a point estimate quite close to zero, and p-value of 0.817.</p>
 <p>Let’s now consider how we conduct permutation inference in this particular case where there are too many permutations of treatment to feasibly consider them all. Here, rather than considering all possible permutations, we will consider randomly assigned permutations of treatment which respect the original treatment assignment structure. Namely, if we inspect these data, we can see that there are 991 units, 525 of whom receive treatment. We can thus conduct a single permutation by randomly re-assigning treatment to 525 units, and control to the remaining units. We do this below, estimating the corresponding effect.</p>
-<div id="f47d1c52" class="cell" data-execution_count="13">
+<div id="b7515185" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">tab</span> treatment</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 121316</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> epsilon = rnormal()</span>
@@ -1252,7 +1252,7 @@ asset_ind_~1 | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval
 </div>
 <p>Here we see that, perhaps unsurprisingly, our randomly assigned treatment results in a small estimated “effect”, of 0.082, which is substantially smaller than the original treatment effect itself.</p>
 <p>To estimate a permutation-based p-value all we need to do is repeat this procedure a large number of times (below 10,000 times), and count the proportion of permuted effects which are <em>larger</em> than our estimated treatment effect. We set this up below, using the <code>++</code> notation to increase our local <code>pval</code> by one any time the condition on line 12 is met:</p>
-<div id="b887e5a2" class="cell" data-execution_count="14">
+<div id="800b3a74" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> Npermut = 10000</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> pval = 0</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">forvalues</span> i=1/<span class="ot">`Npermut'</span> {</span>
@@ -1276,7 +1276,7 @@ asset_ind_~1 | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval
 </div>
 <p>Here we see that among all of our 10,000 placebos, only 8 effects were larger than the effect we actually observed in our data, suggesting a p-value of 8/10000, or 0.0008.</p>
 <p>We can generalise this idea below (for this specific data set-up), and below we do this defining a program which we call <code>randomisation_inference</code>. This program takes a single argument, which is the outcome we wish to consider, and packages the procedure we have explored above, finally printing the p-value and a number of other pieces of information. While we could further optimise this program, for example to automatically infer how to permute the treatment assignment and to return resulting p-values to users, the below is sufficient for our interests here of estimating a randomisation-based p-value.</p>
-<div id="af6554b2" class="cell" data-execution_count="15">
+<div id="d31e6e1a" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">program</span> randomisation_inference</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">args</span> varname</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">qui</span>: <span class="kw">reg</span> <span class="ot">`varname'</span> treatment</span>
@@ -1309,7 +1309,7 @@ asset_ind_~1 | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval
 </div>
 </div>
 <p>Finally, we can run this program, simply passing as an argument the two variables we have examined above. We do this below:</p>
-<div id="a31d09cb" class="cell" data-execution_count="16">
+<div id="bf10c2a1" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>randomisation_inference ind_fin_el1</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>randomisation_inference asset_ind_tot_el1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1323,7 +1323,7 @@ The observed effect of asset_ind_tot_el1 is .40775282 and its p-value is .0004</
 <section id="code-call-out-2.3-bootstrap" class="level1">
 <h1>Code Call-out 2.3: Bootstrap</h1>
 <p>For an introduction to the bootstrap, refer to Section 2.4.4 of the book. Here we will examine a computational implementation of a bootstrap standard error and confidence intervals, using data from <span class="citation" data-cites="Chongetal2016">Chong et al. (<a href="#ref-Chongetal2016" role="doc-biblioref">2016</a>)</span>. First we will consider the main regression <span class="math display">\[Y_i = \mu + \tau_{ATE}W_i + \varepsilon_i.\]</span> Here we will work with the data <code>Chong_et_al_2016</code>, and examine the total cognitive score (<code>wii_total</code>) as our outcome measure <span class="math inline">\(Y_i\)</span>. We can load the data and examine selected variables on the first few lines of this dataset, before estimating the treatment effect via regression below.</p>
-<div id="03b0ae9d" class="cell" data-execution_count="17">
+<div id="1e97a52b" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="st">"data/Chong_et_al_2016.dta"</span>, <span class="kw">clear</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="ot">list</span> student_id hhid treat <span class="kw">in</span> 1/5</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1358,7 +1358,7 @@ The observed effect of asset_ind_tot_el1 is .40775282 and its p-value is .0004</
 </div>
 </div>
 <p>From the summary we can note that <span class="math inline">\(\widehat{\tau}_{ATE} = 57.46\)</span> and its standard error equals 25.26. This suggests a p-value of 0.024, and 95% confidence intervals of [7.66;107.267]. In this case the standard errors are computed via the standard OLS variance estimator, assuming homoscedastic errors, although heteroscedasticity-robust standard errors can be requested quite simply using the <code>robust</code> option from the command <code>regress</code> This is shown below, resulting in slight variations to the reported standard error (and correspondingly, p-value and resulting confidence intervals).</p>
-<div id="2416e830" class="cell" data-execution_count="18">
+<div id="86a58f80" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> wii_total treat, <span class="kw">robust</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1378,7 +1378,7 @@ Linear regression                               Number of obs     =        208
 </div>
 </div>
 <p>An alternative to these closed-form methods for variance estimation is to use bootstrap resampling methods. There are multiple ways a bootstrap can be implemented, but the simplest here will be to simply conduct a paired bootstrap, which is also robust to heteroscedasticity. The pairs bootstrap consists of, first, sampling with replacement the ordered pairs <span class="math inline">\(\left\{(y_i,w_i)\right\}_{i=1}^{N} = \left\{(y_1,w_1),\ldots,(y_N,w_N)\right\}\)</span> from original data, obtaining a “new” dataset of <span class="math inline">\(N\)</span> resampled pairs <span class="math inline">\(\left\{(y_i^*,w_i^*)\right\}_{i=1}^{N} = \left\{(y_1^*,w_1^*),\ldots,(y_N^*,w_N^*)\right\}\)</span>. The new dataset thus simply consists of (potentially repeated) randomly selected rows of the original data. Let’s see what this looks like with a single bootstrap replicate. First, we will generate this new dataset, having a look at the first 5 rows of selected variables in the new dataset.</p>
-<div id="7d5ec8b3" class="cell" data-execution_count="19">
+<div id="34551777" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">preserve</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 121316</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">bsample</span></span>
@@ -1404,7 +1404,7 @@ Linear regression                               Number of obs     =        208
 </div>
 </div>
 <p>With this bootstrap sample we estimate again the coefficient of interest with standard OLS procedure:</p>
-<div id="5e0c5dc6" class="cell" data-execution_count="20">
+<div id="ee2fc133" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">reg</span> wii_total treat</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">restore</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1430,7 +1430,7 @@ Linear regression                               Number of obs     =        208
 </div>
 </div>
 <p>With this sample, we have obtained an estimate of <span class="math inline">\(\widehat{\tau}_{ATE}^* =23.41\)</span>; a different value to the original value, in line with variation in the sample used for estimation. If we want some idea of how much estimates vary as the sample changes (ie the sampling variation of our estimate), the next step simply consists of repeating this bootstrap process <span class="math inline">\(B\)</span> times, resulting in <span class="math inline">\(B\)</span> estimates of <span class="math inline">\(\widehat{\tau}_{ATE,(b)}^*\)</span> with <span class="math inline">\(b\in\{1,\ldots,B\}\)</span>. Let’s set <span class="math inline">\(B=1,000\)</span>, and do this:</p>
-<div id="9685eb26" class="cell" data-execution_count="21">
+<div id="c1e20d5c" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span> taus = <span class="fu">J</span>(1000, 1, .)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">forvalues</span> i = 1/1000 {</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">quietly</span>{</span>
@@ -1443,7 +1443,7 @@ Linear regression                               Number of obs     =        208
 <span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You may wish to step through each of the lines in this loop to ensure that you can see what is going on, but the end product of this code is a column matrix called <code>taus</code> which has been filled in with <span class="math inline">\(B\)</span> estimates of <span class="math inline">\(\tau\)</span>, <span class="math inline">\(\left\{\widehat{\tau}^{(b)}\right\}_{b=1}^{B}\)</span>. The next step is to convert this column matrix into a variable in our dataset</p>
-<div id="ca963485" class="cell" data-execution_count="22">
+<div id="b365ae39" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> </span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">svmat</span> taus, names(<span class="st">"taus"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1453,7 +1453,7 @@ Number of observations (_N) was 0, now 1,000.</code></pre>
 </div>
 </div>
 <p>We can have a look at the entire empirical distribution of these estimates as follows: <!-- In order to get the graph the blindschemes package from SSC mut be installed.    --></p>
-<div id="3366666a" class="cell" data-execution_count="23">
+<div id="66192509" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>_pctile taus1, percentiles(2.5 97.5)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> p25 = <span class="fu">r</span>(r1)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> p975 = <span class="fu">r</span>(r2)</span>
@@ -1468,7 +1468,7 @@ Number of observations (_N) was 0, now 1,000.</code></pre>
 </div>
 </div>
 <p>As we can see, this empirical distribution is close to centered on the original estimate (in the limit, they will be exactly the same, which is something you may wish to confirm by using a larger value for <span class="math inline">\(B\)</span>), while also giving us some idea of the variation of the estimate over alternative resamples. We additionally plot the empirical 2.5<sup>th</sup> and 97.5<sup>th</sup> quantiles of the distribution, which provides a 95% confidence interval for <span class="math inline">\(\widehat\tau\)</span>. Clearly, and in line with the regression results observed above, we can reject the null that <span class="math inline">\(\tau=0\)</span> with some certainty. Using these values <span class="math inline">\(\left\{\widehat{\tau}^{(b)}\right\}_{b=1}^{B}\)</span>, finally we display the estimate’s standard error as the standard deviation of the bootstrap estimates, and the confidence intervals can be generated from empirical quantiles. <!-- Similarly, if we wish to calculate a p-value, we can do so, asking how many values of the empirical distribution are more extreme than the estimate of interest.    --> We illustrate this below:</p>
-<div id="b0e87b40" class="cell" data-execution_count="24">
+<div id="b67df6be" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span> <span class="kw">sum</span> taus1</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">di</span> <span class="kw">as</span> <span class="bn">text</span> <span class="st">"The variance estimate is: "</span> <span class="kw">as</span> result <span class="fu">round</span>(<span class="fu">r</span>(Var), 0.0001) <span class="co">///</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">as</span> <span class="bn">text</span> <span class="st">" as such, the standard error estimates is: "</span> <span class="kw">as</span> result <span class="fu">round</span>(<span class="fu">r</span>(<span class="fu">sd</span>), 0.0001)</span>

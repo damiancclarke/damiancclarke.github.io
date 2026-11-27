@@ -658,7 +658,7 @@ window.Quarto = {
 <section id="baselines-estimates-without-regularization" class="level2">
 <h2 class="anchored" data-anchor-id="baselines-estimates-without-regularization">Baselines estimates without regularization</h2>
 <p>Let’s get started by opening these data, loading libraries we will require below, and doing some initial inspection, as well as estimating some baseline (regression) models without regularization.</p>
-<div id="428607f7" class="cell" data-execution_count="1">
+<div id="6bdef929" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -670,7 +670,7 @@ window.Quarto = {
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/Farrell_2015.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With the data in memory we can confirm that it looks how we think it should. We can start by confirming that the experimental sub-sample is identical to that in <span class="citation" data-cites="DeheijaWahba1999">Dehejia and Wahba (<a href="#ref-DeheijaWahba1999" role="doc-biblioref">1999</a>)</span>, <span class="citation" data-cites="DeheijaWahba2002">Dehejia and Wahba (<a href="#ref-DeheijaWahba2002" role="doc-biblioref">2002</a>)</span>, which we discussed in code call-out 3.1:</p>
-<div id="3cb58921" class="cell" data-execution_count="2">
+<div id="a4e06079" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Experimental sample (NSW)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data[data[<span class="st">'nsw'</span>] <span class="op">==</span> <span class="dv">1</span>][<span class="st">'treat'</span>].value_counts().reset_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -703,7 +703,7 @@ window.Quarto = {
 </div>
 </div>
 <p>We can see here that, similarly to when we inspected the NSW analysis in Chapter 3, the experimental sample consists of 185 treated units and 260 controls. We can also inspect the layout of the <em>non-experimental</em> sample:</p>
-<div id="776f9fab" class="cell" data-execution_count="3">
+<div id="810d48e4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Observational sample (PSID)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data[data[<span class="st">'nsw'</span>] <span class="op">==</span> <span class="dv">0</span>][<span class="st">'treat'</span>].value_counts().reset_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -736,7 +736,7 @@ window.Quarto = {
 </div>
 </div>
 <p>In this case, there are 2,675 observations, with the treated group simply being replicated from NSW data, and the remaining 2,490 drawn from the PSID. We can also confirm that we re-create experimental estimates from the NSW training program:</p>
-<div id="b809d3ed" class="cell" data-execution_count="4">
+<div id="f322632d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nsw  <span class="op">=</span> data[data[<span class="st">'nsw'</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model_exp <span class="op">=</span> smf.ols(<span class="st">'y ~ treat'</span>, data<span class="op">=</span>nsw).fit()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_exp.get_robustcov_results(cov_type<span class="op">=</span><span class="st">'HC1'</span>).summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -746,8 +746,8 @@ window.Quarto = {
 Dep. Variable:                      y   R-squared:                       0.018
 Model:                            OLS   Adj. R-squared:                  0.016
 Method:                 Least Squares   F-statistic:                     7.155
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):            0.00775
-Time:                        01:33:54   Log-Likelihood:                -4542.7
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):            0.00775
+Time:                        08:00:20   Log-Likelihood:                -4542.7
 No. Observations:                 445   AIC:                             9089.
 Df Residuals:                     443   BIC:                             9098.
 Df Model:                           1                                         
@@ -770,7 +770,7 @@ Notes:
 </div>
 <p>This is our experimental benchmark, and as we have seen previously suggests that the job training program increases earnings by an average of $1,794 per year.</p>
 <p>From now on, however, we will focus on the non-experimental subsample (i.e., individuals with <code>nsw == 0</code>). In this case, we will seek to determine which covariates are relevant predictors of wages in the post-treatment period from our large set of potential covariates using regularized regression. Before implementing these models, let’s define the variables we will use. Below we store lists of baseline covariates, interaction terms (between continuous and dummy variables respectively), and polynomials of continuous variables.</p>
-<div id="870cbfe0" class="cell" data-execution_count="5">
+<div id="3ca412fa" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>psid <span class="op">=</span> data[data[<span class="st">'nsw'</span>] <span class="op">==</span> <span class="dv">0</span>].copy()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>covariates              <span class="op">=</span> [<span class="ss">f"v</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>,  <span class="dv">13</span>)]</span>
@@ -785,7 +785,7 @@ Notes:
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> psid[<span class="st">'y'</span>].values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can confirm that the choice of covariates to include is certainly of consequence. If we simply regress the outcome on treatment, we see that the observational sample clearly does not form a good counterfactual. Rather than approximating the experimental effect, we find effects which are both mis-signed and an order of magnitude larger (i.e., an average <em>decrease</em> of $15,205 in annual earnings for treated individuals).</p>
-<div id="92693949" class="cell" data-execution_count="6">
+<div id="8ed84db1" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_naive <span class="op">=</span> smf.ols(<span class="st">'y ~ treat'</span>, data<span class="op">=</span>psid).fit()</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model_naive.get_robustcov_results(cov_type<span class="op">=</span><span class="st">'HC1'</span>).summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -794,8 +794,8 @@ Notes:
 Dep. Variable:                      y   R-squared:                       0.061
 Model:                            OLS   Adj. R-squared:                  0.061
 Method:                 Least Squares   F-statistic:                     537.4
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):          1.78e-108
-Time:                        01:33:54   Log-Likelihood:                -29544.
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):          1.78e-108
+Time:                        08:00:20   Log-Likelihood:                -29544.
 No. Observations:                2675   AIC:                         5.909e+04
 Df Residuals:                    2673   BIC:                         5.910e+04
 Df Model:                           1                                         
@@ -817,7 +817,7 @@ Notes:
 </div>
 </div>
 <p>We can, however, see that simply including all possible covariates in this model also appears to not be an ideal solution. When we do this, as we may expect given that we are in essence likely over-fitting our model, the variance of our estimated treatment effect becomes quite large, not letting us rule out the actual experimental treatment effect we estimated earlier, but also quite a large range of other effects. We do this below (omitting <code>v3</code>, <code>v4</code>, <code>v8</code> and <code>v9</code> given perfect colinearity):</p>
-<div id="2b4e028d" class="cell" data-execution_count="7">
+<div id="1448b7a6" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>exclude <span class="op">=</span> [<span class="st">'v3'</span>, <span class="st">'v4'</span>, <span class="st">'v8'</span>, <span class="st">'v9'</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>vars_filtered <span class="op">=</span> [v <span class="cf">for</span> v <span class="kw">in</span> all_vars <span class="cf">if</span> v <span class="kw">not</span> <span class="kw">in</span> exclude]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fml_all <span class="op">=</span> <span class="st">'y ~ treat + '</span> <span class="op">+</span> <span class="st">' + '</span>.join(vars_filtered)</span>
@@ -879,7 +879,7 @@ strong multicollinearity or other numerical problems.
 <section id="lasso-selection-with-an-arbitrary-penalty" class="level3">
 <h3 class="anchored" data-anchor-id="lasso-selection-with-an-arbitrary-penalty">Lasso Selection (with an arbitrary penalty)</h3>
 <p>We can see the way that penalisation in <a href="#eq-lasso" class="quarto-xref">Equation&nbsp;1</a> works by incorporating an arbitrary penalisation value for <span class="math inline">\(\lambda\)</span>. To run the Lasso in Python we use the <code>Lasso</code> class from <code>sklearn</code>, including the dependent variable and all the covariates in our model. Note that in <code>sklearn</code> the penalisation parameter is, somewhat confusingly, called <code>alpha</code> rather than <code>lambda</code>. We arbitrarily set it to 10 below:</p>
-<div id="d9da34e7" class="cell" data-execution_count="8">
+<div id="d88f6556" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasso selection with lambda value of 10</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>lasso_10 <span class="op">=</span> Lasso(alpha<span class="op">=</span><span class="dv">10</span>, max_iter<span class="op">=</span><span class="dv">10000</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>lasso_10.fit(X, y)</span>
@@ -891,7 +891,7 @@ strong multicollinearity or other numerical problems.
 </div>
 </div>
 <p>In this case we can see which covariates are retained after the selection process:</p>
-<div id="7f578f43" class="cell" data-execution_count="9">
+<div id="8b38a8fb" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>selected_10 <span class="op">=</span> np.array(all_vars)[nonzero_10]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v, c <span class="kw">in</span> <span class="bu">zip</span>(selected_10, lasso_10.coef_[nonzero_10]):</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>c<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1020,7 +1020,7 @@ v173: -1226.7665</code></pre>
 </div>
 </div>
 <p>Above we see that when we have imposed a <span class="math inline">\(\lambda\)</span> of 10, 121 out of 172 covariates are retained in the model. We can also display the coefficients on these covariates, though of course, given the nature of the Lasso, they will be shrunk towards zero. Clearly, this value of 10 does not penalize much, as the majority of considered variables remain in the model. However, if we choose a larger penalty, such as a <span class="math inline">\(\lambda\)</span> of 1000 below, we should expect fewer covariates to be selected.</p>
-<div id="51267e27" class="cell" data-execution_count="10">
+<div id="1bd97409" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting an arbitrary penalty of 1000</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lasso_1000 <span class="op">=</span> Lasso(alpha<span class="op">=</span><span class="dv">1000</span>, max_iter<span class="op">=</span><span class="dv">10000</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>lasso_1000.fit(X, y)</span>
@@ -1043,7 +1043,7 @@ v126: 103.1908</code></pre>
 </div>
 <p>As we can see, in this case only 6 covariates remain in the model. In general (though not necessarily given distinct variable selection), we will also see that the coefficients on selected variables will be closer to zero than in cases with a smaller shrinkage term.</p>
 <p>We can view the entire path of coefficients across distinct values of <span class="math inline">\(\lambda\)</span> by fitting the model across a grid and plotting the results. Below we plot these values against the logarithm of <span class="math inline">\(\lambda\)</span>. We can see the nature of shrinkage with coefficients both moving towards zero, and exiting the model as <span class="math inline">\(\lambda\)</span> rises.</p>
-<div id="b712a3b0" class="cell" data-execution_count="11">
+<div id="2b362387" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">100</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>coefs <span class="op">=</span> []</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> alpha <span class="kw">in</span> grid:</span>
@@ -1074,7 +1074,7 @@ v126: 103.1908</code></pre>
 <section id="choosing-lambda-by-cross-validation" class="level3">
 <h3 class="anchored" data-anchor-id="choosing-lambda-by-cross-validation">Choosing <span class="math inline">\(\lambda\)</span> by Cross-Validation</h3>
 <p>Rather than selecting <span class="math inline">\(\lambda\)</span> arbitrarily, typically it will be selected using cross-validation, or some other optimal selection method. By default, 10-fold cross-validation is used, where <span class="math inline">\(\lambda\)</span> is selected to minimise out-of-sample prediction error across 10 sub-samples of data (in code call-out 9.2 below we see such cross-validation implemented “by hand”). Below we do this, again visualising coefficients. In this case, given that folds of data are randomly selected, we set a seed for replicability across runs.</p>
-<div id="1daa14e7" class="cell" data-execution_count="12">
+<div id="f1d7093d" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">1213</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cv_lasso <span class="op">=</span> LassoCV(cv<span class="op">=</span>kf, max_iter<span class="op">=</span><span class="dv">10000</span>, random_state<span class="op">=</span><span class="dv">1213</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>cv_lasso.fit(X, y)</span>
@@ -1112,7 +1112,7 @@ v167: -410.4388</code></pre>
 </div>
 </div>
 <p>Cross-validation in this case selects a <span class="math inline">\(\lambda\approx 330\)</span> retaining 20 covariates. We can visualise how the mean squared error evolves as the penalty varies:</p>
-<div id="ff1d4651" class="cell" data-execution_count="13">
+<div id="63b13122" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>alphas    <span class="op">=</span> cv_lasso.alphas_</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>mean_mse  <span class="op">=</span> cv_lasso.mse_path_.mean(axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>std_mse   <span class="op">=</span> cv_lasso.mse_path_.std(axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1156,8 +1156,8 @@ Table&nbsp;1: Post-Lasso estimate of the training program effect
 Dep. Variable:                      y   R-squared:                       0.612
 Model:                            OLS   Adj. R-squared:                  0.609
 Method:                 Least Squares   F-statistic:                     188.5
-Date:                Mon, 15 Jun 2026   Prob (F-statistic):               0.00
-Time:                        01:35:24   Log-Likelihood:                -28360.
+Date:                Tue, 24 Nov 2026   Prob (F-statistic):               0.00
+Time:                        08:02:09   Log-Likelihood:                -28360.
 No. Observations:                2675   AIC:                         5.676e+04
 Df Residuals:                    2653   BIC:                         5.689e+04
 Df Model:                          21                                         
@@ -1205,7 +1205,7 @@ Notes:
 <section id="sensitivity-to-tuning-choices" class="level3">
 <h3 class="anchored" data-anchor-id="sensitivity-to-tuning-choices">Sensitivity to Tuning Choices</h3>
 <p>One concern with cross-validation-based Lasso is that results can vary with the random seed used to assign observations to folds. We can illustrate this by changing the seed:</p>
-<div id="ce0deff5" class="cell" data-execution_count="15">
+<div id="f1dc919d" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>kf2 <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">121316</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>cv_lasso2 <span class="op">=</span> LassoCV(cv<span class="op">=</span>kf2, max_iter<span class="op">=</span><span class="dv">10000</span>, random_state<span class="op">=</span><span class="dv">121316</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>cv_lasso2.fit(X, y)</span>
@@ -1219,7 +1219,7 @@ Number of selected covariates: 31</code></pre>
 </div>
 </div>
 <p>With seed <code>121316</code>, cross-validation selects considerably more covariates than with seed <code>12131627</code>, implying any procedures relying on variable selection will change. An alternative that avoids this seed-dependence is the <em>plug-in</em> estimator of <span class="citation" data-cites="BelloniChenChernozhukovHansen2012">A. Belloni et al. (<a href="#ref-BelloniChenChernozhukovHansen2012" role="doc-biblioref">2012</a>)</span>, which derives <span class="math inline">\(\lambda\)</span> analytically from the data rather than by minimising a cross-validated objective. While <code>sklearn</code> does not implement this directly (and at the time of writing there appears to be no simple implementation of this available in Python), we can access it via R’s <code>hdm</code> package through <code>rpy2</code>. This will require that both <code>R</code> is installed, and that the <code>hdm</code> library is installed in <code>R</code>. Provided that is the case, we can call this as follows (where we must ensure that we pass data correctly to <code>R</code>):</p>
-<div id="ccdaf2fc" class="cell" data-execution_count="16">
+<div id="28ba466b" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.robjects <span class="im">as</span> ro</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rpy2.robjects <span class="im">import</span> numpy2ri</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1314,7 +1314,7 @@ Table&nbsp;2: Selected covariates across Lasso specifications
 \tag{2}\]</span></span></p>
 <p>This change implies that Ridge Regression penalizes high coefficient values by introducing a penalty that shrinks them towards zero, but never sets them exactly to zero. As a result, this regularization method is not suitable for model selection but is useful in high-dimensional models where overfitting is a concern, also in cases where the number of covariates exceeds the sample size.</p>
 <p>To perform Ridge regression, we use <code>RidgeCV</code> from <code>sklearn</code> with <code>alpha=0</code> equivalent achieved by using a very small <code>l1_ratio</code>. As with Lasso regression, we include a seed to ensure reproducibility:</p>
-<div id="5ffc3a1c" class="cell" data-execution_count="18">
+<div id="15cccbd4" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">1234</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">100</span>)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>cv_ridge <span class="op">=</span> RidgeCV(alphas<span class="op">=</span>grid, cv<span class="op">=</span>kf)</span>
@@ -1328,7 +1328,7 @@ Number of nonzero coefficients: 171</code></pre>
 </div>
 </div>
 <p>Unlike Lasso, all coefficients remain non-zero throughout. Ridge shrinks coefficients but never selects variables. If we again examine the coefficient path here we will see quite distinct behaviour to the Lasso. In this case, coefficients shrink gradually towards zero, never hitting zero.</p>
-<div id="df690789" class="cell" data-execution_count="19">
+<div id="1164593b" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>grid_plot <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">100</span>)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>coefs_ridge <span class="op">=</span> []</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> alpha <span class="kw">in</span> grid_plot:</span>
@@ -1361,7 +1361,7 @@ Number of nonzero coefficients: 171</code></pre>
 +\lambda\sum_{j=1}^p\left(\alpha|\beta_j|+(1-\alpha)\beta_j^2\right)\right\}
 \tag{3}\]</span></span></p>
 <p>When <span class="math inline">\(\alpha=1\)</span> this is the Lasso, whereas when <span class="math inline">\(\alpha=0\)</span> it converges on the Ridge. In cases where one wishes to implement an elastic net, we can select the optimal <span class="math inline">\(\lambda\)</span> for each value of <span class="math inline">\(\alpha\)</span> by cross-validation, and then compare across values of <span class="math inline">\(\alpha\)</span> to find the best combination. Here we consider four values of <span class="math inline">\(\alpha\)</span>:</p>
-<div id="3f35e96e" class="cell" data-execution_count="20">
+<div id="43649147" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">12131627</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>alphas_en <span class="op">=</span> [<span class="dv">1</span>, <span class="fl">0.75</span>, <span class="fl">0.5</span>, <span class="dv">0</span>]</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1410,7 +1410,7 @@ Number of nonzero coefficients: 171</code></pre>
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>We will explore double-debiased machine learning and post-double selection methods using an example from <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span>, which has been discussed in <span class="citation" data-cites="Bellonietal2014b">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014b" role="doc-biblioref">2013</a>)</span>. This examines the impact of abortion legalisation in the United States in the 1970s on crime rates many years later when birth cohorts exposed to abortion reform reached early adulthood. The much-analysed hypothesis first proposed by <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span> is that crime rates decline as a result of declines in cohort sizes and changes in cohort composition given declining rates of unplanned births. However, this finding has been questioned, and one specific question is about the precise set of controls included in specifications of <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span>. In this code call-out, we will examine the use of both post double-selection (<span class="citation" data-cites="Bellonietal2014b">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014b" role="doc-biblioref">2013</a>)</span>) and double-debiased ML (<span class="citation" data-cites="Chernozhukovetal2018">Chernozhukov et al. (<a href="#ref-Chernozhukovetal2018" role="doc-biblioref">2018</a>)</span>) to see how they differ, and their estimated effects in this particular setting.</p>
 <p>To begin, we load the state-level panel data used by <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span>, which mirrors Donohue and Levitt’s 1985-1997 dataset (50 states <span class="math inline">\(\times\)</span> 13 years):</p>
-<div id="c62faeaa" class="cell" data-execution_count="21">
+<div id="0e2d620f" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -1423,7 +1423,7 @@ Number of nonzero coefficients: 171</code></pre>
 <span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.sort_values([<span class="st">'statenum'</span>, <span class="st">'year'</span>]).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With data loaded, we can confirm the key outcome variables we will use below:</p>
-<div id="09c02f04" class="cell" data-execution_count="22">
+<div id="5167bc9b" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data[[c <span class="cf">for</span> c <span class="kw">in</span> data.columns <span class="cf">if</span> c.startswith(<span class="st">'lpc'</span>)]].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <div>
@@ -1497,7 +1497,7 @@ Number of nonzero coefficients: 171</code></pre>
 crime_{cit} = \tau_c \, abortion_{cit} + w^\prime_{it}\beta_c + \delta_{ci} + \gamma_{ct} + \varepsilon_{cit},
 \]</span> where <span class="math inline">\(c\)</span> indexes different crime types (violent crime, property crime and murder), <span class="math inline">\(i\)</span> refers to states, and <span class="math inline">\(t\)</span> refers to time. The interest is in identifying <span class="math inline">\(\tau_c\)</span> which describes the impact of abortion rates years earlier on crime rates among cohorts in adulthood. Here, <span class="math inline">\(abortion_{cit}\)</span> is coded as in <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span> to refer to the abortion rate among cohorts most likely to commit crime type <span class="math inline">\(c\)</span>. A set of controls is included as <span class="math inline">\(w_{it}\)</span> (state and time-varying controls), <span class="math inline">\(\delta_{ci}\)</span> (state-specific effects) and <span class="math inline">\(\gamma_{ct}\)</span> (time-specific effects). <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span> take first differences which avoids the need for state-level fixed effects, and year fixed effects will be consistently included. The question we will examine here is precisely which set of time-varying controls to include among a large set of potential confounders.</p>
 <p>With data loaded, we can construct the first-difference variables for crime and abortion rates, and define our large set of candidate controls, which follows <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span> (and <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span>) to include as controls the log of lagged prisoners per capita, the log of lagged police per capita, the unemployment rate, per‐capita income, the poverty rate, the generosity of AFDC at <span class="math inline">\(t-15\)</span>, a concealed‐weapons law dummy, and beer consumption per capita contemporaneous state support programs. Importantly, while this is a reasonably small number of time-varying controls (8 time varying controls, beginning with <code>xx</code> in data), as the functional form is not known, a very rich set-up is considered including these variables in levels, in differences, their quadractic, their cross products, the quadratic of cross-products, interactions with time-trends, and so forth. <!--This results in up to xxx variables.--> Below we generate the full set of controls, essentially following <span class="citation" data-cites="Bellonietal2014">Alexandre Belloni, Chernozhukov, and Hansen (<a href="#ref-Bellonietal2014" role="doc-biblioref">2014</a>)</span>, though as this is somewhat long, we keep this unexposed, please click on the code to see the full generating process<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<div id="b7bc0b5a" class="cell" data-execution_count="23">
+<div id="6c45ba29" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'trend'</span>] <span class="op">=</span> (data[<span class="st">'year'</span>] <span class="op">-</span> <span class="dv">85</span>) <span class="op">/</span> <span class="dv">12</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'xxincome'</span>] <span class="op">=</span> data[<span class="st">'xxincome'</span>] <span class="op">/</span> <span class="dv">100</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'xxpover'</span>]  <span class="op">=</span> data[<span class="st">'xxpover'</span>]  <span class="op">/</span> <span class="dv">100</span></span>
@@ -1608,7 +1608,7 @@ crime_{cit} = \tau_c \, abortion_{cit} + w^\prime_{it}\beta_c + \delta_{ci} + \g
 </div>
 <p>What is key above is that we have defined three lists which contain the full set of potential covariates: <code>Allviol</code>, <code>Allprop</code> and <code>Allmurd</code>, corresponding to three crime types. With these sets of variables in hand, we will consider below which of these (many) controls may be appropriate for our models using post-double selection LASSO and Double-debiased machine learning.</p>
 <p>We can see below that the implications of such a decision are considerable. If we first estimate the specification focusing on violent crimes and using no covariates, we estimate that <span class="citation" data-cites="DonohueLevitt2001">Donohue and Levitt (<a href="#ref-DonohueLevitt2001" role="doc-biblioref">2001</a>)</span>’s measure of abortion suggests that exposure to reform reduces crime rates by a statistically significant 15.7 percent. However, in cases where all potential covariates are included, we see that estimates become very noisy, with a point estimate of a <em>positive</em> 79 percent, but a standard error much larger in magnitude.</p>
-<div id="53169cc8" class="cell" data-execution_count="24">
+<div id="11885646" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>statenum <span class="op">=</span> data[<span class="st">'statenum'</span>].values</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>yv <span class="op">=</span> data[<span class="st">'Dyviol'</span>].values</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>Dv <span class="op">=</span> data[<span class="st">'Dviol'</span>].values</span>
@@ -1633,7 +1633,7 @@ All controls - coef: 0.7952  SE: 0.6931</code></pre>
 <section id="post-double-selection-lasso" class="level2">
 <h2 class="anchored" data-anchor-id="post-double-selection-lasso">Post Double Selection Lasso</h2>
 <p>As we lay out at more length in Section 9.3.1 of the book, the “double selection” procedure works as follows. First, we estimate a Lasso to pick the controls that best predict the outcome. Second, we repeat the Lasso, this time selecting the covariates that best predict the treatment variable. Third, we take the union of those two sets of controls. Finally, we estimate the treatment effect by regressing the outcome on the treatment and all controls in that combined set. We implement this below, where we first residualise both outcome and treatment by year fixed effects before applying the Lasso. We do this residualisation given that we want to force these variables to remain in the Lasso, however such implementations are not available in Python at the time of writing. By residualising these from both outcomes and treatment variables, a similar effect is achieved.</p>
-<div id="0b58f04e" class="cell" data-execution_count="25">
+<div id="19f9e607" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>kf <span class="op">=</span> KFold(n_splits<span class="op">=</span><span class="dv">10</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">123</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1671,7 +1671,7 @@ Post-double selection - coef: -0.2390  SE: 0.1035</code></pre>
 </div>
 </div>
 <p>In this case, we see that estimates are somewhat close to the original model without covariates, with an estimated decline in crime rates of around 24%. It is also worth noting that an implementation of the post-double selection Lasso is available in Python through the <code>hdmpy</code> package (a port of <code>R</code>’s <code>hdm</code> package), which bundles these three steps in a single <code>rlassoEffect</code> call. If we wish to do this, we can do so as follows, and will find similar estimates when using <code>rlassoEffect</code> as in our implementation by hand:</p>
-<div id="5cfa71bd" class="cell" data-execution_count="26">
+<div id="1add37e5" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hdmpy</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Residualise by year FE first (equivalent to I3 in R)</span></span>
@@ -1704,7 +1704,7 @@ SE:          0.1024</code></pre>
 <li><p>Finally, regress the residualized outcome on the residualized treatment: This final step estimates <span class="math inline">\(\alpha_c\)</span> using only the variation in treatment that is orthogonal to the controls, yielding a debiased estimate.</p></li>
 </ul>
 <p>Below we will implement this ourselves “by hand”. A key thing to see here is that we are conducting cross fitting in which we first divide our sample into 10 approximately equal folds. Then, in each fold we use all data apart from the data in the fold to predict relevant covariates, before residualizing using the data in that fold. We do this for both treatment and outcome variables, as we can see below:</p>
-<div id="c919b642" class="cell" data-execution_count="27">
+<div id="8adda253" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
@@ -1741,7 +1741,7 @@ SE:          0.1024</code></pre>
 <span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a>    Dtilde[test] <span class="op">=</span> Dv[test] <span class="op">-</span> cv_d.predict(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Although we have silenced the output of the regression and the Lasso in each fold of data, we can see how we populate the residualized outcome and treatment variable piece-by-piece. The outcome of this process is thus a residualized outcome and treatment variable (<code>Ytilde</code> and <code>Dtilde</code> respectively), with each having residualized relevant controls. We can then complete our double-debiased procedure by regressing the outcome of interest on treatment, as below:</p>
-<div id="9ec000b5" class="cell" data-execution_count="28">
+<div id="30d2c10a" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Final DDML estimate</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>m_ddml <span class="op">=</span> sm.OLS(Ytilde, sm.add_constant(Dtilde)).fit(cov_type<span class="op">=</span><span class="st">'cluster'</span>,</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                                                       cov_kwds<span class="op">=</span>{<span class="st">'groups'</span>: statenum})</span>
@@ -1751,7 +1751,7 @@ SE:          0.1024</code></pre>
 </div>
 </div>
 <p>In this particular case, we find estimates which are broadly similar to those above, with abortion reform estimated to reduce rates of violent crime by around 20 percent. Note that while the above set-up by hand allows us to easily see how these DDML estimators work in practice, we may wish to use out of the box implementations to perform such procedures. We can do this below, where a broadly similar procedure is followed. The difference here will be that rather than using a plugin parameter in our Lasso we will use cross-validation.</p>
-<div id="32238b0a" class="cell" data-execution_count="29">
+<div id="d79b2795" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1213</span>)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>data2 <span class="op">=</span> data.dropna(subset<span class="op">=</span>AllViol).copy()</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>data2[<span class="st">'Dyviol2'</span>] <span class="op">=</span> (data2[<span class="st">'Dyviol'</span>].values <span class="op">-</span></span>
@@ -1783,7 +1783,7 @@ Dviol2 -0.238801  0.095642 -2.496814  0.012531 -0.426256 -0.051346</code></pre>
 <section id="bringing-things-together" class="level2">
 <h2 class="anchored" data-anchor-id="bringing-things-together">Bringing things together</h2>
 <p>Above we have considered these procedures for one type of crime (violent crime), though noted that there are quite useful routines to do this automatically. Below we repeat the above procedures for each outcome of interest, displaying estimates from models (a) with no covariates, (b) with all covariates, (c) with covariates selected by post-double selection Lasso, and (d) covariates selected by DDML with cross-fitting:</p>
-<div id="79402f3d" class="cell" data-execution_count="30">
+<div id="c1ab08e3" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">121316</span>)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>crimes  <span class="op">=</span> [<span class="st">'viol'</span>, <span class="st">'prop'</span>, <span class="st">'murd'</span>]</span>
@@ -1854,7 +1854,7 @@ Dviol2 -0.238801  0.095642 -2.496814  0.012531 -0.426256 -0.051346</code></pre>
 This Code Call Out is under construction.
 </span>
 
-::: {#a9cb2481 .cell execution_count=31}
+::: {#e6b51cba .cell execution_count=31}
 ``` {.python .cell-code}
 import pandas as pd
 
@@ -1869,7 +1869,7 @@ data = pd.read_csv("data/Kumar_Liang_2024.csv")
 <section id="sec-causalforestPython" class="level1">
 <h1>Code Call-out 9.4: Causal Forests with an RCT</h1>
 <p>In this section, we examine how to quantify heterogeneous treatment effects using Causal Forests. In particular, we work using the data from <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span>, a field experiment examining discrimination against skilled immigrants in the Canadian labor market. <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span> conducted an audit experiment in which a large number of résumés were sent out, and callback rates for jobs were examined based on randomised characteristics displayed on these résumés. We first import the data:</p>
-<div id="eb1e6627" class="cell" data-execution_count="32">
+<div id="1982bc3f" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1884,7 +1884,7 @@ data = pd.read_csv("data/Kumar_Liang_2024.csv")
 </div>
 </div>
 <p>In particular, <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span> is interested in whether immigrants face labour market discrimination, and the variable <code>canadian_name</code> indicates whether candidate résumés show a Canadian-sounding (native) or non-Canadian-sounding (immigrant) name. We can see the variation in this treatment variable below:</p>
-<div id="f2f99588" class="cell" data-execution_count="33">
+<div id="c86492ac" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data[<span class="st">'canadian_name'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>canadian_name
@@ -1894,7 +1894,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Next, we prepare the dataset for analysis. We define our dependent variable <code>callback</code>, converting it to a scale from 0 to 100 to enable easier interpretation of results as percentage points, and define our treatment variable and covariate matrix:</p>
-<div id="3a437a59" class="cell" data-execution_count="34">
+<div id="66096426" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Y'</span>] <span class="op">=</span> data[<span class="st">'callback'</span>] <span class="op">*</span> <span class="dv">100</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'D'</span>] <span class="op">=</span> data[<span class="st">'canadian_name'</span>]</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1906,7 +1906,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data[X_vars].values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s begin by estimating a standard regression in which callback rates are regressed on our variable of interest (Canadian-sounding name), as well as our full vector of covariates:</p>
-<div id="97519c6e" class="cell" data-execution_count="35">
+<div id="8701d3bc" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>Xreg <span class="op">=</span> sm.add_constant(np.column_stack([D, X]))</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>m_ols <span class="op">=</span> sm.OLS(Y, Xreg).fit(cov_type<span class="op">=</span><span class="st">'HC1'</span>)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(m_ols.summary().tables[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1931,7 +1931,7 @@ x11           -0.6087      1.369     -0.445      0.657      -3.293       2.075
 </div>
 <p>This allows us to replicate one of the main results from <span class="citation" data-cites="Oreopoulos2011">Oreopoulos (<a href="#ref-Oreopoulos2011" role="doc-biblioref">2011</a>)</span>. Namely, above we see a clear bias in call-back rates against individuals with non-Canadian sounding names. Here, even though this is randomly assigned, implying that all other characteristics on résumés will be balanced across individuals with Canadian and non-Canadian-sounding names, we see that individuals with names associated with immigrants are 5.4pp less likely to be called back than individuals with “Canadian-names”. This effect is large: greater than having an undergraduate degree from a well recognised university.</p>
 <p>However, our interest here is in understanding heterogeneity of this effect among different types of individuals (i.e.&nbsp;estimating CATEs), as laid out in Section 9.4 of the book. Traditionally, we may seek to explore heterogeneity in treatment effects by estimating effects by groups, or equivalently, by interacting our treatment variable with other factors. Consider below where we seek to examine whether this effect varies by two specific covariates (gender and BA quality). These interactions allow us to initially investigate simple forms of heterogeneity in the treatment effect.</p>
-<div id="f03f822f" class="cell" data-execution_count="36">
+<div id="9f67d105" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'D_female'</span>] <span class="op">=</span> data[<span class="st">'female'</span>] <span class="op">*</span> data[<span class="st">'D'</span>]</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'D_ba'</span>]     <span class="op">=</span> data[<span class="st">'ba_quality'</span>] <span class="op">*</span> data[<span class="st">'D'</span>]</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1966,7 +1966,7 @@ x13           -0.6360      1.368     -0.465      0.642      -3.318       2.046
 <p>Above we see clear evidence of heterogeneous treatment effects: bias in callback rates is much larger among immigrant woman (Canadian women are around 9.2pp more likely to receive a callback than immigrant women versus, a 5pp difference among men), and much smaller among those with a bachelors degree.</p>
 <p>However, such tests of heterogeneity are essentially ad hoc, requiring us to specify the interactions we wish to consider. Ex-ante, unless there is some clear theory driving these specifications, there is no ideal way to specify such interactions, and it is likely infeasible for us to consider all possible interactions and groups, especially in cases where many dimensions of heterogeneity exist.</p>
 <p>This leads us to the causal forests. If we wish to have some principled way to classify heterogeneity, this offers us a way forward, following the principles discussed in Section 9.4.1.2 of the book. In Python, we use the <code>econml</code> package which implements the canonical causal forest of <span class="citation" data-cites="AtheyWager2017">Athey and Wager (<a href="#ref-AtheyWager2017" role="doc-biblioref">2018</a>)</span> and <span class="citation" data-cites="AtheyTibshiraniWager2019">Athey, Tibshirani, and Wager (<a href="#ref-AtheyTibshiraniWager2019" role="doc-biblioref">2019</a>)</span>. Specifically, <code>econml</code>’s <code>CausalForest</code> builds honest trees that directly maximise heterogeneity in treatment effects at each split:</p>
-<div id="a2b48123" class="cell" data-execution_count="37">
+<div id="3b9c17cf" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1213</span>)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>cf <span class="op">=</span> CausalForest(</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    n_estimators <span class="op">=</span> <span class="dv">2000</span>,</span>
@@ -1984,7 +1984,7 @@ x13           -0.6360      1.368     -0.465      0.642      -3.318       2.046
 <span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a>tau_se  <span class="op">=</span> (tau_ub <span class="op">-</span> tau_lb) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> <span class="fl">1.96</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After implementing the model, we visualise the distribution of estimated individual treatment effects. While we observe that effects line up with our ATE estimated earlier, what is new here is the quite broad distribution of effects based on individual variation in covariates:</p>
-<div id="965be28a" class="cell" data-execution_count="38">
+<div id="fe0cc61d" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>plt.hist(tau_hat, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">'lightblue'</span>, edgecolor<span class="op">=</span><span class="st">'navy'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>plt.axvline(np.mean(tau_hat), color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'dashed'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>,</span>
@@ -2005,7 +2005,7 @@ x13           -0.6360      1.368     -0.465      0.642      -3.318       2.046
 </div>
 <p>The results above show that while most estimated treatment effects are negative, reflecting the general disadvantage faced by applicants with non-Canadian-sounding names, there is meaningful dispersion, with some applicants predicted to face a much larger penalty than others, and for some a relatively small proportion no disadvantage is observed at all.</p>
 <p>We can examine whether these effects along with their confidence intervals, as we plot below. Here effects are ordered from smallest (i.e.&nbsp;suggestive of an immigrant advantage) to largers (suggestive of an immigrant disadvantage). Once again, this plot makes clear the substantial heterogeneity of effects within the sample, though also allowing us to easily visualise if 95% CIs exclude 0 effects.</p>
-<div id="396e9c8f" class="cell" data-execution_count="39">
+<div id="c4a8c5c3" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>order <span class="op">=</span> np.argsort(tau_hat)</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>idx   <span class="op">=</span> np.arange(<span class="bu">len</span>(tau_hat))</span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2028,7 +2028,7 @@ x13           -0.6360      1.368     -0.465      0.642      -3.318       2.046
 </div>
 </div>
 <p>While these results clearly point to heterogeneity within the sample, it is not possible to pinpoint where this heterogeneity is coming from in these visualisations. One way we can seek to consider the relevance of specific covariates is to explicitly consider treatment effects within groups. We examine this below using Group Average Treatment Effects (GATEs). We consider a single binary measure (quality of the undergraduate degree), and examine estimated treatment effects within individuals with higher and lower BA quality. We can recover these quite simply using the (already-estimated) treatment effects we saved above as <code>tau_hat</code>. This suggests meaningful differences in mean effects across groups, and indeed, if we wish, we can visualise these differences ourselves simply using the previously predictions, and plotting, as we do with the histogram below.</p>
-<div id="a49e75cc" class="cell" data-execution_count="40">
+<div id="9d01c8bd" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>gate_ba0 <span class="op">=</span> np.mean(tau_hat[data[<span class="st">'ba_quality'</span>].values <span class="op">==</span> <span class="dv">0</span>])</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>gate_ba1 <span class="op">=</span> np.mean(tau_hat[data[<span class="st">'ba_quality'</span>].values <span class="op">==</span> <span class="dv">1</span>])</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"GATE (Low BA quality):  </span><span class="sc">{</span>gate_ba0<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
@@ -2062,7 +2062,7 @@ GATE (High BA quality): 4.489</code></pre>
 <section id="variable-importance" class="level3">
 <h3 class="anchored" data-anchor-id="variable-importance">Variable Importance</h3>
 <p>There are a number of alternative ways which we can directly consider the importance of covariates (or features) in explaining the heterogeneity in treatment effects. Essentially, beyond simply knowing that heterogeneity exists, we would like to know which are the underlying features of data which can best explain this heterogeneity in effects. The <code>econml</code> <code>CausalForest</code> provides a built-in variable importance measure based on how frequently and how deeply each variable is used in tree splits. This gives a natural ranking of which features drive treatment effect heterogeneity:</p>
-<div id="4640392c" class="cell" data-execution_count="41">
+<div id="8d13879a" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>vi <span class="op">=</span> cf.feature_importances_</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>vi_df <span class="op">=</span> pd.DataFrame({<span class="st">'Variable'</span>: X_vars, <span class="st">'Importance'</span>: vi})</span>
@@ -2086,7 +2086,7 @@ GATE (High BA quality): 4.489</code></pre>
 <section id="shap-values" class="level3">
 <h3 class="anchored" data-anchor-id="shap-values">SHAP Values</h3>
 <p>One widely used approach for measuring variable importance is SHAP (SHapley Additive exPlanations). SHAP values decompose each individual prediction into additive contributions from each feature. For a given observation, the SHAP value for a feature tells us how much that feature shifted the predicted treatment effect away from the sample average, with positive values implying this feature pushes the prediction above the mean, while negative values push it below:</p>
-<div id="f61434fe" class="cell" data-execution_count="42">
+<div id="44e03636" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a SHAP TreeExplainer on the underlying forest</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>explainer  <span class="op">=</span> shap.TreeExplainer(cf)</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>shap_vals  <span class="op">=</span> explainer.shap_values(X)</span>
